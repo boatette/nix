@@ -72,7 +72,6 @@
 
   programs.zsh.enable = true;
 
-
   fileSystems."/mnt/storage" = {
     device = "/dev/disk/by-uuid/40124632-4404-4350-8054-440bbdbefd99";
     fsType = "ext4";
