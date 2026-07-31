@@ -9,6 +9,7 @@
     inputs.neovim-nightly-overlay.packages.${pkgs.stdenv.hostPlatform.system}.default 
    inputs.zen-browser.packages."${pkgs.stdenv.hostPlatform.system}".default
 rustup
+nixfmt
   ];
 
   programs.zsh = {
