@@ -5,6 +5,19 @@
   ...
 }:
 
+let
+  dotfiles = "${config.home.homeDirectory}/nix/config";
+  create_symlink = path: config.lib.file.mkOutOfStoreSymlink path;
+  configs = {
+    fastfetch = "fastfetch";
+    foot = "foot";
+    niri = "niri";
+    noctalia = "noctalia";
+    nvim = "nvim";
+    zellij = "zellij";
+  };
+in
+
 {
   home.username = "boatette";
   home.homeDirectory = "/home/boatette";
@@ -122,6 +135,13 @@
       celar = "clear";
     };
   };
+
+  xdg.configFile = builtins.mapAttrs
+    (name: subpath: {
+      source = create_symlink "${dotfiles}/${subpath}";
+      recursive = true;
+    })
+    configs;
 
   home.stateVersion = "26.05";
 }
