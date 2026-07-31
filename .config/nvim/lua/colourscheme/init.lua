@@ -1,0 +1,150 @@
+local schemes = require("colourscheme.schemes")
+
+local M = {}
+
+local PALETTE = vim.fn.stdpath("config") .. "/noctalia.lua"
+
+local PROVIDERS = {}
+
+local function noctalia_dir(override, xdg_var, xdg_fallback)
+    local dir = vim.env[override]
+    if dir and dir ~= "" then
+        return dir
+    end
+    local base = vim.env[xdg_var]
+    if not base or base == "" then
+        base = vim.env.HOME .. xdg_fallback
+    end
+    return base .. "/noctalia"
+end
+
+local function settings_files()
+    local config = noctalia_dir("NOCTALIA_CONFIG_HOME", "XDG_CONFIG_HOME", "/.config")
+    local state = noctalia_dir("NOCTALIA_STATE_HOME", "XDG_STATE_HOME", "/.local/state")
+    local files = vim.fn.glob(config .. "/*.toml", true, true)
+    table.insert(files, state .. "/settings.toml")
+    return files
+end
+
+local function read_theme()
+    local theme = {}
+    for _, path in ipairs(settings_files()) do
+        local file = io.open(path, "r")
+        if file then
+            local in_section = false
+            for line in file:lines() do
+                local text = line:match("^%s*(.-)%s*$")
+                if text:sub(1, 1) == "[" then
+                    in_section = text == "[theme]"
+                elseif in_section and text ~= "" and text:sub(1, 1) ~= "#" then
+                    local key, value = text:match("^([%w_]+)%s*=%s*(.+)$")
+                    if key then
+                        theme[key] = value:match('^"(.*)"$') or value
+                    end
+                end
+            end
+            file:close()
+        end
+    end
+    return theme
+end
+
+local function palette_name(theme)
+    if not theme.source or theme.source == "" or theme.source == "builtin" then
+        return theme.builtin
+    elseif theme.source == "community" then
+        return theme.community_palette
+    elseif theme.source == "custom" then
+        return theme.custom_palette
+    end
+    return nil
+end
+
+local function generated_palette()
+    local chunk = loadfile(PALETTE)
+    if not chunk then
+        return nil
+    end
+    local ok, palette = pcall(chunk)
+    if ok and type(palette) == "table" then
+        return palette
+    end
+    return nil
+end
+
+local TRANSPARENT_GROUPS = {
+    "Normal",
+    "NormalNC",
+    "StatusLine",
+    "StatusLineNC",
+    "SignColumn",
+    "LineNr",
+    "LineNrAbove",
+    "LineNrBelow",
+    "NormalFloat",
+    "FloatBorder",
+    "FloatShadow",
+    "WinSeparator",
+}
+
+local function apply_generated(palette)
+    if not palette then
+        return false
+    end
+    local ok = pcall(function()
+        require("mini.base16").setup({ palette = palette })
+    end)
+    if ok then
+        for _, group in ipairs(TRANSPARENT_GROUPS) do
+            vim.api.nvim_set_hl(0, group, { bg = "none" })
+        end
+    end
+    return ok
+end
+
+local function is_light_mode(theme, palette)
+    if theme.mode == "light" then
+        return true
+    elseif theme.mode == "dark" then
+        return false
+    end
+    local r, g, b = tostring(palette and palette.base00 or ""):match("^#(%x%x)(%x%x)(%x%x)$")
+    if not r then
+        return false
+    end
+    local luma = (0.299 * tonumber(r, 16) + 0.587 * tonumber(g, 16) + 0.114 * tonumber(b, 16)) / 255
+    return luma > 0.5
+end
+
+function M.apply()
+    local theme = read_theme()
+    local palette = generated_palette()
+    local is_light = is_light_mode(theme, palette)
+
+    vim.o.background = is_light and "light" or "dark"
+
+    local provider, scheme = schemes.resolve(palette_name(theme), is_light)
+    local setup = PROVIDERS[provider]
+    if scheme and setup and pcall(setup) and pcall(vim.cmd.colorscheme, scheme) then
+        return
+    end
+
+    apply_generated(palette)
+end
+
+function M.setup(providers)
+    PROVIDERS = providers or {}
+
+    local signal = vim.uv.new_signal()
+    if signal then
+        signal:start("sigusr1", vim.schedule_wrap(M.apply))
+    end
+
+    vim.api.nvim_create_user_command("ThemeReload", M.apply, {
+        desc = "Re-apply the colorscheme from noctalia's current palette",
+    })
+
+    M.apply()
+end
+
+return M

@@ -1,0 +1,264 @@
+[audio]
+enable_sounds = true
+
+[bar]
+order = ["default"]
+
+[bar.default]
+background_opacity = 0.8
+capsule = false
+center = ["clock"]
+end = ["tray", "cat", "network", "bluetooth", "recorder", "notifications", "volume", "session"]
+font_family = "JetBrainsMono NF"
+margin_ends = 0
+padding = 8
+radius = 0
+start = ["workspaces", "nix-monitor", "media", "audio_visualizer"]
+widget_spacing = 12
+
+[brightness]
+sync_all_monitors = true
+
+[calendar]
+enabled = true
+
+[calendar.account.personal_google]
+name = "Personal Calendar"
+type = "google"
+
+[config]
+
+[control_center]
+width = 800
+
+[control_center.calendar]
+show_week_numbers = true
+
+[desktop_widgets]
+schema_version = 2
+widget_order = []
+
+[desktop_widgets.grid]
+cell_size = 16
+major_interval = 4
+visible = true
+
+[desktop_widgets.widget]
+
+[dock]
+concave_edge_corners = false
+enabled = true
+pinned = ["foot", "zen-beta", "vesktop", "steam", "org.prismlauncher.PrismLauncher"]
+reserve_space = false
+smart_auto_hide = true
+
+[hooks]
+colors_changed = ["noctalia msg plugin boatette/auto-theme:auto-theme all colors-changed", "/home/boatette/.config/noctalia/scripts/foot-live-theme"]
+theme_mode_changed = ["noctalia msg plugin boatette/auto-theme:auto-theme all theme-mode-changed"]
+wallpaper_changed = ['noctalia msg plugin boatette/auto-theme:auto-theme all wallpaper-changed "$NOCTALIA_WALLPAPER_PATH"']
+
+[hot_corners]
+enabled = true
+
+[hot_corners.top_right]
+action = "control_center"
+
+[keybinds]
+down = ["Down", "Ctrl+j"]
+left = ["Left", "Ctrl+h"]
+right = ["Right", "Ctrl+l"]
+tab_next = ["Tab", "Ctrl+n"]
+tab_previous = ["Shift+ISO_Left_Tab", "Ctrl+p"]
+up = ["Up", "Ctrl+k"]
+
+[location]
+auto_locate = true
+
+[lockscreen]
+blur_intensity = 0.7999999821186066
+blurred_desktop = true
+monitors = ["eDP-1"]
+
+[lockscreen_widgets]
+enabled = true
+schema_version = 2
+widget_order = ["lockscreen-login-box@HDMI-A-1", "lockscreen-login-box@eDP-1", "lockscreen-widget-0000000000000001"]
+
+[lockscreen_widgets.grid]
+cell_size = 16
+major_interval = 4
+visible = true
+
+[lockscreen_widgets.widget."lockscreen-login-box@HDMI-A-1"]
+box_height = 213.0
+box_width = 810.0
+cx = 540.0
+cy = 1080.0
+output = "HDMI-A-1"
+rotation = 0.0
+type = "login_box"
+
+[lockscreen_widgets.widget."lockscreen-login-box@HDMI-A-1".settings]
+background_color = "surface_variant"
+background_opacity = 0.88
+background_radius = 12.0
+center_password_text = false
+input_opacity = 1.0
+input_radius = 6.0
+layout = "regular"
+show_caps_lock = true
+show_keyboard_layout = true
+show_login_button = true
+show_media = true
+show_session_buttons = true
+show_weather = true
+
+[lockscreen_widgets.widget."lockscreen-login-box@eDP-1"]
+box_height = 213.0
+box_width = 810.0
+cx = 960.0
+cy = 889.5
+output = "eDP-1"
+rotation = 0.0
+type = "login_box"
+
+[lockscreen_widgets.widget."lockscreen-login-box@eDP-1".settings]
+background_color = "surface_variant"
+background_opacity = 0.88
+background_radius = 12.0
+center_password_text = false
+input_opacity = 1.0
+input_radius = 6.0
+layout = "regular"
+show_caps_lock = true
+show_keyboard_layout = true
+show_login_button = true
+show_media = true
+show_session_buttons = true
+show_weather = true
+
+[lockscreen_widgets.widget.lockscreen-widget-0000000000000001]
+box_height = 192.0
+box_width = 416.0
+cx = 960.0
+cy = 268.0
+output = "eDP-1"
+type = "clock"
+
+[lockscreen_widgets.widget.lockscreen-widget-0000000000000001.settings]
+background = false
+shadow = true
+
+[osd]
+position = "bottom_center"
+position_vertical = "center_left"
+
+[plugin_settings."avivbintangaringga/nix-monitor"]
+update_command = "nix flake update --flake ~/nix#redux"
+
+[plugin_settings."noctalia/screen_recorder"]
+copy_to_clipboard = true
+
+[plugin_settings."noctalia/wallhaven"]
+download_dir = "~/Pictures/Wallpapers/Dynamic"
+
+[plugins]
+enabled = ["noctalia/wallhaven", "h465855hgg/lyrics", "avivbintangaringga/nix-monitor", "noctalia/screen_recorder", "dotnetrob/cat", "radimous/prismlauncher-instances", "yocraft/web-launcher", "nightwatch75/file-search" ]
+
+[[plugins.source]]
+kind = "git"
+location = "https://github.com/noctalia-dev/official-plugins"
+name = "official"
+
+[[plugins.source]]
+kind = "git"
+location = "https://github.com/noctalia-dev/community-plugins"
+name = "community"
+
+[shell]
+button_borders = false
+card_borders = false
+input_borders = false
+niri_overview_type_to_launch_enabled = true
+polkit_agent = true
+popup_borders = false
+popup_shadows = false
+screen_time_enabled = true
+
+[shell.greeter_sync]
+auto_sync = true
+privilege_command = "pkexec"
+
+[shell.launcher]
+app_grid = true
+
+[shell.launcher.providers.calculator]
+prefix = "="
+
+[shell.launcher.providers.emoji]
+prefix = ":"
+
+[shell.launcher.providers.wallpaper]
+prefix = ""
+
+[shell.launcher.providers.windows]
+prefix = "@"
+
+[shell.panel]
+launcher_placement = "attached"
+list_item_background = true
+transparency_mode = "glass"
+
+[shell.screen_corners]
+enabled = false
+size = 36
+
+[theme.templates]
+builtin_ids = ["btop", "foot", "gtk3", "gtk4", "niri", "qt", "starship"]
+community_ids = ["zen-browser", "discord", "lazygit", "papirus-icons", "prismlauncher", "steam", "yazi"]
+
+[theme.templates.user.nvim]
+input_path = "/home/boatette/.local/state/noctalia/templates/nvim-palette.lua"
+output_path = "/home/boatette/.config/nvim/noctalia.lua"
+post_hook = "pkill -SIGUSR1 nvim"
+
+[theme.templates.user.wayland-select]
+input_path = "/home/boatette/.config/wayland-select/colors-template.toml"
+output_path = "/home/boatette/.config/wayland-select/colors.toml"
+
+[widget.battery]
+hide_when_full = true
+hide_when_plugged = true
+
+[widget.bluetooth]
+hide_when_no_connected_device = true
+
+[widget.cat]
+type = "dotnetrob/cat:cat"
+
+[widget.launcher]
+custom_image = "/home/boatette/.config/noctalia/launcher.svg"
+custom_image_colorize = true
+
+[widget.media]
+hide_when_no_media = true
+
+[widget.network]
+show_label = false
+
+[widget.nix-monitor]
+show_text = false
+type = "avivbintangaringga/nix-monitor:nix-monitor"
+
+[widget.recorder]
+type = "noctalia/screen_recorder:recorder"
+
+[widget.tray]
+drawer = true
+
+[widget.volume]
+show_label = false
+
+[widget.workspaces]
+labels_only_when_occupied = true
+

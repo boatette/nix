@@ -1,0 +1,137 @@
+binds {
+    MOD+T                               { spawn-sh "foot"; }
+    MOD+W                               { spawn-sh "zen-beta"; }
+    MOD+E                               { spawn-sh "nautilus"; }
+    MOD+D                               { spawn-sh "noctalia msg panel-toggle launcher"; }
+    MOD+X                               { spawn-sh "noctalia msg panel-toggle session"; }
+    MOD+Y                               { spawn-sh "noctalia msg panel-toggle wallpaper"; }
+    MOD+ALT+Y                           { spawn-sh "noctalia msg panel-toggle noctalia/wallhaven:browser"; }
+    MOD+N                               { spawn-sh "noctalia msg panel-toggle control-center"; }
+    MOD+COMMA                           { spawn-sh "noctalia msg settings-toggle"; }
+
+    MOD+1                               { focus-workspace 1; }
+    MOD+2                               { focus-workspace 2; }
+    MOD+3                               { focus-workspace 3; }
+    MOD+4                               { focus-workspace 4; }
+    MOD+5                               { focus-workspace 5; }
+    MOD+6                               { focus-workspace 6; }
+    MOD+7                               { focus-workspace 7; }
+    MOD+8                               { focus-workspace 8; }
+    MOD+9                               { focus-workspace 9; }
+
+    MOD+SHIFT+1                         { move-column-to-workspace 1; }
+    MOD+SHIFT+2                         { move-column-to-workspace 2; }
+    MOD+SHIFT+3                         { move-column-to-workspace 3; }
+    MOD+SHIFT+4                         { move-column-to-workspace 4; }
+    MOD+SHIFT+5                         { move-column-to-workspace 5; }
+    MOD+SHIFT+6                         { move-column-to-workspace 6; }
+    MOD+SHIFT+7                         { move-column-to-workspace 7; }
+    MOD+SHIFT+8                         { move-column-to-workspace 8; }
+    MOD+SHIFT+9                         { move-column-to-workspace 9; }
+
+    MOD+CTRL+1                          { move-column-to-workspace 1 focus=false; }
+    MOD+CTRL+2                          { move-column-to-workspace 2 focus=false; }
+    MOD+CTRL+3                          { move-column-to-workspace 3 focus=false; }
+    MOD+CTRL+4                          { move-column-to-workspace 4 focus=false; }
+    MOD+CTRL+5                          { move-column-to-workspace 5 focus=false; }
+    MOD+CTRL+6                          { move-column-to-workspace 6 focus=false; }
+    MOD+CTRL+7                          { move-column-to-workspace 7 focus=false; }
+    MOD+CTRL+8                          { move-column-to-workspace 8 focus=false; }
+    MOD+CTRL+9                          { move-column-to-workspace 9 focus=false; }
+
+    MOD+H                               { focus-column-left; }
+    MOD+LEFT                            { focus-column-left; }
+    MOD+J                               { focus-window-down; }
+    MOD+DOWN                            { focus-window-down; }
+    MOD+K                               { focus-window-up; }
+    MOD+UP                              { focus-window-up; }
+    MOD+L                               { focus-column-right; }
+    MOD+RIGHT                           { focus-column-right; }
+
+    MOD+SHIFT+H                         { move-column-left; }
+    MOD+SHIFT+LEFT                      { move-column-left; }
+    MOD+SHIFT+J                         { move-window-down; }
+    MOD+SHIFT+DOWN                      { move-window-down; }
+    MOD+SHIFT+K                         { move-window-up; }
+    MOD+SHIFT+UP                        { move-window-up; }
+    MOD+SHIFT+L                         { move-column-right; }
+    MOD+SHIFT+RIGHT                     { move-column-right; }
+
+    MOD+CTRL+H                          { focus-monitor-left; }
+    MOD+CTRL+LEFT                       { focus-monitor-left; }
+    MOD+CTRL+J                          { focus-monitor-down; }
+    MOD+CTRL+DOWN                       { focus-monitor-down; }
+    MOD+CTRL+K                          { focus-monitor-up; }
+    MOD+CTRL+UP                         { focus-monitor-up; }
+    MOD+CTRL+L                          { focus-monitor-right; }
+    MOD+CTRL+RIGHT                      { focus-monitor-right; }
+
+    MOD+SHIFT+CTRL+H                    { move-column-to-monitor-left; }
+    MOD+SHIFT+CTRL+LEFT                 { move-column-to-monitor-left; }
+    MOD+SHIFT+CTRL+J                    { move-column-to-monitor-down; }
+    MOD+SHIFT+CTRL+DOWN                 { move-column-to-monitor-down; }
+    MOD+SHIFT+CTRL+K                    { move-column-to-monitor-up; }
+    MOD+SHIFT+CTRL+UP                   { move-column-to-monitor-up; }
+    MOD+SHIFT+CTRL+L                    { move-column-to-monitor-right; }
+    MOD+SHIFT+CTRL+RIGHT                { move-column-to-monitor-right; }
+
+    MOD+HOME                            { focus-column-first; }
+    MOD+END                             { focus-column-last; }
+
+    MOD+SHIFT+HOME                      { move-column-to-first; }
+    MOD+SHIFT+END                       { move-column-to-last; }
+
+    MOD+WHEELSCROLLDOWN                 cooldown-ms=100 { focus-workspace-down; }
+    MOD+WHEELSCROLLUP                   cooldown-ms=100 { focus-workspace-up; }
+
+    MOD+SHIFT+WHEELSCROLLDOWN           cooldown-ms=100 { move-column-to-workspace-down; }
+    MOD+SHIFT+WHEELSCROLLUP             cooldown-ms=100 { move-column-to-workspace-up; }
+
+    MOD+WHEELSCROLLRIGHT                { focus-column-right; }
+    MOD+WHEELSCROLLLEFT                 { focus-column-left; }
+    MOD+CTRL+WHEELSCROLLRIGHT           { move-column-right; }
+    MOD+CTRL+WHEELSCROLLLEFT            { move-column-left; }
+
+    MOD+BRACKETLEFT                     { consume-or-expel-window-left; }
+    MOD+BRACKETRIGHT                    { consume-or-expel-window-right; }
+    MOD+PERIOD                          { expel-window-from-column; }
+
+    MOD+C                               { center-column; }
+    MOD+CTRL+C                          { center-visible-columns; }
+    MOD+V                               { toggle-window-floating; }
+    MOD+SHIFT+V                         { switch-focus-between-floating-and-tiling; }
+    MOD+R                               { switch-preset-column-width; }
+    MOD+SHIFT+R                         { switch-preset-window-height; }
+    MOD+CTRL+R                          { reset-window-height; }
+
+    MOD+G                               { toggle-overview; }
+
+    MOD+F                               { maximize-column; }
+    MOD+SHIFT+F                         { fullscreen-window; }
+    MOD+CTRL+F                          { expand-column-to-available-width; }
+    MOD+A                               { toggle-column-tabbed-display; }
+    MOD+Q                               { close-window; }
+    MOD+SHIFT+Q                         { spawn-sh r#"pid=$(niri msg -j focused-window | jq -r '.pid // empty'); if [ -n "$pid" ]; then kill -9 "$pid"; fi"#; }
+    ALT+F4                              { spawn-sh r#"pid=$(niri msg -j focused-window | jq -r '.pid // empty'); if [ -n "$pid" ]; then kill -9 "$pid"; fi"#; }
+
+    MOD+CTRL+WHEELSCROLLDOWN            { set-window-height "-5%"; }
+    MOD+CTRL+WHEELSCROLLUP              { set-window-height "+5%"; }
+
+    MOD+MINUS                           { set-column-width "-10%"; }
+    MOD+EQUAL                           { set-column-width "+10%"; }
+    MOD+SHIFT+MINUS                     { set-window-height "-10%"; }
+    MOD+SHIFT+EQUAL                     { set-window-height "+10%"; }
+
+    PRINT                               { screenshot; }
+    MOD+SHIFT+S                         { screenshot; } // Screenshot key
+
+    XF86AudioRaiseVolume                allow-when-locked=true { spawn-sh "noctalia msg volume-up"; }
+    XF86AudioLowerVolume                allow-when-locked=true { spawn-sh "noctalia msg volume-down"; }
+    XF86AudioMute                       allow-when-locked=true { spawn-sh "noctalia msg volume-mute"; }
+    XF86AudioMicMute                    allow-when-locked=true { spawn-sh "noctalia msg mic-mute"; }
+
+    XF86MonBrightnessUp                 allow-when-locked=true { spawn-sh "noctalia msg brightness-up"; }
+    XF86MonBrightnessDown               allow-when-locked=true { spawn-sh "noctalia msg brightness-down"; }
+    ALT+XF86MonBrightnessUp             allow-when-locked=true { spawn-sh "noctalia msg brightness-up 1"; }
+    ALT+XF86MonBrightnessDown           allow-when-locked=true { spawn-sh "noctalia msg brightness-down 1"; }
+}
