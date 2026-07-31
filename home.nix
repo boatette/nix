@@ -14,6 +14,7 @@ let
     niri = "niri";
     noctalia = "noctalia";
     nvim = "nvim";
+    starship = "starship";
     zellij = "zellij";
   };
 in
@@ -45,6 +46,7 @@ in
     unzip
     zstd
     lazygit
+    starship
 
     gcc
     gnumake
