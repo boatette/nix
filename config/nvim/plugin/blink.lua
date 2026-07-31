@@ -8,9 +8,7 @@ require("mini.snippets").setup({
     snippets = { require("mini.snippets").gen_loader.from_lang() },
 })
 
-local cmp = require("blink.cmp")
-cmp.build():wait(60000)
-cmp.setup({
+require("blink.cmp").setup({
     completion = {
         accept = { auto_brackets = { enabled = true } },
         documentation = { auto_show = true },
