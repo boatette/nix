@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 
 {
   imports =
@@ -71,6 +71,7 @@ programs.niri.enable = true;
    git
    wget
    foot
+   inputs.zen-browser.packages."${pkgs.stdenv.hostPlatform.system}".default
   ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
