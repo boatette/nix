@@ -29,6 +29,28 @@ in
     inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
     rustup
     nixfmt
+    wl-clipboard
+    libnotify
+
+    bat
+    eza
+    dust
+    fastfetch
+    btop
+    lm_sensors
+    fzf
+    fd
+    ripgrep
+    jq
+    unzip
+    zstd
+    lazygit
+
+    gcc
+    gnumake
+    go
+    nodejs
+    python3
   ];
 
   programs.zsh = {
