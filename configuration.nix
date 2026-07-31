@@ -57,6 +57,7 @@
     description = "Jonathan Clark";
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [];
+shell = pkgs.zsh;
   };
 
   # Allow unfree packages
@@ -70,12 +71,19 @@ programs.niri.enable = true;
    vim
    git
    wget
-   foot
-   inputs.zen-browser.packages."${pkgs.stdenv.hostPlatform.system}".default
   ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
+    fonts.packages = with pkgs; [
+        nerd-fonts.jetbrains-mono
+        nerd-fonts.symbols-only
+        inter
+    ];
+
+
+
+  programs.zsh.enable = true;
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
