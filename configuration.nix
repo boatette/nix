@@ -19,7 +19,6 @@
   networking.networkmanager.enable = true;
 
   time.timeZone = "Australia/Hobart";
-
   i18n.defaultLocale = "en_AU.UTF-8";
 
   i18n.extraLocaleSettings = {
@@ -72,6 +71,20 @@
   ];
 
   programs.zsh.enable = true;
+
+
+  fileSystems."/mnt/storage" = {
+    device = "/dev/disk/by-uuid/40124632-4404-4350-8054-440bbdbefd99";
+    fsType = "ext4";
+    options = [
+      "nofail"
+      "noatime"
+      "x-systemd.automount"
+      "x-systemd.device-timeout=5s"
+      "x-systemd.mount-timeout=5s"
+      "x-gvfs-show"
+    ];
+  };
 
   system.stateVersion = "26.05";
 
