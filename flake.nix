@@ -2,27 +2,34 @@
   description = "NixOS Flake";
 
   inputs = {
-      nixpkgs.url = "github:NixOS/nixpkgs/26.05";
-      home-manager = {
-        url = "github:nix-community/home-manager/release-26.05";
-        inputs.nixpkgs.follows = "nixpkgs";
-      };
+    nixpkgs.url = "github:NixOS/nixpkgs/26.05";
+    home-manager = {
+      url = "github:nix-community/home-manager/release-26.05";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
-      zen-browser = {
-        url = "github:0xc000022070/zen-browser-flake";
-        inputs.nixpkgs.follows = "nixpkgs";
-      };
-      neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
+    zen-browser = {
+      url = "github:0xc000022070/zen-browser-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
   };
 
-  outputs = { self, nixpkgs, home-manager, zen-browser, ... }@inputs:
+  outputs =
+    {
+      self,
+      nixpkgs,
+      home-manager,
+      zen-browser,
+      ...
+    }@inputs:
     let
       overlays = [
         inputs.neovim-nightly-overlay.overlays.default
       ];
-in
-  {
-    nixosConfigurations.redux = nixpkgs.lib.nixosSystem {
+    in
+    {
+      nixosConfigurations.redux = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = { inherit inputs; };
         modules = [
@@ -37,9 +44,9 @@ in
               backupFileExtension = "bak";
             };
           }
-{
-          nixpkgs.overlays = overlays;
-}
+          {
+            nixpkgs.overlays = overlays;
+          }
         ];
       };
     };
