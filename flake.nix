@@ -2,7 +2,7 @@
   description = "NixOS Flake";
 
   inputs = {
-      nixpkgs.url = "github:NixPS/nixpkgs/nixos-unstable";
+      nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
   };
 
   outputs = { self, nixpkgs, ... }@inputs: {

@@ -73,7 +73,7 @@ programs.niri.enable = true;
    foot
   ];
 
-  nix.settings.experimental-features = [ "nix-command" "nix" ];
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
