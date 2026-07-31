@@ -30,6 +30,7 @@ in
     inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
     rustup
     nixfmt
+
     wl-clipboard
     libnotify
 
@@ -160,12 +161,10 @@ in
     };
   };
 
-  xdg.configFile = builtins.mapAttrs
-    (name: subpath: {
-      source = create_symlink "${dotfiles}/${subpath}";
-      recursive = true;
-    })
-    configs;
+  xdg.configFile = builtins.mapAttrs (name: subpath: {
+    source = create_symlink "${dotfiles}/${subpath}";
+    recursive = true;
+  }) configs;
 
   home.stateVersion = "26.05";
 }
