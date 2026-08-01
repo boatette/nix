@@ -51,25 +51,25 @@ if status is-interactive
     alias ns 'nix search nixpkgs'
     alias nb 'nix path-info -rSh /run/current-system | sort -hk2 | tail -30'
     alias nrepl 'nix repl ~/nix'
-    alias nt 'nix-tree'
+    alias nt nix-tree
     alias nw 'nix why-depends'
 
     # Shortcuts
-    alias please 'sudo'
+    alias please sudo
     alias jctl 'journalctl -p 3 -xb'
-    alias ff 'fastfetch'
-    alias q 'exit'
-    alias ZQ 'exit'
-    alias h 'history'
-    alias c 'clear'
-    alias cls 'clear'
-    alias vim 'nvim'
-    alias vi 'nvim'
-    alias v 'nvim'
-    alias cat 'bat'
-    alias lg 'lazygit'
-    alias z 'zellij'
-    alias oz 'open_zellij'
+    alias ff fastfetch
+    alias q exit
+    alias ZQ exit
+    alias h history
+    alias c clear
+    alias cls clear
+    alias vim nvim
+    alias vi nvim
+    alias v nvim
+    alias cat bat
+    alias lg lazygit
+    alias z zellij
+    alias oz open_zellij
 
     # Git shortcuts
     alias gs 'git status'
@@ -94,13 +94,13 @@ if status is-interactive
     alias gundo 'git reset --soft HEAD~1'
 
     # System control
-    alias wifi 'nmtui'
+    alias wifi nmtui
     alias shutdown 'systemctl poweroff'
     alias reboot 'systemctl reboot'
-    alias du 'dust'
+    alias du dust
     alias ports 'ss -tulpn'
     alias myip 'curl -s ifconfig.me'
-    alias temps 'sensors'
+    alias temps sensors
     alias topcpu 'ps auxf | sort -nr -k 3 | head -10'
 
     # SSD backup
@@ -109,9 +109,9 @@ if status is-interactive
     alias baklog 'journalctl --user -u ssd-backup -n 50 --no-pager'
 
     # Spelling
-    alias dc 'cd'
-    alias cealr 'clear'
-    alias celar 'clear'
+    alias dc cd
+    alias cealr clear
+    alias celar clear
 end
 
 function fish_user_key_bindings -d 'emacs-style rescues on top of vi mode'
@@ -128,10 +128,6 @@ function fish_user_key_bindings -d 'emacs-style rescues on top of vi mode'
     # !! and !$ history expansion
     bind -M insert ! __history_previous_command
     bind -M insert '$' __history_previous_command_arguments
-end
-
-function fish_mode_prompt -d 'always block cursor, no per-mode indicator'
-    # deliberately empty -- starship owns the whole prompt
 end
 
 function __history_previous_command -d 'expand ! to the previous command'
