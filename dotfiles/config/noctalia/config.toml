@@ -232,8 +232,12 @@ enabled = false
 size = 36
 
 [theme.templates]
-builtin_ids = ["btop", "foot", "gtk3", "gtk4", "niri", "qt", "starship"]
+builtin_ids = ["btop", "foot", "gtk3", "gtk4", "niri", "qt"]
 community_ids = ["zen-browser", "discord", "lazygit", "papirus-icons", "prismlauncher", "steam", "yazi"]
+
+[theme.templates.user.starship]
+input_path = "/home/boatette/.config/starship/starship.toml.tmpl"
+output_path = "/home/boatette/.config/starship.toml"
 
 [theme.templates.user.nvim]
 input_path = "/home/boatette/.local/state/noctalia/templates/nvim.lua"
