@@ -66,6 +66,7 @@ in
 
         adw-gtk3
         nwg-look
+        inputs.wayland-select.packages.${pkgs.stdenv.hostPlatform.system}.default
     ];
 
     programs.fish.enable = true;

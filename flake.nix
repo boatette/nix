@@ -18,6 +18,10 @@
         };
         neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
         claude-code.url = "github:sadjow/claude-code-nix";
+        wayland-select = {
+            url = "git+file:///home/boatette/Projects/wayland_select";
+            inputs.nixpkgs.follows = "nixpkgs";
+        };
     };
 
     outputs =
