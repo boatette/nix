@@ -1,5 +1,21 @@
 local map = vim.keymap.set
 
+local FLAKE = "~/nix#redux"
+
+local function rebuild(mode, sudo)
+    return function()
+        require("snacks").terminal(
+            ("%snixos-rebuild %s --flake %s"):format(sudo and "sudo " or "", mode, FLAKE),
+            { interactive = true }
+        )
+    end
+end
+
+map("n", "<leader>ns", rebuild("switch", true), { desc = "Rebuild switch" })
+map("n", "<leader>nt", rebuild("test", true), { desc = "Rebuild test" })
+map("n", "<leader>nb", rebuild("boot", true), { desc = "Rebuild boot" })
+map("n", "<leader>nd", rebuild("dry-build", false), { desc = "Rebuild dry-build" })
+
 map("n", "<Esc>", "<cmd>nohlsearch<cr>", { desc = "Clear search highlight" })
 map("n", "<leader>v", "ggVG", { desc = "Select whole buffer" })
 map("v", "p", '"_dP`[v`]=', { desc = "Paste without yank" })
