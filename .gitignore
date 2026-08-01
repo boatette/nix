@@ -4,3 +4,4 @@ nvim-pack-lock.json
 /config/foot/themes/noctalia
 /config/nvim/noctalia.lua
 /config/wayland-select/colors.toml
+/nix.bak
