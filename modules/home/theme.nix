@@ -13,7 +13,7 @@
         enable = true;
 
         iconTheme = {
-            name = "Papirus-Dark";
+            name = "Papirus";
         };
 
         theme = {
