@@ -12,10 +12,30 @@
         inputs.noctalia-greeter.nixosModules.default
     ];
 
-    boot.loader.systemd-boot.enable = true;
-    boot.loader.efi.canTouchEfiVariables = true;
-
-    boot.kernelPackages = pkgs.linuxPackages_latest;
+    boot = {
+        consoleLogLevel = 3;
+        initrd = {
+            kernelModules = [ "i915" ];
+            verbose = false;
+        };
+        kernelPackages = pkgs.linuxPackages_latest;
+        kernelParams = [
+            "quiet"
+            "udev.log_priority=3"
+            "rd.systemd.show_status=auto"
+        ];
+        loader = {
+            efi = {
+                canTouchEfiVariables = true;
+            };
+            systemd-boot = {
+                enable = true;
+            };
+        };
+        plymouth = {
+            enable = true;
+        };
+    };
 
     networking.hostName = "redux";
     networking.networkmanager.enable = true;
