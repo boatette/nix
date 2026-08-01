@@ -18,6 +18,7 @@ let
         "noctalia"
         "nvim"
         "starship"
+        "wayland-select"
         "zellij"
     ];
 

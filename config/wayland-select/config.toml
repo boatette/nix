@@ -1,0 +1,17 @@
+border_size = 1.0
+
+rounding = 6.0
+rounding_power = 2.0
+
+fade_in_ms = 65.0
+fade_out_ms = 65.0
+
+blur = false
+
+button = "left"
+
+drag_threshold = 4.0
+
+outputs = []
+
+cursor_shape = "none"
