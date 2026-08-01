@@ -1,5 +1,4 @@
 { pkgs, ... }:
-
 {
     home.pointerCursor = {
         enable = true;
@@ -10,9 +9,16 @@
         gtk.enable = true;
     };
 
-    home.packages = with pkgs; [
-        capitaine-cursors
-        adw-gtk3
-        nwg-look
-    ];
+    gtk = {
+        enable = true;
+
+        iconTheme = {
+            name = "Papirus-Dark";
+        };
+
+        theme = {
+            name = "adw-gtk3";
+            package = pkgs.adw-gtk3;
+        };
+    };
 }
