@@ -54,6 +54,7 @@ in
     go
     nodejs
     python3
+    tree-sitter
   ];
 
   programs.zsh = {
