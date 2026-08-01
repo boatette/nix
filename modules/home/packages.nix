@@ -11,6 +11,25 @@ in
             wl-clipboard
             libnotify
 
+            vesktop
+            nautilus
+            qimgv
+            mpv
+            gimp
+            prismlauncher
+            stremio-linux-shell
+            amberol
+
+            ffmpeg
+            ffmpegthumbnailer
+            totem
+
+            gst_all_1.gstreamer
+            gst_all_1.gst-plugins-base
+            gst_all_1.gst-plugins-good
+            gst_all_1.gst-plugins-bad
+            gst_all_1.gst-plugins-ugly
+            gst_all_1.gst-libav
 
             bat
             btop
