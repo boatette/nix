@@ -29,6 +29,15 @@ in
     home.username = "boatette";
     home.homeDirectory = "/home/boatette";
 
+    home.pointerCursor = {
+        enable = true;
+        package = pkgs.capitaine-cursors;
+        name = "capitaine-cursors";
+        size = 24;
+        x11.enable = true;
+        gtk.enable = true;
+    };
+
     home.packages = with pkgs; [
         foot
         inputs.neovim-nightly-overlay.packages.${pkgs.stdenv.hostPlatform.system}.default
