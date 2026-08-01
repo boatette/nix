@@ -10,7 +10,6 @@ in
             foot
             wl-clipboard
             libnotify
-            xwayland-satellite
 
             vesktop
             nautilus
