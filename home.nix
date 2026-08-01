@@ -84,8 +84,6 @@ in
         capitaine-cursors
     ];
 
-    programs.fish.enable = true;
-
     programs.starship = {
         enable = true;
         configPath = starshipConfig;
