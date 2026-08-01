@@ -67,7 +67,10 @@ in
 
         adw-gtk3
         nwg-look
+
         inputs.wayland-select.packages.${pkgs.stdenv.hostPlatform.system}.default
+
+        capitaine-cursors
     ];
 
     programs.fish.enable = true;
