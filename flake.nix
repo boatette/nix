@@ -26,6 +26,8 @@
             url = "git+file:///home/boatette/Projects/wayland_select";
             inputs.nixpkgs.follows = "nixpkgs";
         };
+        nixCats.url = "github:BirdeeHub/nixCats-nvim";
+
     };
 
     outputs =
