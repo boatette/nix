@@ -13,12 +13,9 @@ vim.g.rustaceanvim = {
     },
     dap = {
         adapter = {
-            type = "server",
-            port = "${port}",
-            executable = {
-                command = vim.fn.stdpath("data") .. "/mason/bin/codelldb",
-                args = { "--port", "${port}" },
-            },
+            type = "executable",
+            command = "lldb-dap",
+            name = "lldb",
         },
     },
 }

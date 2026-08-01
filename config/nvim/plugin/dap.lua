@@ -16,10 +16,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
             dapview.close()
         end
 
-        dap.adapters.codelldb = {
-            type = "server",
-            port = "${port}",
-            executable = { command = bin .. "/codelldb", args = { "--port", "${port}" } },
+        dap.adapters.lldb = {
+            type = "executable",
+            command = "lldb-dap",
+            name = "lldb",
         }
         dap.adapters.dart = {
             type = "executable",
@@ -39,17 +39,11 @@ vim.api.nvim_create_autocmd("LspAttach", {
             type = "server",
             host = "localhost",
             port = "${port}",
-            executable = {
-                command = "node",
-                args = {
-                    vim.fn.stdpath("data") .. "/mason/packages/js-debug-adapter/js-debug/src/dapDebugServer.js",
-                    "${port}",
-                },
-            },
+            executable = { command = "js-debug", args = { "${port}" } },
         }
         dap.adapters.python = {
             type = "executable",
-            command = vim.fn.stdpath("data") .. "/mason/packages/debugpy/venv/bin/python",
+            command = "python3",
             args = { "-m", "debugpy.adapter" },
         }
 
@@ -59,7 +53,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
             dap.configurations[ft] = {
                 {
                     name = "Launch",
-                    type = "codelldb",
+                    type = "lldb",
                     request = "launch",
                     program = function()
                         return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
@@ -69,7 +63,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
                 },
                 {
                     name = "Attach",
-                    type = "codelldb",
+                    type = "lldb",
                     request = "attach",
                     pid = pick,
                     cwd = "${workspaceFolder}",
@@ -147,7 +141,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
         dap.configurations.odin = {
             {
                 name = "Launch",
-                type = "codelldb",
+                type = "lldb",
                 request = "launch",
                 program = function()
                     return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
@@ -172,7 +166,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
         dap.configurations.zig = {
             {
                 name = "Launch",
-                type = "codelldb",
+                type = "lldb",
                 request = "launch",
                 program = function()
                     return vim.fn.input("Executable: ", vim.fn.getcwd() .. "/zig-out/bin/", "file")
