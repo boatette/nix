@@ -46,7 +46,7 @@
       "wheel"
     ];
     packages = with pkgs; [ ];
-    shell = pkgs.zsh;
+    shell = pkgs.fish;
   };
 
   nixpkgs.config.allowUnfree = true;
@@ -70,7 +70,7 @@
     inter
   ];
 
-  programs.zsh.enable = true;
+  programs.fish.enable = true;
 
   fileSystems."/mnt/storage" = {
     device = "/dev/disk/by-uuid/40124632-4404-4350-8054-440bbdbefd99";
