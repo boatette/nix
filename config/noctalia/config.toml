@@ -238,7 +238,7 @@ output_path = "/home/boatette/.config/nvim/noctalia.lua"
 post_hook = "pkill -SIGUSR1 nvim"
 
 [theme.templates.user.wayland-select]
-input_path = "/home/boatette/.config/wayland-select/colors-template.toml"
+input_path = "/home/boatette/.local/state/noctalia/templates/wayland-select.toml"
 output_path = "/home/boatette/.config/wayland-select/colors.toml"
 
 [widget.battery]
