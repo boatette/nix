@@ -8,7 +8,6 @@
 
 let
     repo = "${config.home.homeDirectory}/nix";
-    dotfiles = "${repo}/config";
     create_symlink = path: config.lib.file.mkOutOfStoreSymlink path;
 
     configs = [
@@ -29,60 +28,81 @@ in
 {
     imports = [ inputs.nixCats.homeModule ];
 
-    home.username = "boatette";
-    home.homeDirectory = "/home/boatette";
+    home = {
+        username = "boatette";
+        homeDirectory = "/home/boatette";
+        pointerCursor = {
+            enable = true;
+            package = pkgs.capitaine-cursors;
+            name = "capitaine-cursors";
+            size = 24;
+            x11.enable = true;
+            gtk.enable = true;
+        };
+        packages = with pkgs; [
+            foot
+            inputs.zen-browser.packages."${pkgs.stdenv.hostPlatform.system}".default
+            inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
+            inputs.claude-code.packages.${pkgs.stdenv.hostPlatform.system}.default
+            rustup
 
-    home.pointerCursor = {
-        enable = true;
-        package = pkgs.capitaine-cursors;
-        name = "capitaine-cursors";
-        size = 24;
-        x11.enable = true;
-        gtk.enable = true;
+            nixfmt
+            statix
+            deadnix
+
+            wl-clipboard
+            libnotify
+
+            bat
+            eza
+            dust
+            fastfetch
+            btop
+            lm_sensors
+            fzf
+            fd
+            ripgrep
+            jq
+            unzip
+            zstd
+            lazygit
+
+            gcc
+            gnumake
+            go
+            nodejs
+            python3
+            tree-sitter
+
+            adw-gtk3
+            nwg-look
+
+            inputs.wayland-select.packages.${pkgs.stdenv.hostPlatform.system}.default
+
+            capitaine-cursors
+        ];
+
+        sessionVariables = {
+            EDITOR = "nvim";
+            SUDO_EDITOR = "nvim";
+
+            GOPATH = "${config.home.homeDirectory}/go";
+            CARGO_HOME = "${config.home.homeDirectory}/.cargo";
+
+            MANROFFOPT = "-c";
+            MANPAGER = "sh -c 'col -bx | bat -l man -p'";
+        };
+
+        sessionPath = [
+            "$HOME/.local/bin"
+            "$HOME/go/bin"
+            "$HOME/.cargo/bin"
+        ];
+
+        file.".local/bin".source = create_symlink "${repo}/.local/bin";
+
+        stateVersion = "26.05";
     };
-
-    home.packages = with pkgs; [
-        foot
-        inputs.zen-browser.packages."${pkgs.stdenv.hostPlatform.system}".default
-        inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
-        inputs.claude-code.packages.${pkgs.stdenv.hostPlatform.system}.default
-        rustup
-
-        nixfmt
-        statix
-        deadnix
-
-        wl-clipboard
-        libnotify
-
-        bat
-        eza
-        dust
-        fastfetch
-        btop
-        lm_sensors
-        fzf
-        fd
-        ripgrep
-        jq
-        unzip
-        zstd
-        lazygit
-
-        gcc
-        gnumake
-        go
-        nodejs
-        python3
-        tree-sitter
-
-        adw-gtk3
-        nwg-look
-
-        inputs.wayland-select.packages.${pkgs.stdenv.hostPlatform.system}.default
-
-        capitaine-cursors
-    ];
 
     programs.starship = {
         enable = true;
@@ -94,27 +114,8 @@ in
         options = [ "--cmd cd" ];
     };
 
-    home.sessionVariables = {
-        EDITOR = "nvim";
-        SUDO_EDITOR = "nvim";
-
-        GOPATH = "${config.home.homeDirectory}/go";
-        CARGO_HOME = "${config.home.homeDirectory}/.cargo";
-
-        MANROFFOPT = "-c";
-        MANPAGER = "sh -c 'col -bx | bat -l man -p'";
-    };
-
-    home.sessionPath = [
-        "$HOME/.local/bin"
-        "$HOME/go/bin"
-        "$HOME/.cargo/bin"
-    ];
-
-    home.file.".local/bin".source = create_symlink "${repo}/.local/bin";
-
     xdg.configFile = lib.genAttrs configs (name: {
-        source = create_symlink "${dotfiles}/${name}";
+        source = create_symlink "${repo}/config/${name}";
         recursive = true;
     });
 
@@ -128,11 +129,8 @@ in
 
         luaPath = ./config/nvim;
 
-        categoryDefinitions.replace = (
+        categoryDefinitions.replace =
             { pkgs, ... }:
-            let
-                pythonEnv = pkgs.python3.withPackages (ps: [ ps.debugpy ]);
-            in
             {
                 lspsAndRuntimeDeps = {
                     general = with pkgs; [
@@ -164,7 +162,8 @@ in
 
                         lldb
                         vscode-js-debug
-                        pythonEnv
+                        python3.withPackages
+                        (ps: [ ps.debugpy ])
                     ];
                 };
 
@@ -225,8 +224,7 @@ in
                         nvim-nio
                     ];
                 };
-            }
-        );
+            };
 
         packageDefinitions.replace = {
             nvim =
@@ -244,6 +242,4 @@ in
                 };
         };
     };
-
-    home.stateVersion = "26.05";
 }
