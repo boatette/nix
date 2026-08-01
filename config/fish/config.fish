@@ -9,6 +9,9 @@ if status is-interactive
         source $HOME/.fish_profile
     end
 
+    starship init fish | source
+    zoxide init fish --cmd cd | source
+
     # ls replacements
     alias ls 'eza -al --color=always --group-directories-first --icons auto'
     alias la 'eza -a --color=always --group-directories-first --icons auto'
