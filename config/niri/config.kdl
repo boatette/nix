@@ -6,3 +6,5 @@ include "cfg/layout.kdl"
 include "cfg/misc.kdl"
 include "cfg/rules.kdl"
 include "cfg/debug.kdl"
+
+include "noctalia.kdl"
