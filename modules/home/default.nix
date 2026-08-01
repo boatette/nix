@@ -9,6 +9,7 @@
         ./shell.nix
         ./theme.nix
         ./neovim
+        ./scripts
     ];
 
     home = {
