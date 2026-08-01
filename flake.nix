@@ -17,6 +17,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
+    claude-code.url = "github:sadjow/claude-code-nix";
   };
 
   outputs =
@@ -25,13 +26,9 @@
       nixpkgs,
       home-manager,
       zen-browser,
+      claude-code,
       ...
     }@inputs:
-    let
-      overlays = [
-        inputs.neovim-nightly-overlay.overlays.default
-      ];
-    in
     {
       nixosConfigurations.redux = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
@@ -49,7 +46,10 @@
             };
           }
           {
-            nixpkgs.overlays = overlays;
+            nixpkgs.overlays = [
+              inputs.neovim-nightly-overlay.overlays.default
+              claude-code.overlays.default
+            ];
           }
         ];
       };
