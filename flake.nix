@@ -17,19 +17,9 @@
             url = "github:noctalia-dev/noctalia-greeter";
             inputs.nixpkgs.follows = "nixpkgs";
         };
-        zen-browser = {
-            url = "github:0xc000022070/zen-browser-flake";
-            inputs.nixpkgs.follows = "nixpkgs";
-        };
+
         neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
-        claude-code.url = "github:sadjow/claude-code-nix";
-        wayland-select = {
-            url = "git+file:///home/boatette/Projects/wayland_select";
-            inputs.nixpkgs.follows = "nixpkgs";
-        };
-
         nixCats.url = "github:BirdeeHub/nixCats-nvim";
-
         "plugins-everforest-nvim" = {
             url = "github:neanias/everforest-nvim";
             flake = false;
@@ -42,14 +32,23 @@
             url = "github:SunnyTamang/select-undo.nvim";
             flake = false;
         };
+
+        zen-browser = {
+            url = "github:0xc000022070/zen-browser-flake";
+            inputs.nixpkgs.follows = "nixpkgs";
+        };
+        claude-code.url = "github:sadjow/claude-code-nix";
+
+        wayland-select = {
+            url = "git+file:///home/boatette/Projects/wayland_select";
+            inputs.nixpkgs.follows = "nixpkgs";
+        };
     };
 
     outputs =
         {
-            self,
             nixpkgs,
             home-manager,
-            zen-browser,
             claude-code,
             ...
         }@inputs:
