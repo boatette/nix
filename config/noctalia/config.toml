@@ -163,17 +163,32 @@ copy_to_clipboard = true
 download_dir = "~/Pictures/Wallpapers/Dynamic"
 
 [plugins]
-enabled = ["noctalia/wallhaven", "h465855hgg/lyrics", "avivbintangaringga/nix-monitor", "noctalia/screen_recorder", "dotnetrob/cat", "radimous/prismlauncher-instances", "yocraft/web-launcher", "nightwatch75/file-search" ]
+enabled = [
+    "noctalia/wallhaven",
+    "h465855hgg/lyrics",
+    "avivbintangaringga/nix-monitor",
+    "noctalia/screen_recorder",
+    "dotnetrob/cat",
+    "radimous/prismlauncher-instances",
+    "yocraft/web-launcher",
+    "nightwatch75/file-search",
+    "boatette/auto-theme"
+]
 
-[[plugins.source]]
-kind = "git"
-location = "https://github.com/noctalia-dev/official-plugins"
-name = "official"
+    [[plugins.source]]
+    kind = "git"
+    location = "https://github.com/noctalia-dev/official-plugins"
+    name = "official"
 
-[[plugins.source]]
-kind = "git"
-location = "https://github.com/noctalia-dev/community-plugins"
-name = "community"
+    [[plugins.source]]
+    kind = "git"
+    location = "https://github.com/noctalia-dev/community-plugins"
+    name = "community"
+
+    [[plugins.source]]
+    kind = "git"
+    location = "git@github.com:boatette/noctalia-plugins.git"
+    name = "Personal"
 
 [shell]
 button_borders = false
