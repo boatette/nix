@@ -5,6 +5,7 @@
         ./fish.nix
         ./fonts.nix
         ./gaming.nix
+        ./hardware.nix
         ./locale.nix
         ./networking.nix
         ./nix.nix
