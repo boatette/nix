@@ -1,5 +1,3 @@
-vim.pack.add({ "https://github.com/monaqa/dial.nvim" })
-
 local augend = require("dial.augend")
 
 local defaults = {

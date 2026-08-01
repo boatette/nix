@@ -1,14 +1,3 @@
-vim.pack.add({
-    { src = "https://github.com/catppuccin/nvim", name = "catppuccin" },
-    "https://github.com/neanias/everforest-nvim",
-    "https://github.com/rebelot/kanagawa.nvim",
-    "https://github.com/idr4n/github-monochrome.nvim",
-    "https://github.com/gbprod/nord.nvim",
-    { src = "https://github.com/rose-pine/neovim", name = "rose-pine" },
-    "https://github.com/folke/tokyonight.nvim",
-    "https://github.com/nvim-mini/mini.base16",
-})
-
 local FLOAT_GROUPS = { "NormalFloat", "FloatBorder", "FloatShadow", "FloatTitle" }
 
 local function clear_floats(hl, palette)

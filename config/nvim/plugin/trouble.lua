@@ -1,7 +1,5 @@
 vim.api.nvim_create_autocmd("LspAttach", {
     callback = function()
-        vim.pack.add({ "https://github.com/folke/trouble.nvim" })
-
         require("trouble").setup()
 
         local map = vim.keymap.set

@@ -1,5 +1,3 @@
-vim.pack.add({ "https://github.com/akinsho/bufferline.nvim" })
-
 vim.schedule(function()
     require("bufferline").setup({
         options = {

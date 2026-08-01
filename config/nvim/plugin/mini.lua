@@ -1,10 +1,3 @@
-vim.pack.add({
-    "https://github.com/nvim-mini/mini.ai",
-    "https://github.com/nvim-mini/mini.hipatterns",
-    "https://github.com/nvim-mini/mini.splitjoin",
-    "https://github.com/nvim-mini/mini.surround",
-})
-
 require("mini.ai").setup()
 
 vim.schedule(function()

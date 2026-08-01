@@ -1,10 +1,5 @@
 vim.api.nvim_create_autocmd("LspAttach", {
     callback = function()
-        vim.pack.add({
-            "https://github.com/mfussenegger/nvim-dap",
-            "https://github.com/igorlfs/nvim-dap-view",
-        })
-
         local dap = require("dap")
         local dapview = require("dap-view")
         local bin = vim.fn.stdpath("data") .. "/mason/bin"

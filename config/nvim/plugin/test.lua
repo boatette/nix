@@ -1,13 +1,3 @@
-vim.pack.add({
-    "https://github.com/nvim-lua/plenary.nvim",
-    "https://github.com/nvim-neotest/nvim-nio",
-    "https://github.com/nvim-treesitter/nvim-treesitter",
-    "https://github.com/nvim-neotest/neotest",
-    "https://github.com/rouge8/neotest-rust",
-    "https://github.com/lawrence-laz/neotest-zig",
-    "https://github.com/sidlatau/neotest-dart",
-})
-
 require("neotest").setup({
     output = { open_on_run = true },
     status = { virtual_text = true, signs = true },
