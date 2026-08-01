@@ -2,12 +2,13 @@
 
 {
     imports = [
+        ./backup.nix
         ./dotfiles.nix
         ./env.nix
-        ./neovim
         ./packages.nix
         ./shell.nix
         ./theme.nix
+        ./neovim
     ];
 
     home = {
