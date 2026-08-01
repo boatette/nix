@@ -12,23 +12,23 @@
     ];
 
     boot = {
-        loader.systemd-boot.enable = true;
-        loader.efi.canTouchEfiVariables = true;
-        kernelPackages = pkgs.linuxPackages_latest;
-        boot = {
-            plymouth.enable = true;
-            initrd = {
-                kernelModules = [ "i915" ];
-                verbose = false;
-            };
-            consoleLogLevel = 3;
-            kernelParams = [
-                "quiet"
-                "udev.log_priority=3"
-                "rd.systemd.show_status=auto"
-            ];
-            loader.timeout = 0;
+        loader = {
+            systemd-boot.enable = true;
+            efi.canTouchEfiVariables = true;
+            timeout = 0;
         };
+        kernelPackages = pkgs.linuxPackages_latest;
+        plymouth.enable = true;
+        initrd = {
+            kernelModules = [ "i915" ];
+            verbose = false;
+        };
+        consoleLogLevel = 3;
+        kernelParams = [
+            "quiet"
+            "udev.log_priority=3"
+            "rd.systemd.show_status=auto"
+        ];
     };
 
     networking.hostName = "redux";
