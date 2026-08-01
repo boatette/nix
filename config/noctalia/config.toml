@@ -233,7 +233,7 @@ builtin_ids = ["btop", "foot", "gtk3", "gtk4", "niri", "qt", "starship"]
 community_ids = ["zen-browser", "discord", "lazygit", "papirus-icons", "prismlauncher", "steam", "yazi"]
 
 [theme.templates.user.nvim]
-input_path = "/home/boatette/.local/state/noctalia/templates/nvim-palette.lua"
+input_path = "/home/boatette/.local/state/noctalia/templates/nvim.lua"
 output_path = "/home/boatette/.config/nvim/noctalia.lua"
 post_hook = "pkill -SIGUSR1 nvim"
 
