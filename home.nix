@@ -35,7 +35,10 @@ in
         inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
         inputs.claude-code.packages.${pkgs.stdenv.hostPlatform.system}.default
         rustup
+
         nixfmt
+        statix
+        deadnix
 
         wl-clipboard
         libnotify
