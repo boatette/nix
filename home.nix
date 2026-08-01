@@ -127,6 +127,7 @@ in
     nixCats = {
         enable = true;
 
+        nixpkgs_version = inputs.nixpkgs-unstable;
         addOverlays = [ (inputs.nixCats.utils.sanitizedPluginOverlay inputs) ];
 
         packageNames = [ "nvim" ];
