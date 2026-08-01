@@ -1,6 +1,6 @@
-/config/niri/noctalia.kdl
-/config/foot/themes/noctalia
-/config/nvim/noctalia.lua
-/config/wayland-select/colors.toml
+/dotfiles/config/niri/noctalia.kdl
+/dotfiles/config/foot/themes/noctalia
+/dotfiles/config/nvim/noctalia.lua
+/dotfiles/config/wayland-select/colors.toml
 
-/config/fish/fish_variables
+/dotfiles/config/fish/fish_variables

@@ -37,6 +37,7 @@
             url = "github:0xc000022070/zen-browser-flake";
             inputs.nixpkgs.follows = "nixpkgs";
         };
+        millennium.url = "github:SteamClientHomebrew/Millennium?dir=packages/nix";
         claude-code.url = "github:sadjow/claude-code-nix";
 
         wayland-select = {
@@ -49,31 +50,43 @@
         {
             nixpkgs,
             home-manager,
-            claude-code,
             ...
         }@inputs:
+        let
+            # hostName selects hosts/<hostName>; username gets the shared
+            # home-manager config from modules/home. Both are handed to every
+            # module through specialArgs.
+            mkHost =
+                {
+                    hostName,
+                    username,
+                }:
+                let
+                    args = { inherit inputs hostName username; };
+                in
+                nixpkgs.lib.nixosSystem {
+                    specialArgs = args;
+                    modules = [
+                        ./hosts/${hostName}
+                        home-manager.nixosModules.home-manager
+                        {
+                            home-manager = {
+                                useGlobalPkgs = true;
+                                useUserPackages = true;
+                                extraSpecialArgs = args;
+                                users.${username} = ./modules/home;
+                                backupFileExtension = "bak";
+                            };
+                        }
+                    ];
+                };
+        in
         {
-            nixosConfigurations.redux = nixpkgs.lib.nixosSystem {
-                system = "x86_64-linux";
-                specialArgs = { inherit inputs; };
-                modules = [
-                    ./configuration.nix
-                    home-manager.nixosModules.default
-                    {
-                        home-manager = {
-                            useGlobalPkgs = true;
-                            useUserPackages = true;
-                            extraSpecialArgs = { inherit inputs; };
-                            users.boatette = ./home.nix;
-                            backupFileExtension = "bak";
-                        };
-                    }
-                    {
-                        nixpkgs.overlays = [
-                            claude-code.overlays.default
-                        ];
-                    }
-                ];
+            nixosConfigurations = {
+                redux = mkHost {
+                    hostName = "redux";
+                    username = "boatette";
+                };
             };
         };
 }
