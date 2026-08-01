@@ -26,8 +26,21 @@
             url = "git+file:///home/boatette/Projects/wayland_select";
             inputs.nixpkgs.follows = "nixpkgs";
         };
+
         nixCats.url = "github:BirdeeHub/nixCats-nvim";
 
+        "plugins-everforest-nvim" = {
+            url = "github:neanias/everforest-nvim";
+            flake = false;
+        };
+        "plugins-github-monochrome.nvim" = {
+            url = "github:idr4n/github-monochrome.nvim";
+            flake = false;
+        };
+        "plugins-select-undo.nvim" = {
+            url = "github:SunnyTamang/select-undo.nvim";
+            flake = false;
+        };
     };
 
     outputs =
@@ -57,7 +70,6 @@
                     }
                     {
                         nixpkgs.overlays = [
-                            inputs.neovim-nightly-overlay.overlays.default
                             claude-code.overlays.default
                         ];
                     }
