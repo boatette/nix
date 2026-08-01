@@ -8,7 +8,7 @@ order = ["default"]
 background_opacity = 0.8
 capsule = false
 center = ["clock"]
-end = ["tray", "cat", "network", "bluetooth", "recorder", "notifications", "volume", "session"]
+end = [ "tray", "cat", "network", "bluetooth", "notifications", "volume", "session" ]
 font_family = "JetBrainsMono NF"
 margin_ends = 0
 padding = 8
@@ -49,6 +49,8 @@ visible = true
 concave_edge_corners = false
 enabled = true
 pinned = ["foot", "zen-beta", "vesktop", "steam", "org.prismlauncher.PrismLauncher"]
+radius_bottom_left = 0
+radius_bottom_right = 0
 reserve_space = false
 smart_auto_hide = true
 
@@ -154,7 +156,7 @@ position = "bottom_center"
 position_vertical = "center_left"
 
 [plugin_settings."avivbintangaringga/nix-monitor"]
-update_command = "nix flake update --flake ~/nix#redux"
+update_command = "nix flake update --flake ~/nix"
 
 [plugin_settings."noctalia/screen_recorder"]
 copy_to_clipboard = true
@@ -170,7 +172,6 @@ enabled = [
     "noctalia/wallhaven",
     "h465855hgg/lyrics",
     "avivbintangaringga/nix-monitor",
-    "noctalia/screen_recorder",
     "dotnetrob/cat",
     "radimous/prismlauncher-instances",
     "yocraft/web-launcher",
@@ -233,7 +234,7 @@ size = 36
 
 [theme.templates]
 builtin_ids = ["btop", "foot", "gtk3", "gtk4", "niri", "qt"]
-community_ids = ["zen-browser", "discord", "lazygit", "papirus-icons", "prismlauncher", "steam", "yazi"]
+community_ids = ["zen-browser", "discord", "lazygit", "papirus-icons", "prismlauncher", "steam", "yazi", "bat"]
 
 [theme.templates.user.starship]
 input_path = "/home/boatette/.config/starship/starship.toml.tmpl"
@@ -282,5 +283,6 @@ drawer = true
 show_label = false
 
 [widget.workspaces]
-labels_only_when_occupied = true
+labels_only_when_occupied = false
+style = "minimal"
 
