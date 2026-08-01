@@ -2,7 +2,7 @@ require("snacks").setup({
     bigfile = {},
     bufdelete = {},
     indent = { animate = { enabled = false } },
-    lazygit = {},
+    lazygit = { win = { style = "float", position = "float" } },
     notifier = {
         style = function(buf, notif, ctx)
             ctx.opts.border = "top"
@@ -40,6 +40,7 @@ require("snacks").setup({
         },
     },
     quickfile = {},
+    terminal = { win = { position = "bottom" } },
 
     animate = { enabled = false },
     dashboard = { enabled = false },
@@ -59,7 +60,6 @@ require("snacks").setup({
     scratch = { enabled = false },
     scroll = { enabled = false },
     statuscolumn = { enabled = false },
-    terminal = { enabled = false },
     toggle = { enabled = false },
     util = { enabled = false },
     win = { enabled = false },
