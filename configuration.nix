@@ -8,6 +8,7 @@
 {
     imports = [
         ./hardware-configuration.nix
+        inputs.noctalia-greeter.nixosModules.default
     ];
 
     boot.loader.systemd-boot.enable = true;
@@ -83,6 +84,28 @@
             "x-systemd.mount-timeout=5s"
             "x-gvfs-show"
         ];
+    };
+
+    programs.noctalia-greeter = {
+        enable = true;
+
+        settings = {
+            appearance = {
+                hide_logo = true;
+            };
+            cursor = {
+                theme = "capitaine-cursors";
+                size = 24;
+                path = "${pkgs.capitaine-cursors}/share/icons";
+            };
+            keyboard = {
+                layout = "us";
+            };
+            output = {
+                scale = 1;
+                name = "eDP-1";
+            };
+        };
     };
 
     system.stateVersion = "26.05";
