@@ -1,5 +1,6 @@
 {
     config,
+    lib,
     pkgs,
     inputs,
     ...
@@ -72,6 +73,7 @@
     ];
 
     programs.fish.enable = true;
+    environment.shellAliases = lib.mkForce { };
 
     fileSystems."/mnt/storage" = {
         device = "/dev/disk/by-uuid/40124632-4404-4350-8054-440bbdbefd99";
