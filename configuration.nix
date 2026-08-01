@@ -1,5 +1,4 @@
 {
-    config,
     lib,
     pkgs,
     inputs,
@@ -13,27 +12,22 @@
     ];
 
     boot = {
-        consoleLogLevel = 3;
-        initrd = {
-            kernelModules = [ "i915" ];
-            verbose = false;
-        };
+        loader.systemd-boot.enable = true;
+        loader.efi.canTouchEfiVariables = true;
         kernelPackages = pkgs.linuxPackages_latest;
-        kernelParams = [
-            "quiet"
-            "udev.log_priority=3"
-            "rd.systemd.show_status=auto"
-        ];
-        loader = {
-            efi = {
-                canTouchEfiVariables = true;
+        boot = {
+            plymouth.enable = true;
+            initrd = {
+                kernelModules = [ "i915" ];
+                verbose = false;
             };
-            systemd-boot = {
-                enable = true;
-            };
-        };
-        plymouth = {
-            enable = true;
+            consoleLogLevel = 3;
+            kernelParams = [
+                "quiet"
+                "udev.log_priority=3"
+                "rd.systemd.show_status=auto"
+            ];
+            loader.timeout = 0;
         };
     };
 
@@ -67,13 +61,11 @@
             "networkmanager"
             "wheel"
         ];
-        packages = with pkgs; [ ];
+        packages = [ ];
         shell = pkgs.fish;
     };
 
     nixpkgs.config.allowUnfree = true;
-
-    programs.niri.enable = true;
 
     environment.systemPackages = with pkgs; [
         vim
@@ -92,7 +84,6 @@
         inter
     ];
 
-    programs.fish.enable = true;
     environment.shellAliases = lib.mkForce { };
 
     fileSystems."/mnt/storage" = {
@@ -108,24 +99,28 @@
         ];
     };
 
-    programs.noctalia-greeter = {
-        enable = true;
+    programs = {
+        fish.enable = true;
+        niri.enable = true;
+        noctalia-greeter = {
+            enable = true;
 
-        settings = {
-            appearance = {
-                hide_logo = true;
-            };
-            cursor = {
-                theme = "capitaine-cursors";
-                size = 24;
-                path = "${pkgs.capitaine-cursors}/share/icons";
-            };
-            keyboard = {
-                layout = "us";
-            };
-            output = {
-                scale = 1;
-                name = "eDP-1";
+            settings = {
+                appearance = {
+                    hide_logo = true;
+                };
+                cursor = {
+                    theme = "capitaine-cursors";
+                    size = 24;
+                    path = "${pkgs.capitaine-cursors}/share/icons";
+                };
+                keyboard = {
+                    layout = "us";
+                };
+                output = {
+                    scale = 1;
+                    name = "eDP-1";
+                };
             };
         };
     };
