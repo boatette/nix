@@ -162,6 +162,9 @@ copy_to_clipboard = true
 [plugin_settings."noctalia/wallhaven"]
 download_dir = "~/Pictures/Wallpapers/Dynamic"
 
+[plugin_settings."boatette/auto-theme"]
+default_dynamic_scheme = "vibrant"
+
 [plugins]
 enabled = [
     "noctalia/wallhaven",
