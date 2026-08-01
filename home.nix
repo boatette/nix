@@ -63,6 +63,9 @@ in
         nodejs
         python3
         tree-sitter
+
+        adw-gtk3
+        nwg-look
     ];
 
     programs.fish.enable = true;
