@@ -13,6 +13,7 @@ let
 
     configs = [
         "fastfetch"
+        "fish"
         "foot"
         "niri"
         "noctalia"
@@ -114,15 +115,10 @@ in
 
     home.file.".local/bin".source = create_symlink "${repo}/.local/bin";
 
-    xdg.configFile =
-        lib.genAttrs configs (name: {
-            source = create_symlink "${dotfiles}/${name}";
-            recursive = true;
-        })
-        // {
-            "fish/conf.d".source = create_symlink "${dotfiles}/fish/conf.d";
-            "fish/functions".source = create_symlink "${dotfiles}/fish/functions";
-        };
+    xdg.configFile = lib.genAttrs configs (name: {
+        source = create_symlink "${dotfiles}/${name}";
+        recursive = true;
+    });
 
     nixCats = {
         enable = true;
