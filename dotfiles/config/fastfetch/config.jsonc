@@ -3,6 +3,9 @@
   "logo": {
     "source": "~/.config/fastfetch/aperture.txt",
     // "source": "~/.config/fastfetch/aperture-inverted.txt",
+    "padding": {
+      "top": 1,
+    },
   },
   "display": {
     "separator": ">  ",
