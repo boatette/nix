@@ -228,6 +228,7 @@ prefix = "@"
 launcher_placement = "attached"
 list_item_background = true
 transparency_mode = "glass"
+open_near_click_control_center = true
 
 [shell.screen_corners]
 enabled = false
