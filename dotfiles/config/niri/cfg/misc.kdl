@@ -1,6 +1,6 @@
 spawn-at-startup "noctalia"
 spawn-at-startup "wayland-select"
-spawn-sh-at-startup "nautilus --gapplication-service"
+spawn-at-startup "nautilus" "--gapplication-service"
 
 prefer-no-csd
 
