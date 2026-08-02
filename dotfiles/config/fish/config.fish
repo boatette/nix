@@ -157,7 +157,7 @@ function history -d 'history with timestamps'
     builtin history --show-time='%F %T ' $argv
 end
 
-function backup -d 'copy <file> to <file>.bak'
+function backup -d 'copy <file > to <file >.bak'
     cp -- $argv[1] $argv[1].bak
 end
 
@@ -171,6 +171,10 @@ end
 
 function mkcd -d 'mkdir -p, then cd into it'
     mkdir -p -- $argv[1]; and cd $argv[1]
+end
+
+function cl -d 'cd, then ls'
+    cd $argv[1]; and ls
 end
 
 function extract -d 'unpack an archive by extension'
