@@ -15,14 +15,12 @@ if status is-interactive
     starship init fish | source
     zoxide init fish --cmd cd | source
 
-    # ls replacements
     alias ls 'eza -al --color=always --group-directories-first --icons auto'
     alias la 'eza -a --color=always --group-directories-first --icons auto'
     alias ll 'eza -l --color=always --group-directories-first --icons auto'
     alias lt 'eza -aT --color=always --group-directories-first --icons auto'
     alias l. 'eza -a | grep -e "^\."'
 
-    # System helpers
     alias tarnow 'tar -acf'
     alias untar 'tar -zxvf'
     alias pkgwalls "env XZ_OPT=-9e tar --exclude='.git' --exclude='wallpapers.tar.xz' --exclude='README.md' -cJvf ~/Pictures/Wallpapers/wallpapers.tar.xz -C ~/Pictures/Wallpapers ."
@@ -32,7 +30,6 @@ if status is-interactive
     alias psmem 'ps auxf | sort -nr -k 4'
     alias psmem10 'ps auxf | sort -nr -k 4 | head -10'
 
-    # Navigation
     alias .. 'cd ..'
     alias ... 'cd ../..'
     alias .... 'cd ../../..'
@@ -41,7 +38,6 @@ if status is-interactive
 
     alias cn 'cd ~/nix'
 
-    # Nix helpers
     alias nrs 'sudo nixos-rebuild switch --flake ~/nix#redux'
     alias nrb 'sudo nixos-rebuild boot --flake ~/nix#redux'
     alias nrt 'sudo nixos-rebuild test --flake ~/nix#redux'
@@ -58,7 +54,6 @@ if status is-interactive
     alias nw 'nix why-depends'
     alias larp "figlet nixoslarp; ff"
 
-    # Shortcuts
     alias please sudo
     alias jctl 'journalctl -p 3 -xb'
     alias ff fastfetch
@@ -75,7 +70,6 @@ if status is-interactive
     alias z zellij
     alias oz open_zellij
 
-    # Git shortcuts
     alias gs 'git status'
     alias ga 'git add'
     alias gaa 'git add -A'
@@ -97,7 +91,6 @@ if status is-interactive
     alias gstp 'git stash pop'
     alias gundo 'git reset --soft HEAD~1'
 
-    # System control
     alias wifi nmtui
     alias shutdown 'systemctl poweroff'
     alias reboot 'systemctl reboot'
@@ -107,12 +100,10 @@ if status is-interactive
     alias temps sensors
     alias topcpu 'ps auxf | sort -nr -k 3 | head -10'
 
-    # SSD backup
     alias baknow 'systemctl --user start ssd-backup.service'
     alias bakstatus 'systemctl --user list-timers ssd-backup.timer'
     alias baklog 'journalctl --user -u ssd-backup -n 50 --no-pager'
 
-    # Spelling
     alias dc cd
     alias cealr clear
     alias celar clear
@@ -129,7 +120,6 @@ function fish_user_key_bindings -d 'emacs-style rescues on top of vi mode'
     bind -M insert ctrl-u backward-kill-line
     bind -M insert ctrl-f accept-autosuggestion
 
-    # !! and !$ history expansion
     bind -M insert ! __history_previous_command
     bind -M insert '$' __history_previous_command_arguments
 end
@@ -229,8 +219,6 @@ function nrun -d 'run a package from nixpkgs without installing'
 end
 
 function nfmt -d 'nixfmt every nix file in the flake'
-    # --indent 4 matches the repo style; conform.nvim passes the same.
-    # nix.bak is a separate checkout and is not ours to reformat.
     nixfmt --indent 4 (fd -e nix . ~/nix --exclude nix.bak)
 end
 
@@ -239,7 +227,6 @@ function psg -d 'grep the process list without matching the grep itself'
 end
 
 function paths -d 'print PATH one entry per line'
-    # named "paths", not "path" -- fish 3.2+ ships a `path` builtin
     printf '%s\n' $PATH
 end
 
