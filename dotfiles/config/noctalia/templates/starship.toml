@@ -23,9 +23,6 @@ magenta   = "{{colors.terminal_normal_magenta.default.hex}}"
 white     = "{{colors.terminal_normal_white.default.hex}}"
 black     = "{{colors.terminal_normal_black.default.hex}}"
 
-# starship's stock module styles ask for "purple" (git_branch) and "bright-*",
-# which noctalia's builtin palette does not define -- without these they stay
-# on the raw ANSI colours and ignore the theme.
 purple        = "{{colors.terminal_normal_magenta.default.hex}}"
 bright-black  = "{{colors.terminal_bright_black.default.hex}}"
 bright-red    = "{{colors.terminal_bright_red.default.hex}}"

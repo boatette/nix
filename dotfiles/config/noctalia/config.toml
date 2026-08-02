@@ -239,16 +239,16 @@ builtin_ids = ["btop", "foot", "gtk3", "gtk4", "niri", "qt"]
 community_ids = ["zen-browser", "discord", "lazygit", "papirus-icons", "prismlauncher", "steam", "yazi", "bat"]
 
 [theme.templates.user.starship]
-input_path = "/home/boatette/.config/starship/starship.toml.tmpl"
+input_path = "/home/boatette/.config/noctalia/templates/starship.toml"
 output_path = "/home/boatette/.config/starship.toml"
 
 [theme.templates.user.nvim]
-input_path = "/home/boatette/.local/state/noctalia/templates/nvim.lua"
+input_path = "/home/boatette/.config/noctalia/templates/nvim.lua"
 output_path = "/home/boatette/.config/nvim/noctalia.lua"
 post_hook = "pkill -SIGUSR1 nvim"
 
 [theme.templates.user.wayland-select]
-input_path = "/home/boatette/.local/state/noctalia/templates/wayland-select.toml"
+input_path = "/home/boatette/.config/noctalia/templates/wayland-select.toml"
 output_path = "/home/boatette/.config/wayland-select/colors.toml"
 
 [widget.battery]

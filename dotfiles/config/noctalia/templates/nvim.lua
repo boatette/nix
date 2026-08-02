@@ -1,5 +1,3 @@
--- ~/.local/state/noctalia/templates/nvim.lua
-
 return {
     -- Background tones
     base00 = "{{colors.surface.default.hex}}", -- Default Background
