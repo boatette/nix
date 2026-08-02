@@ -18,7 +18,10 @@
             inputs.nixpkgs.follows = "nixpkgs";
         };
 
-        neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
+        neovim-nightly-overlay = {
+            url = "github:nix-community/neovim-nightly-overlay";
+            inputs.nixpkgs.follows = "nixpkgs";
+        };
         nixCats.url = "github:BirdeeHub/nixCats-nvim";
         "plugins-everforest-nvim" = {
             url = "github:neanias/everforest-nvim";
@@ -37,8 +40,14 @@
             url = "github:0xc000022070/zen-browser-flake";
             inputs.nixpkgs.follows = "nixpkgs";
         };
-        millennium.url = "github:SteamClientHomebrew/Millennium?dir=packages/nix";
-        claude-code.url = "github:sadjow/claude-code-nix";
+        millennium = {
+            url = "github:SteamClientHomebrew/Millennium?dir=packages/nix";
+            inputs.nixpkgs.follows = "nixpkgs";
+        };
+        claude-code = {
+            url = "github:sadjow/claude-code-nix";
+            inputs.nixpkgs.follows = "nixpkgs";
+        };
 
         wayland-select = {
             url = "git+file:///home/boatette/Projects/wayland_select";
@@ -53,9 +62,6 @@
             ...
         }@inputs:
         let
-            # hostName selects hosts/<hostName>; username gets the shared
-            # home-manager config from modules/home. Both are handed to every
-            # module through specialArgs.
             mkHost =
                 {
                     hostName,
