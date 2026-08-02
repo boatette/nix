@@ -18,6 +18,7 @@
         "xhci_pci"
         "thunderbolt"
         "nvme"
+        "uas"
         "usb_storage"
         "sd_mod"
     ];
@@ -26,24 +27,24 @@
     boot.extraModulePackages = [ ];
 
     fileSystems."/" = {
-        device = "/dev/disk/by-uuid/aa09de89-4bb3-4f04-9aa7-7a88c24c4956";
+        device = "/dev/disk/by-uuid/d8191e1a-7791-488b-8a7a-77dddee1b7e1";
         fsType = "btrfs";
     };
 
     fileSystems."/home" = {
-        device = "/dev/disk/by-uuid/aa09de89-4bb3-4f04-9aa7-7a88c24c4956";
+        device = "/dev/disk/by-uuid/d8191e1a-7791-488b-8a7a-77dddee1b7e1";
         fsType = "btrfs";
         options = [ "subvol=home" ];
     };
 
     fileSystems."/nix" = {
-        device = "/dev/disk/by-uuid/aa09de89-4bb3-4f04-9aa7-7a88c24c4956";
+        device = "/dev/disk/by-uuid/d8191e1a-7791-488b-8a7a-77dddee1b7e1";
         fsType = "btrfs";
         options = [ "subvol=nix" ];
     };
 
     fileSystems."/boot" = {
-        device = "/dev/disk/by-uuid/81DB-A55C";
+        device = "/dev/disk/by-uuid/93F9-01EF";
         fsType = "vfat";
         options = [
             "fmask=0077"
