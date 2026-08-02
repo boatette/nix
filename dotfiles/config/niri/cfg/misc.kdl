@@ -22,10 +22,6 @@ environment {
 
     GSK_RENDERER "ngl"
 
-    _JAVA_AWT_WM_NONREPARENTING "1"
-    SDL_VIDEODRIVER "wayland"
-    CLUTTER_BACKEND "wayland"
-
     VDPAU_DRIVER "va_gl"
     LIBVA_DRIVER_NAME "iHD"
 }
