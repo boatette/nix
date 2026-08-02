@@ -17,10 +17,7 @@ readonly DIRS=(
     ".local/share/PrismLauncher:PrismLauncher"
 )
 
-readonly FILES=(
-    ".local/state/noctalia/settings.toml:noctalia-settings.toml"
-    ".config/fish/conf.d/personal.fish:personal.fish"
-)
+readonly FILES=()
 
 log() { printf '%s: %s\n' "$APP" "$*"; }
 err() { printf '%s: %s\n' "$APP" "$*" >&2; }
