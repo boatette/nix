@@ -5,44 +5,61 @@
     // "source": "~/.config/fastfetch/aperture-inverted.txt",
   },
   "display": {
-    "separator": "",
-    "key": {
-      "width": 11,
+    "separator": ">  ",
+    "color": {
+      "separator": "red",
     },
+    "constants": [
+      "────────────────────────────────────",
+      "│\u001b[36C│\u001b[36D",
+      //       ^          ^
+      // These numbers must be the length of the 1st constant
+    ],
   },
   "modules": [
-    "break",
     {
-      "key": "user",
+      "format": "{#1}{#keys}┌{$1}┐\u001b[37D {user-name-colored}{at-symbol-colored}{host-name-colored} ",
+      //                                 ^
+      // And this one needs to be the length of the 1st constant + 1
       "type": "title",
-      "format": "{user-name}@{host-name}",
-      "keyColor": "31",
     },
     {
-      "key": "uptime",
-      "type": "uptime",
-      "keyColor": "32",
-    },
-    {
-      "key": "distro",
-      "type": "os",
-      "keyColor": "33",
-    },
-    {
-      "key": "kernel",
+      "key": "{$2}{#31} kernel   ",
       "type": "kernel",
-      "keyColor": "34",
     },
     {
-      "key": "desktop",
+      "key": "{$2}{#32}󰅐 uptime   ",
+      "type": "uptime",
+    },
+    {
+      "key": "{$2}{#33} distro   ",
+      "type": "os",
+      "format": "{3}",
+    },
+    {
+      "key": "{$2}{#34}󰇄 desktop  ",
       "type": "de",
-      "keyColor": "35",
     },
     {
-      "key": "colors",
+      "key": "{$2}{#35} term     ",
+      "type": "terminal",
+    },
+    {
+      "key": "{$2}{#36} shell    ",
+      "type": "shell",
+    },
+    {
+      "format": "{#1}{#keys}├{$1}┤",
+      "type": "custom",
+    },
+    {
+      "key": "{$2}{#39} colors   ",
       "type": "colors",
       "symbol": "circle",
-      "keyColor": "39",
+    },
+    {
+      "format": "{#1}{#keys}└{$1}┘",
+      "type": "custom",
     },
   ],
 }
