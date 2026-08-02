@@ -383,11 +383,11 @@
         "rev": "39938cf6cc3d2511daa43b59bac9a8fab5fb7bb2",
         "revCount": 16,
         "type": "git",
-        "url": "file:///home/boatette/Projects/wayland_select"
+        "url": "ssh://git@github.com/boatette/wayland_select.git"
       },
       "original": {
         "type": "git",
-        "url": "file:///home/boatette/Projects/wayland_select"
+        "url": "ssh://git@github.com/boatette/wayland_select.git"
       }
     },
     "zen-browser": {
