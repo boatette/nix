@@ -53,6 +53,8 @@ in
             python3
             rustup
             tree-sitter
+
+            figlet
         ])
         ++ [
             inputs.claude-code.packages.${system}.default

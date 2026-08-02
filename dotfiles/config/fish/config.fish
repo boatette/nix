@@ -56,6 +56,7 @@ if status is-interactive
     alias nrepl 'nix repl ~/nix'
     alias nt nix-tree
     alias nw 'nix why-depends'
+    alias larp "figlet nixoslarp; ff"
 
     # Shortcuts
     alias please sudo
