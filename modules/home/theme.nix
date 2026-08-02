@@ -21,4 +21,8 @@
             package = pkgs.adw-gtk3;
         };
     };
+
+    home.packages = with pkgs; [
+        qt6Packages.qt6ct
+    ];
 }
