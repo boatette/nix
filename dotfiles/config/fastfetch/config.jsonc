@@ -5,48 +5,44 @@
     // "source": "~/.config/fastfetch/aperture-inverted.txt",
   },
   "display": {
-    "constants": [". "],
+    "separator": "",
     "key": {
-      "width": 10,
+      "width": 11,
     },
   },
   "modules": [
+    "break",
     {
+      "key": "user",
       "type": "title",
-      "format": "{user-name-colored}{#light_red}@{host-name-colored} {#}{cwd}",
+      "format": "{user-name}@{host-name}",
+      "keyColor": "31",
     },
     {
-      "type": "os",
-      "key": "Distro",
-      "keyColor": "cyan",
-    },
-    {
-      "type": "kernel",
-      "key": "Kernel",
-      "keyColor": "red",
-    },
-    {
-      "type": "wm",
-      "key": "Desktop",
-      "keyColor": "yellow",
-    },
-    {
+      "key": "uptime",
       "type": "uptime",
-      "key": "Uptime",
-      "keyColor": "blue",
+      "keyColor": "32",
     },
     {
-      "type": "disk",
-      "key": "OS Age",
-      "folders": "/",
-      "format": "{create-time:10} [{days} days]",
-      "keyColor": "cyan",
+      "key": "distro",
+      "type": "os",
+      "keyColor": "33",
     },
     {
+      "key": "kernel",
+      "type": "kernel",
+      "keyColor": "34",
+    },
+    {
+      "key": "desktop",
+      "type": "de",
+      "keyColor": "35",
+    },
+    {
+      "key": "colors",
       "type": "colors",
-      "key": "Colors",
       "symbol": "circle",
-      "keyColor": "red",
+      "keyColor": "39",
     },
   ],
 }
