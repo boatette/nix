@@ -37,6 +37,15 @@
         };
     };
 
+    security.polkit.extraConfig = ''
+        polkit.addRule(function(action, subject) {
+            if (action.id == "org.noctalia.greeter.apply-appearance" &&
+                subject.local && subject.active && subject.isInGroup("wheel")) {
+                return polkit.Result.YES;
+            }
+        });
+    '';
+
     services = {
         gvfs.enable = true;
         tumbler.enable = true;
