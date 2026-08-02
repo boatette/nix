@@ -45,7 +45,7 @@
         };
 
         wayland-select = {
-            url = "git+file:///home/boatette/Projects/wayland_select";
+            url = "git+ssh://git@github.com/boatette/wayland_select.git";
             inputs.nixpkgs.follows = "nixpkgs";
         };
     };
