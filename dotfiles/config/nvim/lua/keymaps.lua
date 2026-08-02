@@ -19,9 +19,7 @@ map("n", "<leader>nd", rebuild("dry-build", false), { desc = "Rebuild dry-build"
 map("n", "<Esc>", "<cmd>nohlsearch<cr>", { desc = "Clear search highlight" })
 map("n", "<leader>v", "ggVG", { desc = "Select whole buffer" })
 map("v", "p", '"_dP`[v`]=', { desc = "Paste without yank" })
-map({ "v", "n" }, "<leader>m", "<cmd>vert Man<CR>", { desc = "Open man page (vsplit)" })
 map("n", "J", "mzJ`z", { desc = "Better join" })
--- map("n", "Q", "<nop>")
 map("n", "<leader>R", function()
     local session = vim.fn.stdpath("state") .. "/restart_session.vim"
     vim.cmd("mksession! " .. vim.fn.fnameescape(session))
@@ -40,11 +38,6 @@ map("v", ">", ">gv", { desc = "Indent right" })
 
 map("v", "J", ":m '>+1<cr>gv=gv", { silent = true, desc = "Move lines down" })
 map("v", "K", ":m '<-2<cr>gv=gv", { silent = true, desc = "Move lines up" })
-
--- map("n", "<S-h>", "<cmd>bprev<cr>", { desc = "Previous buffer" })
--- map("n", "<S-l>", "<cmd>bnext<cr>", { desc = "Next buffer" })
--- map("n", "<leader>bd", "<cmd>bd<cr>", { desc = "Delete buffer" })
--- map("n", "<leader>bD", "<cmd>bd!<cr>", { desc = "Delete buffer (force)" })
 
 map("n", "<C-d>", "<C-d>zz", { desc = "Half page down (centred)" })
 map("n", "<C-u>", "<C-u>zz", { desc = "Half page up (centred)" })
