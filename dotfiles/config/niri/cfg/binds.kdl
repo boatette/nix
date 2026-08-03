@@ -9,6 +9,8 @@ binds {
     MOD+N                               { spawn-sh "noctalia msg panel-toggle control-center"; }
     MOD+COMMA                           { spawn-sh "noctalia msg settings-toggle"; }
 
+    ALT+TAB                             { spawn-sh "noctalia msg window-switcher"; }
+
     MOD+1                               { focus-workspace 1; }
     MOD+2                               { focus-workspace 2; }
     MOD+3                               { focus-workspace 3; }
