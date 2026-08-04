@@ -1,10 +1,12 @@
 {
   "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
   "logo": {
-    "source": "~/.config/fastfetch/aperture.txt",
-    // "source": "~/.config/fastfetch/aperture-inverted.txt",
+    // "source": "~/.config/fastfetch/aperture.txt",
+    "source": "~/.config/fastfetch/aperture-inverted.txt",
     "padding": {
-      "top": 1,
+      "top": 0,
+      "left": 0,
+      "right": 0,
     },
   },
   "display": {
@@ -13,15 +15,15 @@
       "separator": "red",
     },
     "constants": [
-      "────────────────────────────────────",
-      "│\u001b[36C│\u001b[36D",
+      "───────────────────────────────",
+      "│\u001b[31C│\u001b[31D",
       //       ^          ^
       // These numbers must be the length of the 1st constant
     ],
   },
   "modules": [
     {
-      "format": "{#1}{#keys}┌{$1}┐\u001b[37D {user-name-colored}{at-symbol-colored}{host-name-colored} ",
+      "format": "{#1}{#keys}┌{$1}┐\u001b[32D {user-name-colored}{at-symbol-colored}{host-name-colored} ",
       //                                 ^
       // And this one needs to be the length of the 1st constant + 1
       "type": "title",
@@ -31,21 +33,20 @@
       "type": "kernel",
     },
     {
-      "key": "{$2}{#32}󰅐 uptime   ",
-      "type": "uptime",
+      "key": "{$2}{#32}󰅐 os age   ",
+      "type": "disk",
+      "folders": "/",
+      "format": "{days} days",
     },
     {
       "key": "{$2}{#33} distro   ",
       "type": "os",
-      "format": "{3}",
+      "format": "{4}",
     },
     {
       "key": "{$2}{#34}󰇄 desktop  ",
-      "type": "de",
-    },
-    {
-      "key": "{$2}{#35} term     ",
-      "type": "terminal",
+      "type": "wm",
+      "format": "{1}",
     },
     {
       "key": "{$2}{#36} shell    ",
