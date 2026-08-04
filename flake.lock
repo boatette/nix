@@ -305,22 +305,6 @@
         "type": "github"
       }
     },
-    "plugins-select-undo.nvim": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1783261435,
-        "narHash": "sha256-mzSEyYEg4UQ8UCW4dAGooSlB9sSKS9PLu4gGJQZPV5E=",
-        "owner": "SunnyTamang",
-        "repo": "select-undo.nvim",
-        "rev": "d3e9658f8dbcbf67267f5d07505917543beac376",
-        "type": "github"
-      },
-      "original": {
-        "owner": "SunnyTamang",
-        "repo": "select-undo.nvim",
-        "type": "github"
-      }
-    },
     "root": {
       "inputs": {
         "claude-code": "claude-code",
@@ -336,7 +320,6 @@
         "noctalia-greeter": "noctalia-greeter",
         "plugins-everforest-nvim": "plugins-everforest-nvim",
         "plugins-github-monochrome.nvim": "plugins-github-monochrome.nvim",
-        "plugins-select-undo.nvim": "plugins-select-undo.nvim",
         "wayland-select": "wayland-select",
         "zen-browser": "zen-browser"
       }
