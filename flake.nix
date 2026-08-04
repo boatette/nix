@@ -27,10 +27,6 @@
             url = "github:idr4n/github-monochrome.nvim";
             flake = false;
         };
-        "plugins-select-undo.nvim" = {
-            url = "github:SunnyTamang/select-undo.nvim";
-            flake = false;
-        };
 
         zen-browser = {
             url = "github:0xc000022070/zen-browser-flake";
