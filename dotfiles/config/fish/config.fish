@@ -1,6 +1,3 @@
-set -gx EDITOR nvim
-set -gx SUDO_EDITOR nvim
-
 if status is-interactive
     set -g fish_greeting ""
 

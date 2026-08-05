@@ -2,6 +2,7 @@
     imports = [
         ./boot.nix
         ./desktop.nix
+        ./env.nix
         ./fish.nix
         ./fonts.nix
         ./gaming.nix

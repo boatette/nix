@@ -4,7 +4,6 @@
     imports = [
         ./backup.nix
         ./dotfiles.nix
-        ./env.nix
         ./git.nix
         ./packages.nix
         ./shell.nix
