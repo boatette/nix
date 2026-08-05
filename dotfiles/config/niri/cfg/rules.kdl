@@ -26,6 +26,7 @@ window-rule {
     match app-id=r#"vesktop"#
     match app-id=r#"steam"#
     match app-id=r#"gimp"#
+    match app-id=r#"libreoffice"#
     open-maximized true
 }
 
