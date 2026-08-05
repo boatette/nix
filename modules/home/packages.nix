@@ -55,6 +55,9 @@ in
             tree-sitter
 
             figlet
+
+            libreoffice-qt
+            hunspell
         ])
         ++ [
             inputs.claude-code.packages.${system}.default
