@@ -119,7 +119,7 @@ position = "bottom_center"
 position_vertical = "center_left"
 
 [plugin_settings."avivbintangaringga/nix-monitor"]
-branch = "nixos-unstable"
+branch = "nixos-26.05"
 update_command = "nix flake update --flake ~/nix"
 show_update_available_notification = false
 
