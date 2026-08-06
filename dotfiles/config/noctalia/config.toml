@@ -1,9 +1,6 @@
 [audio]
 enable_sounds = true
 
-[bar]
-order = ["default"]
-
 [bar.default]
 background_opacity = 0.8
 capsule = false
@@ -48,7 +45,7 @@ visible = true
 [dock]
 concave_edge_corners = false
 enabled = true
-pinned = ["foot", "zen-beta", "vesktop", "steam", "org.prismlauncher.PrismLauncher"]
+pinned = [ "foot", "zen-beta", "vesktop", "steam", "org.prismlauncher.PrismLauncher", "com.stremio.Stremio" ]
 radius_bottom_left = 0
 radius_bottom_right = 0
 reserve_space = false
@@ -225,7 +222,6 @@ hide_when_no_connected_device = true
 type = "dotnetrob/cat:cat"
 
 [widget.launcher]
-custom_image = "/home/boatette/.config/noctalia/launcher.svg"
 custom_image_colorize = true
 
 [widget.media]
