@@ -70,4 +70,7 @@
         tumbler.enable = true;
         upower.enable = true;
     };
+
+    users.extraGroups.vboxusers.members = [ "boatette" ];
+    virtualisation.virtualbox.host.enable = true;
 }
