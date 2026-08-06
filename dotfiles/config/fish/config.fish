@@ -43,7 +43,7 @@ if status is-interactive
     alias ngl 'nixos-rebuild list-generations'
     alias ngc 'sudo nix-collect-garbage --delete-older-than 7d'
 
-    alias nfu 'nix flake update --flake ~/nix'
+    alias nfu 'nix flake update --flake ~/nix && git -C ~/nix commit -m "chore: update flake lock" flake.lock'
     alias ns 'nix search nixpkgs'
     alias nb 'nix path-info -rSh /run/current-system | sort -hk2 | tail -30'
     alias nrepl 'nix repl ~/nix'
