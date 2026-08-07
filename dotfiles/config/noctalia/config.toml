@@ -45,7 +45,15 @@ visible = true
 [dock]
 concave_edge_corners = false
 enabled = true
-pinned = [ "foot", "zen-beta", "vesktop", "steam", "org.prismlauncher.PrismLauncher", "com.stremio.Stremio" ]
+pinned = [
+    "foot",
+    "zen-beta",
+    "vesktop",
+    "steam",
+    "org.prismlauncher.PrismLauncher",
+    "com.stremio.Stremio",
+    "org.gnome.Nautilus"
+]
 radius_bottom_left = 0
 radius_bottom_right = 0
 reserve_space = false
