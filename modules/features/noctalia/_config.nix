@@ -241,6 +241,34 @@
             open_near_click_control_center = true;
         };
 
+        session.actions = [
+            {
+                action = "lock";
+                shortcut = "l";
+                variant = "default";
+            }
+            {
+                action = "logout";
+                shortcut = "e";
+                variant = "default";
+            }
+            {
+                action = "lock_and_suspend";
+                shortcut = "u";
+                variant = "default";
+            }
+            {
+                action = "reboot";
+                shortcut = "r";
+                variant = "default";
+            }
+            {
+                action = "shutdown";
+                shortcut = "s";
+                variant = "destructive";
+            }
+        ];
+
         screen_corners = {
             enabled = false;
             size = 36;
