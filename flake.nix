@@ -4,6 +4,11 @@
     inputs = {
         nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
         nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+
+        flake-parts.url = "github:hercules-ci/flake-parts";
+        import-tree.url = "github:vic/import-tree";
+        wrapper-modules.url = "github:BirdeeHub/nix-wrapper-modules";
+
         home-manager = {
             url = "github:nix-community/home-manager/release-26.05";
             inputs.nixpkgs.follows = "nixpkgs";
@@ -47,43 +52,14 @@
     };
 
     outputs =
-        {
-            nixpkgs,
-            home-manager,
-            ...
-        }@inputs:
-        let
-            mkHost =
-                {
-                    hostName,
-                    username,
-                }:
-                let
-                    args = { inherit inputs hostName username; };
-                in
-                nixpkgs.lib.nixosSystem {
-                    specialArgs = args;
-                    modules = [
-                        ./hosts/${hostName}
-                        home-manager.nixosModules.home-manager
-                        {
-                            home-manager = {
-                                useGlobalPkgs = true;
-                                useUserPackages = true;
-                                extraSpecialArgs = args;
-                                users.${username} = ./modules/home;
-                                backupFileExtension = "bak";
-                            };
-                        }
-                    ];
-                };
-        in
-        {
-            nixosConfigurations = {
-                redux = mkHost {
-                    hostName = "redux";
-                    username = "boatette";
-                };
-            };
-        };
+        inputs:
+        inputs.flake-parts.lib.mkFlake { inherit inputs; } (
+            { inputs, ... }:
+            {
+                imports = [
+                    inputs.flake-parts.flakeModules.modules
+                    (inputs.import-tree ./modules)
+                ];
+            }
+        );
 }

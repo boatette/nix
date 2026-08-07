@@ -1,0 +1,309 @@
+{ home }:
+
+{
+    audio.enable_sounds = true;
+
+    bar.default = {
+        background_opacity = 0.8;
+        capsule = false;
+        center = [ "clock" ];
+        end = [
+            "tray"
+            "network"
+            "bluetooth"
+            "notifications"
+            "volume"
+            "battery"
+            "cat"
+        ];
+        font_family = "JetBrainsMono NF";
+        margin_ends = 0;
+        padding = 8;
+        radius = 0;
+        start = [
+            "workspaces"
+            "nix-monitor"
+            "media"
+            "audio_visualizer"
+        ];
+        widget_spacing = 12;
+    };
+
+    brightness.sync_all_monitors = true;
+
+    calendar = {
+        enabled = true;
+        account.personal_google = {
+            name = "Personal Calendar";
+            type = "google";
+        };
+    };
+
+    config = { };
+
+    control_center = {
+        width = 800;
+        calendar.show_week_numbers = true;
+    };
+
+    desktop_widgets = {
+        schema_version = 2;
+        widget_order = [ ];
+        grid = {
+            cell_size = 16;
+            major_interval = 4;
+            visible = true;
+        };
+        widget = { };
+    };
+
+    dock = {
+        concave_edge_corners = false;
+        enabled = true;
+        pinned = [
+            "foot"
+            "zen-beta"
+            "vesktop"
+            "steam"
+            "org.prismlauncher.PrismLauncher"
+            "com.stremio.Stremio"
+            "org.gnome.Nautilus"
+        ];
+        radius_bottom_left = 0;
+        radius_bottom_right = 0;
+        reserve_space = false;
+        smart_auto_hide = true;
+    };
+
+    hooks = {
+        colors_changed = [
+            "noctalia msg plugin boatette/auto-theme:auto-theme all colors-changed"
+            "${home}/.config/noctalia/scripts/foot-live-theme"
+        ];
+        theme_mode_changed = [
+            "noctalia msg plugin boatette/auto-theme:auto-theme all theme-mode-changed"
+        ];
+        wallpaper_changed = [
+            ''noctalia msg plugin boatette/auto-theme:auto-theme all wallpaper-changed "$NOCTALIA_WALLPAPER_PATH"''
+        ];
+    };
+
+    hot_corners = {
+        enabled = true;
+        top_right.action = "control_center";
+    };
+
+    keybinds = {
+        down = [
+            "Down"
+            "Ctrl+j"
+        ];
+        left = [
+            "Left"
+            "Ctrl+h"
+        ];
+        right = [
+            "Right"
+            "Ctrl+l"
+        ];
+        tab_next = [
+            "Tab"
+            "Ctrl+n"
+        ];
+        tab_previous = [
+            "Shift+ISO_Left_Tab"
+            "Ctrl+p"
+        ];
+        up = [
+            "Up"
+            "Ctrl+k"
+        ];
+    };
+
+    location.auto_locate = true;
+
+    lockscreen.monitors = [ "eDP-1" ];
+
+    lockscreen_widgets = {
+        enabled = true;
+        schema_version = 2;
+        widget_order = [ "lockscreen-login-box@eDP-1" ];
+
+        grid = {
+            cell_size = 16;
+            major_interval = 4;
+            visible = true;
+        };
+
+        widget."lockscreen-login-box@eDP-1" = {
+            box_height = 70.0;
+            box_width = 400.0;
+            cx = 960.0;
+            cy = 898.0;
+            output = "eDP-1";
+            rotation = 0.0;
+            type = "login_box";
+
+            settings = {
+                background_color = "surface_variant";
+                background_opacity = 0.0;
+                background_radius = 0.0;
+                center_password_text = true;
+                input_opacity = 1.0;
+                input_radius = 0.0;
+                layout = "compact";
+                show_caps_lock = true;
+                show_keyboard_layout = false;
+                show_login_button = false;
+                show_media = true;
+                show_session_buttons = true;
+                show_unlock_hint = false;
+                show_weather = true;
+            };
+        };
+    };
+
+    osd = {
+        position = "bottom_center";
+        position_vertical = "center_left";
+    };
+
+    plugin_settings = {
+        "avivbintangaringga/nix-monitor" = {
+            branch = "nixos-26.05";
+            update_command = "nix flake update --flake ~/newNix";
+        };
+        "noctalia/screen_recorder".copy_to_clipboard = true;
+        "noctalia/wallhaven".download_dir = "~/Pictures/Wallpapers/Dynamic";
+        "boatette/auto-theme".default_dynamic_scheme = "vibrant";
+    };
+
+    plugins = {
+        enabled = [
+            "noctalia/wallhaven"
+            "h465855hgg/lyrics"
+            "avivbintangaringga/nix-monitor"
+            "dotnetrob/cat"
+            "radimous/prismlauncher-instances"
+            "yocraft/web-launcher"
+            "nightwatch75/file-search"
+            "boatette/auto-theme"
+        ];
+
+        source = [
+            {
+                kind = "git";
+                location = "https://github.com/noctalia-dev/official-plugins";
+                name = "official";
+            }
+            {
+                kind = "git";
+                location = "https://github.com/noctalia-dev/community-plugins";
+                name = "community";
+            }
+            {
+                kind = "git";
+                location = "git@github.com:boatette/noctalia-plugins.git";
+                name = "Personal";
+            }
+        ];
+    };
+
+    shell = {
+        button_borders = false;
+        card_borders = false;
+        input_borders = false;
+        niri_overview_type_to_launch_enabled = true;
+        polkit_agent = true;
+        popup_borders = false;
+        popup_shadows = false;
+        screen_time_enabled = true;
+
+        greeter_sync = {
+            auto_sync = true;
+            privilege_command = "pkexec";
+        };
+
+        launcher = {
+            app_grid = true;
+            providers = {
+                calculator.prefix = "=";
+                emoji.prefix = ":";
+                wallpaper.prefix = "";
+                windows.prefix = "@";
+            };
+        };
+
+        panel = {
+            launcher_placement = "attached";
+            list_item_background = true;
+            transparency_mode = "glass";
+            open_near_click_control_center = true;
+        };
+
+        screen_corners = {
+            enabled = false;
+            size = 36;
+        };
+    };
+
+    theme.templates = {
+        builtin_ids = [
+            "btop"
+            "foot"
+            "gtk3"
+            "gtk4"
+            "niri"
+            "qt"
+        ];
+        community_ids = [
+            "zen-browser"
+            "discord"
+            "lazygit"
+            "papirus-icons"
+            "prismlauncher"
+            "steam"
+            "yazi"
+            "bat"
+        ];
+
+        user = {
+            starship = {
+                input_path = "${home}/.config/noctalia/templates/starship.toml";
+                output_path = "${home}/.config/starship.toml";
+            };
+            nvim = {
+                input_path = "${home}/.config/noctalia/templates/nvim.lua";
+                output_path = "${home}/.config/nvim/noctalia.lua";
+                post_hook = "pkill -SIGUSR1 nvim";
+            };
+            wayland-select = {
+                input_path = "${home}/.config/noctalia/templates/wayland-select.toml";
+                output_path = "${home}/.config/wayland-select/colors.toml";
+            };
+        };
+    };
+
+    widget = {
+        battery = {
+            hide_when_full = true;
+            hide_when_plugged = true;
+        };
+        bluetooth.hide_when_no_connected_device = true;
+        cat.type = "dotnetrob/cat:cat";
+        launcher.custom_image_colorize = true;
+        media.hide_when_no_media = true;
+        network.show_label = false;
+        nix-monitor = {
+            show_text = false;
+            type = "avivbintangaringga/nix-monitor:nix-monitor";
+        };
+        recorder.type = "noctalia/screen_recorder:recorder";
+        tray.drawer = true;
+        volume.show_label = false;
+        workspaces = {
+            labels_only_when_occupied = false;
+            style = "minimal";
+        };
+    };
+}
