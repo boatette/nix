@@ -268,7 +268,7 @@
             }
             {
                 action = "shutdown";
-                shortcut = "t";
+                shortcut = "s";
                 variant = "destructive";
             }
         ];
