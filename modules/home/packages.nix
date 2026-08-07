@@ -58,6 +58,8 @@ in
 
             libreoffice-qt
             hunspell
+
+            qbittorrent
         ])
         ++ [
             inputs.claude-code.packages.${system}.default
