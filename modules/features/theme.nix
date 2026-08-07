@@ -4,7 +4,7 @@
         size = 24;
     };
 
-    flake.modules.homeManager.workstation =
+    flake.modules.homeManager.desktop =
         {
             pkgs,
             lib,

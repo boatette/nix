@@ -1,4 +1,8 @@
-{ home }:
+{
+    homeDirectory,
+    templates,
+    footLiveTheme,
+}:
 
 {
     audio.enable_sounds = true;
@@ -78,7 +82,7 @@
     hooks = {
         colors_changed = [
             "noctalia msg plugin boatette/auto-theme:auto-theme all colors-changed"
-            "${home}/.config/noctalia/scripts/foot-live-theme"
+            "${footLiveTheme}/bin/foot-live-theme"
         ];
         theme_mode_changed = [
             "noctalia msg plugin boatette/auto-theme:auto-theme all theme-mode-changed"
@@ -264,7 +268,7 @@
             }
             {
                 action = "shutdown";
-                shortcut = "s";
+                shortcut = "t";
                 variant = "destructive";
             }
         ];
@@ -297,17 +301,17 @@
 
         user = {
             starship = {
-                input_path = "${home}/.config/noctalia/templates/starship.toml";
-                output_path = "${home}/.config/starship.toml";
+                input_path = "${templates}/starship.toml";
+                output_path = "${homeDirectory}/.config/starship.toml";
             };
             nvim = {
-                input_path = "${home}/.config/noctalia/templates/nvim.lua";
-                output_path = "${home}/.config/nvim/noctalia.lua";
+                input_path = "${templates}/nvim.lua";
+                output_path = "${homeDirectory}/.config/nvim/noctalia.lua";
                 post_hook = "pkill -SIGUSR1 nvim";
             };
             wayland-select = {
-                input_path = "${home}/.config/noctalia/templates/wayland-select.toml";
-                output_path = "${home}/.config/wayland-select/colors.toml";
+                input_path = "${templates}/wayland-select.toml";
+                output_path = "${homeDirectory}/.config/wayland-select/colors.toml";
             };
         };
     };

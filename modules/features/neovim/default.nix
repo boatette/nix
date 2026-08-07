@@ -1,6 +1,11 @@
+{ inputs, ... }:
+
 {
-    flake.modules.homeManager.workstation =
-        { inputs, ... }:
+    flake.modules.homeManager.dev =
+        { ... }:
+        let
+            defs = import ./_defs.nix { inherit inputs; };
+        in
         {
             imports = [ inputs.nixCats.homeModule ];
 
@@ -12,26 +17,28 @@
 
                 packageNames = [ "nvim" ];
 
-                luaPath = ../../../dotfiles/config/nvim;
+                inherit (defs) luaPath;
 
-                categoryDefinitions.replace = args: {
-                    lspsAndRuntimeDeps.general = import ./_tools.nix args;
-                    startupPlugins.general = import ./_plugins.nix args;
-                };
-
-                packageDefinitions.replace = {
-                    nvim =
-                        { pkgs, ... }:
-                        {
-                            settings = {
-                                suffix-path = true;
-                                suffix-LD = true;
-                                wrapRc = false;
-                                neovim-unwrapped = inputs.neovim-nightly-overlay.packages.${pkgs.stdenv.hostPlatform.system}.neovim;
-                            };
-                            categories.general = true;
-                        };
-                };
+                categoryDefinitions.replace = defs.categoryDefinitions;
+                packageDefinitions.replace = defs.packageDefinitions;
             };
+        };
+
+    perSystem =
+        { system, ... }:
+        let
+            # wrapRc = true so the lua config travels with the derivation
+            defs = import ./_defs.nix {
+                inherit inputs;
+                wrapRc = true;
+            };
+        in
+        {
+            packages.nvim = inputs.nixCats.utils.baseBuilder defs.luaPath {
+                inherit system;
+                nixpkgs = inputs.nixpkgs-unstable;
+                dependencyOverlays = [ (inputs.nixCats.utils.sanitizedPluginOverlay inputs) ];
+                extra_pkg_config.allowUnfree = true;
+            } defs.categoryDefinitions defs.packageDefinitions "nvim";
         };
 }

@@ -1,11 +1,10 @@
-{ config, ... }:
+{ config, inputs, ... }:
 
 {
-    flake.modules.nixos.workstation =
+    flake.modules.nixos.desktop =
         {
             pkgs,
             lib,
-            inputs,
             ...
         }:
         {

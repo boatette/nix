@@ -1,62 +1,89 @@
 { inputs, ... }:
 
 let
-    home = "/home/boatette";
-    configDir = "${home}/.config/noctalia";
+    mkNoctalia =
+        {
+            pkgs,
+            homeDirectory,
+        }:
+        let
+            inherit (pkgs) lib;
+
+            footLiveTheme = pkgs.runCommand "foot-live-theme" { nativeBuildInputs = [ pkgs.makeWrapper ]; } ''
+                install -Dm755 ${./scripts/foot-live-theme} $out/bin/foot-live-theme
+                wrapProgram $out/bin/foot-live-theme --prefix PATH : ${
+                    lib.makeBinPath (
+                        with pkgs;
+                        [
+                            gnugrep
+                            procps
+                            coreutils
+                        ]
+                    )
+                }
+            '';
+
+            settings = import ./_config.nix {
+                inherit footLiveTheme homeDirectory;
+                templates = ./templates;
+            };
+        in
+        rec {
+            inherit footLiveTheme settings;
+
+            package = inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default;
+
+            configToml = (pkgs.formats.toml { }).generate "noctalia-config.toml" settings;
+
+            configHome = pkgs.runCommand "noctalia-config-home" { } ''
+                mkdir -p $out/noctalia
+                cp ${configToml} $out/noctalia/config.toml
+            '';
+
+            wrapped = pkgs.symlinkJoin {
+                name = "noctalia-${package.version or "configured"}";
+                paths = [ package ];
+                nativeBuildInputs = [ pkgs.makeWrapper ];
+                postBuild = ''
+                    wrapProgram $out/bin/noctalia --set NOCTALIA_CONFIG_HOME ${configHome}
+                '';
+                meta = package.meta or { } // {
+                    mainProgram = "noctalia";
+                };
+            };
+        };
 in
 {
-    flake.modules.homeManager.workstation =
-        { pkgs, ... }:
+    flake.modules.homeManager.desktop =
+        { pkgs, config, ... }:
+        let
+            noctalia = mkNoctalia {
+                inherit pkgs;
+                inherit (config.home) homeDirectory;
+            };
+        in
         {
-            home.packages = [ inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.noctalia ];
+            home.packages = [
+                noctalia.package
+                noctalia.footLiveTheme
+            ];
+
+            xdg.configFile."noctalia/config.toml" = {
+                source = noctalia.configToml;
+
+                onChange = ''
+                    ${noctalia.package}/bin/noctalia msg config-reload || true
+                '';
+            };
         };
 
     perSystem =
         { pkgs, ... }:
         {
-            packages.noctalia = inputs.wrapper-modules.wrappers.noctalia-shell.wrap [
-                { inherit pkgs; }
-                (
-                    { config, lib, ... }:
-                    {
-                        config = {
-                            package = inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default;
-
-                            outOfStoreConfig = configDir;
-                            autoCopyConfig = true;
-
-                            # this wrapper module predates v5 toml config so the file is constructed directly
-                            constructFiles = {
-                                configToml = {
-                                    key = "configToml";
-                                    relPath = lib.mkOverride 0 "${config.generatedConfigDirname}/config.toml";
-                                    output = lib.mkOverride 0 config.configDrvOutput;
-                                    content = builtins.toJSON (import ./_config.nix { inherit home; });
-                                    builder = ''${pkgs.remarshal}/bin/json2toml "$1" "$2"'';
-                                };
-                            }
-                            // lib.mapAttrs' (
-                                name: _:
-                                lib.nameValuePair "template_${lib.replaceStrings [ "." "-" ] [ "_" "_" ] name} " {
-                                    key = "template_${name}";
-                                    relPath = lib.mkOverride 0 "${config.generatedConfigDirname}/templates/${name}";
-                                    output = lib.mkOverride 0 config.configDrvOutput;
-                                    content = builtins.readFile (./templates + "/${name}");
-                                    builder = ''cp -f "$1" "$2"'';
-                                }
-                            ) (builtins.readDir ./templates)
-                            // {
-                                footLiveTheme = {
-                                    key = "footLiveTheme";
-                                    relPath = lib.mkOverride 0 "${config.generatedConfigDirname}/scripts/foot-live-theme";
-                                    output = lib.mkOverride 0 config.configDrvOutput;
-                                    content = builtins.readFile ./scripts/foot-live-theme;
-                                    builder = ''cp "$1" "$2" && chmod +x "$2"'';
-                                };
-                            };
-                        };
-                    }
-                )
-            ];
+            packages.noctalia =
+                (mkNoctalia {
+                    inherit pkgs;
+                    homeDirectory = "/home/boatette";
+                }).wrapped;
         };
 }

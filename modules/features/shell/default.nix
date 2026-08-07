@@ -8,15 +8,15 @@ let
 in
 
 {
-    flake.modules.nixos.workstation =
+    flake.modules.nixos.base =
         { lib, ... }:
         {
             programs.fish.enable = true;
             environment.shellAliases = lib.mkForce { };
         };
 
-    flake.modules.homeManager.workstation =
-        { pkgs, ... }:
+    flake.modules.homeManager.dev =
+        { pkgs, lib, ... }:
         {
             home.shellAliases = import ./_aliases.nix { inherit flakeDir; };
 
@@ -27,9 +27,12 @@ in
 
             programs = {
                 starship.enable = true;
+
                 zoxide = {
                     enable = true;
                     options = [ "--cmd cd" ];
+
+                    enableFishIntegration = false;
                 };
 
                 bash = {
@@ -48,15 +51,21 @@ in
                 fish = {
                     enable = true;
 
-                    interactiveShellInit = ''
-                        set -g fish_greeting ""
-                        set -g fish_key_bindings fish_vi_key_bindings
-                        set -g fish_escape_delay_ms 10
+                    interactiveShellInit = lib.mkMerge [
+                        ''
+                            set -g fish_greeting ""
+                            set -g fish_key_bindings fish_vi_key_bindings
+                            set -g fish_escape_delay_ms 10
 
-                        if test -f $HOME/.fish_profile
-                            source $HOME/.fish_profile
-                        end
-                    '';
+                            if test -f $HOME/.fish_profile
+                                source $HOME/.fish_profile
+                            end
+                        ''
+
+                        (lib.mkAfter ''
+                            ${lib.getExe pkgs.zoxide} init fish --cmd cd | source
+                        '')
+                    ];
 
                     functions = {
                         mkcd = {

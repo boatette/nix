@@ -4,11 +4,20 @@ let
     username = "boatette";
 in
 {
-    flake.nixosConfigurations.redux = inputs.nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs username; };
-        modules = [
-            config.flake.modules.nixos.redux
-            config.flake.modules.nixos.workstation
+    flake.modules.nixos.hostRedux = {
+        imports = with config.flake.modules.nixos; [
+            redux
+
+            base
+            desktop
+            dev
+            gaming
         ];
+
+        _module.args = { inherit username; };
+    };
+
+    flake.nixosConfigurations.redux = inputs.nixpkgs.lib.nixosSystem {
+        modules = [ config.flake.modules.nixos.hostRedux ];
     };
 }

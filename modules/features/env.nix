@@ -1,5 +1,5 @@
 {
-    flake.modules.nixos.workstation.environment.sessionVariables = {
+    flake.modules.nixos.base.environment.sessionVariables = {
         EDITOR = "nvim";
         SUDO_EDITOR = "nvim";
 

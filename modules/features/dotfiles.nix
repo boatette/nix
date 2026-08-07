@@ -1,5 +1,5 @@
 {
-    flake.modules.homeManager.workstation =
+    flake.modules.homeManager.base =
         { config, lib, ... }:
         let
             repo = "${config.home.homeDirectory}/nix/dotfiles";

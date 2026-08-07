@@ -1,5 +1,5 @@
 {
-    flake.modules.homeManager.workstation =
+    flake.modules.homeManager.base =
         {
             pkgs,
             lib,

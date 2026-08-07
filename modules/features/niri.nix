@@ -1,7 +1,7 @@
 { config, inputs, ... }:
 
 {
-    flake.modules.nixos.workstation =
+    flake.modules.nixos.desktop =
         { pkgs, ... }:
         {
             programs.niri = {
@@ -10,7 +10,7 @@
             };
         };
 
-    flake.modules.homeManager.workstation.xdg.configFile."niri/.keep".text = "";
+    flake.modules.homeManager.desktop.xdg.configFile."niri/.keep".text = "";
 
     perSystem =
         { pkgs, ... }:

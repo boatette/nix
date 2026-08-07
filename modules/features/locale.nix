@@ -2,7 +2,7 @@ let
     locale = "en_AU.UTF-8";
 in
 {
-    flake.modules.nixos.workstation =
+    flake.modules.nixos.base =
         { lib, ... }:
         {
             time.timeZone = "Australia/Hobart";

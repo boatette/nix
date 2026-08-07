@@ -1,5 +1,7 @@
+{ inputs, ... }:
+
 {
-    flake.modules.nixos.workstation =
+    flake.modules.nixos.base =
         { pkgs, ... }:
         {
             environment.systemPackages = with pkgs; [
@@ -9,8 +11,8 @@
             ];
         };
 
-    flake.modules.homeManager.workstation =
-        { pkgs, inputs, ... }:
+    flake.modules.homeManager.desktop =
+        { pkgs, ... }:
         let
             inherit (pkgs.stdenv.hostPlatform) system;
         in
@@ -42,6 +44,25 @@
                     gst_all_1.gst-plugins-ugly
                     gst_all_1.gst-libav
 
+                    libreoffice-qt
+                    hunspell
+
+                    qbittorrent
+                ])
+                ++ [
+                    inputs.wayland-select.packages.${system}.default
+                    inputs.zen-browser.packages.${system}.default
+                ];
+        };
+
+    flake.modules.homeManager.dev =
+        { pkgs, ... }:
+        let
+            inherit (pkgs.stdenv.hostPlatform) system;
+        in
+        {
+            home.packages =
+                (with pkgs; [
                     bat
                     btop
                     dust
@@ -65,16 +86,9 @@
                     tree-sitter
 
                     figlet
-
-                    libreoffice-qt
-                    hunspell
-
-                    qbittorrent
                 ])
                 ++ [
                     inputs.claude-code.packages.${system}.default
-                    inputs.wayland-select.packages.${system}.default
-                    inputs.zen-browser.packages.${system}.default
                 ];
         };
 }

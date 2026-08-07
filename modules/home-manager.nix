@@ -1,7 +1,7 @@
-{ config, inputs, ... }:
+{ inputs, ... }:
 
 {
-    flake.modules.nixos.workstation =
+    flake.modules.nixos.base =
         { username, ... }:
         {
             imports = [ inputs.home-manager.nixosModules.home-manager ];
@@ -11,12 +11,10 @@
                 useUserPackages = true;
                 extraSpecialArgs = { inherit inputs username; };
                 backupFileExtension = "bak";
-
-                users.${username} = config.flake.modules.homeManager.workstation;
             };
         };
 
-    flake.modules.homeManager.workstation =
+    flake.modules.homeManager.base =
         { username, ... }:
         {
             home = {
