@@ -171,7 +171,7 @@
     plugin_settings = {
         "avivbintangaringga/nix-monitor" = {
             branch = "nixos-26.05";
-            update_command = "nix flake update --flake ~/newNix";
+            update_command = "nix flake update --flake ~/nix";
         };
         "noctalia/screen_recorder".copy_to_clipboard = true;
         "noctalia/wallhaven".download_dir = "~/Pictures/Wallpapers/Dynamic";

@@ -2,7 +2,7 @@
     flake.modules.homeManager.workstation =
         { config, lib, ... }:
         let
-            repo = "${config.home.homeDirectory}/newNix/dotfiles";
+            repo = "${config.home.homeDirectory}/nix/dotfiles";
 
             link = path: config.lib.file.mkOutOfStoreSymlink "${repo}/${path}";
 
