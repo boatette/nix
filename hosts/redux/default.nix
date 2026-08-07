@@ -14,7 +14,7 @@
     };
 
     fileSystems."/mnt/storage" = {
-        device = "/dev/disk/by-uuid/40124632-4404-4350-8054-440bbdbefd99";
+        device = "/dev/disk/by-uuid/95b03c14-a7be-4645-9573-5434f2024610";
         fsType = "ext4";
         options = [
             "nofail"
