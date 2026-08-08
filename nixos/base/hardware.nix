@@ -1,31 +1,26 @@
 {
-    flake.nixosModules.base =
-        { pkgs, ... }:
-        {
-            hardware = {
-                graphics = {
-                    enable = true;
-                    extraPackages = [ pkgs.intel-media-driver ];
-                };
+    flake.nixosModules.base = {
+        hardware = {
+            graphics.enable = true;
 
-                bluetooth = {
-                    enable = true;
-                    powerOnBoot = true;
-                };
+            bluetooth = {
+                enable = true;
+                powerOnBoot = true;
             };
-
-            services = {
-                pipewire = {
-                    enable = true;
-                    alsa.enable = true;
-                    pulse.enable = true;
-                };
-
-                power-profiles-daemon.enable = true;
-            };
-
-            security.rtkit.enable = true;
-
-            zramSwap.enable = true;
         };
+
+        services = {
+            pipewire = {
+                enable = true;
+                alsa.enable = true;
+                pulse.enable = true;
+            };
+
+            power-profiles-daemon.enable = true;
+        };
+
+        security.rtkit.enable = true;
+
+        zramSwap.enable = true;
+    };
 }

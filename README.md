@@ -96,8 +96,27 @@ Values needed in more than one place are NixOS options, not module arguments:
 
 ```nix
 config.preferences.user.name # declared in nixos/base/preferences.nix
+config.preferences.monitors  # declared in nixos/base/monitors.nix
 self.cursor                  # published from theme.nix
 ```
+
+`preferences.monitors` describes displays as plain data. niri turns it into output blocks and workspace placement, noctalia into lockscreen placement, so a host never has to know either config format:
+
+```nix
+preferences.monitors = {
+    "eDP-1" = {
+        mode = "1920x1080@144";
+        primary = true;
+    };
+
+    "HDMI-A-1" = {
+        mode = "1920x1080@75.000";
+        position.x = -1920;
+    };
+};
+```
+
+Exactly one output should set `primary` because named workspaces open there and the lockscreen is drawn there. Leaving `monitors` empty lets niri autodetect, which is what the portable `nix run .#niri` package does.
 
 ## Adding things
 
@@ -116,6 +135,28 @@ then add `self.nixosModules.[name]` to a host's `imports`. To extend something t
 A home-manager feature: create `home/[name].nix` writing to `flake.homeModules.{base,desktop,dev}`. Nothing else to wire.
 
 A host: create `nixos/hosts/[host]/configuration.nix` defining `flake.nixosModules.host[Host]` and `flake.nixosConfigurations.[host]`.
+
+### Adding a machine
+
+1. On the new machine, get its hardware config:
+
+   ```bash
+   sudo nixos-generate-config --no-filesystems --show-hardware-config
+   ```
+
+2. Save it as `nixos/hosts/[host]/hardware-configuration.nix` wrapping it in `flake.nixosModules.[host]Hardware`, the same shape as `reduxHardware`.
+
+3. Write `nixos/hosts/[host]/configuration.nix` with the modules it wants, its `networking.hostName`, its `preferences.monitors`, and any vendor-specific bits (graphics drivers, bootloader).
+
+4. `git add` the new files.
+
+5. Rebuild the system safely:
+
+   ```bash
+   sudo nixos-rebuild boot --flake ~/nix#[host]
+   ```
+
+Keep `networking.hostName` and the `nixosConfigurations` attribute name the same. `nixos-rebuild` resolves `nixosConfigurations.$(hostname)` when no `#name` is given.
 
 ## Runnable packages
 

@@ -24,10 +24,10 @@
 
     cn = "cd ${flakeDir}";
 
-    nrs = "sudo nixos-rebuild switch --flake ${flakeDir}#redux";
-    nrb = "sudo nixos-rebuild boot --flake ${flakeDir}#redux";
-    nrt = "sudo nixos-rebuild test --flake ${flakeDir}#redux";
-    nrd = "nixos-rebuild dry-build --flake ${flakeDir}#redux";
+    nrs = "sudo nixos-rebuild switch --flake ${flakeDir}";
+    nrb = "sudo nixos-rebuild boot --flake ${flakeDir}";
+    nrt = "sudo nixos-rebuild test --flake ${flakeDir}";
+    nrd = "nixos-rebuild dry-build --flake ${flakeDir}";
 
     ngl = "nixos-rebuild list-generations";
     ngc = "sudo nix-collect-garbage --delete-older-than 7d";

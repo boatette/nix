@@ -12,7 +12,10 @@
             home-manager = {
                 useGlobalPkgs = true;
                 useUserPackages = true;
-                extraSpecialArgs = { inherit inputs username; };
+                extraSpecialArgs = {
+                    inherit inputs username;
+                    inherit (config.preferences) monitors;
+                };
                 backupFileExtension = "bak";
 
                 users.${username}.imports = [

@@ -2,6 +2,7 @@
     homeDirectory,
     templates,
     footLiveTheme,
+    primaryMonitor,
 }:
 
 {
@@ -126,12 +127,12 @@
 
     location.auto_locate = true;
 
-    lockscreen.monitors = [ "eDP-1" ];
+    lockscreen.monitors = [ primaryMonitor ];
 
     lockscreen_widgets = {
         enabled = true;
         schema_version = 2;
-        widget_order = [ "lockscreen-login-box@eDP-1" ];
+        widget_order = [ "lockscreen-login-box@${primaryMonitor}" ];
 
         grid = {
             cell_size = 16;
@@ -139,12 +140,12 @@
             visible = true;
         };
 
-        widget."lockscreen-login-box@eDP-1" = {
+        widget."lockscreen-login-box@${primaryMonitor}" = {
             box_height = 70.0;
             box_width = 400.0;
             cx = 960.0;
             cy = 898.0;
-            output = "eDP-1";
+            output = primaryMonitor;
             rotation = 0.0;
             type = "login_box";
 

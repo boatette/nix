@@ -5,6 +5,7 @@ let
         {
             pkgs,
             homeDirectory,
+            primaryMonitor ? "eDP-1",
         }:
         let
             inherit (pkgs) lib;
@@ -24,7 +25,7 @@ let
             '';
 
             settings = import ./_config.nix {
-                inherit footLiveTheme homeDirectory;
+                inherit footLiveTheme homeDirectory primaryMonitor;
                 templates = ./templates;
             };
         in
@@ -55,11 +56,20 @@ let
 in
 {
     flake.homeModules.desktop =
-        { pkgs, config, ... }:
+        {
+            pkgs,
+            config,
+            lib,
+            monitors,
+            ...
+        }:
         let
             noctalia = mkNoctalia {
                 inherit pkgs;
                 inherit (config.home) homeDirectory;
+                primaryMonitor = lib.findFirst (name: monitors.${name}.primary) "eDP-1" (
+                    lib.attrNames monitors
+                );
             };
         in
         {
