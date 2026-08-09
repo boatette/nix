@@ -48,7 +48,7 @@ in
     "Mod+N".spawn-sh = "noctalia msg panel-toggle control-center";
     "Mod+Comma".spawn-sh = "noctalia msg settings-toggle";
     "Alt+Tab".spawn-sh = "noctalia msg window-switcher";
-    "Ctrl+Shift+Esc".spawn-sh = "noctalia msg panel-toggle control-center system";
+    "Ctrl+Shift+Escape".spawn-sh = "noctalia msg panel-toggle control-center system";
 
     "Mod+G" = act "toggle-overview";
 

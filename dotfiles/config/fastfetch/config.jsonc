@@ -1,69 +1,43 @@
 {
   "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
-  "logo": {
-    // "source": "~/.config/fastfetch/aperture.txt",
-    "source": "~/.config/fastfetch/aperture-inverted.txt",
-    "padding": {
-      "top": 0,
-      "left": 0,
-      "right": 0,
-    },
-  },
+  "logo": null,
   "display": {
-    "separator": ">  ",
-    "color": {
-      "separator": "red",
-    },
-    "constants": [
-      "───────────────────────────────",
-      "│\u001b[31C│\u001b[31D",
-      //       ^          ^
-      // These numbers must be the length of the 1st constant
-    ],
+    "separator": " ›  ",
   },
   "modules": [
+    "break",
     {
-      "format": "{#1}{#keys}┌{$1}┐\u001b[32D {user-name-colored}{at-symbol-colored}{host-name-colored} ",
-      //                                 ^
-      // And this one needs to be the length of the 1st constant + 1
-      "type": "title",
-    },
-    {
-      "key": "{$2}{#31} kernel   ",
-      "type": "kernel",
-    },
-    {
-      "key": "{$2}{#32}󰅐 os age   ",
-      "type": "disk",
-      "folders": "/",
-      "format": "{days} days",
-    },
-    {
-      "key": "{$2}{#33} distro   ",
       "type": "os",
-      "format": "{4}",
+      "key": "OS  ",
+      "keyColor": "31",
     },
     {
-      "key": "{$2}{#34}󰇄 desktop  ",
-      "type": "wm",
-      "format": "{1}",
+      "type": "kernel",
+      "key": "KER ",
+      "keyColor": "32",
     },
     {
-      "key": "{$2}{#36} shell    ",
+      "type": "disk",
+      "key": "AGE ",
+      "keyColor": "33",
+      "folders": "/",
+      "format": "{create-time:10} ({days} days)",
+    },
+    {
       "type": "shell",
+      "key": "SH  ",
+      "keyColor": "34",
     },
     {
-      "format": "{#1}{#keys}├{$1}┤",
-      "type": "custom",
+      "type": "terminal",
+      "key": "TER ",
+      "keyColor": "35",
     },
     {
-      "key": "{$2}{#39} colors   ",
-      "type": "colors",
-      "symbol": "circle",
+      "type": "wm",
+      "key": "WM  ",
+      "keyColor": "36",
     },
-    {
-      "format": "{#1}{#keys}└{$1}┘",
-      "type": "custom",
-    },
+    "break",
   ],
 }
