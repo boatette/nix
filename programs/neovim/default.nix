@@ -1,6 +1,11 @@
 { inputs, ... }:
 
 {
+    flake.nixosModules.base.environment.sessionVariables = {
+        EDITOR = "nvim";
+        SUDO_EDITOR = "nvim";
+    };
+
     flake.homeModules.dev =
         { ... }:
         let

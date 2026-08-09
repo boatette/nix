@@ -67,9 +67,7 @@ in
             noctalia = mkNoctalia {
                 inherit pkgs;
                 inherit (config.home) homeDirectory;
-                primaryMonitor = lib.findFirst (name: monitors.${name}.primary) "eDP-1" (
-                    lib.attrNames monitors
-                );
+                primaryMonitor = lib.findFirst (name: monitors.${name}.primary) "eDP-1" (lib.attrNames monitors);
             };
         in
         {

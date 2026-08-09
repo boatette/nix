@@ -2,32 +2,13 @@
 
 {
     flake.nixosModules.desktop =
-        {
-            config,
-            pkgs,
-            lib,
-            ...
-        }:
+        { config, pkgs, ... }:
         {
             imports = [ inputs.noctalia-greeter.nixosModules.default ];
 
             home-manager.users.${config.preferences.user.name}.imports = [
                 self.homeModules.desktop
             ];
-
-            environment.sessionVariables.GST_PLUGIN_SYSTEM_PATH_1_0 =
-                lib.makeSearchPathOutput "lib" "lib/gstreamer-1.0"
-                    (
-                        with pkgs.gst_all_1;
-                        [
-                            gstreamer
-                            gst-plugins-base
-                            gst-plugins-good
-                            gst-plugins-bad
-                            gst-plugins-ugly
-                            gst-libav
-                        ]
-                    );
 
             programs = {
                 appimage = {
@@ -52,7 +33,7 @@
 
                         cursor = {
                             inherit (self.cursor) name size;
-                            path = "${pkgs.capitaine-cursors}/share/icons";
+                            path = "${pkgs.${self.cursor.package}}/share/icons";
                         };
 
                         keyboard.layout = "us";

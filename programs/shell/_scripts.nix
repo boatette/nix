@@ -64,16 +64,6 @@ in
     })
 
     (writeShellApplication {
-        name = "zellij-clear-all-sessions";
-        meta.description = "kill and delete every zellij session";
-        runtimeInputs = [ pkgs.zellij ];
-        text = ''
-            zellij kill-all-sessions
-            zellij delete-all-sessions
-        '';
-    })
-
-    (writeShellApplication {
         name = "nsh";
         meta.description = "open a shell with packages from nixpkgs";
         text = ''

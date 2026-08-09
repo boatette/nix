@@ -38,23 +38,36 @@ Every `.nix` file in the tree is imported automatically, there are no `imports` 
 ```
 flake.nix        inputs + the import walker
 parts.nix        flake-parts plumbing; declares flake.homeModules
-theme.nix        shared appearance facts (flake.cursor)
+theme.nix        appearance facts needed outside a NixOS eval (flake.cursor)
 
-nixos/
+nixos/           system facts that are not a program
   base/          everything every machine gets
-  features/      opt-in system features
+  features/      opt-in per host: desktop, fonts, gaming, virtualbox
   hosts/redux/   this machine
 
-home/            home-manager modules
-wrappedPrograms/ programs configured in Nix, also exported as packages
+home/            user facts that are not a program
+                 appearance, backup, dotfile linking
+
+programs/        one file (or dir) per program, writing to whatever
+                 module classes that program needs
+
 dotfiles/        plain config files, symlinked into $HOME
 ```
+
+### Where does a new thing go?
+
+The rule is about what a thing owns, not which module system consumes it:
+
+- Owns more than a package (e.g. config, a service, an env var, a script, a system half)? `programs/[name].nix`, or `programs/[name]/` if it needs data files.
+- Only a package? Append to `programs/apps.nix` (graphical) or `programs/cli.nix` (terminal).
+- Not a program at all? `nixos/base/`.
+- A namespace where you want to see every entry at once? Keep it as one `_`-prefixed data file.
 
 `_`-prefixed files are data instead of modules. `_aliases.nix`, `_binds.nix`, `_rules.nix`, `_config.nix`, `_defs.nix` etc. are skipped by the walker and imported explicitly by whoever needs them. If you add a file that is a plain list or attrset rather than a module, prefix it with `_` or evaluation will fail.
 
 ### Modules merge by name
 
-`flake.nixosModules.[name]` and `flake.homeModules.[name]` are `lazyAttrsOf deferredModule`, so many files can contribute to the same module. `desktop` is assembled from `nixos/features/desktop.nix`, `fonts.nix`, `wrappedPrograms/niri/`, `wrappedPrograms/noctalia/`, `home/theme.nix` and more — none of them import each other.
+`flake.nixosModules.[name]` and `flake.homeModules.[name]` are `lazyAttrsOf deferredModule`, so many files can contribute to the same module. `desktop` is assembled from `nixos/features/desktop.nix`, `fonts.nix`, `programs/niri/`, `programs/noctalia/`, `programs/media.nix`, `home/appearance.nix` and more — none of them import each other.
 
 Current modules:
 
@@ -132,7 +145,7 @@ A system feature: create `nixos/features/[name].nix`:
 
 then add `self.nixosModules.[name]` to a host's `imports`. To extend something that already exists, just write to its name from a new file.
 
-A home-manager feature: create `home/[name].nix` writing to `flake.homeModules.{base,desktop,dev}`. Nothing else to wire.
+A program: create `programs/[name].nix` writing to `flake.homeModules.{base,desktop,dev}`, and to `flake.nixosModules.*` too if it has a system half. Nothing else to wire.
 
 A host: create `nixos/hosts/[host]/configuration.nix` defining `flake.nixosModules.host[Host]` and `flake.nixosConfigurations.[host]`.
 
@@ -178,4 +191,4 @@ steam -cef-disable-gpu-compositing
 
 If it still misbehaves, remove `~/.steam` and/or `~/.local/share/Steam/`. After it launches, close it and launch normally so Millennium loads.
 
-`perSystem` `pkgs` is plain nixpkgs so it does not inherit the `allowUnfree` and overlays set in `nixos/base/nix.nix`. Anything unfree built there needs its own config; see `extra_pkg_config` in `wrappedPrograms/neovim/`.
+`perSystem` `pkgs` is plain nixpkgs so it does not inherit the `allowUnfree` and overlays set in `nixos/base/nix.nix`. Anything unfree built there needs its own config; see `extra_pkg_config` in `programs/neovim/`.

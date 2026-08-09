@@ -195,13 +195,21 @@ in
             };
         };
 
-    flake.homeModules.desktop.xdg.configFile."niri/.keep".text = "";
+    flake.homeModules.desktop =
+        { pkgs, ... }:
+        {
+            xdg.configFile."niri/.keep".text = "";
+
+            home.packages = with pkgs; [
+                xwayland-satellite
+                wl-clipboard
+                libnotify
+            ];
+        };
 
     perSystem =
         { pkgs, ... }:
         {
-            # No monitors: niri autodetects displays, which is what a machine that
-            # has never seen this config actually wants.
             packages.niri = mkNiri { inherit pkgs; };
         };
 }
