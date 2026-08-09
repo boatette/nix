@@ -198,21 +198,6 @@
         "type": "github"
       }
     },
-    "nixCats": {
-      "locked": {
-        "lastModified": 1777273601,
-        "narHash": "sha256-xBUa8Tl9V7IXI+VmLEuDc81La/EhoSn1C3EVSnJ3cfU=",
-        "owner": "BirdeeHub",
-        "repo": "nixCats-nvim",
-        "rev": "f69ea013e328841a7def7037ed59788a76be8816",
-        "type": "github"
-      },
-      "original": {
-        "owner": "BirdeeHub",
-        "repo": "nixCats-nvim",
-        "type": "github"
-      }
-    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1786089803,
@@ -338,7 +323,7 @@
         "type": "github"
       }
     },
-    "plugins-github-monochrome.nvim": {
+    "plugins-github-monochrome-nvim": {
       "flake": false,
       "locked": {
         "lastModified": 1769334297,
@@ -361,13 +346,12 @@
         "home-manager": "home-manager",
         "millennium": "millennium",
         "neovim-nightly-overlay": "neovim-nightly-overlay",
-        "nixCats": "nixCats",
         "nixpkgs": "nixpkgs",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "noctalia": "noctalia",
         "noctalia-greeter": "noctalia-greeter",
         "plugins-everforest-nvim": "plugins-everforest-nvim",
-        "plugins-github-monochrome.nvim": "plugins-github-monochrome.nvim",
+        "plugins-github-monochrome-nvim": "plugins-github-monochrome-nvim",
         "wayland-select": "wayland-select",
         "wrapper-modules": "wrapper-modules",
         "zen-browser": "zen-browser"

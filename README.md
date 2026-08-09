@@ -1,14 +1,14 @@
 # nix#redux
 
-NixOS configuration for niri + noctalia , built on [flake-parts](https://flake.parts), following the dendritic pattern.
+NixOS configuration for niri + noctalia.
 
-|             |                                                                 |
-| ----------- | --------------------------------------------------------------- |
-| Compositor  | [niri](https://github.com/niri-wm/niri)                         |
-| Shell / bar | [noctalia](https://noctalia.dev) v5                             |
-| Terminal    | foot + zellij                                                   |
-| Editor      | Neovim via [nixCats](https://github.com/BirdeeHub/nixCats-nvim) |
-| User env    | home-manager, as a NixOS module                                 |
+|             |                                                                                    |
+| ----------- | ---------------------------------------------------------------------------------- |
+| Compositor  | [niri](https://github.com/niri-wm/niri)                                            |
+| Shell / bar | [noctalia](https://noctalia.dev) v5                                                |
+| Terminal    | foot + zellij                                                                      |
+| Editor      | Neovim via [nix-wrapper-modules](https://github.com/BirdeeHub/nix-wrapper-modules) |
+| User env    | home-manager, as a NixOS module                                                    |
 
 ## Usage
 
@@ -59,7 +59,7 @@ The rule is about what a thing owns, not which module system consumes it:
 - Not a program at all? `nixos/base/`.
 - A namespace where you want to see every entry at once? Keep it as one `_`-prefixed data file.
 
-`_`-prefixed files are data instead of modules. `_aliases.nix`, `_binds.nix`, `_rules.nix`, `_config.nix`, `_defs.nix` etc. are skipped by the walker and imported explicitly by whoever needs them. If you add a file that is a plain list or attrset rather than a module, prefix it with `_` or evaluation will fail.
+`_`-prefixed files are data instead of modules. `_aliases.nix`, `_binds.nix`, `_rules.nix`, `_config.nix`, `_module.nix` etc. are skipped by the walker and imported explicitly by whoever needs them. If you add a file that is a plain list or attrset rather than a module, prefix it with `_` or evaluation will fail.
 
 ### Modules merge by name
 
@@ -187,4 +187,4 @@ steam -cef-disable-gpu-compositing
 
 If it still misbehaves, remove `~/.steam` and/or `~/.local/share/Steam/`. After it launches, close it and launch normally so Millennium loads.
 
-`perSystem` `pkgs` is plain nixpkgs so it does not inherit the `allowUnfree` and overlays set in `nixos/base/nix.nix`. Anything unfree built there needs its own config; see `extra_pkg_config` in `programs/neovim/`.
+`perSystem` `pkgs` is plain nixpkgs so it does not inherit the `allowUnfree` and overlays set in `nixos/base/nix.nix`. Anything unfree built there needs its own config; `programs/neovim/` sidesteps this by importing its own `nixpkgs-unstable` with `config.allowUnfree`, so the editor builds the same way from a host or from `nix run`.

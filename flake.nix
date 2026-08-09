@@ -23,12 +23,11 @@
             url = "github:nix-community/neovim-nightly-overlay";
             inputs.nixpkgs.follows = "nixpkgs";
         };
-        nixCats.url = "github:BirdeeHub/nixCats-nvim";
-        "plugins-everforest-nvim" = {
+        plugins-everforest-nvim = {
             url = "github:neanias/everforest-nvim";
             flake = false;
         };
-        "plugins-github-monochrome.nvim" = {
+        plugins-github-monochrome-nvim = {
             url = "github:idr4n/github-monochrome.nvim";
             flake = false;
         };

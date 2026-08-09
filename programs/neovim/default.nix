@@ -1,5 +1,21 @@
 { inputs, ... }:
 
+let
+    mkNvim =
+        {
+            system,
+            configDirectory,
+        }:
+        inputs.wrapper-modules.wrappers.neovim.wrap [
+            {
+                pkgs = import inputs.nixpkgs-unstable {
+                    inherit system;
+                    config.allowUnfree = true;
+                };
+            }
+            (import ./_module.nix { inherit inputs configDirectory; })
+        ];
+in
 {
     flake.nixosModules.base.environment.sessionVariables = {
         EDITOR = "nvim";
@@ -7,46 +23,24 @@
     };
 
     flake.homeModules.dev =
-        { config, ... }:
-        let
-            defs = import ./_defs.nix { inherit inputs; };
-        in
+        { config, pkgs, ... }:
         {
-            imports = [ inputs.nixCats.homeModule ];
+            xdg.configFile."nvim/.keep".text = "";
 
-            # wrapRc = false, so nvim reads this live; noctalia writes noctalia.lua into it
-            xdg.configFile.nvim.source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/programs/neovim/config";
-
-            nixCats = {
-                enable = true;
-
-                nixpkgs_version = inputs.nixpkgs-unstable;
-                addOverlays = [ (inputs.nixCats.utils.sanitizedPluginOverlay inputs) ];
-
-                packageNames = [ "nvim" ];
-
-                inherit (defs) luaPath;
-
-                categoryDefinitions.replace = defs.categoryDefinitions;
-                packageDefinitions.replace = defs.packageDefinitions;
-            };
+            home.packages = [
+                (mkNvim {
+                    inherit (pkgs.stdenv.hostPlatform) system;
+                    configDirectory = "${config.home.homeDirectory}/nix/programs/neovim/config";
+                })
+            ];
         };
 
     perSystem =
         { system, ... }:
-        let
-            # wrapRc = true so the lua config travels with the derivation
-            defs = import ./_defs.nix {
-                inherit inputs;
-                wrapRc = true;
-            };
-        in
         {
-            packages.nvim = inputs.nixCats.utils.baseBuilder defs.luaPath {
+            packages.nvim = mkNvim {
                 inherit system;
-                nixpkgs = inputs.nixpkgs-unstable;
-                dependencyOverlays = [ (inputs.nixCats.utils.sanitizedPluginOverlay inputs) ];
-                extra_pkg_config.allowUnfree = true;
-            } defs.categoryDefinitions defs.packageDefinitions "nvim";
+                configDirectory = ./config;
+            };
         };
 }
