@@ -44,16 +44,14 @@ in
             ruby.nvim-host.enable = false;
         };
 
-        specMods =
-            { ... }:
-            {
-                options.runtimePkgs = options.runtimePkgs // {
-                    description = ''
-                        Packages this spec puts on nvim's PATH.
-                        Dropped from the derivation when the spec is disabled.
-                    '';
-                };
+        specMods = {
+            options.runtimePkgs = options.runtimePkgs // {
+                description = ''
+                    Packages this spec puts on nvim's PATH.
+                    Dropped from the derivation when the spec is disabled.
+                '';
             };
+        };
 
         runtimePkgs = config.specCollect (acc: spec: acc ++ (spec.runtimePkgs or [ ])) [ ];
 
