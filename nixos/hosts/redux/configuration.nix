@@ -8,7 +8,7 @@
     };
 
     flake.nixosModules.hostRedux =
-        { pkgs, ... }:
+        { config, pkgs, ... }:
         {
             imports = [
                 self.nixosModules.base
@@ -24,6 +24,29 @@
 
             boot.initrd.kernelModules = [ "i915" ];
             hardware.graphics.extraPackages = [ pkgs.intel-media-driver ];
+
+            services.xserver.videoDrivers = [ "nvidia" ];
+
+            hardware.nvidia = {
+                open = true;
+                modesetting.enable = true;
+                package = config.boot.kernelPackages.nvidiaPackages.stable;
+
+                powerManagement = {
+                    enable = true;
+                    finegrained = true;
+                };
+
+                prime = {
+                    offload = {
+                        enable = true;
+                        enableOffloadCmd = true;
+                    };
+
+                    intelBusId = "PCI:0:2:0";
+                    nvidiaBusId = "PCI:1:0:0";
+                };
+            };
 
             preferences.monitors = {
                 "eDP-1" = {
