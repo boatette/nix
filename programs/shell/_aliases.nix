@@ -38,7 +38,6 @@
     nrepl = "nix repl ${flakeDir}";
     nt = "nix-tree";
     nw = "nix why-depends";
-    larp = "figlet nixoslarp; ff";
 
     please = "sudo";
     jctl = "journalctl -p 3 -xb";
