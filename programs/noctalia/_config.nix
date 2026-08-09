@@ -298,6 +298,7 @@
             "steam"
             "yazi"
             "bat"
+            "zellij"
         ];
 
         user = {
