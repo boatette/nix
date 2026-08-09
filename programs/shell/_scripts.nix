@@ -130,4 +130,28 @@ in
             find "$@" -not -user "$(whoami)"
         '';
     })
+
+    # these two keep their own set -uo pipefail; errexit would break the arithmetic counters in prune-small
+    (writeShellApplication {
+        name = "open-zellij";
+        meta.description = "pick a directory with fzf, then attach or start a zellij session there";
+        runtimeInputs = with pkgs; [
+            zellij
+            zoxide
+            fzf
+        ];
+        bashOptions = [ ];
+        text = builtins.readFile ./scripts/open-zellij;
+    })
+
+    (writeShellApplication {
+        name = "prune-small";
+        meta.description = "list or delete wallpapers below a minimum resolution";
+        runtimeInputs = with pkgs; [
+            imagemagick
+            findutils
+        ];
+        bashOptions = [ ];
+        text = builtins.readFile ./scripts/prune-small;
+    })
 ]

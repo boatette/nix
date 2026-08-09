@@ -17,7 +17,8 @@ usage() {
 		  --any-orientation   keep portrait images that meet the threshold when
 		                      rotated (e.g. 1080x1920 counts as big enough)
 
-		With no dirs given, scans Dark/ Dynamic/ Light/ under the script's directory.
+		With no dirs given, scans Dark/ Dynamic/ Light/ under
+		\$WALLPAPER_DIR (default: \$HOME/Pictures/Wallpapers).
 	EOF
 }
 
@@ -49,7 +50,7 @@ while (($#)); do
 done
 
 if ((${#DIRS[@]} == 0)); then
-    cd "$(dirname "$(readlink -f "$0")")" || exit 1
+    cd "${WALLPAPER_DIR:-$HOME/Pictures/Wallpapers}" || exit 1
     DIRS=(Dark Dynamic Light)
 fi
 

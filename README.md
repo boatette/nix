@@ -45,13 +45,9 @@ nixos/           system facts that are not a program
   features/      opt-in per host: desktop, fonts, gaming, virtualbox
   hosts/redux/   this machine
 
-home/            user facts that are not a program
-                 appearance, backup, dotfile linking
+home/            user facts that are not a program appearance, backup
 
-programs/        one file (or dir) per program, writing to whatever
-                 module classes that program needs
-
-dotfiles/        plain config files, symlinked into $HOME
+programs/        one file (or dir) per program, writing to whatever module classes that program needs
 ```
 
 ### Where does a new thing go?

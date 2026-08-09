@@ -7,12 +7,15 @@
     };
 
     flake.homeModules.dev =
-        { ... }:
+        { config, ... }:
         let
             defs = import ./_defs.nix { inherit inputs; };
         in
         {
             imports = [ inputs.nixCats.homeModule ];
+
+            # wrapRc = false, so nvim reads this live; noctalia writes noctalia.lua into it
+            xdg.configFile.nvim.source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix/programs/neovim/config";
 
             nixCats = {
                 enable = true;

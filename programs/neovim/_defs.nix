@@ -6,7 +6,7 @@
 }:
 
 {
-    luaPath = ../../dotfiles/config/nvim;
+    luaPath = ./config;
 
     categoryDefinitions = args: {
         lspsAndRuntimeDeps.general = import ./_tools.nix args;
