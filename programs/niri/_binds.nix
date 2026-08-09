@@ -48,6 +48,7 @@ in
     "Mod+Comma".spawn-sh = "noctalia msg settings-toggle";
 
     "Alt+Tab".spawn-sh = "noctalia msg window-switcher";
+    "Ctrl+Shift+Esc".spawn-sh = "noctalia msg panel-toggle control-center system";
 }
 // workspaceBinds
 // keys [ "Mod+H" "Mod+Left" ] (act "focus-column-left")
