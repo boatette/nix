@@ -21,7 +21,6 @@
                 ])
                 ++ [
                     inputs.zen-browser.packages.${system}.default
-                    inputs.wayland-select.packages.${system}.default
                 ];
         };
 }
