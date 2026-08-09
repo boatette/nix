@@ -40,15 +40,74 @@ in
     "Mod+T".spawn-sh = "foot";
     "Mod+W".spawn-sh = "zen-beta";
     "Mod+E".spawn-sh = "nautilus";
+
     "Mod+D".spawn-sh = "noctalia msg panel-toggle launcher";
     "Mod+X".spawn-sh = "noctalia msg panel-toggle session";
     "Mod+Y".spawn-sh = "noctalia msg panel-toggle wallpaper";
     "Mod+Alt+Y".spawn-sh = "noctalia msg panel-toggle noctalia/wallhaven:browser";
     "Mod+N".spawn-sh = "noctalia msg panel-toggle control-center";
     "Mod+Comma".spawn-sh = "noctalia msg settings-toggle";
-
     "Alt+Tab".spawn-sh = "noctalia msg window-switcher";
     "Ctrl+Shift+Esc".spawn-sh = "noctalia msg panel-toggle control-center system";
+
+    "Mod+G" = act "toggle-overview";
+
+    "Mod+Q" = act "close-window";
+    "Mod+Shift+Q" = killFocused;
+    "Alt+F4" = killFocused;
+
+    "Mod+C" = act "center-column";
+    "Mod+Ctrl+C" = act "center-visible-columns";
+    "Mod+V" = act "toggle-window-floating";
+    "Mod+Shift+V" = act "switch-focus-between-floating-and-tiling";
+
+    "Mod+F" = act "maximize-column";
+    "Mod+Shift+F" = act "fullscreen-window";
+    "Mod+Ctrl+F" = act "expand-column-to-available-width";
+    "Mod+R" = act "switch-preset-column-width";
+    "Mod+Shift+R" = act "switch-preset-window-height";
+    "Mod+Ctrl+R" = act "reset-window-height";
+    "Mod+A" = act "toggle-column-tabbed-display";
+
+    "Print" = act "screenshot";
+    "Mod+Shift+S" = act "screenshot";
+
+    "XF86AudioRaiseVolume" = lockedSpawn "noctalia msg volume-up";
+    "XF86AudioLowerVolume" = lockedSpawn "noctalia msg volume-down";
+    "XF86AudioMute" = lockedSpawn "noctalia msg volume-mute";
+    "XF86AudioMicMute" = lockedSpawn "noctalia msg mic-mute";
+
+    "XF86MonBrightnessUp" = lockedSpawn "noctalia msg brightness-up";
+    "XF86MonBrightnessDown" = lockedSpawn "noctalia msg brightness-down";
+    "Alt+XF86MonBrightnessUp" = lockedSpawn "noctalia msg brightness-up 1";
+    "Alt+XF86MonBrightnessDown" = lockedSpawn "noctalia msg brightness-down 1";
+
+    "Mod+BracketLeft" = act "consume-or-expel-window-left";
+    "Mod+BracketRight" = act "consume-or-expel-window-right";
+    "Mod+Period" = act "expel-window-from-column";
+
+    "Mod+Ctrl+WheelScrollDown".set-window-height = "-5%";
+    "Mod+Ctrl+WheelScrollUp".set-window-height = "+5%";
+
+    "Mod+Minus".set-column-width = "-10%";
+    "Mod+Equal".set-column-width = "+10%";
+    "Mod+Shift+Minus".set-window-height = "-10%";
+    "Mod+Shift+Equal".set-window-height = "+10%";
+
+    "Mod+Home" = act "focus-column-first";
+    "Mod+End" = act "focus-column-last";
+    "Mod+Shift+Home" = act "move-column-to-first";
+    "Mod+Shift+End" = act "move-column-to-last";
+
+    "Mod+WheelScrollDown" = scrollBind "focus-workspace-down";
+    "Mod+WheelScrollUp" = scrollBind "focus-workspace-up";
+    "Mod+Shift+WheelScrollDown" = scrollBind "move-column-to-workspace-down";
+    "Mod+Shift+WheelScrollUp" = scrollBind "move-column-to-workspace-up";
+
+    "Mod+WheelScrollRight" = act "focus-column-right";
+    "Mod+WheelScrollLeft" = act "focus-column-left";
+    "Mod+Ctrl+WheelScrollRight" = act "move-column-right";
+    "Mod+Ctrl+WheelScrollLeft" = act "move-column-left";
 }
 // workspaceBinds
 // keys [ "Mod+H" "Mod+Left" ] (act "focus-column-left")
@@ -70,64 +129,3 @@ in
 // keys [ "Mod+Shift+Ctrl+J" "Mod+Shift+Ctrl+Down" ] (act "move-column-to-monitor-down")
 // keys [ "Mod+Shift+Ctrl+K" "Mod+Shift+Ctrl+Up" ] (act "move-column-to-monitor-up")
 // keys [ "Mod+Shift+Ctrl+L" "Mod+Shift+Ctrl+Right" ] (act "move-column-to-monitor-right")
-
-// {
-    "Mod+Home" = act "focus-column-first";
-    "Mod+End" = act "focus-column-last";
-    "Mod+Shift+Home" = act "move-column-to-first";
-    "Mod+Shift+End" = act "move-column-to-last";
-
-    "Mod+WheelScrollDown" = scrollBind "focus-workspace-down";
-    "Mod+WheelScrollUp" = scrollBind "focus-workspace-up";
-    "Mod+Shift+WheelScrollDown" = scrollBind "move-column-to-workspace-down";
-    "Mod+Shift+WheelScrollUp" = scrollBind "move-column-to-workspace-up";
-
-    "Mod+WheelScrollRight" = act "focus-column-right";
-    "Mod+WheelScrollLeft" = act "focus-column-left";
-    "Mod+Ctrl+WheelScrollRight" = act "move-column-right";
-    "Mod+Ctrl+WheelScrollLeft" = act "move-column-left";
-
-    "Mod+BracketLeft" = act "consume-or-expel-window-left";
-    "Mod+BracketRight" = act "consume-or-expel-window-right";
-    "Mod+Period" = act "expel-window-from-column";
-
-    "Mod+C" = act "center-column";
-    "Mod+Ctrl+C" = act "center-visible-columns";
-    "Mod+V" = act "toggle-window-floating";
-    "Mod+Shift+V" = act "switch-focus-between-floating-and-tiling";
-    "Mod+R" = act "switch-preset-column-width";
-    "Mod+Shift+R" = act "switch-preset-window-height";
-    "Mod+Ctrl+R" = act "reset-window-height";
-
-    "Mod+G" = act "toggle-overview";
-
-    "Mod+F" = act "maximize-column";
-    "Mod+Shift+F" = act "fullscreen-window";
-    "Mod+Ctrl+F" = act "expand-column-to-available-width";
-    "Mod+A" = act "toggle-column-tabbed-display";
-    "Mod+Q" = act "close-window";
-
-    "Mod+Shift+Q" = killFocused;
-    "Alt+F4" = killFocused;
-
-    "Mod+Ctrl+WheelScrollDown".set-window-height = "-5%";
-    "Mod+Ctrl+WheelScrollUp".set-window-height = "+5%";
-
-    "Mod+Minus".set-column-width = "-10%";
-    "Mod+Equal".set-column-width = "+10%";
-    "Mod+Shift+Minus".set-window-height = "-10%";
-    "Mod+Shift+Equal".set-window-height = "+10%";
-
-    "Print" = act "screenshot";
-    "Mod+Shift+S" = act "screenshot";
-
-    "XF86AudioRaiseVolume" = lockedSpawn "noctalia msg volume-up";
-    "XF86AudioLowerVolume" = lockedSpawn "noctalia msg volume-down";
-    "XF86AudioMute" = lockedSpawn "noctalia msg volume-mute";
-    "XF86AudioMicMute" = lockedSpawn "noctalia msg mic-mute";
-
-    "XF86MonBrightnessUp" = lockedSpawn "noctalia msg brightness-up";
-    "XF86MonBrightnessDown" = lockedSpawn "noctalia msg brightness-down";
-    "Alt+XF86MonBrightnessUp" = lockedSpawn "noctalia msg brightness-up 1";
-    "Alt+XF86MonBrightnessDown" = lockedSpawn "noctalia msg brightness-down 1";
-}
