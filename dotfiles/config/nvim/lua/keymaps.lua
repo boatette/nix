@@ -1,6 +1,6 @@
 local map = vim.keymap.set
 
-local FLAKE = "~/nix#redux"
+local FLAKE = "~/nix"
 
 local function rebuild(mode, sudo)
     return function()
