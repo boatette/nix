@@ -170,6 +170,11 @@
             associations = lib.concatMapAttrs (desktop: types: lib.genAttrs types (_: desktop)) handlers;
         in
         {
+            home.packages = with pkgs; [
+                file-roller
+                p7zip
+            ];
+
             xdg = {
                 mimeApps = {
                     enable = true;
