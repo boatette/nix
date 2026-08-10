@@ -347,7 +347,6 @@
             show_text = false;
             type = "avivbintangaringga/nix-monitor:nix-monitor";
         };
-        recorder.type = "noctalia/screen_recorder:recorder";
         tray.drawer = true;
         volume.show_label = false;
         workspaces = {
