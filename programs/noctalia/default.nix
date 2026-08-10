@@ -24,13 +24,37 @@ let
                 }
             '';
 
+            wallustPalette = pkgs.runCommand "wallust-palette" { nativeBuildInputs = [ pkgs.makeWrapper ]; } ''
+                install -Dm755 ${./scripts/wallust-palette} $out/bin/wallust-palette
+                wrapProgram $out/bin/wallust-palette \
+                    --set WALLUST_BASE ${./wallust/base.toml} \
+                    --set WALLUST_TEMPLATE ${./wallust/dump.json} \
+                    --set WALLUST_MAP ${./wallust/palette.jq} \
+                    --prefix PATH : ${
+                        lib.makeBinPath (
+                            with pkgs;
+                            [
+                                wallust
+                                jq
+                                imagemagick
+                                coreutils
+                            ]
+                        )
+                    }
+            '';
+
             settings = import ./_config.nix {
-                inherit footLiveTheme homeDirectory primaryMonitor;
+                inherit
+                    footLiveTheme
+                    homeDirectory
+                    primaryMonitor
+                    wallustPalette
+                    ;
                 templates = ./templates;
             };
         in
         rec {
-            inherit footLiveTheme settings;
+            inherit footLiveTheme settings wallustPalette;
 
             package = inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default;
 
@@ -74,6 +98,7 @@ in
             home.packages = [
                 noctalia.package
                 noctalia.footLiveTheme
+                noctalia.wallustPalette
             ];
 
             xdg.configFile."noctalia/config.toml" = {

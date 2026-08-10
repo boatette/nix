@@ -3,6 +3,7 @@
     templates,
     footLiveTheme,
     primaryMonitor,
+    wallustPalette,
 }:
 
 {
@@ -187,7 +188,10 @@
         };
         "noctalia/screen_recorder".copy_to_clipboard = true;
         "noctalia/wallhaven".download_dir = "~/Pictures/Wallpapers/Dynamic";
-        "boatette/auto-theme".default_dynamic_scheme = "vibrant";
+        "boatette/auto-theme" = {
+            default_dynamic_scheme = "wallust";
+            wallust_command = "${wallustPalette}/bin/wallust-palette";
+        };
     };
 
     plugins = {

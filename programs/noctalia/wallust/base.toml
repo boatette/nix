@@ -1,0 +1,5 @@
+check_contrast = true
+backend = "resized"
+color_space = "labmixed"
+dynamic_threshold = true
+saturation = 35
