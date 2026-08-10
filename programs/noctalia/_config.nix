@@ -82,6 +82,7 @@
         ];
         radius = 0;
         reserve_space = false;
+        show_dots = true;
         smart_auto_hide = true;
     };
 
