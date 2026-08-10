@@ -314,16 +314,16 @@
 
         user = {
             starship = {
-                input_path = "${templates}/starship.toml";
+                input_path = "${templates}/starship/starship.toml";
                 output_path = "${homeDirectory}/.config/starship.toml";
             };
             nvim = {
-                input_path = "${templates}/nvim.lua";
+                input_path = "${templates}/nvim/nvim.lua";
                 output_path = "${homeDirectory}/.config/nvim/noctalia.lua";
                 post_hook = "pkill -SIGUSR1 nvim";
             };
             wayland-select = {
-                input_path = "${templates}/wayland-select.toml";
+                input_path = "${templates}/wayland-select/wayland-select.toml";
                 output_path = "${homeDirectory}/.config/wayland-select/colors.toml";
             };
             niri = {
