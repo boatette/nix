@@ -83,6 +83,7 @@
         radius = 0;
         reserve_space = false;
         show_dots = true;
+        show_instance_count = false;
         smart_auto_hide = true;
     };
 
