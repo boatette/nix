@@ -330,7 +330,10 @@
         bluetooth.hide_when_no_connected_device = true;
         cat.type = "dotnetrob/cat:cat";
         launcher.custom_image_colorize = true;
-        media.hide_when_no_media = true;
+        media = {
+            hide_when_no_media = true;
+            title_scroll = "always";
+        };
         network.show_label = false;
         nix-monitor = {
             show_text = false;
