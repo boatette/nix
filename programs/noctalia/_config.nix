@@ -286,7 +286,6 @@
             "foot"
             "gtk3"
             "gtk4"
-            "niri"
             "qt"
         ];
         community_ids = [
@@ -314,6 +313,11 @@
             wayland-select = {
                 input_path = "${templates}/wayland-select.toml";
                 output_path = "${homeDirectory}/.config/wayland-select/colors.toml";
+            };
+            niri = {
+                input_path = "${templates}/niri/niri.kdl";
+                output_path = "${homeDirectory}/.config/niri/noctalia.kdl";
+                post_hook = "bash ${templates}/niri/apply.sh";
             };
         };
     };
