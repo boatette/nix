@@ -39,7 +39,7 @@ in
 {
     "Mod+T".spawn-sh = "foot";
     "Mod+W".spawn-sh = "zen-beta";
-    "Mod+E".spawn-sh = "nautilus";
+    "Mod+E".spawn-sh = "nemo";
 
     "Mod+D".spawn-sh = "noctalia msg panel-toggle launcher";
     "Mod+X".spawn-sh = "noctalia msg panel-toggle session";

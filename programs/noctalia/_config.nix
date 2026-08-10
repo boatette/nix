@@ -78,7 +78,7 @@
             "steam"
             "org.prismlauncher.PrismLauncher"
             "com.stremio.Stremio"
-            "org.gnome.Nautilus"
+            "nemo"
         ];
         radius = 0;
         reserve_space = false;

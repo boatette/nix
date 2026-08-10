@@ -88,7 +88,11 @@
     }
 
     {
-        matches = [ { app-id = ''^org\.gnome\.Nautilus$''; } ];
+        matches = [
+            { app-id = ''^org\.gnome\.Nautilus$''; }
+            { app-id = "^thunar"; }
+            { app-id = "^nemo"; }
+        ];
         opacity = 0.8;
     }
 ]

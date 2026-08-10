@@ -20,9 +20,16 @@
             };
         in
         {
+            dconf.settings."org/cinnamon/desktop/applications/terminal" = {
+                exec = "foot";
+                exec-arg = "--";
+            };
+
             home.packages =
                 (with pkgs; [
-                    nautilus
+                    nemo-with-extensions
+                    file-roller
+                    p7zip
                     vesktop
                     gimp
                     stremio-linux-shell

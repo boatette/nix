@@ -136,10 +136,6 @@ let
                 spawn-at-startup = [
                     "noctalia"
                     "wayland-select"
-                    [
-                        "nautilus"
-                        "--gapplication-service"
-                    ]
                 ];
 
                 switch-events.lid-close.spawn = [
