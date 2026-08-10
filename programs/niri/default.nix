@@ -58,7 +58,7 @@ let
 
                     focus-ring = {
                         on = _: { };
-                        width = 2;
+                        width = 1;
                     };
 
                     default-column-width.proportion = 0.5;
@@ -70,8 +70,8 @@ let
                     ];
 
                     border = {
-                        off = _: { };
-                        width = 2;
+                        on = _: { };
+                        width = 1;
                     };
 
                     shadow = {
