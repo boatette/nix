@@ -10,7 +10,9 @@
 
     bar.default = {
         background_opacity = 0.8;
+        border_width = 1.0;
         capsule = false;
+        capsule_radius = 0.0;
         center = [ "clock" ];
         end = [
             "tray"
@@ -22,7 +24,8 @@
             "cat"
         ];
         font_family = "JetBrainsMono NF";
-        margin_ends = 0;
+        margin_edge = 8;
+        margin_ends = 8;
         padding = 8;
         radius = 0;
         start = [
@@ -63,8 +66,11 @@
     };
 
     dock = {
+        border_width = 1.0;
         concave_edge_corners = false;
+        icon_size = 40;
         enabled = true;
+        margin_edge = 8;
         pinned = [
             "foot"
             "zen-beta"
@@ -74,8 +80,7 @@
             "com.stremio.Stremio"
             "org.gnome.Nautilus"
         ];
-        radius_bottom_left = 0;
-        radius_bottom_right = 0;
+        radius = 0;
         reserve_space = false;
         smart_auto_hide = true;
     };
@@ -217,6 +222,7 @@
     shell = {
         button_borders = false;
         card_borders = false;
+        corner_radius_scale = 0.0;
         input_borders = false;
         niri_overview_type_to_launch_enabled = true;
         polkit_agent = true;
@@ -343,8 +349,8 @@
         tray.drawer = true;
         volume.show_label = false;
         workspaces = {
-            labels_only_when_occupied = false;
-            style = "minimal";
+            labels_only_when_occupied = true;
+            # style = "minimal";
         };
     };
 }
