@@ -48,7 +48,6 @@ let
                     footLiveTheme
                     homeDirectory
                     primaryMonitor
-                    wallustPalette
                     ;
                 templates = ./templates;
             };
