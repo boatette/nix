@@ -11,6 +11,11 @@
                 modules = [
                     "break"
                     {
+                        type = "title";
+                        format = "{user-name}@{host-name}";
+                    }
+                    "break"
+                    {
                         type = "os";
                         key = "OS  ";
                         keyColor = "31";
