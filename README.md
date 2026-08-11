@@ -28,7 +28,7 @@ These wrap `nixos-rebuild --flake ~/nix`, with no `#name`, so `nixos-rebuild` re
 First build on a fresh machine:
 
 ```bash
-sudo nixos-rebuild boot --flake ~/nix#aspire --options experimental-features "nix-command flakes"
+sudo nixos-rebuild boot --flake ~/nix#aspire --option experimental-features "nix-command flakes"
 ```
 
 ## Layout
