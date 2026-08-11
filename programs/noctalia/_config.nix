@@ -14,7 +14,10 @@
         border_width = 1.0;
         capsule = false;
         capsule_radius = 0.0;
-        center = [ "clock" ];
+        center = [
+            "clock"
+            "bar"
+        ];
         end = [
             "tray"
             "network"
@@ -57,13 +60,30 @@
 
     desktop_widgets = {
         schema_version = 2;
-        widget_order = [ ];
+        widget_order = [ "desktop-widget-0000000000000001" ];
         grid = {
             cell_size = 16;
             major_interval = 4;
             visible = true;
         };
-        widget = { };
+        widget = {
+            desktop-widget-0000000000000001 = {
+                box_height = 240.0;
+                box_width = 432.0;
+                cx = 280.0;
+                cy = 932.0;
+                output = "eDP-1";
+                rotation = 0.0;
+                type = "boatette/binary-clock:desktop";
+
+                settings = {
+                    show_digits = false;
+                    show_headers = false;
+                    show_labels = false;
+                    show_separators = false;
+                };
+            };
+        };
     };
 
     dock = {
@@ -204,6 +224,7 @@
             "yocraft/web-launcher"
             "nightwatch75/file-search"
             "boatette/auto-theme"
+            "boatette/binar-clock"
         ];
 
         source = [
@@ -335,6 +356,10 @@
     };
 
     widget = {
+        bar = {
+            enabled = false;
+            type = "boatette/binary-clock:bar";
+        };
         battery = {
             hide_when_full = true;
             hide_when_plugged = true;
