@@ -5,14 +5,32 @@
 
             settings.mgr.show_hidden = true;
 
-            theme.flavor = {
-                dark = "noctalia";
-                light = "noctalia";
-            };
+            theme = {
+                flavor = {
+                    dark = "noctalia";
+                    light = "noctalia";
+                };
 
-            plugins.no-status = {
-                package = ./no-status.yazi;
-                setup = true;
+                status = {
+                    sep_left = {
+                        open = "";
+                        close = "";
+                    };
+                    sep_right = {
+                        open = "";
+                        close = "";
+                    };
+                };
+
+                tabs.sep_inner = {
+                    open = "";
+                    close = "";
+                };
+
+                indicator.padding = {
+                    open = "█";
+                    close = "█";
+                };
             };
         };
     };
