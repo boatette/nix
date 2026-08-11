@@ -8,14 +8,14 @@ let
 in
 
 {
-    flake.nixosModules.base =
+    flake.modules.nixos.base =
         { lib, ... }:
         {
             programs.fish.enable = true;
             environment.shellAliases = lib.mkForce { };
         };
 
-    flake.homeModules.dev =
+    flake.modules.homeManager.dev =
         { pkgs, lib, ... }:
         {
             home.shellAliases = import ./_aliases.nix { inherit flakeDir; };

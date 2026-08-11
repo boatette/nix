@@ -17,12 +17,12 @@ let
         ];
 in
 {
-    flake.nixosModules.base.environment.sessionVariables = {
+    flake.modules.nixos.base.environment.sessionVariables = {
         EDITOR = "nvim";
         SUDO_EDITOR = "nvim";
     };
 
-    flake.homeModules.dev =
+    flake.modules.homeManager.dev =
         { config, pkgs, ... }:
         {
             xdg.configFile."nvim/.keep".text = "";

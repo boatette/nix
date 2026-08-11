@@ -1,7 +1,7 @@
 { inputs, ... }:
 
 {
-    flake.homeModules.desktop =
+    flake.modules.homeManager.desktop =
         { pkgs, ... }:
         let
             inherit (pkgs.stdenv.hostPlatform) system;

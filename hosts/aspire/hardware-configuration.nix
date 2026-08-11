@@ -1,5 +1,5 @@
 {
-    flake.nixosModules.reduxHardware =
+    flake.modules.nixos.aspireHardware =
         {
             config,
             lib,

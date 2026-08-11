@@ -1,5 +1,5 @@
 {
-    flake.nixosModules.virtualbox =
+    flake.modules.nixos.virtualbox =
         { config, ... }:
         {
             virtualisation.virtualbox.host.enable = true;

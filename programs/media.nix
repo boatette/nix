@@ -1,18 +1,15 @@
 {
-    flake = {
+    flake.modules.homeManager.desktop =
+        { pkgs, ... }:
+        {
+            home.packages = with pkgs; [
+                ffmpeg
+                ffmpegthumbnailer
 
-        homeModules.desktop =
-            { pkgs, ... }:
-            {
-                home.packages = with pkgs; [
-                    ffmpeg
-                    ffmpegthumbnailer
-
-                    mpv
-                    totem
-                    amberol
-                    qimgv
-                ];
-            };
-    };
+                mpv
+                totem
+                amberol
+                qimgv
+            ];
+        };
 }

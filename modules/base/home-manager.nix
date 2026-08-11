@@ -1,7 +1,7 @@
 { inputs, self, ... }:
 
 {
-    flake.nixosModules.base =
+    flake.modules.nixos.base =
         { config, ... }:
         let
             username = config.preferences.user.name;
@@ -19,13 +19,13 @@
                 backupFileExtension = "bak";
 
                 users.${username}.imports = [
-                    self.homeModules.base
-                    self.homeModules.dev
+                    self.modules.homeManager.base
+                    self.modules.homeManager.dev
                 ];
             };
         };
 
-    flake.homeModules.base =
+    flake.modules.homeManager.base =
         { username, ... }:
         {
             home = {

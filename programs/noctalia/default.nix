@@ -78,7 +78,7 @@ let
         };
 in
 {
-    flake.homeModules.desktop =
+    flake.modules.homeManager.desktop =
         {
             pkgs,
             config,

@@ -1,5 +1,5 @@
 {
-    flake.homeModules.desktop =
+    flake.modules.homeManager.desktop =
         { pkgs, ... }:
         {
             home.packages = [ pkgs.nemo-with-extensions ];

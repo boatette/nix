@@ -1,26 +1,26 @@
 { inputs, self, ... }:
 
 {
-    flake.nixosConfigurations.redux = inputs.nixpkgs.lib.nixosSystem {
+    flake.nixosConfigurations.aspire = inputs.nixpkgs.lib.nixosSystem {
         modules = [
-            self.nixosModules.hostRedux
+            self.modules.nixos.hostAspire
         ];
     };
 
-    flake.nixosModules.hostRedux =
+    flake.modules.nixos.hostAspire =
         { config, pkgs, ... }:
         {
             imports = [
-                self.nixosModules.base
-                self.nixosModules.desktop
+                self.modules.nixos.base
+                self.modules.nixos.desktop
 
-                self.nixosModules.gaming
-                self.nixosModules.virtualbox
+                self.modules.nixos.gaming
+                self.modules.nixos.virtualbox
 
-                self.nixosModules.reduxHardware
+                self.modules.nixos.aspireHardware
             ];
 
-            networking.hostName = "redux";
+            networking.hostName = "aspire";
 
             boot.initrd.kernelModules = [ "i915" ];
             hardware.graphics.extraPackages = [ pkgs.intel-media-driver ];

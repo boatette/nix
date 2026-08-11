@@ -1,5 +1,5 @@
 {
-    flake.homeModules.dev = {
+    flake.modules.homeManager.dev = {
         programs.fastfetch = {
             enable = true;
 

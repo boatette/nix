@@ -1,7 +1,17 @@
 { inputs, ... }:
 
+let
+    config = {
+        allowUnfree = true;
+    };
+
+    overlays = [
+        inputs.claude-code.overlays.default
+        inputs.millennium.overlays.default
+    ];
+in
 {
-    flake.nixosModules.base = {
+    flake.modules.nixos.base = {
         nix.settings = {
             experimental-features = [
                 "nix-command"
@@ -17,13 +27,12 @@
             ];
         };
 
-        nixpkgs = {
-            config.allowUnfree = true;
-
-            overlays = [
-                inputs.claude-code.overlays.default
-                inputs.millennium.overlays.default
-            ];
-        };
+        nixpkgs = { inherit config overlays; };
     };
+
+    perSystem =
+        { system, ... }:
+        {
+            _module.args.pkgs = import inputs.nixpkgs { inherit system config overlays; };
+        };
 }

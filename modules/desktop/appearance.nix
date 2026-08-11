@@ -1,7 +1,5 @@
-{ self, ... }:
-
 {
-    flake.homeModules.desktop =
+    flake.modules.homeManager.desktop =
         {
             pkgs,
             lib,
@@ -34,8 +32,9 @@
             home = {
                 pointerCursor = {
                     enable = true;
-                    package = pkgs.${self.cursor.package};
-                    inherit (self.cursor) name size;
+                    package = pkgs.capitaine-cursors;
+                    name = "capitaine-cursors";
+                    size = 24;
                     x11.enable = true;
                     gtk.enable = true;
                 };

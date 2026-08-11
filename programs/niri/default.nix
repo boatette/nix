@@ -1,4 +1,4 @@
-{ inputs, self, ... }:
+{ inputs, ... }:
 
 let
     mkNiri =
@@ -93,8 +93,8 @@ let
                 };
 
                 cursor = {
-                    xcursor-theme = self.cursor.name;
-                    xcursor-size = self.cursor.size;
+                    xcursor-theme = "capitaine-cursors";
+                    xcursor-size = 24;
 
                     hide-when-typing = _: { };
                     hide-after-inactive-ms = 5000;
@@ -179,7 +179,7 @@ let
         };
 in
 {
-    flake.nixosModules.desktop =
+    flake.modules.nixos.desktop =
         { config, pkgs, ... }:
         {
             programs.niri = {
@@ -191,7 +191,7 @@ in
             };
         };
 
-    flake.homeModules.desktop =
+    flake.modules.homeManager.desktop =
         { pkgs, ... }:
         {
             xdg.configFile."niri/.keep".text = "";

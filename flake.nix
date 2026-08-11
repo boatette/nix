@@ -63,5 +63,12 @@
 
             mkFlake = inputs.flake-parts.lib.mkFlake { inherit inputs; };
         in
-        mkFlake { imports = importTree ./.; };
+        mkFlake {
+            imports = [ inputs.flake-parts.flakeModules.modules ] ++ importTree ./.;
+
+            systems = [
+                "x86_64-linux"
+                "aarch64-linux"
+            ];
+        };
 }

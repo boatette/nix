@@ -1,6 +1,6 @@
 {
-    flake = {
-        homeModules.dev =
+    flake.modules = {
+        homeManager.dev =
             { pkgs, ... }:
             {
                 home.packages = with pkgs; [
@@ -14,7 +14,7 @@
                 ];
             };
 
-        nixosModules.base.environment.sessionVariables = {
+        nixos.base.environment.sessionVariables = {
             GOPATH = "$HOME/go";
             CARGO_HOME = "$HOME/.cargo";
         };

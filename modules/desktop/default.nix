@@ -1,13 +1,13 @@
 { inputs, self, ... }:
 
 {
-    flake.nixosModules.desktop =
+    flake.modules.nixos.desktop =
         { config, pkgs, ... }:
         {
             imports = [ inputs.noctalia-greeter.nixosModules.default ];
 
             home-manager.users.${config.preferences.user.name}.imports = [
-                self.homeModules.desktop
+                self.modules.homeManager.desktop
             ];
 
             programs = {
@@ -30,11 +30,6 @@
 
                     settings = {
                         appearance.hide_logo = true;
-
-                        cursor = {
-                            inherit (self.cursor) name size;
-                            path = "${pkgs.${self.cursor.package}}/share/icons";
-                        };
 
                         keyboard.layout = "us";
                     };
