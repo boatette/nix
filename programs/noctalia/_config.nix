@@ -21,8 +21,8 @@
             "tray"
             "network"
             "bluetooth"
-            "notifications"
             "volume"
+            "notifications"
             "battery"
             "cat"
         ];
