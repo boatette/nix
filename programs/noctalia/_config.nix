@@ -243,13 +243,9 @@
     };
 
     shell = {
-        button_borders = false;
-        card_borders = false;
         corner_radius_scale = 0.0;
-        input_borders = false;
         niri_overview_type_to_launch_enabled = true;
         polkit_agent = true;
-        popup_borders = false;
         popup_shadows = false;
         screen_time_enabled = true;
 
