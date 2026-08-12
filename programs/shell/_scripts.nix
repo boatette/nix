@@ -93,7 +93,7 @@ in
             nixfmt
         ];
         text = ''
-            fd -e nix . "${flakeDir}" --exclude nix.bak -X nixfmt --indent 4
+            fd -e nix . "${flakeDir}" --exclude nix.bak -X nixfmt
         '';
     })
 

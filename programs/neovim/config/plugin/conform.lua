@@ -22,7 +22,6 @@ require("conform").setup({
     },
     formatters = {
         ["google-java-format"] = { prepend_args = { "--aosp" } },
-        nixfmt = { prepend_args = { "--indent", "4" } },
     },
     format_on_save = { lsp_format = "fallback" },
 })
