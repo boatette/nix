@@ -8,6 +8,8 @@
 {
     audio.enable_sounds = true;
 
+    backdrop.enabled = true;
+
     bar.default = {
         background_opacity = 0.8;
         border_width = 1.0;

@@ -153,8 +153,8 @@ let
 
                 layer-rules = [
                     {
-                        # match namespace="^noctalia-backdrop" to enable [niri/backdrop]
-                        matches = [ { namespace = "^noctalia-wallpaper"; } ];
+                        matches = [ { namespace = "^noctalia-backdrop"; } ]; # requires backdrop.enabled = true in noctalia
+                        # matches = [ { namespace = "^noctalia-wallpaper"; } ]; # requires backdrop.enabled = false in noctalia
                         place-within-backdrop = true;
                     }
                     {
