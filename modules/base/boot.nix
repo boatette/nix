@@ -12,7 +12,12 @@
                 kernelPackages = pkgs.linuxPackages_latest;
 
                 plymouth.enable = true;
-                initrd.verbose = false;
+
+                initrd = {
+                    systemd.enable = true;
+
+                    verbose = false;
+                };
                 consoleLogLevel = 3;
                 kernelParams = [
                     "quiet"

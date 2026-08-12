@@ -71,6 +71,10 @@
                     size = 16 * 1024;
                 }
             ];
+
+            # uncomment once the disk is actually encrypted
+            # boot.initrd.luks.devices."cryptroot".allowDiscards = true;
+
             fileSystems."/mnt/storage" = {
                 device = "/dev/disk/by-uuid/e59f23dd-5e74-46b9-92bf-386ec2fa9c27"; # not partuuid
                 fsType = "ext4";
