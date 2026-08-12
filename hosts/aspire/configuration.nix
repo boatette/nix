@@ -8,7 +8,12 @@
     };
 
     flake.modules.nixos.hostAspire =
-        { config, pkgs, ... }:
+        {
+            config,
+            lib,
+            pkgs,
+            ...
+        }:
         {
             imports = [
                 self.modules.nixos.base
@@ -66,6 +71,8 @@
             };
 
             boot.initrd.luks.devices."luks-2462d0d4-9733-413c-a67c-cdca469be2c7".allowDiscards = true;
+
+            swapDevices = lib.mkForce [ ];
 
             fileSystems."/mnt/storage" = {
                 device = "/dev/disk/by-uuid/e59f23dd-5e74-46b9-92bf-386ec2fa9c27"; # not partuuid
