@@ -32,6 +32,7 @@
     margin_edge = 8;
     margin_ends = 8;
     padding = 8;
+    position = "left";
     radius = 0;
     start = [
       "workspaces"
