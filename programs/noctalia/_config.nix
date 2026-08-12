@@ -248,6 +248,7 @@
         polkit_agent = true;
         popup_shadows = false;
         screen_time_enabled = true;
+        settings_window_translucent = true;
 
         greeter_sync = {
             auto_sync = true;
