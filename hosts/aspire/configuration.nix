@@ -65,13 +65,6 @@
                 scale = 1;
             };
 
-            swapDevices = [
-                {
-                    device = "/swapfile";
-                    size = 16 * 1024;
-                }
-            ];
-
             # uncomment once the disk is actually encrypted
             # boot.initrd.luks.devices."cryptroot".allowDiscards = true;
 
