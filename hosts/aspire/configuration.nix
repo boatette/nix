@@ -10,7 +10,6 @@
   flake.modules.nixos.hostAspire =
     {
       config,
-      lib,
       pkgs,
       ...
     }:
