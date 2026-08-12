@@ -348,6 +348,8 @@
         };
     };
 
+    wallpaper.transition_on_startup = true;
+
     widget = {
         bar = {
             enabled = false;
