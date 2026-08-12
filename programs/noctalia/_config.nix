@@ -220,7 +220,7 @@
             "yocraft/web-launcher"
             "nightwatch75/file-search"
             "boatette/auto-theme"
-            "boatette/binar-clock"
+            "boatette/binary-clock"
         ];
 
         source = [
