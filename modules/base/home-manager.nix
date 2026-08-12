@@ -14,7 +14,7 @@
                 useUserPackages = true;
                 extraSpecialArgs = {
                     inherit inputs username;
-                    inherit (config.preferences) monitors;
+                    inherit (config.preferences) monitors waylandSelect;
                 };
                 backupFileExtension = "bak";
 
