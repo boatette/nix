@@ -1,11 +1,11 @@
 {
-    flake.modules.nixos.base =
-        { pkgs, ... }:
-        {
-            environment.systemPackages = with pkgs; [
-                git
-                vim
-                wget
-            ];
-        };
+  flake.modules.nixos.base =
+    { pkgs, ... }:
+    {
+      environment.systemPackages = with pkgs; [
+        git
+        vim
+        wget
+      ];
+    };
 }
