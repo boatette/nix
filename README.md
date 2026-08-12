@@ -170,6 +170,42 @@ A program: create `programs/[name].nix` writing to `flake.modules.homeManager.{b
    sudo nixos-rebuild boot --flake ~/nix#[host]
    ```
 
+### Reinstalling aspire
+
+The subvolume layout this repo expects is exactly what the NixOS Calamares installer produces, so the graphical path works. Pick btrfs swap without hibernate, and LUKS encryption
+
+Two things do not carry over on their own:
+
+1. The encrypted-swap LUKS line lands in the file you throw away.
+   `nixos-generate-config` detects LUKS under a filesystem but not under
+   swap, so Calamares patches around it by writing
+
+   ```nix
+   boot.initrd.luks.devices."<mapper>".device = "/dev/disk/by-uuid/...";
+   ```
+
+   into the `configuration.nix` it generates, not into
+   `hardware-configuration.nix`. Keep only the latter and swap points at a
+   mapper nothing ever unlocks. Copy that line into `hostAspire` before
+   rebuilding. The root container's equivalent line is in
+   `hardware-configuration.nix`, so only the swap one needs rescuing.
+
+2. The mapper name is Calamares' choice, not `cryptroot`. Match the
+   `allowDiscards` key in `hosts/aspire/configuration.nix` to whatever name the
+   generated config used, then uncomment it.
+
+Generated btrfs mounts also gain `compress=zstd,noatime`, which the current
+hardware config lacks. That is an improvement; keep it.
+
+Swap is live before the first big rebuild on this path, so nothing extra is
+needed to survive it — but bound the parallelism anyway:
+
+```bash
+sudo nixos-rebuild boot --flake ~/nix#aspire --option max-jobs 3 --option cores 4
+```
+
+If your SSH keys are not restored yet, see the note on `preferences.waylandSelect.enable` in `programs/wayland-select.nix`. If evaluation still insists on fetching the private input, comment it out of `flake.nix` for the duration of the install.
+
 ## Runnable packages
 
 The desktop programs are exported with their config baked in, so they work on machines that have never seen this repo:
