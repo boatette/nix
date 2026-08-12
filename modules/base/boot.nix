@@ -1,7 +1,12 @@
 {
     flake.modules.nixos.base =
-        { pkgs, ... }:
+        { config, pkgs, ... }:
         {
+            systemd.services.plymouth-quit.serviceConfig.ExecStart = [
+                ""
+                "${config.boot.plymouth.package}/bin/plymouth quit --retain-splash"
+            ];
+
             boot = {
                 loader = {
                     systemd-boot.enable = true;
