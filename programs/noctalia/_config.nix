@@ -134,7 +134,7 @@ in
     concave_edge_corners = false;
     enabled = true;
     icon_size = 40;
-    margin_edge = 6;
+    margin_edge = 8;
     pinned = [
       "foot"
       "zen-beta"
