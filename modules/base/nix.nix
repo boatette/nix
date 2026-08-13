@@ -20,8 +20,6 @@ in
           "flakes"
         ];
 
-        max-jobs = lib.mkDefault 6;
-
         extra-substituters = [
           "https://nix-community.cachix.org"
           "https://noctalia.cachix.org"
