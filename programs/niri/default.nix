@@ -57,7 +57,7 @@ let
           background-color = "transparent";
 
           focus-ring = {
-            on = _: { };
+            off = _: { };
             width = 1;
           };
 
@@ -70,7 +70,7 @@ let
           ];
 
           border = {
-            off = _: { };
+            on = _: { };
             width = 1;
           };
 
