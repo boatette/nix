@@ -358,6 +358,7 @@ in
       "foot"
       "gtk3"
       "gtk4"
+      "niri"
       "qt"
     ];
     community_ids = [
@@ -373,11 +374,6 @@ in
     ];
 
     user = {
-      niri = {
-        input_path = "${templates}/niri/niri.kdl";
-        output_path = "${homeDirectory}/.config/niri/noctalia.kdl";
-        post_hook = "bash ${templates}/niri/apply.sh";
-      };
       nvim = {
         input_path = "${templates}/nvim/nvim.lua";
         output_path = "${homeDirectory}/.config/nvim/noctalia.lua";
