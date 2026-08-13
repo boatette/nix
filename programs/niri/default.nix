@@ -70,7 +70,7 @@ let
           ];
 
           border = {
-            on = _: { };
+            off = _: { };
             width = 1;
           };
 
