@@ -4,19 +4,27 @@
       { pkgs, ... }:
       {
         home.packages = with pkgs; [
+          cargo
+          clippy
           gcc
           gnumake
           go
           nodejs
           python3
-          rustup
+          rustc
+          rustfmt
           tree-sitter
         ];
       };
 
-    nixos.base.environment.sessionVariables = {
-      GOPATH = "$HOME/go";
-      CARGO_HOME = "$HOME/.cargo";
-    };
+    nixos.base =
+      { pkgs, ... }:
+      {
+        environment.sessionVariables = {
+          GOPATH = "$HOME/go";
+          CARGO_HOME = "$HOME/.cargo";
+          RUST_SRC_PATH = "${pkgs.rustPlatform.rustLibSrc}";
+        };
+      };
   };
 }
