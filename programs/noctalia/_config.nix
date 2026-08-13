@@ -112,13 +112,14 @@ in
       desktop-widget-0000000000000001 = {
         box_height = 240.0;
         box_width = 432.0;
-        cx = 280.0;
-        cy = 932.0;
+        cx = 265.0;
+        cy = 953.0;
         output = "eDP-1";
         rotation = 0.0;
         type = "boatette/binary-clock:desktop";
 
         settings = {
+          background_radius = 0;
           show_digits = false;
           show_headers = false;
           show_labels = false;
@@ -133,7 +134,7 @@ in
     concave_edge_corners = false;
     enabled = true;
     icon_size = 40;
-    margin_edge = 8;
+    margin_edge = 6;
     pinned = [
       "foot"
       "zen-beta"
