@@ -44,11 +44,6 @@
       url = "github:sadjow/claude-code-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    wayland-select = {
-      url = "git+ssh://git@github.com/boatette/wayland_select.git";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs =

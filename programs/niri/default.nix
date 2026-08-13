@@ -133,10 +133,7 @@ let
           LIBVA_DRIVER_NAME = "iHD";
         };
 
-        spawn-at-startup = [
-          "noctalia"
-          "wayland-select"
-        ];
+        spawn-at-startup = [ "noctalia" ];
 
         switch-events.lid-close.spawn = [
           "noctalia"

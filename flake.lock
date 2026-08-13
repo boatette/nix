@@ -334,7 +334,6 @@
         "noctalia-greeter": "noctalia-greeter",
         "plugins-everforest-nvim": "plugins-everforest-nvim",
         "plugins-github-monochrome-nvim": "plugins-github-monochrome-nvim",
-        "wayland-select": "wayland-select",
         "wrapper-modules": "wrapper-modules",
         "zen-browser": "zen-browser"
       }
@@ -352,26 +351,6 @@
         "owner": "nix-systems",
         "repo": "default",
         "type": "github"
-      }
-    },
-    "wayland-select": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1785295624,
-        "narHash": "sha256-lM1eE/4Mz7lIYxTS2D+c1ymQE0YnRa4nTbVc2qa1duY=",
-        "ref": "refs/heads/master",
-        "rev": "39938cf6cc3d2511daa43b59bac9a8fab5fb7bb2",
-        "revCount": 16,
-        "type": "git",
-        "url": "ssh://git@github.com/boatette/wayland_select.git"
-      },
-      "original": {
-        "type": "git",
-        "url": "ssh://git@github.com/boatette/wayland_select.git"
       }
     },
     "wrapper-modules": {

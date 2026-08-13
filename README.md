@@ -11,10 +11,6 @@ NixOS configuration for niri + noctalia.
 | User env    | home-manager, as a NixOS module                                                    |
 | Channel     | nixpkgs 26.05, plus nixpkgs-unstable for Neovim only                               |
 
-`flake.nix` takes a private input, `wayland-select`, over SSH. Without access to
-that repo, comment the input out and delete `programs/wayland-select.nix` before
-evaluating anything.
-
 ## Usage
 
 ```bash

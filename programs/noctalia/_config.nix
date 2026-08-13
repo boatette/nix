@@ -385,10 +385,6 @@ in
         input_path = "${templates}/starship/starship.toml";
         output_path = "${homeDirectory}/.config/starship.toml";
       };
-      wayland-select = {
-        input_path = "${templates}/wayland-select/wayland-select.toml";
-        output_path = "${homeDirectory}/.config/wayland-select/colors.toml";
-      };
     };
   };
 
