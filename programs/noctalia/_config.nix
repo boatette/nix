@@ -76,6 +76,7 @@ in
       "media"
       "audio_visualizer"
     ];
+    thickness = 32;
     widget_spacing = 12;
   };
 
