@@ -6,6 +6,7 @@ let
       pkgs,
       homeDirectory,
       primaryMonitor ? "eDP-1",
+      monitors ? [ primaryMonitor ],
     }:
     let
       inherit (pkgs) lib;
@@ -47,6 +48,8 @@ let
         inherit
           footLiveTheme
           homeDirectory
+          lib
+          monitors
           primaryMonitor
           ;
         templates = ./templates;
@@ -90,6 +93,7 @@ in
       noctalia = mkNoctalia {
         inherit pkgs;
         inherit (config.home) homeDirectory;
+        monitors = lib.attrNames monitors;
         primaryMonitor = lib.findFirst (name: monitors.${name}.primary) "eDP-1" (lib.attrNames monitors);
       };
     in

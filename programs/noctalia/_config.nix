@@ -1,9 +1,45 @@
 {
-  homeDirectory,
-  templates,
   footLiveTheme,
+  homeDirectory,
+  lib,
+  monitors,
   primaryMonitor,
+  templates,
 }:
+
+let
+  loginBox = monitor: {
+    name = "lockscreen-login-box@${monitor}";
+    value = {
+      box_height = 70.0;
+      box_width = 400.0;
+      cx = 960.0;
+      cy = 898.0;
+      output = monitor;
+      rotation = 0.0;
+      type = "login_box";
+
+      settings = {
+        background_color = "surface_variant";
+        background_opacity = 0.0;
+        background_radius = 0.0;
+        center_password_text = true;
+        input_opacity = 1.0;
+        input_radius = 0.0;
+        layout = "compact";
+        show_caps_lock = true;
+        show_keyboard_layout = false;
+        show_login_button = false;
+        show_media = true;
+        show_session_buttons = true;
+        show_unlock_hint = false;
+        show_weather = true;
+      };
+    };
+  };
+
+  loginBoxes = map loginBox monitors;
+in
 
 {
   audio.enable_sounds = true;
@@ -47,6 +83,7 @@
 
   calendar = {
     enabled = true;
+
     account.personal_google = {
       name = "Personal Calendar";
       type = "google";
@@ -56,7 +93,10 @@
   config = { };
 
   control_center = {
+    show_shortcut_labels = false;
+    sidebar_section = "none";
     width = 800;
+
     calendar.show_week_numbers = true;
   };
 
@@ -91,8 +131,8 @@
   dock = {
     border_width = 1.0;
     concave_edge_corners = false;
-    icon_size = 40;
     enabled = true;
+    icon_size = 40;
     margin_edge = 8;
     pinned = [
       "foot"
@@ -123,9 +163,32 @@
     ];
   };
 
-  hot_corners = {
-    enabled = true;
-    top_right.action = "control_center";
+  idle = {
+    behavior_order = [
+      "lock"
+      "screen-off"
+      "lock-and-suspend"
+    ];
+
+    behavior = {
+      lock = {
+        action = "lock";
+        enabled = true;
+        timeout = 600.0;
+      };
+
+      lock-and-suspend = {
+        action = "lock_and_suspend";
+        enabled = true;
+        timeout = 900.0;
+      };
+
+      screen-off = {
+        action = "screen_off";
+        enabled = true;
+        timeout = 660.0;
+      };
+    };
   };
 
   keybinds = {
@@ -162,7 +225,7 @@
   lockscreen_widgets = {
     enabled = true;
     schema_version = 2;
-    widget_order = [ "lockscreen-login-box@${primaryMonitor}" ];
+    widget_order = map (entry: entry.name) loginBoxes;
 
     grid = {
       cell_size = 16;
@@ -170,32 +233,7 @@
       visible = true;
     };
 
-    widget."lockscreen-login-box@${primaryMonitor}" = {
-      box_height = 70.0;
-      box_width = 400.0;
-      cx = 960.0;
-      cy = 898.0;
-      output = primaryMonitor;
-      rotation = 0.0;
-      type = "login_box";
-
-      settings = {
-        background_color = "surface_variant";
-        background_opacity = 0.0;
-        background_radius = 0.0;
-        center_password_text = true;
-        input_opacity = 1.0;
-        input_radius = 0.0;
-        layout = "compact";
-        show_caps_lock = true;
-        show_keyboard_layout = false;
-        show_login_button = false;
-        show_media = true;
-        show_session_buttons = true;
-        show_unlock_hint = false;
-        show_weather = true;
-      };
-    };
+    widget = lib.listToAttrs loginBoxes;
   };
 
   osd = {
@@ -208,9 +246,9 @@
       branch = "nixos-26.05";
       update_command = "nix flake update --flake ~/nix";
     };
+    "boatette/auto-theme".default_dynamic_scheme = "wallust";
     "noctalia/screen_recorder".copy_to_clipboard = true;
     "noctalia/wallhaven".download_dir = "~/Pictures/Wallpapers/Dynamic";
-    "boatette/auto-theme".default_dynamic_scheme = "wallust";
   };
 
   plugins = {
@@ -269,10 +307,20 @@
     };
 
     panel = {
-      launcher_placement = "attached";
+      control_center_placement = "floating";
+      launcher_placement = "floating";
       list_item_background = true;
-      transparency_mode = "glass";
       open_near_click_control_center = true;
+      session_placement = "floating";
+      session_position = "top_center";
+      transparency_mode = "glass";
+      wallpaper_placement = "floating";
+      wallpaper_position = "top_center";
+    };
+
+    screen_corners = {
+      enabled = false;
+      size = 36;
     };
 
     session.actions = [
@@ -302,11 +350,6 @@
         variant = "destructive";
       }
     ];
-
-    screen_corners = {
-      enabled = false;
-      size = 36;
-    };
   };
 
   theme.templates = {
@@ -330,23 +373,23 @@
     ];
 
     user = {
-      starship = {
-        input_path = "${templates}/starship/starship.toml";
-        output_path = "${homeDirectory}/.config/starship.toml";
+      niri = {
+        input_path = "${templates}/niri/niri.kdl";
+        output_path = "${homeDirectory}/.config/niri/noctalia.kdl";
+        post_hook = "bash ${templates}/niri/apply.sh";
       };
       nvim = {
         input_path = "${templates}/nvim/nvim.lua";
         output_path = "${homeDirectory}/.config/nvim/noctalia.lua";
         post_hook = "pkill -SIGUSR1 nvim";
       };
+      starship = {
+        input_path = "${templates}/starship/starship.toml";
+        output_path = "${homeDirectory}/.config/starship.toml";
+      };
       wayland-select = {
         input_path = "${templates}/wayland-select/wayland-select.toml";
         output_path = "${homeDirectory}/.config/wayland-select/colors.toml";
-      };
-      niri = {
-        input_path = "${templates}/niri/niri.kdl";
-        output_path = "${homeDirectory}/.config/niri/noctalia.kdl";
-        post_hook = "bash ${templates}/niri/apply.sh";
       };
     };
   };
