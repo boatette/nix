@@ -1,0 +1,2 @@
+fill = "{{colors.primary.default.hex}}25"
+border = "{{colors.primary.default.hex}}ff"

@@ -44,6 +44,11 @@
       url = "github:sadjow/claude-code-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    selector = {
+      url = "github:boatette/selector";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =

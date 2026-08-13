@@ -334,8 +334,29 @@
         "noctalia-greeter": "noctalia-greeter",
         "plugins-everforest-nvim": "plugins-everforest-nvim",
         "plugins-github-monochrome-nvim": "plugins-github-monochrome-nvim",
+        "selector": "selector",
         "wrapper-modules": "wrapper-modules",
         "zen-browser": "zen-browser"
+      }
+    },
+    "selector": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1786628153,
+        "narHash": "sha256-3y3g55Cn/CLqI/iJql1TGLUjYWqMgu8k0KCv6V3lcPo=",
+        "owner": "boatette",
+        "repo": "selector",
+        "rev": "8399125243d21218779e87bfff87eb9e8cf5db3b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "boatette",
+        "repo": "selector",
+        "type": "github"
       }
     },
     "systems": {
