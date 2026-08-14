@@ -292,10 +292,7 @@ baknow && bakstatus
    is destructive:
 
    ```bash
-   nix run github:nix-community/disko/latest -- \
-     --mode destroy,format,mount \
-     --flake github:boatette/nix#aspire \
-     --dry-run
+   nix run github:nix-community/disko/latest -- --mode destroy,format,mount --flake github:boatette/nix#aspire --dry-run
    ```
 
    Drop `--dry-run` to do it. Installing from a branch rather than master is
@@ -315,10 +312,7 @@ baknow && bakstatus
    exhausting memory:
 
    ```bash
-   nixos-install --flake /mnt/home/boatette/nix#aspire \
-     --option max-jobs 3 --option cores 4 \
-     --option extra-substituters "https://nix-community.cachix.org https://noctalia.cachix.org" \
-     --option extra-trusted-public-keys "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs= noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
+   nixos-install --flake /mnt/home/boatette/nix#aspire --option max-jobs 3 --option cores 4 --option extra-substituters "https://nix-community.cachix.org https://noctalia.cachix.org" --option extra-trusted-public-keys "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs= noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
    ```
 
    It prompts for a root password at the end.
