@@ -78,10 +78,12 @@ Partitioning is declarative, in `hosts/aspire/disk.nix`. Use the minimal ISO, no
    nixos-install --flake /mnt/home/boatette/nix#aspire --option max-jobs 3 --option cores 4 --option extra-substituters "https://nix-community.cachix.org https://noctalia.cachix.org" --option extra-trusted-public-keys "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs= noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
    ```
 
+   Job bounds and cachix help with ram usage and aren't technically required.
+
 > [!TIP]
 >
 > ```bash
-> cat /mnt/home/boatette/nix/README.md | grep nixos-install > sh
+> cat /mnt/home/boatette/nix/README.md | grep -m 1 nixos-install > sh
 > ```
 >
 > To run it without manually typing cachix keys
