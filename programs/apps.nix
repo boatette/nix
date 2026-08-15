@@ -17,6 +17,9 @@
           libreoffice-qt
           hunspell
         ])
-        ++ [ inputs.zen-browser.packages.${system}.default ];
+        ++ [
+          inputs.zen-browser.packages.${system}.default
+          inputs.helium.packages.${system}.default
+        ];
     };
 }

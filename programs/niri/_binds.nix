@@ -42,6 +42,7 @@ in
   "Mod+E".spawn-sh = "nemo";
 
   "Mod+Alt+T".spawn-sh = "ghostty";
+  "Mod+Alt+W".spawn-sh = "helium";
 
   "Mod+D".spawn-sh = "noctalia msg panel-toggle launcher";
   "Mod+X".spawn-sh = "noctalia msg panel-toggle session";
