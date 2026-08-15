@@ -1,13 +1,20 @@
 {
-  footLiveTheme,
-  homeDirectory,
-  lib,
-  monitors,
-  primaryMonitor,
-  templates,
+  pkgs,
+  homeDirectory ? "/home/boatette",
+  monitors ? {
+    "eDP-1".primary = true;
+  },
 }:
 
 let
+  inherit (pkgs) lib;
+  inherit (import ./_scripts.nix pkgs) footLiveTheme;
+
+  templates = ./templates;
+
+  outputs = lib.attrNames monitors;
+  primaryMonitor = lib.findFirst (name: monitors.${name}.primary) "eDP-1" outputs;
+
   loginBox = monitor: {
     name = "lockscreen-login-box@${monitor}";
     value = {
@@ -38,7 +45,7 @@ let
     };
   };
 
-  loginBoxes = map loginBox monitors;
+  loginBoxes = map loginBox outputs;
 in
 
 {
@@ -287,6 +294,7 @@ in
 
   shell = {
     corner_radius_scale = 0.0;
+    launch_apps_as_systemd_services = true;
     niri_overview_type_to_launch_enabled = true;
     polkit_agent = true;
     popup_shadows = false;
