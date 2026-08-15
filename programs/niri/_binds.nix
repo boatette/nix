@@ -37,7 +37,7 @@ let
 in
 
 {
-  "Mod+T".spawn-sh = "foot";
+  "Mod+T".spawn-sh = "footclient";
   "Mod+W".spawn-sh = "zen-beta";
   "Mod+E".spawn-sh = "nemo";
 
