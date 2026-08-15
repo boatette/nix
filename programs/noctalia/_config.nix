@@ -144,7 +144,7 @@ in
     icon_size = 40;
     margin_edge = 8;
     pinned = [
-      "foot"
+      "footclient"
       "zen-beta"
       "vesktop"
       "steam"
