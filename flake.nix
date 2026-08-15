@@ -50,7 +50,7 @@
     };
 
     selector = {
-      url = "github:boatette/selector";
+      url = "git+file:///home/boatette/Projects/selector/";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
