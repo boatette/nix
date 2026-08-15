@@ -333,6 +333,11 @@ in
       size = 36;
     };
 
+    screenshot = {
+      directory = "~/Pictures/Screenshots";
+      filename_pattern = "Screenshot from %Y-%m-%d %H-%M-%S";
+    };
+
     session.actions = [
       {
         action = "lock";
