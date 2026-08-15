@@ -31,6 +31,12 @@
     ];
     open-maximized = true;
   }
+  {
+    matches = [
+      { app-id = "stremio"; }
+    ];
+    open-fullscreen = true;
+  }
 
   {
     matches = [
