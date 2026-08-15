@@ -7,7 +7,6 @@ let
 
   overlays = [
     inputs.claude-code.overlays.default
-    inputs.millennium.overlays.default
   ];
 in
 {

@@ -4,11 +4,18 @@
   flake.modules.nixos.desktop =
     { config, pkgs, ... }:
     {
-      imports = [ inputs.noctalia-greeter.nixosModules.default ];
-
-      home-manager.users.${config.preferences.user.name}.imports = [
-        self.modules.homeManager.desktop
+      imports = [
+        inputs.noctalia-greeter.nixosModules.default
+        self.modules.nixos.monitors
       ];
+
+      home-manager = {
+        extraSpecialArgs = { inherit (config.preferences) monitors; };
+
+        users.${config.preferences.user.name}.imports = [
+          self.modules.homeManager.desktop
+        ];
+      };
 
       programs = {
         appimage = {
@@ -31,7 +38,7 @@
           settings = {
             appearance.hide_logo = true;
 
-            keyboard.layout = "us";
+            keyboard = { inherit (config.services.xserver.xkb) layout; };
           };
         };
       };
@@ -49,6 +56,11 @@
         gvfs.enable = true;
         tumbler.enable = true;
         upower.enable = true;
+
+        xserver.xkb = {
+          layout = "us";
+          variant = "";
+        };
       };
     };
 }

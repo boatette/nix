@@ -18,6 +18,7 @@
         self.modules.nixos.base
         self.modules.nixos.desktop
 
+        self.modules.nixos.backup
         self.modules.nixos.gaming
         self.modules.nixos.virtualbox
 

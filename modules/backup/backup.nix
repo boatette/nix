@@ -1,5 +1,15 @@
+{ self, ... }:
+
 {
-  flake.modules.homeManager.base =
+  flake.modules.nixos.backup =
+    { config, ... }:
+    {
+      home-manager.users.${config.preferences.user.name}.imports = [
+        self.modules.homeManager.backup
+      ];
+    };
+
+  flake.modules.homeManager.backup =
     {
       pkgs,
       lib,

@@ -22,10 +22,5 @@ in
           "LC_TIME"
         ] (_: locale);
       };
-
-      services.xserver.xkb = {
-        layout = "us";
-        variant = "";
-      };
     };
 }

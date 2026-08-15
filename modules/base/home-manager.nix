@@ -14,7 +14,6 @@
         useUserPackages = true;
         extraSpecialArgs = {
           inherit inputs username;
-          inherit (config.preferences) monitors;
         };
         backupFileExtension = "bak";
 
