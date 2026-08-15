@@ -79,12 +79,12 @@ autocmd("FileType", {
 
 autocmd("FileType", {
     group = ft_group,
-    pattern = "dart",
+    pattern = { "dart", "nix" },
     callback = function()
         vim.opt_local.shiftwidth = 2
         vim.opt_local.tabstop = 2
     end,
-    desc = "2-space indentation for Dart",
+    desc = "2-space indentation for Dart and Nix",
 })
 
 autocmd("BufWinEnter", {
