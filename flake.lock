@@ -369,11 +369,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1786629260,
-        "narHash": "sha256-JQoZfYERqpDbcdtKhYdkGue5ltsfpsAEifLzfMQxR68=",
+        "lastModified": 1786766732,
+        "narHash": "sha256-3z2xe3jajCigpTdb5RPXiDIHy9ej5fXjKOyT6UKLCXc=",
         "owner": "boatette",
         "repo": "selector",
-        "rev": "a1dfd8c5366249f3c22ca09e043bd7a75737d0e9",
+        "rev": "06c234e2f3f26c8785b37c4ab8afff227bcd283c",
         "type": "github"
       },
       "original": {
