@@ -13,6 +13,7 @@
           gimp
           stremio-linux-shell
           qbittorrent
+          proton-pass
 
           libreoffice-qt
           hunspell
