@@ -18,6 +18,20 @@ in
     }
   '';
 
+  footclientThemed = pkgs.runCommand "footclient-themed" { nativeBuildInputs = [ pkgs.makeWrapper ]; } ''
+    install -Dm755 ${./scripts/footclient-themed} $out/bin/footclient-themed
+    wrapProgram $out/bin/footclient-themed --prefix PATH : ${
+      lib.makeBinPath (
+        with pkgs;
+        [
+          bash
+          foot
+          coreutils
+        ]
+      )
+    }
+  '';
+
   wallustPalette = pkgs.runCommand "wallust-palette" { nativeBuildInputs = [ pkgs.makeWrapper ]; } ''
     install -Dm755 ${./scripts/wallust-palette} $out/bin/wallust-palette
     wrapProgram $out/bin/wallust-palette \

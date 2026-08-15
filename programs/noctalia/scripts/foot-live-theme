@@ -35,8 +35,8 @@ done
 emit 10 "${color[foreground]:-}"
 emit 11 "${color[background]:-}"
 emit 12 "${color[cursor]:-}"
-emit 17 "${color[selection - background]:-}"
-emit 19 "${color[selection - foreground]:-}"
+emit 17 "${color[selection-background]:-}"
+emit 19 "${color[selection-foreground]:-}"
 
 [ -n "$seq" ] || exit 0
 
