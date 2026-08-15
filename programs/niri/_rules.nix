@@ -40,6 +40,7 @@
     ];
     excludes = [
       { app-id = "^zen"; }
+      { app-id = "^helium"; }
       { app-id = "^vesktop$"; }
       { app-id = "^steam$"; }
     ];
