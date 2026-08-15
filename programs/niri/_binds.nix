@@ -41,6 +41,8 @@ in
   "Mod+W".spawn-sh = "zen-beta";
   "Mod+E".spawn-sh = "nemo";
 
+  "Mod+Alt+T".spawn-sh = "ghostty";
+
   "Mod+D".spawn-sh = "noctalia msg panel-toggle launcher";
   "Mod+X".spawn-sh = "noctalia msg panel-toggle session";
   "Mod+Y".spawn-sh = "noctalia msg panel-toggle wallpaper";
