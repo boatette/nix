@@ -8,6 +8,8 @@
       enable = true;
 
       settings = {
+        blur = true;
+
         colors = "noctalia.toml";
       };
     };
