@@ -51,7 +51,7 @@ in
 {
   audio.enable_sounds = true;
 
-  backdrop.enabled = true;
+  backdrop.enabled = false;
 
   bar.default = {
     background_opacity = 0.8;
