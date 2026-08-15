@@ -371,15 +371,15 @@
       "locked": {
         "lastModified": 1786766732,
         "narHash": "sha256-3z2xe3jajCigpTdb5RPXiDIHy9ej5fXjKOyT6UKLCXc=",
-        "owner": "boatette",
-        "repo": "selector",
+        "ref": "refs/heads/master",
         "rev": "06c234e2f3f26c8785b37c4ab8afff227bcd283c",
-        "type": "github"
+        "revCount": 23,
+        "type": "git",
+        "url": "file:///home/boatette/Projects/selector/"
       },
       "original": {
-        "owner": "boatette",
-        "repo": "selector",
-        "type": "github"
+        "type": "git",
+        "url": "file:///home/boatette/Projects/selector/"
       }
     },
     "systems": {
