@@ -155,7 +155,7 @@ in
       "steam"
       "org.prismlauncher.PrismLauncher"
       "com.stremio.Stremio"
-      "nemo"
+      "org.kde.dolphin"
     ];
     radius = 0;
     reserve_space = false;
