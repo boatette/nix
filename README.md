@@ -33,6 +33,7 @@ Every `.nix` file under `modules/` is a flake-parts module, imported automatical
         ├── cli.nix              a bare package list, terminal
         ├── apps.nix             a bare package list, graphical
         ├── zellij.nix           a program that owns only settings
+        ├── shell/               fish, its aliases, and the scripts it carries
         ├── foot/                a program that owns data and scripts too
         │   ├── foot.nix           the module
         │   ├── _settings.nix      data, shared with the package below
@@ -66,6 +67,7 @@ Aspects are just names that many files write to: import `nixos.desktop` and you 
 Any machine with nix and an internet connection can run a piece of this config without installing it:
 
 ```bash
+nix run github:boatette/nix#shell-env    # fish, with every alias, function and tool
 nix run github:boatette/nix#nvim
 nix run github:boatette/nix#niri
 nix run github:boatette/nix#noctalia
