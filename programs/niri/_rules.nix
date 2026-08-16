@@ -100,6 +100,7 @@
       { app-id = ''^org\.gnome\.Nautilus$''; }
       { app-id = "^thunar"; }
       { app-id = "^nemo"; }
+      { app-id = "^dolphin"; }
     ];
     opacity = 0.8;
   }

@@ -39,7 +39,7 @@ in
 {
   "Mod+T".spawn-sh = "footclient-themed";
   "Mod+W".spawn-sh = "zen-beta";
-  "Mod+E".spawn-sh = "nemo";
+  "Mod+E".spawn-sh = "dolphin";
 
   "Mod+Alt+T".spawn-sh = "ghostty";
   "Mod+Alt+W".spawn-sh = "helium";
