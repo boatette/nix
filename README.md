@@ -16,21 +16,31 @@ NixOS configuration for niri + noctalia.
 Every `.nix` file under `modules/` is a flake-parts module, imported automatically by [import-tree](https://github.com/denful/import-tree). `flake.nix` is just inputs and one line. The walker only sees files git knows about, so `git add` new files before rebuilding.
 
 ```
-flake.nix        inputs, and one line handing ./modules to import-tree
-
-modules/
-  nix/           how the flake itself is assembled
-                 flake-parts, nixpkgs, packages, home-manager, lib,
-                 formatter, checks
-  hosts/         one directory per machine
-    aspire/
-  system/        aspects that are not a program
-    base/        everything every machine gets
-    desktop/     the desktop session
-    backup/
-    gaming.nix
-    virtualbox.nix
-  programs/      one file (or dir) per program
+~/nix/
+├── flake.nix                  inputs, and one line handing ./modules to import-tree
+└── modules/
+    ├── nix/                   how the flake itself is assembled
+    │   └── packages.nix         collects every *.pkg.nix in the tree
+    ├── hosts/                 one directory per machine
+    │   └── aspire/              disko, hardware, graphics, monitors, storage
+    ├── system/                aspects that are not a program
+    │   ├── base/                everything every machine gets
+    │   ├── desktop/             the desktop session
+    │   ├── backup/              a module that ships scripts with it
+    │   ├── preferences.nix      the options a host sets
+    │   └── gaming.nix           an aspect a host opts into
+    └── programs/              one file, or one directory, per program
+        ├── cli.nix              a bare package list, terminal
+        ├── apps.nix             a bare package list, graphical
+        ├── zellij.nix           a program that owns only settings
+        ├── foot/                a program that owns data and scripts too
+        │   ├── foot.nix           the module
+        │   ├── _settings.nix      data, shared with the package below
+        │   └── foot-themed.pkg.nix
+        ├── noctalia/            big enough to split its settings up
+        │   └── _settings/         a whole directory skipped by the walker
+        └── nvim/
+            └── config/            plain lua, edited live, no rebuild
 ```
 
 Three file-naming conventions, and that is the whole vocabulary:
