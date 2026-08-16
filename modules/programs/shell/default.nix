@@ -42,6 +42,7 @@ in
           options = [ "--cmd cd" ];
 
           enableFishIntegration = false;
+          enableZshIntegration = false;
         };
 
         bash = {
@@ -54,7 +55,14 @@ in
           enable = true;
           enableCompletion = true;
           autosuggestion.enable = true;
-          initContent = posixFunctions;
+
+          initContent = lib.mkMerge [
+            posixFunctions
+
+            (lib.mkAfter ''
+              eval "$(${lib.getExe pkgs.zoxide} init zsh --cmd cd)"
+            '')
+          ];
         };
 
         fish = {
