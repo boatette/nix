@@ -63,7 +63,6 @@ Partitioning is declarative, in `hosts/aspire/disk.nix`. Use the minimal ISO, no
    ```
 
    Drop `--dry-run` to do it.
-   Installing from a branch rather than master is `github:boatette/nix/<branch>#aspire`, here and in step 5.
 
 4. Clone the repo to where it lives after the reboot:
 
@@ -96,15 +95,3 @@ Partitioning is declarative, in `hosts/aspire/disk.nix`. Use the minimal ISO, no
    ```
 
 7. Reboot
-
-## Known issues
-
-If steam misbehaves after installing it, try:
-
-```bash
-steam -cef-disable-gpu-compositing
-```
-
-If it still misbehaves, remove `~/.steam` and/or `~/.local/share/Steam/`. After it launches, close it and launch normally so Millennium loads.
-
-`nix flake check` warns about an unknown flake output `modules`. That is expected, `flake.modules` is a flake-parts convention, not a nix-native output name.
