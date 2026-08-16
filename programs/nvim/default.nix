@@ -30,7 +30,7 @@ in
       home.packages = [
         (mkNvim {
           inherit (pkgs.stdenv.hostPlatform) system;
-          configDirectory = "${config.home.homeDirectory}/nix/programs/neovim/config";
+          configDirectory = "${config.home.homeDirectory}/nix/programs/nvim/config";
         })
       ];
     };
