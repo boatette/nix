@@ -85,6 +85,11 @@ in
     ];
     thickness = 32;
     widget_spacing = 12;
+
+    dead_zone.actions = {
+      scroll_up = "workspace-switch prev";
+      scroll_down = "workspace-switch next";
+    };
   };
 
   brightness.sync_all_monitors = true;
