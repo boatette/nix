@@ -1,11 +1,5 @@
 {
-  lib,
-  pkgs,
-  monitors,
-  homeDirectory,
-  templates,
   primaryMonitor,
-  loginBoxes,
   ...
 }:
 

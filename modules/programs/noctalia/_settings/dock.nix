@@ -1,13 +1,4 @@
-{
-  lib,
-  pkgs,
-  monitors,
-  homeDirectory,
-  templates,
-  primaryMonitor,
-  loginBoxes,
-  ...
-}:
+_:
 
 {
   dock = {
