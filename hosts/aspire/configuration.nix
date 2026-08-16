@@ -71,7 +71,7 @@
       };
 
       fileSystems."/mnt/storage" = {
-        device = "/dev/disk/by-uuid/e59f23dd-5e74-46b9-92bf-386ec2fa9c27"; # not partuuid
+        device = "/dev/disk/by-id/usb-Samsung_PSSD_T7_Shield_S6SKNS0WA05132K-0:0-part1";
         fsType = "ext4";
         options = [
           "nofail"
