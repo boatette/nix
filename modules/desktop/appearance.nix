@@ -54,6 +54,12 @@
           fi
         '';
 
+        activation.kdeIconTheme = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+          run ${lib.getExe' pkgs.kdePackages.kconfig "kwriteconfig6"} \
+              --file "${config.xdg.configHome}/kdeglobals" \
+              --group Icons --key Theme Papirus
+        '';
+
         packages = with pkgs; [
           gtk3
           qt6Packages.qt6ct

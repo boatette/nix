@@ -1,4 +1,9 @@
 {
+  flake.modules.nixos.desktop.environment.profileRelativeSessionVariables = {
+    QT_PLUGIN_PATH = [ "/lib/qt-6/plugins" ];
+    QML2_IMPORT_PATH = [ "/lib/qt-6/qml" ];
+  };
+
   flake.modules.nixos.desktop.environment.sessionVariables = {
     ELECTRON_OZONE_PLATFORM_HINT = "auto";
 
