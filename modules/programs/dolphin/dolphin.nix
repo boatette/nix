@@ -42,20 +42,19 @@
     {
       home = {
         packages = with pkgs; [
-          (symlinkJoin {
-            name = "dolphin-kde-theme";
-            paths = [ kdePackages.dolphin ];
-            nativeBuildInputs = [ makeWrapper ];
-            postBuild = ''
-              wrapProgram $out/bin/dolphin --set QT_QPA_PLATFORMTHEME kde
-            '';
-          })
+          dolphin-themed
 
           kdePackages.plasma-integration
           kdePackages.breeze
 
           kdePackages.kio-fuse
           kdePackages.kconfig
+
+          kdePackages.kio-extras
+          kdePackages.kdegraphics-thumbnailers
+          kdePackages.ffmpegthumbs
+          kdePackages.kimageformats
+          kdePackages.qtimageformats
         ];
 
         activation.dolphinSettings = lib.hm.dag.entryAfter [ "writeBoundary" ] (

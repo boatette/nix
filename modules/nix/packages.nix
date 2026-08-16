@@ -8,7 +8,9 @@ let
   );
 in
 {
-  flake.overlays.default = final: _prev: lib.mapAttrs (_: file: final.callPackage file { }) named;
+  flake.overlays.default =
+    final: prev:
+    lib.mapAttrs (_: file: lib.callPackageWith (final // { unwrapped = prev; }) file { }) named;
 
   perSystem =
     { pkgs, ... }:
