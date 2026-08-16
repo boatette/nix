@@ -6,6 +6,12 @@
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     flake-parts.url = "github:hercules-ci/flake-parts";
+    import-tree.url = "github:denful/import-tree";
+    treefmt-nix = {
+      url = "github:numtide/treefmt-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     disko = {
       url = "github:nix-community/disko/latest";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -54,29 +60,14 @@
     };
 
     selector = {
-      url = "git+file:///home/boatette/Projects/selector/";
+      url = "github:boatette/selector";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
   outputs =
     inputs:
-    let
-      inherit (inputs.nixpkgs) lib;
-      inherit (lib.fileset) toList fileFilter;
-
-      isNixModule = file: file.hasExt "nix" && file.name != "flake.nix" && !lib.hasPrefix "_" file.name;
-
-      importTree = path: toList (fileFilter isNixModule path);
-
-      mkFlake = inputs.flake-parts.lib.mkFlake { inherit inputs; };
-    in
-    mkFlake {
-      imports = [ inputs.flake-parts.flakeModules.modules ] ++ importTree ./.;
-
-      systems = [
-        "x86_64-linux"
-        "aarch64-linux"
-      ];
-    };
+    inputs.flake-parts.lib.mkFlake { inherit inputs; } (
+      inputs.import-tree.filterNot (inputs.nixpkgs.lib.hasSuffix ".pkg.nix") ./modules
+    );
 }

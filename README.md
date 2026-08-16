@@ -13,35 +13,62 @@ NixOS configuration for niri + noctalia.
 
 ## Layout
 
-Every `.nix` file in the tree is imported automatically. `flake.nix` walks the repo and picks up everything except itself and files whose name starts with `_`. The walker only sees files git knows about, so `git add` new files before rebuilding.
+Every `.nix` file under `modules/` is a flake-parts module, imported automatically by [import-tree](https://github.com/denful/import-tree). `flake.nix` is just inputs and one line. The walker only sees files git knows about, so `git add` new files before rebuilding.
 
 ```
-flake.nix        inputs, the import walker, flake-parts plumbing
+flake.nix        inputs, and one line handing ./modules to import-tree
 
-hosts/           one directory per machine
-  aspire/
-
-modules/         aspects that are not a program
-  base/          everything every machine gets
-  desktop/       the desktop session
-  gaming.nix
-  virtualbox.nix
-
-programs/        one file (or dir) per program
+modules/
+  nix/           how the flake itself is assembled
+                 flake-parts, nixpkgs, packages, home-manager, lib,
+                 formatter, checks
+  hosts/         one directory per machine
+    aspire/
+  system/        aspects that are not a program
+    base/        everything every machine gets
+    desktop/     the desktop session
+    backup/
+    gaming.nix
+    virtualbox.nix
+  programs/      one file (or dir) per program
 ```
 
-`_`-prefixed files are data instead of modules. They are skipped by the walker and imported explicitly by whoever needs them. If you add a file that is a plain list or attrset rather than a module, prefix it with `_` or evaluation will fail.
+Three file-naming conventions, and that is the whole vocabulary:
+
+| Name           | Meaning                                                                                                                                        |
+| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| `_name.nix`    | Data imported explicitly by whoever needs it. Skipped by the walker, which ignores any path containing `/_`                                    |
+| `name.pkg.nix` | A package, Picked up by `modules/nix/packages.nix`, which publishes it as `pkgs.name` for every module _and_ as a flake package `nix run`-able |
+| `name.nix`     | A module, merged into `flake.modules.<class>.<aspect>`.                                                                                        |
+
+Aspects are just names that many files write to: import `nixos.desktop` and you get every file that contributes to it. A `homeManager` aspect is attached to the `nixos` aspect of the same name automatically, so there is no bridge to write. Values are shared through options (`config.preferences.*`, or `osConfig.preferences.*` from a home-manager module), never `specialArgs`.
 
 ### Where does a new thing go?
 
-- Owns more than a package (config, a service, an env var, a script, a system half)? `programs/[name].nix`, or `programs/[name]/` if it needs data files.
-- Only a package? Append to `programs/apps.nix` (graphical) or `programs/cli.nix` (terminal).
-- Not a program at all? `modules/base/` if every machine wants it, `modules/desktop/` if it belongs to the desktop session, otherwise its own `modules/[name].nix`.
+- Owns more than a package (config, a service, an env var, a script, a system half)? `modules/programs/[name].nix`, or `modules/programs/[name]/` if it needs data or scripts.
+- Only a package? Append to `modules/programs/apps.nix` (graphical) or `cli.nix` (terminal).
+- Not a program at all? `modules/system/base/` if every machine wants it, `modules/system/desktop/` if it belongs to the desktop session, otherwise its own `modules/system/[name].nix`.
+- A new machine? `modules/hosts/[name]/`, with a `flake-parts.nix` calling `mkNixos "<system>" "[name]"`. Everything else in that directory merges into `flake.modules.nixos.[name]`.
 - A namespace where you want to see every entry at once? Keep it as one `_`-prefixed data file.
+
+## Running it anywhere
+
+Any machine with nix and an internet connection can run a piece of this config without installing it:
+
+```bash
+nix run github:boatette/nix#nvim
+nix run github:boatette/nix#niri
+nix run github:boatette/nix#noctalia
+nix run github:boatette/nix#extract -- archive.tar.zst
+```
+
+`nix flake check` builds every one of them, which is what keeps that promise honest — a package that reaches for `/home/boatette` or a local-path input stops building here before it stops working elsewhere.
+
+`nix fmt` formats the tree (nixfmt for nix, stylua for the Neovim config). Shell scripts are deliberately excluded; they are checked by shellcheck at build time instead, via `writeShellApplication`.
 
 ## Installing
 
-Partitioning is declarative, in `hosts/aspire/disk.nix`. Use the minimal ISO, no graphical installer is involved. `fileSystems` is generated by disko, so nothing under `hosts/` needs editing per install.
+Partitioning is declarative, in `modules/hosts/aspire/disko.nix`. Use the minimal ISO, no graphical installer is involved. `fileSystems` is generated by disko, so nothing under `modules/hosts/` needs editing per install.
 
 1. Setup the ISO environment:
 

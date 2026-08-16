@@ -143,6 +143,21 @@
         "type": "github"
       }
     },
+    "import-tree": {
+      "locked": {
+        "lastModified": 1784254960,
+        "narHash": "sha256-iI88R3wHz8wTKQb5orvpc51L/Xr64AJyxid/0MKa/b8=",
+        "owner": "denful",
+        "repo": "import-tree",
+        "rev": "4ebb10ae17d5f1ad366e7aef5b92cb8eecf24f69",
+        "type": "github"
+      },
+      "original": {
+        "owner": "denful",
+        "repo": "import-tree",
+        "type": "github"
+      }
+    },
     "millennium": {
       "inputs": {
         "millennium-src": "millennium-src",
@@ -370,6 +385,7 @@
         "flake-parts": "flake-parts",
         "helium": "helium",
         "home-manager": "home-manager",
+        "import-tree": "import-tree",
         "millennium": "millennium",
         "neovim-nightly-overlay": "neovim-nightly-overlay",
         "nixpkgs": "nixpkgs",
@@ -379,6 +395,7 @@
         "plugins-everforest-nvim": "plugins-everforest-nvim",
         "plugins-github-monochrome-nvim": "plugins-github-monochrome-nvim",
         "selector": "selector",
+        "treefmt-nix": "treefmt-nix",
         "wrapper-modules": "wrapper-modules",
         "zen-browser": "zen-browser"
       }
@@ -392,15 +409,15 @@
       "locked": {
         "lastModified": 1786766732,
         "narHash": "sha256-3z2xe3jajCigpTdb5RPXiDIHy9ej5fXjKOyT6UKLCXc=",
-        "ref": "refs/heads/master",
+        "owner": "boatette",
+        "repo": "selector",
         "rev": "06c234e2f3f26c8785b37c4ab8afff227bcd283c",
-        "revCount": 23,
-        "type": "git",
-        "url": "file:///home/boatette/Projects/selector/"
+        "type": "github"
       },
       "original": {
-        "type": "git",
-        "url": "file:///home/boatette/Projects/selector/"
+        "owner": "boatette",
+        "repo": "selector",
+        "type": "github"
       }
     },
     "systems": {
@@ -415,6 +432,26 @@
       "original": {
         "owner": "nix-systems",
         "repo": "default",
+        "type": "github"
+      }
+    },
+    "treefmt-nix": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1785945821,
+        "narHash": "sha256-NLSyTCW4K4ofhNBllt3omPasm6QpralXH1DBZOc91Dw=",
+        "owner": "numtide",
+        "repo": "treefmt-nix",
+        "rev": "ae7910970dddc408fe6ab1c8e4b277bb21d72dc0",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "treefmt-nix",
         "type": "github"
       }
     },
