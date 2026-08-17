@@ -4,27 +4,27 @@ _:
   shell = {
     app_icon_colorize = false;
     avatar_path = "";
-    button_borders = true;
-    card_borders = true;
+    button_borders = false;
+    card_borders = false;
     clipboard_auto_paste = "auto";
     clipboard_confirm_clear_history = true;
     clipboard_enabled = true;
     clipboard_history_max_entries = 100;
     clipboard_image_action_command = "";
     clipboard_keep_from_closed_apps = true;
-    corner_radius_scale = 0.0;
+    corner_radius_scale = 1.0;
     date_format = "%A, %x";
     disable_mipmaps = false;
     external_ip_enabled = false;
     font_family = "sans-serif";
-    input_borders = true;
+    input_borders = false;
     launch_apps_as_systemd_services = true;
     launch_apps_custom_command = "";
     niri_overview_type_to_launch_enabled = true;
     offline_mode = false;
     password_style = "default";
     polkit_agent = true;
-    popup_borders = true;
+    popup_borders = false;
     popup_shadows = false;
     screen_time_enabled = true;
     settings_show_advanced = true;
@@ -72,14 +72,14 @@ _:
     mpris.blacklist = [ ];
 
     panel = {
-      borders = true;
+      borders = false;
       clipboard_placement = "floating";
       clipboard_position = "center";
-      control_center_placement = "floating";
+      control_center_placement = "attached";
       control_center_position = "auto";
       floating_layer = "overlay";
       floating_offset = 8;
-      launcher_placement = "floating";
+      launcher_placement = "attached";
       launcher_position = "center";
       list_item_background = true;
       open_near_click_clipboard = false;
@@ -93,7 +93,7 @@ _:
       session_position = "top_center";
       shadow = true;
       transparency_mode = "glass";
-      wallpaper_placement = "floating";
+      wallpaper_placement = "attached";
       wallpaper_position = "top_center";
     };
 
@@ -367,7 +367,7 @@ _:
 
   notification = {
     background_opacity = 0.97;
-    border = true;
+    border = false;
     collapse_on_dismiss = true;
     enable_daemon = true;
     history_retention_hours = 0;
@@ -384,7 +384,7 @@ _:
 
   osd = {
     background_opacity = 0.97;
-    border = true;
+    border = false;
     enabled = true;
     monitors = [ ];
     offset_x = 20;

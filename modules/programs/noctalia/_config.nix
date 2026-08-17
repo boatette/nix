@@ -31,7 +31,7 @@ let
         background_radius = 0.0;
         center_password_text = true;
         input_opacity = 1.0;
-        input_radius = 0.0;
+        input_radius = 4.0;
         layout = "compact";
         show_caps_lock = true;
         show_keyboard_layout = false;

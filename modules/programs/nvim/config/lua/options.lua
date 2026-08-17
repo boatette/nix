@@ -16,7 +16,7 @@ o.wrap = false
 o.splitright = true
 o.splitbelow = true
 
-o.winborder = "single"
+o.winborder = "rounded"
 
 vim.schedule(function()
     opt.clipboard = "unnamedplus"

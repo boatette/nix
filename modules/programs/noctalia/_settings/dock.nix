@@ -8,8 +8,8 @@ _:
     auto_hide = false;
     background_opacity = 0.88;
     border = "outline";
-    border_width = 1.0;
-    concave_edge_corners = false;
+    border_width = 0.0;
+    concave_edge_corners = true;
     cross_axis_padding = 8;
     enabled = true;
     icon_size = 40;
@@ -24,7 +24,7 @@ _:
     magnification = true;
     magnification_scale = 1.45;
     main_axis_padding = 16;
-    margin_edge = 8;
+    margin_edge = 0;
     margin_ends = 0;
     monitors = [ ];
     pinned = [
@@ -37,11 +37,11 @@ _:
       "org.kde.dolphin"
     ];
     position = "bottom";
-    radius = 0;
-    radius_bottom_left = 0;
-    radius_bottom_right = 0;
-    radius_top_left = 0;
-    radius_top_right = 0;
+    radius = 4;
+    radius_bottom_left = 4;
+    radius_bottom_right = 4;
+    radius_top_left = 4;
+    radius_top_right = 4;
     reserve_space = false;
     shadow = true;
     show_dots = true;

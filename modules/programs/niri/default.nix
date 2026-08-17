@@ -57,8 +57,8 @@ let
           background-color = "transparent";
 
           focus-ring = {
-            off = _: { };
-            width = 1;
+            on = _: { };
+            width = 2;
           };
 
           default-column-width.proportion = 0.5;
@@ -70,8 +70,8 @@ let
           ];
 
           border = {
-            on = _: { };
-            width = 1;
+            off = _: { };
+            width = 2;
           };
 
           shadow = {
@@ -85,8 +85,8 @@ let
           };
 
           struts = {
-            left = 0;
-            right = 40;
+            left = 42;
+            right = 42;
             top = 0;
             bottom = 0;
           };

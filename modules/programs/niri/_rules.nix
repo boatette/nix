@@ -1,6 +1,6 @@
 [
   {
-    geometry-corner-radius = 0;
+    geometry-corner-radius = 4;
     clip-to-geometry = true;
     draw-border-with-background = false;
     background-effect = {

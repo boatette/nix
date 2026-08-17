@@ -26,7 +26,7 @@
         type = "boatette/binary-clock:desktop";
 
         settings = {
-          background_radius = 0;
+          background_radius = 4;
           show_digits = false;
           show_headers = false;
           show_labels = false;
