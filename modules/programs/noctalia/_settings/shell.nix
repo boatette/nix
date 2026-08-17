@@ -109,14 +109,14 @@ _:
     };
 
     screenshot = {
-      confirm_region = false;
+      confirm_region = true;
       copy_to_clipboard = true;
       directory = "~/Pictures/Screenshots";
       filename_pattern = "Screenshot from %Y-%m-%d %H-%M-%S";
       freeze_screen = true;
       pipe_command = "";
       pipe_to_command = false;
-      remember_last_region = false;
+      remember_last_region = true;
       save_to_file = true;
       show_cursor = false;
     };

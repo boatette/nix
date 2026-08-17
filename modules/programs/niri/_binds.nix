@@ -74,7 +74,7 @@ in
   "Mod+A" = act "toggle-column-tabbed-display";
 
   "Print" = act "screenshot";
-  "Mod+Shift+S" = act "screenshot";
+  "Mod+Shift+S".spawn-sh = "noctalia msg screenshot-region";
 
   "XF86AudioRaiseVolume" = lockedSpawn "noctalia msg volume-up";
   "XF86AudioLowerVolume" = lockedSpawn "noctalia msg volume-down";
