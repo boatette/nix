@@ -41,6 +41,7 @@
 
   please = "sudo";
   jctl = "journalctl -p 3 -xb";
+  ff = "fastfetch";
   q = "exit";
   ZQ = "exit";
   h = "history";
