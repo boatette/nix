@@ -43,7 +43,7 @@ _:
       branch = "nixos-26.05";
       update_command = "nix flake update --flake ~/nix";
     };
-    "boatette/auto-theme".default_dynamic_scheme = "wallust";
+    "boatette/auto-theme".default_dynamic_scheme = "vibrant";
     "noctalia/screen_recorder".copy_to_clipboard = true;
     "noctalia/wallhaven".download_dir = "~/Pictures/Wallpapers/Dynamic";
   };

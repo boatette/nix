@@ -11,8 +11,6 @@
     {
       imports = [ inputs.noctalia.homeModules.default ];
 
-      home.packages = [ pkgs.wallust-palette ];
-
       programs.noctalia = {
         enable = true;
         systemd.enable = true;
