@@ -15,6 +15,8 @@
       ];
     in
     {
+      kde.settings.kdeglobals.Icons.Theme = "Papirus";
+
       gtk = {
         enable = true;
 
@@ -52,12 +54,6 @@
               done
               run echo "${papirus}" > "$stamp"
           fi
-        '';
-
-        activation.kdeIconTheme = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-          run ${lib.getExe' pkgs.kdePackages.kconfig "kwriteconfig6"} \
-              --file "${config.xdg.configHome}/kdeglobals" \
-              --group Icons --key Theme Papirus
         '';
 
         packages = with pkgs; [

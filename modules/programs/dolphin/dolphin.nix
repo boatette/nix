@@ -1,13 +1,8 @@
 {
   flake.modules.homeManager.desktop =
+    { pkgs, ... }:
     {
-      pkgs,
-      lib,
-      config,
-      ...
-    }:
-    let
-      settings = {
+      kde.settings = {
         dolphinrc = {
           General = {
             ShowFullPath = true;
@@ -25,44 +20,23 @@
         };
       };
 
-      kwriteconfig = lib.getExe' pkgs.kdePackages.kconfig "kwriteconfig6";
+      home.packages = with pkgs; [
+        dolphin-themed
 
-      writeKey = file: group: key: value: ''
-        run ${kwriteconfig} --file ${lib.escapeShellArg "${config.xdg.configHome}/${file}"} \
-            --group ${lib.escapeShellArg group} --key ${lib.escapeShellArg key} \
-            ${lib.escapeShellArg (if lib.isBool value then lib.boolToString value else toString value)}
-      '';
+        kdePackages.plasma-integration
+        kdePackages.breeze
 
-      writeGroups =
-        file: groups:
-        lib.concatLists (
-          lib.mapAttrsToList (group: keys: lib.mapAttrsToList (writeKey file group) keys) groups
-        );
-    in
-    {
-      home = {
-        packages = with pkgs; [
-          dolphin-themed
+        kdePackages.kio-fuse
+        kdePackages.kconfig
 
-          kdePackages.plasma-integration
-          kdePackages.breeze
+        kdePackages.konsole
 
-          kdePackages.kio-fuse
-          kdePackages.kconfig
-
-          kdePackages.konsole
-
-          kdePackages.kio-extras
-          kdePackages.kdegraphics-thumbnailers
-          kdePackages.ffmpegthumbs
-          kdePackages.kimageformats
-          kdePackages.qtimageformats
-        ];
-
-        activation.dolphinSettings = lib.hm.dag.entryAfter [ "writeBoundary" ] (
-          lib.concatStrings (lib.concatLists (lib.mapAttrsToList writeGroups settings))
-        );
-      };
+        kdePackages.kio-extras
+        kdePackages.kdegraphics-thumbnailers
+        kdePackages.ffmpegthumbs
+        kdePackages.kimageformats
+        kdePackages.qtimageformats
+      ];
     };
 
   flake.modules.nixos.desktop =

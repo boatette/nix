@@ -41,6 +41,10 @@
       ];
 
       user = {
+        konsole = {
+          input_path = "${templates}/konsole/konsole.colorscheme";
+          output_path = "${homeDirectory}/.local/share/konsole/Noctalia.colorscheme";
+        };
         nvim = {
           input_path = "${templates}/nvim/nvim.lua";
           output_path = "${homeDirectory}/.config/nvim/noctalia.lua";
