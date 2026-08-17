@@ -63,6 +63,11 @@
       url = "github:boatette/selector";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    areofyl-fetch = {
+      url = "github:areofyl/fetch";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
   };
 
   outputs =
