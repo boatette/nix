@@ -9,6 +9,7 @@
         eza
         fd
         fzf
+        gh
         jq
         lm_sensors
         ripgrep

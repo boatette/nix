@@ -16,6 +16,7 @@
   yazi,
   git,
   lazygit,
+  gh,
 
   backup,
   copy,
@@ -53,6 +54,7 @@ let
     yazi
     git
     lazygit
+    gh
 
     backup
     copy
