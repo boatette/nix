@@ -10,10 +10,10 @@ usage() {
     cat <<EOF
 usage: ${0##*/} [--skip-optimise] [theme ...]
 
-  --skip-optimise   reuse the existing _optimised tree instead of rebuilding it
+  --skip-optimise   reuse the existing .optimised tree instead of rebuilding it
   theme ...         themes to pack (default: ${THEMES[*]})
 
-Writes \$WALLPAPER_DIR/dist/wallpapers-<theme>.tar.zst
+Writes \$WALLPAPER_DIR/.dist/wallpapers-<theme>.tar.zst
 EOF
 }
 
@@ -45,8 +45,8 @@ if [ "${#selected[@]}" -gt 0 ]; then
 fi
 
 WALLS="${WALLS%/}"
-SRC="$WALLS/_optimised"
-DIST="$WALLS/dist"
+SRC="$WALLS/.optimised"
+DIST="$WALLS/.dist"
 
 if [ ! -d "$WALLS" ]; then
     echo "no such directory: $WALLS" >&2

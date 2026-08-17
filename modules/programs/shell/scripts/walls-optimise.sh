@@ -13,7 +13,7 @@ usage() {
 usage: ${0##*/} [options]
 
   -s, --src DIR      source tree (default: \$WALLPAPER_DIR)
-  -d, --dst DIR      output tree (default: <src>/_optimised)
+  -d, --dst DIR      output tree (default: <src>/.optimised)
   -q, --quality N    lossy WebP quality 0-100 (default: $QUALITY)
   -j, --jobs N       parallel workers (default: nproc)
   -n, --dry-run      classify and report, convert nothing
@@ -56,7 +56,7 @@ while [ $# -gt 0 ]; do
 done
 
 SRC="${SRC%/}"
-[ -n "$DST" ] || DST="$SRC/_optimised"
+[ -n "$DST" ] || DST="$SRC/.optimised"
 DST="${DST%/}"
 
 if [ ! -d "$SRC" ]; then
@@ -75,9 +75,6 @@ mkdir -p "$DST" || exit 1
 SRC_ABS="$(cd "$SRC" && pwd)" || exit 1
 DST_ABS="$(cd "$DST" && pwd)" || exit 1
 
-# ---------------------------------------------------------------- worker
-
-# Emits one TSV line per file: action, source bytes, output bytes, path.
 process_one() {
     local rel="$1"
     local in="$SRC_ABS/$rel"
@@ -110,7 +107,6 @@ process_one() {
     pf=$(ffprobe -v error -select_streams v:0 -show_entries stream=pix_fmt \
         -of csv=p=0 "$in" 2>/dev/null)
 
-    # A .png that decodes as YUV is really a JPEG. Renaming beats re-encoding.
     case "$pf" in
     yuv*)
         if [ "$DRY" -eq 0 ]; then
@@ -129,7 +125,6 @@ process_one() {
     if [ "$pf" = "pal8" ]; then
         mode="lossless"
     elif [ "$pf" = "rgba" ]; then
-        # Most RGBA wallpapers carry a dead, fully-opaque alpha channel.
         local ymin
         ymin=$(ffmpeg -v error -i "$in" \
             -vf "alphaextract,signalstats,metadata=print:key=lavfi.signalstats.YMIN:file=-" \
@@ -186,7 +181,6 @@ process_one() {
     local outsize
     outsize=$(stat -c%s "$tmp")
 
-    # A WebP that isn't smaller has no reason to exist.
     if [ "$outsize" -ge "$insize" ]; then
         rm -f "$tmp"
         keep_original not-smaller-kept-original
@@ -201,8 +195,6 @@ process_one() {
 export -f process_one
 export SRC_ABS DST_ABS QUALITY ENCODER DRY
 
-# ---------------------------------------------------------------- drive
-
 echo "source:  $SRC_ABS"
 echo "output:  $DST_ABS"
 echo "encoder: $ENCODER (quality $QUALITY, $JOBS jobs)"
@@ -215,12 +207,11 @@ LOG="$(mktemp)"
 trap 'rm -f "$LOG"' EXIT
 
 cd "$SRC_ABS" || exit 1
-find . -path ./.git -prune -o -path "./${DST_ABS##*/}" -prune -o -type f -print0 |
+
+find . -name '.?*' -type d -prune -o -type f -print0 |
     sed -z 's|^\./||' |
     xargs -0 -P "$JOBS" -I{} "$BASH" -c 'process_one "$@"' _ {} \
         >"$LOG"
-
-# ---------------------------------------------------------------- report
 
 awk -F'\t' '
 { act[$1]++; bin[$1]+=$2; bout[$1]+=$3; tin+=$2; tout+=$3; n++ }

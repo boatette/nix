@@ -1,6 +1,7 @@
 {
   writeShellApplication,
   gh,
+  curl,
   coreutils,
   findutils,
 }:
@@ -11,6 +12,7 @@ writeShellApplication {
 
   runtimeInputs = [
     gh
+    curl
     coreutils
     findutils
   ];
