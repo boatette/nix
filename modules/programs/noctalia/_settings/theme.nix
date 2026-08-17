@@ -6,13 +6,7 @@
 
 {
   theme = {
-    builtin = "Noctalia";
-    community_palette = "Oxocarbon";
-    custom_palette = "";
-    mode = "dark";
     pure_black_dark = false;
-    source = "builtin";
-    wallpaper_scheme = "m3-content";
 
     templates = {
       enable_builtin_templates = true;
