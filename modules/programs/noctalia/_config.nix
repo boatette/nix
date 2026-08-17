@@ -45,6 +45,7 @@ let
   };
 
   loginBoxes = map loginBox outputs;
+  flakeDir = "${homeDirectory}/nix";
   args = {
     inherit
       lib
@@ -54,6 +55,7 @@ let
       templates
       primaryMonitor
       loginBoxes
+      flakeDir
       ;
   };
 
