@@ -97,7 +97,7 @@
 
   {
     matches = [
-      { app-id = "^dolphin"; }
+      { app-id = "^org\.kde\.dolphin"; }
     ];
     opacity = 0.8;
   }
