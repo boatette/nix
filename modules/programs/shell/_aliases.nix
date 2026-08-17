@@ -9,9 +9,9 @@
 
   tarnow = "tar -acf";
   untar = "tar -zxvf";
-  pkgwalls = "env XZ_OPT=-9e tar --exclude='.git' --exclude='wallpapers.tar.xz' --exclude='README.md' -cJvf ~/Pictures/Wallpapers/wallpapers.tar.xz -C ~/Pictures/Wallpapers .";
-  pushwalls = ''gh release create $(date +%Y.%m.%d) ~/Pictures/Wallpapers/wallpapers.tar.xz --repo boatette/wallpapers --notes "Wallpaper pack $(date +%Y.%m.%d)"'';
-  pullwalls = "mkdir -p ~/Pictures/Wallpapers && curl -fL https://github.com/boatette/wallpapers/releases/latest/download/wallpapers.tar.xz | tar --xz -x -C ~/Pictures/Wallpapers";
+  pkgwalls = "walls-pack";
+  pushwalls = "walls-push";
+  pullwalls = "walls-pull";
   wget = "wget -c";
   psmem = "ps auxf | sort -nr -k 4";
   psmem10 = "ps auxf | sort -nr -k 4 | head -10";

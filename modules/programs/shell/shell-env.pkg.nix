@@ -28,6 +28,11 @@
   unowned,
   open-zellij,
   prune-small,
+
+  walls-optimise,
+  walls-pack,
+  walls-push,
+  walls-pull,
 }:
 
 let
@@ -60,6 +65,11 @@ let
     unowned
     open-zellij
     prune-small
+
+    walls-optimise
+    walls-pack
+    walls-push
+    walls-pull
   ];
 
   conf = runCommand "shell-env-conf" { } ''

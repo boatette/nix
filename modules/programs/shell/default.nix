@@ -32,6 +32,11 @@ in
         unowned
         open-zellij
         prune-small
+
+        walls-optimise
+        walls-pack
+        walls-push
+        walls-pull
       ];
 
       programs = {
