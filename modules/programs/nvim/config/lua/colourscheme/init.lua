@@ -1,3 +1,4 @@
+local palettes = require("colourscheme.palette")
 local schemes = require("colourscheme.schemes")
 
 local M = {}
@@ -87,16 +88,26 @@ local TRANSPARENT_GROUPS = {
     "WinSeparator",
 }
 
-local function apply_generated(palette)
+local MUTED_GROUPS = {
+    "Delimiter",
+    "@punctuation.bracket",
+    "@punctuation.delimiter",
+}
+
+local function apply_generated(palette, is_light)
     if not palette then
         return false
     end
+    palette = palettes.normalise(palette, is_light)
     local ok = pcall(function()
         require("mini.base16").setup({ palette = palette })
     end)
     if ok then
         for _, group in ipairs(TRANSPARENT_GROUPS) do
             vim.api.nvim_set_hl(0, group, { bg = "none" })
+        end
+        for _, group in ipairs(MUTED_GROUPS) do
+            vim.api.nvim_set_hl(0, group, { fg = palette.base04 })
         end
     end
     return ok
@@ -129,7 +140,7 @@ function M.apply()
         return
     end
 
-    apply_generated(palette)
+    apply_generated(palette, is_light)
 end
 
 function M.setup(providers)
