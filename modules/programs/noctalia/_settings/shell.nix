@@ -163,5 +163,5 @@ _:
     position_vertical = "center_left";
   };
 
-  wallpaper.transition_on_startup = true;
+  wallpaper.transition_on_startup = false;
 }
