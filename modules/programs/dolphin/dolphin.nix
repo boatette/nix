@@ -50,6 +50,8 @@
           kdePackages.kio-fuse
           kdePackages.kconfig
 
+          kdePackages.konsole
+
           kdePackages.kio-extras
           kdePackages.kdegraphics-thumbnailers
           kdePackages.ffmpegthumbs
