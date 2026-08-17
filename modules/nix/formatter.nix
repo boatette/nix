@@ -8,6 +8,8 @@
 
     programs = {
       nixfmt.enable = true;
+      ruff-check.enable = true;
+      ruff-format.enable = true;
       stylua.enable = true;
     };
 

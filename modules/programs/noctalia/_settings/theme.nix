@@ -44,6 +44,10 @@
           output_path = "${homeDirectory}/.config/nvim/noctalia.lua";
           post_hook = "pkill -SIGUSR1 nvim";
         };
+        palette = {
+          input_path = "${templates}/palette/palette.json";
+          output_path = "${homeDirectory}/.cache/noctalia/palette.json";
+        };
         selector = {
           input_path = "${templates}/selector/selector.toml";
           output_path = "${homeDirectory}/.config/selector/noctalia.toml";

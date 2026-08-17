@@ -1,4 +1,8 @@
-{ flakeDir, ... }:
+{
+  flakeDir,
+  pkgs,
+  ...
+}:
 
 {
   plugins = {
@@ -12,9 +16,8 @@
       "radimous/prismlauncher-instances"
       "yocraft/web-launcher"
       "nightwatch75/file-search"
-      "boatette/auto-theme"
-      "boatette/binary-clock"
-    ];
+    ]
+    ++ pkgs.noctalia-plugins.pluginIds;
 
     source = [
       {
@@ -31,8 +34,8 @@
       }
       {
         enabled = true;
-        kind = "git";
-        location = "git@github.com:boatette/noctalia-plugins.git";
+        kind = "path";
+        location = "${pkgs.noctalia-plugins}";
         name = "Personal";
       }
     ];

@@ -15,6 +15,7 @@
     colors_changed = [
       "noctalia msg plugin boatette/auto-theme:auto-theme all colors-changed"
       (lib.getExe pkgs.foot-live-theme)
+      "${lib.getExe pkgs.nocwall} tint --reason colors"
     ];
     logging_out = [ ];
     power_profile_changed = [ ];
@@ -28,6 +29,7 @@
     ];
     wallpaper_changed = [
       ''noctalia msg plugin boatette/auto-theme:auto-theme all wallpaper-changed "$NOCTALIA_WALLPAPER_PATH"''
+      ''${lib.getExe pkgs.nocwall} tint --reason wallpaper --connector "$NOCTALIA_WALLPAPER_CONNECTOR" --path "$NOCTALIA_WALLPAPER_PATH"''
     ];
     wifi_disabled = [ ];
     wifi_enabled = [ ];
