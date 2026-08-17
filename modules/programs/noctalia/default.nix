@@ -11,6 +11,8 @@
     {
       imports = [ inputs.noctalia.homeModules.default ];
 
+      home.packages = [ pkgs.imagemagick ];
+
       programs.noctalia = {
         enable = true;
         systemd.enable = true;
