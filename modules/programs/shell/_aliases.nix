@@ -9,9 +9,6 @@
 
   tarnow = "tar -acf";
   untar = "tar -zxvf";
-  pkgwalls = "walls-pack";
-  pushwalls = "walls-push";
-  pullwalls = "walls-pull";
   wget = "wget -c";
   psmem = "ps auxf | sort -nr -k 4";
   psmem10 = "ps auxf | sort -nr -k 4 | head -10";
