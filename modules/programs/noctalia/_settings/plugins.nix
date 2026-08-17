@@ -2,6 +2,8 @@ _:
 
 {
   plugins = {
+    auto_update = true;
+
     enabled = [
       "noctalia/wallhaven"
       "h465855hgg/lyrics"
@@ -16,16 +18,19 @@ _:
 
     source = [
       {
+        enabled = true;
         kind = "git";
         location = "https://github.com/noctalia-dev/official-plugins";
         name = "official";
       }
       {
+        enabled = true;
         kind = "git";
         location = "https://github.com/noctalia-dev/community-plugins";
         name = "community";
       }
       {
+        enabled = true;
         kind = "git";
         location = "git@github.com:boatette/noctalia-plugins.git";
         name = "Personal";

@@ -6,7 +6,17 @@
 }:
 
 {
-  lockscreen.monitors = [ primaryMonitor ];
+  lockscreen = {
+    allow_empty_password = false;
+    blur_intensity = 0.5;
+    blurred_desktop = false;
+    enabled = true;
+    fingerprint = true;
+    lock_before_suspend = true;
+    monitors = [ primaryMonitor ];
+    tint_intensity = 0.3;
+    wallpaper = "";
+  };
 
   lockscreen_widgets = {
     enabled = true;
