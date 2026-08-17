@@ -4,7 +4,10 @@
       enable = true;
 
       settings = {
-        logo = null;
+        logo = {
+          type = "builtin";
+          source = "none";
+        };
 
         display.separator = " ›  ";
 
