@@ -6,10 +6,6 @@ let
   act = name: { ${name} = _: { }; };
   keys = names: value: lib.genAttrs names (_: value);
 
-  killFocused = {
-    spawn-sh = ''pid=$(niri msg -j focused-window | jq -r '.pid // empty'); if [ -n "$pid" ]; then kill -9 "$pid"; fi'';
-  };
-
   workspaceBinds = lib.listToAttrs (
     lib.concatMap (n: [
       (lib.nameValuePair "Mod+${toString n}" { focus-workspace = n; })
@@ -57,8 +53,8 @@ in
   "Mod+G" = act "toggle-overview";
 
   "Mod+Q" = act "close-window";
-  "Mod+Shift+Q" = killFocused;
-  "Alt+F4" = killFocused;
+  "Mod+Shift+Q".spawn-sh =
+    ''pid=$(niri msg -j focused-window | jq -r '.pid // empty'); if [ -n "$pid" ]; then kill -9 "$pid"; fi'';
 
   "Mod+C" = act "center-column";
   "Mod+Ctrl+C" = act "center-visible-columns";
