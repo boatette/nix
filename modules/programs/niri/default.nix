@@ -18,6 +18,7 @@ let
         input = import ./_input.nix;
         outputs = import ./_outputs.nix { inherit lib monitors; };
         layout = import ./_layout.nix;
+        animations = import ./_animations.nix;
         binds = import ./_binds.nix { inherit pkgs; };
         window-rules = import ./_window-rules.nix;
         layer-rules = import ./_layer-rules.nix;
