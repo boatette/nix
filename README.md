@@ -1,4 +1,4 @@
-# nix#aspire
+# NixOS Config
 
 NixOS configuration for niri + noctalia.
 
