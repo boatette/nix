@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-
 _WHITE_X = 0.95047
 _WHITE_Y = 1.00000
 _WHITE_Z = 1.08883

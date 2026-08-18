@@ -4,7 +4,6 @@ from dataclasses import dataclass, field
 
 from . import color
 
-
 DEFAULT_MIN_MARGIN = 0.30
 DEFAULT_MAX_DISTANCE = 5.0
 

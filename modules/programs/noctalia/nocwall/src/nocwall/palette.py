@@ -8,7 +8,6 @@ from pathlib import Path
 
 from . import harvest, settings
 
-
 _EXTRA_FOLD = str.maketrans(
     {"ø": "o", "Ø": "o", "æ": "ae", "Æ": "ae", "ß": "ss", "đ": "d", "ł": "l"}
 )

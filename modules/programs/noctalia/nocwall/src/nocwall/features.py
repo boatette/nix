@@ -5,11 +5,10 @@ import os
 import random
 import shutil
 import subprocess
-from dataclasses import dataclass, asdict
+from dataclasses import asdict, dataclass
 from pathlib import Path
 
 from . import color
-
 
 SAMPLE = 64
 
