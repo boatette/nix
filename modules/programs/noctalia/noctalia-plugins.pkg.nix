@@ -13,7 +13,7 @@ let
     ) (builtins.readDir pluginsDir)
   );
 
-  manifest = name: builtins.fromTOML (builtins.readFile (pluginsDir + "/${name}/plugin.toml"));
+  manifest = name: fromTOML (builtins.readFile (pluginsDir + "/${name}/plugin.toml"));
 
   timestamps = {
     "boatette/auto-theme" = {
