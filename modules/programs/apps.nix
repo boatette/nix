@@ -19,7 +19,6 @@
           hunspell
         ])
         ++ [
-          inputs.zen-browser.packages.${system}.default
           inputs.helium.packages.${system}.default
         ];
     };

@@ -15,6 +15,7 @@
     colors_changed = [
       "noctalia msg plugin boatette/auto-theme:auto-theme all colors-changed"
       (lib.getExe pkgs.foot-live-theme)
+      (lib.getExe (import ../../zen/_reload.nix { inherit pkgs; }))
     ];
     logging_out = [ ];
     power_profile_changed = [ ];
