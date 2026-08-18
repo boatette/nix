@@ -43,8 +43,8 @@
 
   plugin_settings = {
     "avivbintangaringga/nix-monitor" = {
-      branch = "nixos-26.05";
-      update_command = ''nix flake update --flake ${flakeDir} && git -C ${flakeDir} commit -m "chore: update flake lock" flake.lock'';
+      branch = "nixos-unstable";
+      update_command = ''nix flake update --flake ${flakeDir} && { git -C ${flakeDir} commit -m "chore: update flake lock" flake.lock || true; } && sudo nixos-rebuild switch --flake ${flakeDir}'';
     };
     "boatette/auto-theme".default_dynamic_scheme = "vibrant";
     "noctalia/screen_recorder".copy_to_clipboard = true;
