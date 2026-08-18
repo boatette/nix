@@ -31,7 +31,7 @@ Hook commands run through `/bin/sh`, so `$NOCTALIA_WALLPAPER_PATH` expands. The 
 
 `colors_changed` and `theme_mode_changed` are only needed for the per-wallpaper scheme memory described below; drop them if you don't want it.
 
-Both hooks carry additional commands now — `foot-live-theme` and `nocwall tint` — and hook lists are dispatched in order but **not awaited**, so position gives dispatch order only. See `../../nocwall/README.md` for how the recolourer avoids racing this plugin.
+`colors_changed` also carries `foot-live-theme`, and hook lists are dispatched in order but **not awaited**, so position gives dispatch order only.
 
 ## Layout rules
 
@@ -113,7 +113,6 @@ ffmpeg's `signalstats` reports gamma-encoded `YAVG`, so it is linearised and put
 colors_changed = [
   "noctalia msg plugin boatette/auto-theme:auto-theme all colors-changed"
   (lib.getExe pkgs.foot-live-theme)
-  "${lib.getExe pkgs.nocwall} tint --reason colors"
 ];
 ```
 

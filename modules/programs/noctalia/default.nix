@@ -13,7 +13,6 @@
 
       home.packages = [
         pkgs.imagemagick
-        pkgs.nocwall
       ];
 
       programs.noctalia = {
