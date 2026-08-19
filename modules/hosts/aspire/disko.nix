@@ -46,6 +46,12 @@
                   "root" = subvol "/";
                   "home" = subvol "/home";
                   "nix" = subvol "/nix";
+
+                  "swap" = {
+                    mountpoint = "/.swapvol";
+                    mountOptions = [ "noatime" ];
+                    swap.swapfile.size = "20G";
+                  };
                 };
             };
           };
