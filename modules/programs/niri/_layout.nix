@@ -38,4 +38,9 @@
     top = 0;
     bottom = 0;
   };
+
+  tab-indicator = {
+    corner-radius = 4;
+    gaps-between-tabs = 8;
+  };
 }
