@@ -8,7 +8,7 @@
 
       backup
       gaming
-      virtualbox
+      libvirt
     ];
 
     networking.hostName = "aspire";
