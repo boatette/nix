@@ -47,6 +47,7 @@ in
   "Mod+Alt+Y".spawn-sh = "noctalia msg panel-toggle noctalia/wallhaven:browser";
   "Mod+N".spawn-sh = "noctalia msg panel-toggle control-center";
   "Mod+Comma".spawn-sh = "noctalia msg settings-toggle";
+  "Mod+I".spawn-sh = "noctalia msg caffeine-toggle";
   "Alt+Tab".spawn-sh = "noctalia msg window-switcher";
   "Ctrl+Shift+Escape".spawn-sh = "noctalia msg panel-toggle control-center system";
 
