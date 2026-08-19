@@ -23,7 +23,7 @@
   };
 
   shadow = {
-    on = _: { };
+    off = _: { };
     offset = _: {
       props = {
         x = 0;
