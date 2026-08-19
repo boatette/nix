@@ -1,20 +1,7 @@
 { inputs, ... }:
 
 let
-  mkNvim =
-    {
-      system,
-      configDirectory,
-    }:
-    inputs.wrapper-modules.wrappers.neovim.wrap [
-      {
-        pkgs = import inputs.nixpkgs-unstable {
-          inherit system;
-          config.allowUnfree = true;
-        };
-      }
-      (import ./_module.nix { inherit inputs configDirectory; })
-    ];
+  nvimModule = import ./_config { inherit inputs; };
 in
 {
   flake.modules.nixos.base.environment.sessionVariables = {
@@ -23,24 +10,26 @@ in
   };
 
   flake.modules.homeManager.base =
-    { config, pkgs, ... }:
+    { pkgs, ... }:
     {
+      imports = [ inputs.nixvim.homeModules.nixvim ];
+
       xdg.configFile."nvim/.keep".text = "";
 
-      home.packages = [
-        (mkNvim {
-          inherit (pkgs.stdenv.hostPlatform) system;
-          configDirectory = "${config.home.homeDirectory}/nix/modules/programs/nvim/config";
-        })
-      ];
+      programs.nixvim = {
+        enable = true;
+        imports = [ nvimModule ];
+
+        nixpkgs.pkgs = pkgs;
+      };
     };
 
   perSystem =
-    { system, ... }:
+    { system, pkgs, ... }:
     {
-      packages.nvim = mkNvim {
-        inherit system;
-        configDirectory = ./config;
+      packages.nvim = inputs.nixvim.legacyPackages.${system}.makeNixvimWithModule {
+        inherit pkgs;
+        module = nvimModule;
       };
     };
 }
