@@ -44,13 +44,13 @@
       title_scroll = "none";
       type = "active_window";
     };
-    bar = {
-      enabled = false;
-      type = "boatette/binary-clock:bar";
-    };
     battery = {
       hide_when_full = true;
       hide_when_plugged = true;
+    };
+    binary-clock = {
+      enabled = false;
+      type = "boatette/binary-clock:bar";
     };
     bluetooth.hide_when_no_connected_device = true;
     cat.type = "dotnetrob/cat:cat";

@@ -18,7 +18,7 @@ _:
       capsule_thickness = 0.76;
       center = [
         "clock"
-        "bar"
+        "binary-clock"
       ];
       concave_edge_corners = true;
       contact_shadow = false;
