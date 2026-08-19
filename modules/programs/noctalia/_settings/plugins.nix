@@ -6,7 +6,7 @@
 
 {
   plugins = {
-    auto_update = true;
+    auto_update = "all";
 
     enabled = [
       "dotnetrob/cat"
