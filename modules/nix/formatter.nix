@@ -13,7 +13,6 @@
 
     settings.global.excludes = [
       "*.png"
-      "*.jq"
       "*.sh"
       "LICENSE"
       "flake.lock"
