@@ -136,11 +136,11 @@ function M.apply()
 
     local provider, scheme = schemes.resolve(palette_name(theme), is_light)
     local setup = PROVIDERS[provider]
-    if scheme and setup and pcall(setup) and pcall(vim.cmd.colorscheme, scheme) then
-        return
+    if not (scheme and setup and pcall(setup) and pcall(vim.cmd.colorscheme, scheme)) then
+        apply_generated(palette, is_light)
     end
 
-    apply_generated(palette, is_light)
+    vim.api.nvim_exec_autocmds("User", { pattern = "ColourschemeApplied", modeline = false })
 end
 
 function M.setup(providers)

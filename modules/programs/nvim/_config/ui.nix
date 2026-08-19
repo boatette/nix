@@ -112,17 +112,59 @@ in
     };
     bufferline = {
       enable = true;
-      settings.options = {
-        always_show_bufferline = true;
-        sort_by = "id";
-        diagnostics = "nvim_lsp";
-        diagnostics_update_in_insert = false;
+      settings = {
+        options = {
+          always_show_bufferline = true;
+          sort_by = "id";
+          diagnostics = "nvim_lsp";
+          diagnostics_update_in_insert = false;
+        };
+
+        highlights = mkRaw ''
+          function(defaults)
+              local hl = vim.deepcopy(defaults.highlights)
+              for _, group in pairs(hl) do
+                  if type(group) == "table" then
+                      group.bg = "NONE"
+                  end
+              end
+              return hl
+          end
+        '';
       };
     };
     markview.enable = true;
     todo-comments.enable = true;
     trouble.enable = true;
   };
+
+  autoGroups.BufferlineTransparency.clear = true;
+
+  autoCmd = [
+    {
+      event = "User";
+      pattern = [ "ColourschemeApplied" ];
+      group = "BufferlineTransparency";
+      desc = "Strip bufferline backgrounds after a theme change";
+      # The `highlights` function above covers every real colorscheme, because
+      # bufferline re-invokes it on ColorScheme. It does not cover the
+      # mini.base16 fallback: base16 defines BufferLineTab/BufferLineTabSelected
+      # itself, after bufferline has run, and fires no ColorScheme event.
+      callback = mkRaw ''
+        function()
+            for name in pairs(vim.api.nvim_get_hl(0, {})) do
+                if name:match("^BufferLine") then
+                    local hl = vim.api.nvim_get_hl(0, { name = name, link = false })
+                    if hl.bg ~= nil then
+                        hl.bg = nil
+                        vim.api.nvim_set_hl(0, name, hl)
+                    end
+                end
+            end
+        end
+      '';
+    }
+  ];
 
   keymaps = [
     (snack "n" "<leader><space>" "picker.smart()" "Smart find (files/recent)")
