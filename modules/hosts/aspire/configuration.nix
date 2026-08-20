@@ -1,6 +1,13 @@
-{ lib, ... }:
+{
+  self,
+  config,
+  lib,
+  ...
+}:
 
 {
+  flake.nixosConfigurations = config.flake.lib.mkNixos "x86_64-linux" "aspire";
+
   flake.modules.nixos.aspire =
     { config, ... }:
     let
@@ -9,6 +16,19 @@
       primary = lib.findFirst (name: monitors.${name}.primary) null (lib.attrNames monitors);
     in
     {
+      imports = with self.modules.nixos; [
+        base
+        desktop
+
+        backup
+        gaming
+        libvirt
+      ];
+
+      networking.hostName = "aspire";
+
+      system.stateVersion = "26.05";
+
       preferences.monitors = {
         "eDP-1" = {
           mode = "1920x1080@144";
