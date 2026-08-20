@@ -10,7 +10,7 @@ let
     mkRaw ''
       function()
           require("snacks").terminal(
-              "${lib.optionalString sudo "sudo "}nixos-rebuild ${mode} --flake ${flakeDir}",
+              "${lib.optionalString sudo "run0 "}nixos-rebuild ${mode} --flake ${flakeDir}",
               { interactive = true }
           )
       end

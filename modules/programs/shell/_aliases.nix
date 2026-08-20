@@ -21,13 +21,13 @@
 
   cn = "cd ${flakeDir}";
 
-  nrs = "sudo nixos-rebuild switch --flake ${flakeDir}";
-  nrb = "sudo nixos-rebuild boot --flake ${flakeDir}";
-  nrt = "sudo nixos-rebuild test --flake ${flakeDir}";
+  nrs = "run0 nixos-rebuild switch --flake ${flakeDir}";
+  nrb = "run0 nixos-rebuild boot --flake ${flakeDir}";
+  nrt = "run0 nixos-rebuild test --flake ${flakeDir}";
   nrd = "nixos-rebuild dry-build --flake ${flakeDir}";
 
   ngl = "nixos-rebuild list-generations";
-  ngc = "sudo nix-collect-garbage --delete-older-than 7d";
+  ngc = "run0 nix-collect-garbage --delete-older-than 7d";
 
   nfu = ''nix flake update --flake ${flakeDir} && git -C ${flakeDir} commit -m "chore: update flake lock" flake.lock'';
   ns = "nix search nixpkgs";
@@ -36,7 +36,7 @@
   nt = "nix-tree";
   nw = "nix why-depends";
 
-  please = "sudo";
+  please = "run0";
   jctl = "journalctl -p 3 -xb";
   ff = "fastfetch";
   q = "exit";
