@@ -9,6 +9,7 @@
 
       settings = {
         blur = true;
+        corner_radius = 4;
 
         colors = "noctalia.toml";
       };
