@@ -2,6 +2,11 @@
   writeShellApplication,
   libwebp,
   ffmpeg,
+  imagemagick,
+  gh,
+  curl,
+  gnutar,
+  zstd,
   coreutils,
   findutils,
   gnused,
@@ -9,12 +14,17 @@
   gnugrep,
 }:
 writeShellApplication {
-  name = "walls-optimise";
-  meta.description = "recompress wallpapers to WebP";
+  name = "walls";
+  meta.description = "optimise, pack, publish and prune wallpapers";
 
   runtimeInputs = [
     libwebp
     ffmpeg
+    imagemagick
+    gh
+    curl
+    gnutar
+    zstd
     coreutils
     findutils
     gnused
@@ -23,5 +33,5 @@ writeShellApplication {
   ];
 
   bashOptions = [ ];
-  text = builtins.readFile ./walls-optimise.sh;
+  text = builtins.readFile ./walls.sh;
 }

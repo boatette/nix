@@ -5,12 +5,7 @@
     {
       home.packages = with pkgs.local; [
         open-zellij
-        prune-small
-
-        walls-optimise
-        walls-pack
-        walls-push
-        walls-pull
+        walls
       ];
     };
 }

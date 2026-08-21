@@ -82,8 +82,8 @@ Any machine with nix and an internet connection can run a piece of this config w
 ```bash
 nix run github:boatette/nix#nvim
 nix run github:boatette/nix#niri
-nix run github:boatette/nix#walls-pull
-nix run github:boatette/nix#prune-small -- --min 2560x1440
+nix run github:boatette/nix#walls -- pull
+nix run github:boatette/nix#walls -- prune --min 2560x1440
 ```
 
 `nix flake check` builds every one of them, which is what keeps that promise honest — a package that reaches for `/home/boatette` or a local-path input stops building here before it stops working elsewhere. It also fails if `flake.nix` is stale, and niri validates its own config at build time, so a bad bind breaks the build rather than the session.
