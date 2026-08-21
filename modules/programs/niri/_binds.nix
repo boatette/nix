@@ -39,7 +39,7 @@ in
 
   "Mod+Alt+T".spawn-sh = "ghostty";
   "Mod+Alt+W".spawn-sh = "helium";
-  "Mod+Alt+E".spawn-sh = "foot fish -C y";
+  "Mod+Alt+E".spawn-sh = "footclient-themed fish -C y";
 
   "Mod+D".spawn-sh = "noctalia msg panel-toggle launcher";
   "Mod+X".spawn-sh = "noctalia msg panel-toggle session";
