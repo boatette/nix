@@ -1,0 +1,63 @@
+palette = "noctalia"
+
+add_newline = false
+
+format = """
+$directory\
+$git_branch\
+$git_commit\
+$git_state\
+$git_status\
+$package\
+$character
+"""
+
+[palettes.noctalia]
+# standard colours
+black     = "{{colors.terminal_normal_black.default.hex}}"
+red       = "{{colors.terminal_normal_red.default.hex}}"
+green     = "{{colors.terminal_normal_green.default.hex}}"
+yellow    = "{{colors.terminal_normal_yellow.default.hex}}"
+blue      = "{{colors.terminal_normal_blue.default.hex}}"
+magenta   = "{{colors.terminal_normal_magenta.default.hex}}"
+cyan      = "{{colors.terminal_normal_cyan.default.hex}}"
+white     = "{{colors.terminal_normal_white.default.hex}}"
+
+purple        = "{{colors.terminal_normal_magenta.default.hex}}"
+bright-black  = "{{colors.terminal_bright_black.default.hex}}"
+bright-red    = "{{colors.terminal_bright_red.default.hex}}"
+bright-green  = "{{colors.terminal_bright_green.default.hex}}"
+bright-yellow = "{{colors.terminal_bright_yellow.default.hex}}"
+bright-blue   = "{{colors.terminal_bright_blue.default.hex}}"
+bright-purple = "{{colors.terminal_bright_magenta.default.hex}}"
+bright-cyan   = "{{colors.terminal_bright_cyan.default.hex}}"
+bright-white  = "{{colors.terminal_bright_white.default.hex}}"
+
+# Catppuccin-compatible aliases, so any preset written against Catppuccin
+# keeps working against whatever palette noctalia is currently using
+rosewater = "{{colors.terminal_bright_yellow.default.hex}}"
+flamingo  = "{{colors.terminal_bright_red.default.hex}}"
+pink      = "{{colors.terminal_bright_magenta.default.hex}}"
+mauve     = "{{colors.terminal_normal_magenta.default.hex}}"
+maroon    = "{{colors.terminal_bright_red.default.hex}}"
+peach     = "{{colors.terminal_bright_yellow.default.hex}}"
+teal      = "{{colors.terminal_normal_cyan.default.hex}}"
+sky       = "{{colors.terminal_bright_cyan.default.hex}}"
+sapphire  = "{{colors.terminal_bright_blue.default.hex}}"
+lavender  = "{{colors.terminal_bright_magenta.default.hex}}"
+
+# text shades
+text      = "{{colors.terminal_foreground.default.hex}}"
+subtext1  = "{{colors.terminal_normal_white.default.hex}}"
+subtext0  = "{{colors.terminal_bright_black.default.hex}}"
+
+# surface shades
+overlay2  = "{{colors.terminal_bright_black.default.hex}}"
+overlay1  = "{{colors.terminal_bright_black.default.hex}}"
+overlay0  = "{{colors.terminal_normal_black.default.hex}}"
+surface2  = "{{colors.terminal_normal_black.default.hex}}"
+surface1  = "{{colors.terminal_normal_black.default.hex}}"
+surface0  = "{{colors.terminal_background.default.hex}}"
+base      = "{{colors.terminal_background.default.hex}}"
+mantle    = "{{colors.terminal_background.default.hex}}"
+crust     = "{{colors.terminal_background.default.hex}}"

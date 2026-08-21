@@ -12,6 +12,7 @@ local function noctalia_dir(override, xdg_var, xdg_fallback)
     if dir and dir ~= "" then
         return dir
     end
+
     local base = vim.env[xdg_var]
     if not base or base == "" then
         base = vim.env.HOME .. xdg_fallback
@@ -22,6 +23,7 @@ end
 local function settings_files()
     local config = noctalia_dir("NOCTALIA_CONFIG_HOME", "XDG_CONFIG_HOME", "/.config")
     local state = noctalia_dir("NOCTALIA_STATE_HOME", "XDG_STATE_HOME", "/.local/state")
+
     local files = vim.fn.glob(config .. "/*.toml", true, true)
     table.insert(files, state .. "/settings.toml")
     return files
@@ -29,6 +31,7 @@ end
 
 local function read_theme()
     local theme = {}
+
     for _, path in ipairs(settings_files()) do
         local file = io.open(path, "r")
         if file then
@@ -47,6 +50,7 @@ local function read_theme()
             file:close()
         end
     end
+
     return theme
 end
 
@@ -66,6 +70,7 @@ local function generated_palette()
     if not chunk then
         return nil
     end
+
     local ok, palette = pcall(chunk)
     if ok and type(palette) == "table" then
         return palette
@@ -98,10 +103,13 @@ local function apply_generated(palette, is_light)
     if not palette then
         return false
     end
+
     palette = palettes.normalise(palette, is_light)
+
     local ok = pcall(function()
         require("mini.base16").setup({ palette = palette })
     end)
+
     if ok then
         for _, group in ipairs(TRANSPARENT_GROUPS) do
             vim.api.nvim_set_hl(0, group, { bg = "none" })
@@ -110,6 +118,7 @@ local function apply_generated(palette, is_light)
             vim.api.nvim_set_hl(0, group, { fg = palette.base04 })
         end
     end
+
     return ok
 end
 
@@ -119,10 +128,12 @@ local function is_light_mode(theme, palette)
     elseif theme.mode == "dark" then
         return false
     end
+
     local r, g, b = tostring(palette and palette.base00 or ""):match("^#(%x%x)(%x%x)(%x%x)$")
     if not r then
         return false
     end
+
     local luma = (0.299 * tonumber(r, 16) + 0.587 * tonumber(g, 16) + 0.114 * tonumber(b, 16)) / 255
     return luma > 0.5
 end
@@ -136,6 +147,7 @@ function M.apply()
 
     local provider, scheme = schemes.resolve(palette_name(theme), is_light)
     local setup = PROVIDERS[provider]
+
     if not (scheme and setup and pcall(setup) and pcall(vim.cmd.colorscheme, scheme)) then
         apply_generated(palette, is_light)
     end
@@ -150,10 +162,6 @@ function M.setup(providers)
     if signal then
         signal:start("sigusr1", vim.schedule_wrap(M.apply))
     end
-
-    vim.api.nvim_create_user_command("ThemeReload", M.apply, {
-        desc = "Re-apply the colorscheme from noctalia's current palette",
-    })
 
     M.apply()
 end

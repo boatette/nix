@@ -63,7 +63,7 @@ local SCHEMES = {
 function M.resolve(name, is_light)
     local entry = SCHEMES[norm(name)]
     if not entry then
-        return nil
+        return nil, nil
     end
     return entry.provider, entry.scheme or (is_light and entry.light or entry.dark)
 end

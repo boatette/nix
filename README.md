@@ -2,81 +2,93 @@
 
 NixOS configuration for niri + noctalia.
 
-|             |                                                      |
-| ----------- | ---------------------------------------------------- |
-| Compositor  | [niri](https://github.com/niri-wm/niri)              |
-| Shell / bar | [noctalia](https://noctalia.dev) v5                  |
-| Terminal    | foot + zellij                                        |
-| Editor      | Neovim                                               |
-| User env    | home-manager                                         |
-| Channel     | nixpkgs 26.05, plus nixpkgs-unstable for Neovim only |
+|             |                                         |
+| ----------- | --------------------------------------- |
+| Compositor  | [niri](https://github.com/niri-wm/niri) |
+| Shell / bar | [noctalia](https://noctalia.dev) v5     |
+| Terminal    | foot + zellij                           |
+| Editor      | Neovim, via nixvim                      |
+| Shell       | fish                                    |
+| User env    | home-manager                            |
+| Channel     | nixpkgs unstable                        |
 
 ## Layout
 
-Every `.nix` file under `modules/` is a flake-parts module, imported automatically by [import-tree](https://github.com/denful/import-tree). `flake.nix` is just inputs and one line. The walker only sees files git knows about, so `git add` new files before rebuilding.
+Every `.nix` file under `modules/` is a flake-parts module, imported automatically by [import-tree](https://github.com/denful/import-tree). `flake.nix` is generated from the inputs each feature declares, by `nix run .#write-flake`. The walker only sees files git knows about, so `git add` new files before rebuilding.
 
 ```
 ~/nix/
-├── flake.nix                  inputs, and one line handing ./modules to import-tree
+├── flake.nix                  generated; inputs, and one line handing ./modules to import-tree
+├── packages/                  one directory per package, collected by pkgs-by-name
 └── modules/
     ├── nix/                   how the flake itself is assembled
-    │   └── packages.nix         collects every *.pkg.nix in the tree
+    │   ├── flake-parts/         the dendritic setup, mkNixos, formatter, checks
+    │   └── pkgs-by-name/        publishes packages/ as pkgs.local.* and as nix run targets
     ├── hosts/                 one directory per machine
     │   └── aspire/              disko, hardware, graphics, monitors, storage
     ├── system/                aspects that are not a program
-    │   ├── base/                everything every machine gets
-    │   ├── desktop/             the desktop session
-    │   ├── backup/              a module that ships scripts with it
-    │   ├── preferences.nix      the options a host sets
-    │   └── gaming.nix           an aspect a host opts into
-    └── programs/              one file, or one directory, per program
-        ├── cli.nix              a bare package list, terminal
-        ├── apps.nix             a bare package list, graphical
-        ├── zellij.nix           a program that owns only settings
-        ├── shell/               fish, its aliases, and the scripts it carries
-        ├── foot/                a program that owns data and scripts too
-        │   ├── foot.nix           the module
-        │   ├── _settings.nix      data, shared with the package below
-        │   └── foot-themed.pkg.nix
-        ├── noctalia/            big enough to split its settings up
-        │   └── _settings/         a whole directory skipped by the walker
-        └── nvim/
-            └── config/            plain lua, edited live, no rebuild
+    │   ├── settings/            everything every machine gets
+    │   ├── session/             the graphical session
+    │   ├── constants/           the values every class can read
+    │   └── types/               base.nix and desktop.nix, the two rungs
+    ├── services/              aspects that own units and timers
+    │   └── backup/              a feature whose scripts live in packages/
+    ├── programs/              one file, or one directory, per program
+    │   ├── cli-tools.nix        a bare package list, terminal
+    │   ├── apps.nix             a bare package list, graphical
+    │   ├── zellij.nix           a program that owns only settings
+    │   ├── shell/               fish, its aliases, and its functions
+    │   ├── foot/                a program that owns a theme template too
+    │   ├── noctalia/            big enough to split its settings up
+    │   ├── niri/                its own module class, one file per section
+    │   └── nvim/                its own module class, one file per concern
+    └── users/                 one directory per user
+        └── boatette/
 ```
 
-Three file-naming conventions, and that is the whole vocabulary:
+Two naming conventions, and that is the whole vocabulary:
 
-| Name           | Meaning                                                                                                                                        |
-| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| `_name.nix`    | Data imported explicitly by whoever needs it. Skipped by the walker, which ignores any path containing `/_`                                    |
-| `name.pkg.nix` | A package, Picked up by `modules/nix/packages.nix`, which publishes it as `pkgs.name` for every module _and_ as a flake package `nix run`-able |
-| `name.nix`     | A module, merged into `flake.modules.<class>.<aspect>`.                                                                                        |
+| Name             | Meaning                                                                                            |
+| ---------------- | -------------------------------------------------------------------------------------------------- |
+| `name.nix`       | A module, merged into `flake.modules.<class>.<aspect>`.                                            |
+| `packages/name/` | A package. Published as `pkgs.local.name` for every module _and_ as a flake package `nix run`-able |
 
-Aspects are just names that many files write to: import `nixos.desktop` and you get every file that contributes to it. A `homeManager` aspect is attached to the `nixos` aspect of the same name automatically, so there is no bridge to write. Values are shared through options (`config.preferences.*`, or `osConfig.preferences.*` from a home-manager module), never `specialArgs`.
+Aspects are just names that many files write to: import `nixos.desktop` and you get every file that contributes to it. A `homeManager` aspect reaches the system either because a rung imports it or because a feature carries it in with `home-manager.sharedModules` — one path only, never both, or the module system sees it twice. Values are shared through options (`config.constants.*`, or `inputs.self.constants` from a class that has no `config`), never `specialArgs`.
+
+Five classes, and two of them are the interesting ones:
+
+| Class                  | What it configures                                                        |
+| ---------------------- | ------------------------------------------------------------------------- |
+| `nixos`, `homeManager` | the system and the user                                                   |
+| `generic`              | no class of its own; readable from either                                 |
+| `nixvim`, `niri`       | the editor and the compositor, each assembled into a package and a module |
+
+`nixvim` and `niri` work the same way: every file in the directory writes to `flake.modules.<class>.<name>`, and one wiring file turns the merged result into both `nix run .#name` and the half home-manager installs. Because they merge, a program can carry its own corner of them — `zen/zen.nix` holds the niri window rule for zen, and `nvim/theme.nix` holds the noctalia template that themes Neovim, next to the config that reads it. The same is true of MIME: no central table, each app declares what it opens.
 
 ### Where does a new thing go?
 
-- Owns more than a package (config, a service, an env var, a script, a system half)? `modules/programs/[name].nix`, or `modules/programs/[name]/` if it needs data or scripts.
-- Only a package? Append to `modules/programs/apps.nix` (graphical) or `cli.nix` (terminal).
-- Not a program at all? `modules/system/base/` if every machine wants it, `modules/system/desktop/` if it belongs to the desktop session, otherwise its own `modules/system/[name].nix`.
+- Owns more than a package (config, a service, an env var, a theme template, a system half)? `modules/programs/[name].nix`, or `modules/programs/[name]/` if it needs data too.
+- Only a package? Append to `modules/programs/apps.nix` (graphical) or `cli-tools.nix` (terminal).
+- A shell one-liner? `modules/programs/shell/functions.nix`, as a fish function. Only reach for `packages/` when it needs real dependencies, or has to exist as a binary something else can call.
+- Not a program at all? `modules/system/settings/` if every machine wants it, `modules/system/session/` if it belongs to the desktop session, otherwise its own directory.
+- Something it should be the default handler for, a window rule, a colour template? Put it in that program's own directory. Nothing central needs editing.
 - A new machine? `modules/hosts/[name]/`, with a `flake-parts.nix` calling `mkNixos "<system>" "[name]"`. Everything else in that directory merges into `flake.modules.nixos.[name]`.
-- A namespace where you want to see every entry at once? Keep it as one `_`-prefixed data file.
+- A new input? Declare it beside the feature that needs it, then `nix run .#write-flake`.
 
 ## Running it anywhere
 
 Any machine with nix and an internet connection can run a piece of this config without installing it:
 
 ```bash
-nix run github:boatette/nix#shell-env    # fish, with every alias, function and tool
 nix run github:boatette/nix#nvim
 nix run github:boatette/nix#niri
-nix run github:boatette/nix#noctalia
-nix run github:boatette/nix#extract -- archive.tar.zst
+nix run github:boatette/nix#walls-pull
+nix run github:boatette/nix#prune-small -- --min 2560x1440
 ```
 
-`nix flake check` builds every one of them, which is what keeps that promise honest — a package that reaches for `/home/boatette` or a local-path input stops building here before it stops working elsewhere.
+`nix flake check` builds every one of them, which is what keeps that promise honest — a package that reaches for `/home/boatette` or a local-path input stops building here before it stops working elsewhere. It also fails if `flake.nix` is stale, and niri validates its own config at build time, so a bad bind breaks the build rather than the session.
 
-`nix fmt` formats the tree (nixfmt for nix, stylua for the Neovim config). Shell scripts are deliberately excluded; they are checked by shellcheck at build time instead, via `writeShellApplication`.
+`nix fmt` formats the tree (nixfmt for nix, stylua for lua). Shell scripts are deliberately excluded; they are checked by shellcheck at build time instead, via `writeShellApplication`, and the python the same way with flake8.
 
 ## Installing
 

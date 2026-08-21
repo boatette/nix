@@ -1,11 +1,12 @@
 { inputs, ... }:
-
 {
-  flake.modules.homeManager.base = {
-    imports = [ inputs.areofyl-fetch.homeManagerModules.default ];
+  flake-file.inputs.areofyl-fetch = {
+    url = "github:areofyl/fetch";
+    inputs.nixpkgs.follows = "nixpkgs";
+  };
 
-    programs.fetch = {
-      enable = true;
-    };
+  flake.modules.homeManager.fetch = {
+    imports = [ inputs.areofyl-fetch.homeManagerModules.default ];
+    programs.fetch.enable = true;
   };
 }
