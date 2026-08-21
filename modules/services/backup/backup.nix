@@ -8,16 +8,13 @@
     homeManager.backup =
       { pkgs, config, ... }:
       {
-        home.packages = [
-          pkgs.local.ssd-backup
-          pkgs.local.ssd-restore
-        ];
+        home.packages = [ pkgs.local.ssd ];
 
         systemd.user = {
           services.ssd-backup = {
             Unit.Description = "Mirror home to the SSD";
             Service = {
-              ExecStart = "${pkgs.local.ssd-backup}/bin/ssd-backup";
+              ExecStart = "${pkgs.local.ssd}/bin/ssd backup";
               Type = "oneshot";
               IOSchedulingClass = "idle";
               Nice = 10;
@@ -31,7 +28,7 @@
               ConditionPathExists = "!${config.home.homeDirectory}/.local/state/ssd-restore.stamp";
             };
             Service = {
-              ExecStart = "${pkgs.local.ssd-restore}/bin/ssd-restore";
+              ExecStart = "${pkgs.local.ssd}/bin/ssd restore";
               Type = "oneshot";
               IOSchedulingClass = "idle";
               Nice = 10;
