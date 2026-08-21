@@ -238,14 +238,9 @@ local function resolvePalette(folder)
   end
 
   for _, dir in ipairs(CUSTOM_PALETTE_DIRS) do
-    local entries = noctalia.listDir(dir)
-    if entries then
-      for _, entry in ipairs(entries) do
-        local name = entry:match("[^/]+$") or entry
-        if norm(name) == key then
-          return { source = "custom", name = name }
-        end
-      end
+    local custom = listPalettes(dir)
+    if custom[key] then
+      return { source = "custom", name = custom[key] }
     end
   end
 
