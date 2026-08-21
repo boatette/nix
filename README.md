@@ -86,7 +86,7 @@ nix run github:boatette/nix#walls -- pull
 nix run github:boatette/nix#walls -- prune --min 2560x1440
 ```
 
-`nix flake check` builds every one of them, which is what keeps that promise honest — a package that reaches for `/home/boatette` or a local-path input stops building here before it stops working elsewhere. It also fails if `flake.nix` is stale, and niri validates its own config at build time, so a bad bind breaks the build rather than the session.
+`nix flake check` builds every one of them, which is what keeps that promise honest — a package that reaches for `/home/[user]` or a local-path input stops building here before it stops working elsewhere. It also fails if `flake.nix` is stale, and niri validates its own config at build time, so a bad bind breaks the build rather than the session.
 
 `nix fmt` formats the tree (nixfmt for nix, stylua for lua). Shell scripts are deliberately excluded; they are checked by shellcheck at build time instead, via `writeShellApplication`, and the python the same way with flake8.
 
@@ -118,14 +118,14 @@ Partitioning is declarative, in `modules/hosts/aspire/disko.nix`. Use the minima
 4. Clone the repo to where it lives after the reboot:
 
    ```bash
-   mkdir -p /mnt/home/boatette
+   mkdir -p /mnt/home/[user]
    nix run nixpkgs#git -- clone https://github.com/boatette/nix.git /mnt/home/boatette/nix
    ```
 
 5. Install:
 
    ```bash
-   nixos-install --flake /mnt/home/boatette/nix#aspire --option max-jobs 3 --option cores 4 --option extra-substituters "https://nix-community.cachix.org https://noctalia.cachix.org" --option extra-trusted-public-keys "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs= noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
+   nixos-install --flake /mnt/home/[user]/nix#aspire --option max-jobs 3 --option cores 4 --option extra-substituters "https://nix-community.cachix.org https://noctalia.cachix.org" --option extra-trusted-public-keys "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs= noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
    ```
 
    Job bounds and cachix help with ram usage and aren't technically required.
@@ -133,7 +133,7 @@ Partitioning is declarative, in `modules/hosts/aspire/disko.nix`. Use the minima
 > [!TIP]
 >
 > ```bash
-> cat /mnt/home/boatette/nix/README.md | grep -m 1 nixos-install > sh
+> cat /mnt/home/[user]/nix/README.md | grep -m 1 nixos-install > sh
 > ```
 >
 > To run it without manually typing cachix keys
@@ -141,8 +141,8 @@ Partitioning is declarative, in `modules/hosts/aspire/disko.nix`. Use the minima
 6. Set the user password before rebooting:
 
    ```bash
-   nixos-enter --root /mnt -c 'passwd boatette'
-   chown -R 1000:100 /mnt/home/boatette
+   nixos-enter --root /mnt -c 'passwd [user]'
+   chown -R 1000:100 /mnt/home/[user]
    ```
 
 7. Reboot
