@@ -1,12 +1,16 @@
 {
-  flake.modules.homeManager.base =
-    { pkgs, ... }:
+  flake.modules.homeManager.git =
+    {
+      pkgs,
+      config,
+      ...
+    }:
     {
       programs.git = {
         enable = true;
         settings.user = {
-          name = "boatette";
-          email = "boatette@gmail.com";
+          name = config.constants.username;
+          inherit (config.constants) email;
         };
       };
 

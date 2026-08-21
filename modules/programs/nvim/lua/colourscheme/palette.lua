@@ -45,6 +45,7 @@ local function to_hsl(rgb)
     if max == min then
         return 0, 0, l
     end
+
     local delta = max - min
     local s = l > 0.5 and delta / (2 - max - min) or delta / (max + min)
     local h
@@ -62,8 +63,10 @@ local function from_hsl(h, s, l)
     if s == 0 then
         return { l, l, l }
     end
+
     local q = l < 0.5 and l * (1 + s) or l + s - l * s
     local p = 2 * l - q
+
     local function component(t)
         t = (t % 1 + 1) % 1
         if t < 1 / 6 then
@@ -75,6 +78,7 @@ local function from_hsl(h, s, l)
         end
         return p
     end
+
     return { component(h + 1 / 3), component(h), component(h - 1 / 3) }
 end
 
@@ -85,14 +89,17 @@ local function lift(hex, background, target, is_light)
     end
 
     local h, s, l = to_hsl(rgb)
+
     local function at(lightness)
         return encode(from_hsl(h, s, lightness))
     end
+
     local function clears(lightness)
         return contrast(decode(at(lightness)), bg) >= target
     end
 
     local low, high = l, is_light and 0 or 1
+
     if not clears(high) then
         return at(high)
     end
@@ -105,6 +112,7 @@ local function lift(hex, background, target, is_light)
             low = mid
         end
     end
+
     return at(high)
 end
 

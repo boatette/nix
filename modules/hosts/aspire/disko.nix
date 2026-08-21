@@ -1,6 +1,10 @@
 { inputs, ... }:
-
 {
+  flake-file.inputs.disko = {
+    url = "github:nix-community/disko/latest";
+    inputs.nixpkgs.follows = "nixpkgs";
+  };
+
   flake.modules.nixos.aspire = {
     imports = [ inputs.disko.nixosModules.disko ];
 
@@ -11,49 +15,47 @@
       content = {
         type = "gpt";
 
-        partitions = {
-          ESP = {
-            size = "1G";
-            type = "EF00";
-            content = {
-              type = "filesystem";
-              format = "vfat";
-              mountpoint = "/boot";
-              mountOptions = [
-                "fmask=0077"
-                "dmask=0077"
-              ];
-            };
+        partitions.ESP = {
+          size = "1G";
+          type = "EF00";
+          content = {
+            type = "filesystem";
+            format = "vfat";
+            mountpoint = "/boot";
+            mountOptions = [
+              "fmask=0077"
+              "dmask=0077"
+            ];
           };
+        };
 
-          root = {
-            size = "100%";
-            content = {
-              type = "btrfs";
-              extraArgs = [ "-f" ];
+        partitions.root = {
+          size = "100%";
+          content = {
+            type = "btrfs";
+            extraArgs = [ "-f" ];
 
-              subvolumes =
-                let
-                  subvol = mountpoint: {
-                    inherit mountpoint;
-                    mountOptions = [
-                      "compress=zstd"
-                      "noatime"
-                    ];
-                  };
-                in
-                {
-                  "root" = subvol "/";
-                  "home" = subvol "/home";
-                  "nix" = subvol "/nix";
-
-                  "swap" = {
-                    mountpoint = "/.swapvol";
-                    mountOptions = [ "noatime" ];
-                    swap.swapfile.size = "20G";
-                  };
+            subvolumes =
+              let
+                subvol = mountpoint: {
+                  inherit mountpoint;
+                  mountOptions = [
+                    "compress=zstd"
+                    "noatime"
+                  ];
                 };
-            };
+              in
+              {
+                "root" = subvol "/";
+                "home" = subvol "/home";
+                "nix" = subvol "/nix";
+
+                "swap" = {
+                  mountpoint = "/.swapvol";
+                  mountOptions = [ "noatime" ];
+                  swap.swapfile.size = "20G";
+                };
+              };
           };
         };
       };
