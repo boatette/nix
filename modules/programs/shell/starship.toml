@@ -11,6 +11,7 @@ $git_status\
 $package\
 $character
 """
+right_format = "$cmd_duration$jobs$sudo"
 
 [character]
 error_symbol = "[](bold red)"
