@@ -60,30 +60,27 @@ Partitioning is declarative, in `modules/hosts/aspire/disko.nix`. Use the minima
 3. Clone the repo to where it lives after the reboot:
 
    ```bash
-   mkdir -p /mnt/home/boatette
+   mkdir -p /mnt/home/[user]
    nix run nixpkgs#git -- clone https://github.com/boatette/nix.git /mnt/home/boatette/nix
    ```
 
 4. Install:
 
    ```bash
-   nixos-install --flake /mnt/home/boatette/nix#aspire --option max-jobs 3 --option cores 4 --option extra-substituters "https://nix-community.cachix.org https://noctalia.cachix.org" --option extra-trusted-public-keys "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs= noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
+   nixos-install --flake /mnt/home/[user]/nix#aspire --option max-jobs 3 --option cores 4 --option extra-substituters "https://nix-community.cachix.org https://noctalia.cachix.org" --option extra-trusted-public-keys "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs= noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
    ```
 
    Job bounds and cachix keep ram usage down; neither is required.
 
-   > [!TIP]
-   > To avoid typing the cachix keys by hand:
-   >
-   > ```bash
-   > grep -m1 nixos-install /mnt/home/boatette/nix/README.md > sh
-   > ```
+   ```bash
+   grep -m1 nixos-install /mnt/home/[user]/nix/README.md > sh
+   ```
 
 5. Set the user password and fix ownership:
 
    ```bash
-   nixos-enter --root /mnt -c 'passwd boatette'
-   chown -R 1000:100 /mnt/home/boatette
+   nixos-enter --root /mnt -c 'passwd [user]'
+   chown -R 1000:100 /mnt/home/[user]
    ```
 
 6. Reboot.
