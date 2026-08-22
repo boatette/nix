@@ -2,7 +2,7 @@
   flake.modules.homeManager.noctalia.programs.noctalia.settings = {
     control_center = {
       width = 800;
-      sidebar = "compact";
+      sidebar = "full";
       sidebar_section = "none";
       hidden_tabs = [ ];
       show_session_button = true;
