@@ -17,7 +17,6 @@
 
     dolphin
     noctalia
-    niri
   ];
 
   flake.modules.homeManager.desktop.imports = with inputs.self.modules.homeManager; [
@@ -37,6 +36,5 @@
     dolphin
     zen
     noctalia
-    niri
   ];
 }

@@ -46,5 +46,12 @@
         open-maximized = true;
       }
     ];
+
+    homeManager.umbriel.programs.umbriel.settings.window_rule = [
+      {
+        match.app_id = "zen";
+        default_maximize = true;
+      }
+    ];
   };
 }
