@@ -5,7 +5,7 @@
       { blur = true; }
 
       {
-        match.app_id = "^(xdg-desktop-portal-gtk|org\\.gtk\\.FileChooserDialog)$";
+        match.app_id = "^xdg-desktop-portal-gtk$";
         default_floating = true;
         default_size = [
           800
@@ -14,21 +14,13 @@
       }
 
       {
-        match.title = "^(Open|Save|Select|Import|Export)\\b";
-        default_floating = true;
-        default_size = [
-          800
-          1000
-        ];
-      }
-
-      {
-        match.title = "^(Picture-in-Picture|Sign in - Google Accounts)$";
+        match.app_id = "^(org\\.kde\\.dolphin|gimp|libreoffice|soffice)";
+        match.title = "^(Open|Save|Select|Import|Export|Rename|Properties|Preferences|Settings)\\b";
         default_floating = true;
       }
 
       {
-        match.title = "\\b(Dialog|Properties|Preferences|Settings|Rename|Authentication)$";
+        match.title = "^Picture-in-Picture$";
         default_floating = true;
       }
 
@@ -49,20 +41,6 @@
           800
           600
         ];
-      }
-
-      # umbriel has no `excludes`, so the apps niri exempts from the dialog
-      # rules above get the setting put back by a later, narrower rule.
-      {
-        match.app_id = "^(zen|helium|vesktop|steam)";
-        match.title = "^(Open|Save|Select|Import|Export)\\b";
-        default_floating = false;
-      }
-
-      {
-        match.app_id = "^(zen|vesktop)";
-        match.title = "\\b(Dialog|Properties|Preferences|Settings|Rename|Authentication)$";
-        default_floating = false;
       }
     ];
 

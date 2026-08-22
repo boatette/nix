@@ -42,7 +42,7 @@
 
     homeManager.umbriel.programs.umbriel.settings.window_rule = [
       {
-        match.app_id = "zen";
+        match.app_id = "^zen-beta$";
         default_maximize = true;
       }
     ];
