@@ -122,6 +122,42 @@ local function apply_generated(palette, is_light)
     return ok
 end
 
+local function clear_backgrounds()
+    for _, group in ipairs(TRANSPARENT_GROUPS) do
+        local hl = vim.api.nvim_get_hl(0, { name = group, link = false })
+        hl.bg, hl.ctermbg = nil, nil
+        pcall(vim.api.nvim_set_hl, 0, group, hl)
+    end
+end
+
+local function apply_scheme(entry)
+    if not (entry and entry.scheme) then
+        return false
+    end
+
+    local configured = entry.provider and PROVIDERS[entry.provider]
+
+    if entry.provider then
+        if not (configured and pcall(configured, entry.opts)) then
+            return false
+        end
+    elseif entry.module then
+        pcall(function()
+            require(entry.module).setup(entry.opts or {})
+        end)
+    end
+
+    if not pcall(vim.cmd.colorscheme, entry.scheme) then
+        return false
+    end
+
+    if not configured then
+        clear_backgrounds()
+    end
+
+    return true
+end
+
 local function is_light_mode(theme, palette)
     if theme.mode == "light" then
         return true
@@ -145,10 +181,7 @@ function M.apply()
 
     vim.o.background = is_light and "light" or "dark"
 
-    local provider, scheme = schemes.resolve(palette_name(theme), is_light)
-    local setup = PROVIDERS[provider]
-
-    if not (scheme and setup and pcall(setup) and pcall(vim.cmd.colorscheme, scheme)) then
+    if not apply_scheme(schemes.resolve(palette_name(theme), is_light)) then
         apply_generated(palette, is_light)
     end
 

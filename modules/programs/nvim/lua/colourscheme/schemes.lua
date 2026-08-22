@@ -60,12 +60,23 @@ local SCHEMES = {
     },
 }
 
+local ok, imported = pcall(require, "colourscheme.omarchy")
+if ok and type(imported) == "table" then
+    for name, entry in pairs(imported) do
+        SCHEMES[norm(name)] = entry
+    end
+end
+
 function M.resolve(name, is_light)
     local entry = SCHEMES[norm(name)]
     if not entry then
-        return nil, nil
+        return nil
     end
-    return entry.provider, entry.scheme or (is_light and entry.light or entry.dark)
+    return {
+        provider = entry.provider,
+        scheme = entry.scheme or (is_light and entry.light or entry.dark),
+        opts = entry.opts,
+    }
 end
 
 return M

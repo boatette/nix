@@ -60,36 +60,36 @@
             end
 
             require("colourscheme").setup({
-                catppuccin = function()
-                    require("catppuccin").setup({
+                catppuccin = function(opts)
+                    require("catppuccin").setup(vim.tbl_deep_extend("force", opts or {}, {
                         transparent_background = true,
                         float = { transparent = true },
-                    })
+                    }))
                 end,
 
-                ["rose-pine"] = function()
-                    require("rose-pine").setup({
+                ["rose-pine"] = function(opts)
+                    require("rose-pine").setup(vim.tbl_deep_extend("force", opts or {}, {
                         dim_inactive_windows = false,
                         styles = { transparency = true },
-                    })
+                    }))
                 end,
 
-                tokyonight = function()
-                    require("tokyonight").setup({
+                tokyonight = function(opts)
+                    require("tokyonight").setup(vim.tbl_deep_extend("force", opts or {}, {
                         transparent = true,
                         styles = { sidebars = "transparent", floats = "transparent" },
-                    })
+                    }))
                 end,
 
-                everforest = function()
-                    require("everforest").setup({
+                everforest = function(opts)
+                    require("everforest").setup(vim.tbl_deep_extend("force", opts or {}, {
                         transparent_background_level = 2,
                         on_highlights = clear_floats,
-                    })
+                    }))
                 end,
 
-                kanagawa = function()
-                    require("kanagawa").setup({
+                kanagawa = function(opts)
+                    require("kanagawa").setup(vim.tbl_deep_extend("force", opts or {}, {
                         transparent = true,
                         overrides = function()
                             local overrides = { LineNr = { bg = "NONE" }, SignColumn = { bg = "NONE" } }
@@ -98,21 +98,21 @@
                             end
                             return overrides
                         end,
-                    })
+                    }))
                 end,
 
-                ["github-monochrome"] = function()
-                    require("github-monochrome").setup({
+                ["github-monochrome"] = function(opts)
+                    require("github-monochrome").setup(vim.tbl_deep_extend("force", opts or {}, {
                         transparent = true,
                         styles = { floats = "transparent", sidebars = "transparent" },
-                    })
+                    }))
                 end,
 
-                nord = function()
-                    require("nord").setup({
+                nord = function(opts)
+                    require("nord").setup(vim.tbl_deep_extend("force", opts or {}, {
                         transparent = true,
                         on_highlights = clear_floats,
-                    })
+                    }))
                 end,
             })
         end

@@ -38,6 +38,10 @@
     };
     noctalia.url = "github:noctalia-dev/noctalia/cachix";
     noctalia-greeter.url = "github:noctalia-dev/noctalia-greeter";
+    omarchy-import = {
+      url = "github:boatette/omarchy-import";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     pkgs-by-name-for-flake-parts.url = "github:drupol/pkgs-by-name-for-flake-parts";
     plugins-everforest-nvim = {
       url = "github:neanias/everforest-nvim";
@@ -45,6 +49,10 @@
     };
     plugins-github-monochrome-nvim = {
       url = "github:idr4n/github-monochrome.nvim";
+      flake = false;
+    };
+    plugins-mars-nvim = {
+      url = "github:steve-lohmeyer/mars.nvim";
       flake = false;
     };
     selector = {
