@@ -62,7 +62,7 @@
               "avivbintangaringga/nix-monitor" = {
                 branch = "nixos-unstable";
                 show_update_available_notification = false;
-                update_command = ''nix flake update --flake ${flakeDir} && { git -C ${flakeDir} commit -m "chore: update flake lock" flake.lock || true; } && run0 nixos-rebuild switch --flake ${flakeDir}'';
+                update_command = ''nix run ~/nix#write-flake && nix flake update --flake ${flakeDir} && { git -C ${flakeDir} commit -m "chore: update flake lock" flake.lock || true; } && run0 nixos-rebuild switch --flake ${flakeDir}'';
               };
 
               "boatette/auto-theme".default_dynamic_scheme = "vibrant";
