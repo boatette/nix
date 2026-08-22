@@ -12,6 +12,10 @@ $package\
 $character
 """
 
+[character]
+error_symbol = "[](bold red)"
+vimcmd_symbol ="[](bold green)"
+
 [palettes.noctalia]
 # standard colours
 black     = "{{colors.terminal_normal_black.default.hex}}"
