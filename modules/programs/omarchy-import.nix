@@ -1,7 +1,7 @@
 { inputs, ... }:
 {
   flake-file.inputs.omarchy-import = {
-    url = "path:/home/boatette/Projects/omarchy-import";
+    url = "github:boatette/omarchy-import";
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
