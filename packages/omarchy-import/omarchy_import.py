@@ -1,18 +1,20 @@
 import argparse
 import curses
+import functools
 import json
 import math
 import os
+import queue
 import re
 import shutil
 import subprocess
 import sys
 import tempfile
+import threading
+import tomllib
 import urllib.error
 import urllib.request
 from pathlib import Path
-
-import tomllib
 
 HOME = Path.home()
 
@@ -1283,6 +1285,7 @@ def apply_now(source, name, mode):
 OFFICIAL = "basecamp/omarchy"
 SEARCH = "https://api.github.com/search/repositories?q=omarchy+theme+in:name&sort=stars&per_page=100"
 PALETTE_FILES = ("colors.toml", "alacritty.toml", "ghostty.conf", "ghostty-theme", "kitty.conf")
+CATALOG = CACHE / "catalog.json"
 
 
 def http(url, as_json=True):
@@ -1292,13 +1295,16 @@ def http(url, as_json=True):
     return json.loads(body.decode("utf-8")) if as_json else body.decode("utf-8", "replace")
 
 
+def cached_themes():
+    try:
+        return json.loads(CATALOG.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return []
+
+
 def fetch_themes(offline):
-    cached = CACHE / "catalog.json"
     if offline or os.environ.get("OMARCHY_IMPORT_NO_NETWORK"):
-        try:
-            return json.loads(cached.read_text(encoding="utf-8"))
-        except (OSError, ValueError):
-            return []
+        return cached_themes()
 
     themes = []
     try:
@@ -1329,31 +1335,33 @@ def fetch_themes(offline):
     themes.sort(key=lambda t: (t["kind"] != "official", t["name"].lower()))
     if themes:
         CACHE.mkdir(parents=True, exist_ok=True)
-        cached.write_text(json.dumps(themes), encoding="utf-8")
-    elif cached.is_file():
-        try:
-            return json.loads(cached.read_text(encoding="utf-8"))
-        except ValueError:
-            pass
-    return themes
+        CATALOG.write_text(json.dumps(themes), encoding="utf-8")
+        return themes
+    return cached_themes()
+
+
+def preview_path(entry):
+    return CACHE / "preview" / (re.sub(r"[^a-z0-9]+", "-", entry["source"].lower()) + ".json")
+
+
+def preview_cached(entry):
+    try:
+        return json.loads(preview_path(entry).read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return None
 
 
 def preview(entry, offline):
-    key = re.sub(r"[^a-z0-9]+", "-", entry["source"].lower())
-    cached = CACHE / "preview" / ("%s.json" % key)
-    if cached.is_file():
-        try:
-            return json.loads(cached.read_text(encoding="utf-8"))
-        except ValueError:
-            pass
-    if offline:
-        return None
+    cached = preview_cached(entry)
+    if cached is not None or offline:
+        return cached
 
     if entry["kind"] == "official":
         base = "https://raw.githubusercontent.com/%s/HEAD/themes/%s/" % (OFFICIAL, entry["source"].split(":")[1])
     else:
         base = "https://raw.githubusercontent.com/%s/HEAD/" % entry["source"]
 
+    result = None
     with tempfile.TemporaryDirectory() as tmp:
         work = Path(tmp)
         for name in PALETTE_FILES:
@@ -1365,20 +1373,20 @@ def preview(entry, offline):
             theme = extract_theme(work)
         except Failure as error:
             result = {"error": str(error)}
-            cached.parent.mkdir(parents=True, exist_ok=True)
-            cached.write_text(json.dumps(result), encoding="utf-8")
-            return result
 
-    variant = build_variant(theme)
-    mode = "light" if theme["light"] else "dark"
-    result = {
-        "mode": mode,
-        "variant": variant,
-        "ansi": [to_hex(c) for c in theme["colors"]],
-        "matches": [[round(s, 1), src, n] for s, src, n in rank(signature(theme, variant), mode, offline)[:3]],
-    }
-    cached.parent.mkdir(parents=True, exist_ok=True)
-    cached.write_text(json.dumps(result), encoding="utf-8")
+    if result is None:
+        variant = build_variant(theme)
+        mode = "light" if theme["light"] else "dark"
+        result = {
+            "mode": mode,
+            "variant": variant,
+            "ansi": [to_hex(c) for c in theme["colors"]],
+            "matches": [[round(s, 1), src, n] for s, src, n in rank(signature(theme, variant), mode, offline)[:3]],
+        }
+
+    target = preview_path(entry)
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text(json.dumps(result), encoding="utf-8")
     return result
 
 
@@ -1398,21 +1406,15 @@ def xterm_palette():
 XTERM = xterm_palette()
 
 
+@functools.lru_cache(maxsize=512)
 def nearest_colour(hexvalue):
     rgb = parse_hex(hexvalue)
     if not rgb:
-        return 0
-    best, index = None, 16
-    for i in range(16, 256):
-        candidate = XTERM[i]
-        gap = sum((a - b) ** 2 for a, b in zip(rgb, candidate))
-        if best is None or gap < best:
-            best, index = gap, i
-    return index
+        return -1
+    return min(range(16, 256), key=lambda i: sum((a - b) ** 2 for a, b in zip(rgb, XTERM[i])))
 
 
 class Browser:
-
     def __init__(self, screen, themes, offline):
         self.screen = screen
         self.themes = themes
@@ -1422,16 +1424,52 @@ class Browser:
         self.top = 0
         self.pairs = {}
         self.message = ""
+        self.previews = {}
+        self.pending = set()
+        self.dirty = False
+        self.queue = queue.Queue()
+        self.stop = threading.Event()
+        threading.Thread(target=self.work, daemon=True).start()
+
+    def work(self):
+        while not self.stop.is_set():
+            try:
+                entry = self.queue.get(timeout=0.2)
+            except queue.Empty:
+                continue
+            try:
+                preview(entry, self.offline)
+            except Exception:
+                pass
+            self.pending.discard(entry["source"])
+            self.dirty = True
+
+    def look(self, entry):
+        key = entry["source"]
+        if key in self.previews:
+            return self.previews[key]
+
+        data = preview_cached(entry)
+        if data is None:
+            if key not in self.pending and not self.offline:
+                self.pending.add(key)
+                self.queue.put(entry)
+            return None
+
+        self.previews[key] = data
+        return data
 
     def swatch(self, colour):
         index = nearest_colour(colour)
+        if index < 0:
+            return curses.A_NORMAL
         if index not in self.pairs:
             slot = len(self.pairs) + 1
             try:
-                curses.init_pair(slot, curses.COLOR_BLACK, index)
-                self.pairs[index] = slot
+                curses.init_pair(slot, -1, index)
             except curses.error:
                 return curses.A_NORMAL
+            self.pairs[index] = slot
         return curses.color_pair(self.pairs[index])
 
     def visible(self):
@@ -1439,6 +1477,11 @@ class Browser:
             return self.themes
         needle = self.filter.lower()
         return [t for t in self.themes if needle in t["name"].lower() or needle in t["source"].lower()]
+
+    def move(self, delta, absolute=None):
+        rows = self.visible()
+        limit = max(0, len(rows) - 1)
+        self.cursor = min(max(0, absolute if absolute is not None else self.cursor + delta), limit)
 
     def draw(self):
         self.screen.erase()
@@ -1448,8 +1491,8 @@ class Browser:
         listing = height - 3
 
         self.screen.addnstr(0, 0, " omarchy themes ", width - 1, curses.A_REVERSE | curses.A_BOLD)
-        head = "  %d theme%s%s" % (len(rows), "" if len(rows) == 1 else "s", "   filter: " + self.filter if self.filter else "")
-        self.screen.addnstr(0, 17, head, width - 18, curses.A_REVERSE)
+        head = "  %d theme%s%s" % (len(rows), "" if len(rows) == 1 else "s", "   /" + self.filter if self.filter else "")
+        self.screen.addnstr(0, 17, head, max(1, width - 18), curses.A_REVERSE)
 
         if self.cursor < self.top:
             self.top = self.cursor
@@ -1468,7 +1511,7 @@ class Browser:
         if rows:
             self.detail(rows[self.cursor], split + 1, width - split - 2, height - 3)
 
-        footer = self.message or "  enter install   / filter   r refresh   q quit"
+        footer = self.message or "  enter install   / filter   j k g G   r refresh   q quit"
         self.screen.addnstr(height - 1, 0, footer.ljust(width - 1), width - 1, curses.A_REVERSE)
         self.screen.refresh()
 
@@ -1478,7 +1521,7 @@ class Browser:
         def put(text, style=curses.A_NORMAL):
             nonlocal line
             if line < height:
-                self.screen.addnstr(line, left, text, width, style)
+                self.screen.addnstr(line, left, text, max(1, width), style)
                 line += 1
 
         put(theme["name"], curses.A_BOLD)
@@ -1487,9 +1530,9 @@ class Browser:
             put(theme["info"], curses.A_DIM)
         put("")
 
-        data = preview(theme, self.offline)
-        if not data:
-            put("(no preview - offline)", curses.A_DIM)
+        data = self.look(theme)
+        if data is None:
+            put("loading..." if not self.offline else "(no preview - offline)", curses.A_DIM)
             return
         if data.get("error"):
             put("no palette found in this repo", curses.A_DIM)
@@ -1501,7 +1544,7 @@ class Browser:
         put("")
 
         if line < height:
-            self.screen.addnstr(line, left, "palette   ", width)
+            self.screen.addnstr(line, left, "palette   ", max(1, width))
             column = left + 10
             for colour in data["ansi"][:16]:
                 if column + 2 < left + width:
@@ -1522,7 +1565,7 @@ class Browser:
             put("  register %s as a new palette" % theme["name"])
 
     def dialog(self, theme):
-        data = preview(theme, self.offline) or {}
+        data = self.look(theme) or {}
         matches = data.get("matches", [])
         options = [("new", "register %s as a new palette" % theme["name"])]
         options += [("reuse:%s" % name, "join %s  (%s, %.1f away)" % (name, source, score)) for score, source, name in matches]
@@ -1530,6 +1573,7 @@ class Browser:
         choice = 1 if len(options) > 1 and matches[0][0] < 3 else 0
         nvim, walls = 0, True
         modes = ("auto", "palette", "plugin")
+        self.screen.timeout(-1)
 
         while True:
             self.screen.erase()
@@ -1548,22 +1592,26 @@ class Browser:
             row += 1
             self.screen.addnstr(row, 2, "wallpaper %s" % ("[yes]" if walls else "[no]"), width - 4)
             row += 2
-            self.screen.addnstr(row, 2, "up/down palette   n neovim   w wallpapers   enter install   esc cancel", width - 4, curses.A_DIM)
+            self.screen.addnstr(row, 2, "j k palette   h l neovim   space wallpapers   enter install   esc cancel", width - 4, curses.A_DIM)
             self.screen.refresh()
 
             key = self.screen.getch()
             if key in (27, ord("q")):
+                self.screen.timeout(120)
                 return None
             if key in (curses.KEY_UP, ord("k")):
                 choice = (choice - 1) % len(options)
             elif key in (curses.KEY_DOWN, ord("j")):
                 choice = (choice + 1) % len(options)
-            elif key == ord("n"):
+            elif key in (curses.KEY_LEFT, ord("h")):
+                nvim = (nvim - 1) % len(modes)
+            elif key in (curses.KEY_RIGHT, ord("l"), ord("n")):
                 nvim = (nvim + 1) % len(modes)
-            elif key == ord("w"):
+            elif key in (ord(" "), ord("w")):
                 walls = not walls
             elif key in (10, 13, curses.KEY_ENTER):
                 selected = options[choice][0]
+                self.screen.timeout(120)
                 return argparse.Namespace(
                     source=theme["source"], ref=None, mode=None, offline=self.offline,
                     synthesize_light=False, name=None,
@@ -1572,43 +1620,82 @@ class Browser:
                     dry_run=False, apply=True, handler=command_import,
                 )
 
-    def run(self):
-        while True:
-            self.draw()
-            key = self.screen.getch()
-            rows = self.visible()
+    def prompt(self):
+        height, _ = self.screen.getmaxyx()
+        self.screen.timeout(-1)
+        curses.echo()
+        self.screen.addnstr(height - 1, 0, "/".ljust(20), 20, curses.A_REVERSE)
+        self.filter = self.screen.getstr(height - 1, 1, 40).decode("utf-8", "replace")
+        curses.noecho()
+        self.screen.timeout(120)
+        self.cursor = 0
 
-            if key in (ord("q"), 27):
+    def run(self):
+        try:
+            curses.use_default_colors()
+        except curses.error:
+            pass
+        curses.curs_set(0)
+        self.screen.timeout(120)
+        self.draw()
+
+        while True:
+            key = self.screen.getch()
+            if key == -1:
+                if self.dirty:
+                    self.dirty = False
+                    self.draw()
+                continue
+
+            rows = self.visible()
+            page = max(1, self.screen.getmaxyx()[0] - 4)
+
+            if key == ord("q"):
+                self.stop.set()
                 return None
-            if key in (curses.KEY_DOWN, ord("j")):
-                self.cursor = min(self.cursor + 1, max(0, len(rows) - 1))
-            elif key in (curses.KEY_UP, ord("k")):
-                self.cursor = max(self.cursor - 1, 0)
-            elif key == curses.KEY_NPAGE:
-                self.cursor = min(self.cursor + 10, max(0, len(rows) - 1))
-            elif key == curses.KEY_PPAGE:
-                self.cursor = max(self.cursor - 10, 0)
+            if key == 27:
+                if self.filter:
+                    self.filter = ""
+                    self.cursor = 0
+                else:
+                    self.stop.set()
+                    return None
+            elif key in (curses.KEY_DOWN, ord("j"), 14):
+                self.move(1)
+            elif key in (curses.KEY_UP, ord("k"), 16):
+                self.move(-1)
+            elif key == ord("g"):
+                self.move(0, absolute=0)
+            elif key == ord("G"):
+                self.move(0, absolute=len(rows) - 1)
+            elif key in (4, curses.KEY_NPAGE, 6):
+                self.move(page // 2 if key == 4 else page)
+            elif key in (21, curses.KEY_PPAGE, 2):
+                self.move(-(page // 2) if key == 21 else -page)
             elif key == ord("/"):
-                curses.echo()
-                self.screen.addnstr(self.screen.getmaxyx()[0] - 1, 0, "filter: ".ljust(20), 20, curses.A_REVERSE)
-                self.filter = self.screen.getstr(self.screen.getmaxyx()[0] - 1, 8, 40).decode("utf-8", "replace")
-                curses.noecho()
-                self.cursor = 0
+                self.prompt()
             elif key == ord("r"):
                 self.message = "  refreshing..."
                 self.draw()
                 shutil.rmtree(CACHE / "preview", ignore_errors=True)
-                (CACHE / "catalog.json").unlink(missing_ok=True)
+                CATALOG.unlink(missing_ok=True)
+                self.previews.clear()
                 self.themes = fetch_themes(self.offline)
                 self.message = ""
-            elif key in (10, 13, curses.KEY_ENTER) and rows:
+            elif key in (10, 13, curses.KEY_ENTER, ord("l")) and rows:
                 request = self.dialog(rows[self.cursor])
                 if request:
+                    self.stop.set()
                     return request
+
+            self.draw()
 
 
 def command_browse(args):
-    themes = fetch_themes(args.offline)
+    themes = cached_themes()
+    if not themes:
+        print("  fetching the theme catalog...")
+        themes = fetch_themes(args.offline)
     if not themes:
         raise Failure("could not reach the theme catalog, and nothing is cached")
 
