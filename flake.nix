@@ -63,10 +63,6 @@
       url = "github:noctalia-dev/umbriel";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    wrapper-modules = {
-      url = "github:BirdeeHub/nix-wrapper-modules";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     xdg-desktop-portal-umbriel = {
       url = "github:noctalia-dev/xdg-desktop-portal-umbriel";
       inputs.nixpkgs.follows = "nixpkgs";

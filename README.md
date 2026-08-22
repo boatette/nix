@@ -1,16 +1,16 @@
 # NixOS Config
 
-NixOS configuration for niri + noctalia.
+NixOS configuration for umbriel + noctalia.
 
-|             |                                         |
-| ----------- | --------------------------------------- |
-| Compositor  | [niri](https://github.com/niri-wm/niri) |
-| Shell / bar | [noctalia](https://noctalia.dev) v5     |
-| Terminal    | foot + zellij                           |
-| Editor      | Neovim, via nixvim                      |
-| Shell       | fish                                    |
-| User env    | home-manager                            |
-| Channel     | nixpkgs unstable                        |
+|            |                                                    |
+| ---------- | -------------------------------------------------- |
+| Compositor | [umbriel](https://github.com/noctalia-dev/umbriel) |
+| Shell      | [noctalia](https://noctalia.dev) v5                |
+| Terminal   | foot + zellij                                      |
+| Editor     | Neovim, via nixvim                                 |
+| Shell      | fish                                               |
+| User env   | home-manager                                       |
+| Channel    | nixpkgs unstable                                   |
 
 ## Layout
 

@@ -40,13 +40,6 @@
         };
     };
 
-    niri.niri.settings.window-rules = [
-      {
-        matches = [ { app-id = "zen"; } ];
-        open-maximized = true;
-      }
-    ];
-
     homeManager.umbriel.programs.umbriel.settings.window_rule = [
       {
         match.app_id = "zen";

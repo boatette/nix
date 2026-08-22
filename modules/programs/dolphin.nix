@@ -62,13 +62,6 @@
         };
       };
 
-    niri.niri.settings.window-rules = [
-      {
-        matches = [ { app-id = ''^org\.kde\.dolphin''; } ];
-        opacity = 0.8;
-      }
-    ];
-
     homeManager.umbriel.programs.umbriel.settings.window_rule = [
       {
         match.app_id = "^org\\.kde\\.dolphin";
