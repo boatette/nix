@@ -65,22 +65,6 @@
         };
       };
 
-    niri.niri.settings.window-rules = [
-      {
-        matches = [
-          { app-id = "helium"; }
-          { app-id = "vesktop"; }
-          { app-id = "gimp"; }
-          { app-id = "libreoffice"; }
-        ];
-        open-maximized = true;
-      }
-      {
-        matches = [ { app-id = "stremio"; } ];
-        open-fullscreen = true;
-      }
-    ];
-
     homeManager.umbriel.programs.umbriel.settings.window_rule = [
       {
         match.app_id = "helium|vesktop|gimp|libreoffice";
