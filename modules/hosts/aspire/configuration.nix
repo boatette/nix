@@ -6,7 +6,6 @@
       imports = with inputs.self.modules.nixos; [
         desktop
 
-        niri-session
         umbriel-session
 
         backup
