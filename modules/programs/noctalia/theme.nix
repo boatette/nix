@@ -14,6 +14,7 @@
         "gtk4"
         "kcolorscheme"
         "qt"
+        "umbriel"
       ];
 
       community_ids = [

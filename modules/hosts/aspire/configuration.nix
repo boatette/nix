@@ -6,8 +6,6 @@
       imports = with inputs.self.modules.nixos; [
         desktop
 
-        umbriel-session
-
         backup
         gaming
         libvirt
