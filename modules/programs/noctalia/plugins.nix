@@ -1,4 +1,10 @@
+{ inputs, ... }:
 {
+  flake-file.inputs.noctalia-plugins = {
+    url = "github:boatette/noctalia-plugins";
+    inputs.nixpkgs.follows = "nixpkgs";
+  };
+
   flake.modules.homeManager.noctalia =
     {
       pkgs,
@@ -10,6 +16,10 @@
       inherit (config.constants) flakeDir;
     in
     {
+      home.packages = [
+        inputs.noctalia-plugins.packages.${pkgs.stdenv.hostPlatform.system}.umbriel-workspace-watch
+      ];
+
       programs = {
         noctalia = {
           settings = {
@@ -20,8 +30,11 @@
                 "dotnetrob/cat"
                 "avivbintangaringga/nix-monitor"
                 "noctalia/wallhaven"
-              ]
-              ++ pkgs.local.noctalia-plugins.pluginIds;
+
+                "boatette/auto-theme"
+                "boatette/binary-clock"
+                "boatette/umbriel-layout"
+              ];
 
               source = [
                 {
@@ -39,7 +52,7 @@
                 {
                   name = "Personal";
                   kind = "path";
-                  location = "${pkgs.local.noctalia-plugins}";
+                  location = "~/Projects/noctalia-plugins";
                   enabled = true;
                 }
               ];

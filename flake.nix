@@ -38,6 +38,10 @@
     };
     noctalia.url = "github:noctalia-dev/noctalia/cachix";
     noctalia-greeter.url = "github:noctalia-dev/noctalia-greeter";
+    noctalia-plugins = {
+      url = "github:boatette/noctalia-plugins";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     omarchy-import = {
       url = "github:boatette/omarchy-import";
       inputs.nixpkgs.follows = "nixpkgs";
