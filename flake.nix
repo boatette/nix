@@ -38,6 +38,10 @@
     };
     noctalia.url = "github:noctalia-dev/noctalia/cachix";
     noctalia-greeter.url = "github:noctalia-dev/noctalia-greeter";
+    omarchy-import = {
+      url = "path:/home/boatette/Projects/omarchy-import";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     pkgs-by-name-for-flake-parts.url = "github:drupol/pkgs-by-name-for-flake-parts";
     plugins-bamboo-nvim = {
       url = "github:ribru17/bamboo.nvim";

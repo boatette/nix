@@ -349,6 +349,23 @@
         "type": "github"
       }
     },
+    "omarchy-import": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1787375646,
+        "narHash": "sha256-+0MtVuevF8pvhC917LDBi+lxRc1nGHcHWCFLWkM8yDk=",
+        "path": "/home/boatette/Projects/omarchy-import",
+        "type": "path"
+      },
+      "original": {
+        "path": "/home/boatette/Projects/omarchy-import",
+        "type": "path"
+      }
+    },
     "pkgs-by-name-for-flake-parts": {
       "locked": {
         "lastModified": 1769286518,
@@ -443,6 +460,7 @@
         "nixvim": "nixvim",
         "noctalia": "noctalia",
         "noctalia-greeter": "noctalia-greeter",
+        "omarchy-import": "omarchy-import",
         "pkgs-by-name-for-flake-parts": "pkgs-by-name-for-flake-parts",
         "plugins-bamboo-nvim": "plugins-bamboo-nvim",
         "plugins-everforest-nvim": "plugins-everforest-nvim",
