@@ -396,6 +396,22 @@
         "type": "github"
       }
     },
+    "plugins-mars-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1754938633,
+        "narHash": "sha256-cgytvcVzZcD7wZCzOBxrYBQyCuBjIskNjlrTf6hu9Fk=",
+        "owner": "steve-lohmeyer",
+        "repo": "mars.nvim",
+        "rev": "babf7071892ab98d8ae38da3a532e0c1ece231e8",
+        "type": "github"
+      },
+      "original": {
+        "owner": "steve-lohmeyer",
+        "repo": "mars.nvim",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "areofyl-fetch": "areofyl-fetch",
@@ -414,6 +430,7 @@
         "pkgs-by-name-for-flake-parts": "pkgs-by-name-for-flake-parts",
         "plugins-everforest-nvim": "plugins-everforest-nvim",
         "plugins-github-monochrome-nvim": "plugins-github-monochrome-nvim",
+        "plugins-mars-nvim": "plugins-mars-nvim",
         "selector": "selector",
         "wrapper-modules": "wrapper-modules",
         "zen-browser": "zen-browser"
