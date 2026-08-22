@@ -24,6 +24,10 @@ let
       added_at = 1786372503;
       updated_at = 1786372503;
     };
+    "boatette/umbriel-layout" = {
+      added_at = 1787443200;
+      updated_at = 1787443200;
+    };
   };
 
   entry =

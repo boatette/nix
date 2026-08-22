@@ -76,6 +76,11 @@
       interactive = false;
     };
 
+    umbriel-layout = {
+      type = "boatette/umbriel-layout:bar";
+      display_mode = "icon";
+    };
+
     workspaces = {
       hide_when_empty = true;
       labels_only_when_occupied = true;

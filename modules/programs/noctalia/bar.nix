@@ -48,6 +48,7 @@
 
       start = [
         "workspaces"
+        "umbriel-layout"
         "nix-monitor"
         "media"
         "audio_visualizer"
