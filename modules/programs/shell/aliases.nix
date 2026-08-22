@@ -52,7 +52,6 @@
         cat = "bat";
         lg = "lazygit";
         z = "zellij";
-        oz = "open-zellij";
 
         gs = "git status";
         ga = "git add";
