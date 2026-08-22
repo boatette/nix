@@ -364,6 +364,22 @@
         "type": "github"
       }
     },
+    "plugins-bamboo-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1764046535,
+        "narHash": "sha256-X9KrQg8TlhWGeeg2Loxv4OUBw/3Wt7XFVorDd/75CwA=",
+        "owner": "ribru17",
+        "repo": "bamboo.nvim",
+        "rev": "1309bc88bffcf1bedc3e84e7fa9004de93da774a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ribru17",
+        "repo": "bamboo.nvim",
+        "type": "github"
+      }
+    },
     "plugins-everforest-nvim": {
       "flake": false,
       "locked": {
@@ -428,6 +444,7 @@
         "noctalia": "noctalia",
         "noctalia-greeter": "noctalia-greeter",
         "pkgs-by-name-for-flake-parts": "pkgs-by-name-for-flake-parts",
+        "plugins-bamboo-nvim": "plugins-bamboo-nvim",
         "plugins-everforest-nvim": "plugins-everforest-nvim",
         "plugins-github-monochrome-nvim": "plugins-github-monochrome-nvim",
         "plugins-mars-nvim": "plugins-mars-nvim",

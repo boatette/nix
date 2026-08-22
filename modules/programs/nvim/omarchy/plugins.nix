@@ -3,6 +3,10 @@
 { inputs, ... }:
 {
   flake-file.inputs = {
+    plugins-bamboo-nvim = {
+      url = "github:ribru17/bamboo.nvim";
+      flake = false;
+    };
     plugins-mars-nvim = {
       url = "github:steve-lohmeyer/mars.nvim";
       flake = false;
@@ -14,8 +18,14 @@
     {
       extraPlugins = [
         (pkgs.vimUtils.buildVimPlugin {
+          name = "bamboo-nvim";
+          src = inputs.plugins-bamboo-nvim;
+          doCheck = false;
+        })
+        (pkgs.vimUtils.buildVimPlugin {
           name = "mars-nvim";
           src = inputs.plugins-mars-nvim;
+          doCheck = false;
         })
       ];
     };
