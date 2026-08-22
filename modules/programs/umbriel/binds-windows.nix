@@ -1,71 +1,96 @@
-{ lib, ... }:
 {
-  flake.modules.homeManager.umbriel.programs.umbriel.settings.keybinds =
-    let
-      keys = names: action: lib.genAttrs names (_: action);
+  flake.modules.homeManager.umbriel.programs.umbriel.settings.keybinds = {
+    "Mod+G" = "overview-toggle";
+    "Mod+Slash" = "cheatsheet-toggle";
 
-      workspaceKeys = lib.listToAttrs (
-        lib.concatMap (n: [
-          (lib.nameValuePair "Mod+${toString (lib.mod n 10)}" "workspace-switch:${toString n}")
-          (lib.nameValuePair "Mod+Shift+${toString (lib.mod n 10)}" "window-move-to-workspace:${toString n}")
-        ]) (lib.range 1 10)
-      );
-    in
-    {
-      "Mod+G" = "overview-toggle";
-      "Mod+Slash" = "cheatsheet-toggle";
+    "Mod+Q" = "window-close";
 
-      "Mod+Q" = "window-close";
+    "Mod+C" = "window-center";
+    "Mod+V" = "window-toggle-floating";
+    "Mod+P" = "window-toggle-pinned";
 
-      "Mod+C" = "window-center";
-      "Mod+V" = "window-toggle-floating";
-      "Mod+P" = "window-toggle-pinned";
+    "Mod+F" = "window-toggle-maximize";
+    "Mod+Shift+F" = "window-toggle-fullscreen";
+    "Mod+Ctrl+F" = "window-toggle-maximize-to-edges";
+    "Mod+R" = "window-cycle-width";
+    "Mod+Ctrl+R" = "config-reload";
+    "Mod+Shift+T" = "spawn:noctalia msg plugin boatette/umbriel-layout:bar all toggle";
 
-      "Mod+F" = "window-toggle-maximize";
-      "Mod+Shift+F" = "window-toggle-fullscreen";
-      "Mod+Ctrl+F" = "window-toggle-maximize-to-edges";
-      "Mod+R" = "window-cycle-width";
-      "Mod+Ctrl+R" = "config-reload";
-      "Mod+Shift+T" = "spawn:noctalia msg plugin boatette/umbriel-layout:bar all toggle";
+    "Mod+U" = "scratchpad-toggle";
+    "Mod+Shift+U" = "window-move-to-scratchpad";
+    "Mod+Ctrl+U" = "window-restore-from-scratchpad";
+    "Mod+Tab" = "scratchpad-focus-next";
 
-      "Mod+BracketLeft" = "window-consume-left";
-      "Mod+BracketRight" = "window-expel-right";
-      "Mod+Period" = "window-expel-right";
+    "Mod+H" = "window-focus-left";
+    "Mod+Left" = "window-focus-left";
+    "Mod+J" = "window-focus-down";
+    "Mod+Down" = "window-focus-down";
+    "Mod+K" = "window-focus-up";
+    "Mod+Up" = "window-focus-up";
+    "Mod+L" = "window-focus-right";
+    "Mod+Right" = "window-focus-right";
 
-      "Mod+Minus" = "window-modify-width:-0.1";
-      "Mod+Equal" = "window-modify-width:0.1";
+    "Mod+Shift+H" = "column-move-left";
+    "Mod+Shift+Left" = "column-move-left";
+    "Mod+Shift+J" = "window-move-down";
+    "Mod+Shift+Down" = "window-move-down";
+    "Mod+Shift+K" = "window-move-up";
+    "Mod+Shift+Up" = "window-move-up";
+    "Mod+Shift+L" = "column-move-right";
+    "Mod+Shift+Right" = "column-move-right";
 
-      "Mod+U" = "scratchpad-toggle";
-      "Mod+Shift+U" = "window-move-to-scratchpad";
-      "Mod+Ctrl+U" = "window-restore-from-scratchpad";
-      "Mod+Tab" = "scratchpad-focus-next";
+    "Mod+Ctrl+H" = "output-focus-left";
+    "Mod+Ctrl+Left" = "output-focus-left";
+    "Mod+Ctrl+J" = "output-focus-down";
+    "Mod+Ctrl+Down" = "output-focus-down";
+    "Mod+Ctrl+K" = "output-focus-up";
+    "Mod+Ctrl+Up" = "output-focus-up";
+    "Mod+Ctrl+L" = "output-focus-right";
+    "Mod+Ctrl+Right" = "output-focus-right";
 
-      "Mod+WheelUp" = "workspace-previous";
-      "Mod+WheelDown" = "workspace-next";
-      "Mod+WheelLeft" = "window-focus-left";
-      "Mod+WheelRight" = "window-focus-right";
-      "Mod+Ctrl+WheelLeft" = "column-move-left";
-      "Mod+Ctrl+WheelRight" = "column-move-right";
-    }
-    // keys [ "Mod+H" "Mod+Left" ] "window-focus-left"
-    // keys [ "Mod+J" "Mod+Down" ] "window-focus-down"
-    // keys [ "Mod+K" "Mod+Up" ] "window-focus-up"
-    // keys [ "Mod+L" "Mod+Right" ] "window-focus-right"
+    "Mod+Shift+Ctrl+H" = "column-move-to-output-left";
+    "Mod+Shift+Ctrl+Left" = "column-move-to-output-left";
+    "Mod+Shift+Ctrl+J" = "column-move-to-output-down";
+    "Mod+Shift+Ctrl+Down" = "column-move-to-output-down";
+    "Mod+Shift+Ctrl+K" = "column-move-to-output-up";
+    "Mod+Shift+Ctrl+Up" = "column-move-to-output-up";
+    "Mod+Shift+Ctrl+L" = "column-move-to-output-right";
+    "Mod+Shift+Ctrl+Right" = "column-move-to-output-right";
 
-    // keys [ "Mod+Shift+H" "Mod+Shift+Left" ] "column-move-left"
-    // keys [ "Mod+Shift+J" "Mod+Shift+Down" ] "window-move-down"
-    // keys [ "Mod+Shift+K" "Mod+Shift+Up" ] "window-move-up"
-    // keys [ "Mod+Shift+L" "Mod+Shift+Right" ] "column-move-right"
+    "Mod+1" = "workspace-switch:1";
+    "Mod+2" = "workspace-switch:2";
+    "Mod+3" = "workspace-switch:3";
+    "Mod+4" = "workspace-switch:4";
+    "Mod+5" = "workspace-switch:5";
+    "Mod+6" = "workspace-switch:6";
+    "Mod+7" = "workspace-switch:7";
+    "Mod+8" = "workspace-switch:8";
+    "Mod+9" = "workspace-switch:9";
+    "Mod+0" = "workspace-switch:10";
 
-    // keys [ "Mod+Ctrl+H" "Mod+Ctrl+Left" ] "output-focus-left"
-    // keys [ "Mod+Ctrl+J" "Mod+Ctrl+Down" ] "output-focus-down"
-    // keys [ "Mod+Ctrl+K" "Mod+Ctrl+Up" ] "output-focus-up"
-    // keys [ "Mod+Ctrl+L" "Mod+Ctrl+Right" ] "output-focus-right"
+    "Mod+Shift+1" = "window-move-to-workspace:1";
+    "Mod+Shift+2" = "window-move-to-workspace:2";
+    "Mod+Shift+3" = "window-move-to-workspace:3";
+    "Mod+Shift+4" = "window-move-to-workspace:4";
+    "Mod+Shift+5" = "window-move-to-workspace:5";
+    "Mod+Shift+6" = "window-move-to-workspace:6";
+    "Mod+Shift+7" = "window-move-to-workspace:7";
+    "Mod+Shift+8" = "window-move-to-workspace:8";
+    "Mod+Shift+9" = "window-move-to-workspace:9";
+    "Mod+Shift+0" = "window-move-to-workspace:10";
 
-    // keys [ "Mod+Shift+Ctrl+H" "Mod+Shift+Ctrl+Left" ] "column-move-to-output-left"
-    // keys [ "Mod+Shift+Ctrl+J" "Mod+Shift+Ctrl+Down" ] "column-move-to-output-down"
-    // keys [ "Mod+Shift+Ctrl+K" "Mod+Shift+Ctrl+Up" ] "column-move-to-output-up"
-    // keys [ "Mod+Shift+Ctrl+L" "Mod+Shift+Ctrl+Right" ] "column-move-to-output-right"
+    "Mod+BracketLeft" = "window-consume-left";
+    "Mod+BracketRight" = "window-expel-right";
+    "Mod+Period" = "window-expel-right";
 
-    // workspaceKeys;
+    "Mod+Minus" = "window-modify-width:-0.1";
+    "Mod+Equal" = "window-modify-width:0.1";
+
+    "Mod+WheelUp" = "workspace-previous";
+    "Mod+WheelDown" = "workspace-next";
+    "Mod+WheelLeft" = "window-focus-left";
+    "Mod+WheelRight" = "window-focus-right";
+    "Mod+Ctrl+WheelLeft" = "column-move-left";
+    "Mod+Ctrl+WheelRight" = "column-move-right";
+  };
 }
