@@ -356,11 +356,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1787386421,
-        "narHash": "sha256-Vo0LHFkROcW3MkOk3sFdEnx8R3CkvxnMrszW7iXNhwg=",
+        "lastModified": 1787389599,
+        "narHash": "sha256-LVXm3KwANsBvtJjcdsu5WaESdlHheCRnMnXna1LwhVU=",
         "owner": "boatette",
         "repo": "omarchy-import",
-        "rev": "01b726ace5ea9c763832bd8418b2c35d34df01fb",
+        "rev": "61ea792fe71a6a3306f61e54decb80de5babe151",
         "type": "github"
       },
       "original": {
