@@ -6,9 +6,9 @@
 
       workspaceKeys = lib.listToAttrs (
         lib.concatMap (n: [
-          (lib.nameValuePair "Mod+${toString n}" "workspace-switch:${toString n}")
-          (lib.nameValuePair "Mod+Shift+${toString n}" "window-move-to-workspace:${toString n}")
-        ]) (lib.range 1 9)
+          (lib.nameValuePair "Mod+${toString (lib.mod n 10)}" "workspace-switch:${toString n}")
+          (lib.nameValuePair "Mod+Shift+${toString (lib.mod n 10)}" "window-move-to-workspace:${toString n}")
+        ]) (lib.range 1 10)
       );
     in
     {
@@ -47,8 +47,6 @@
       "Mod+Ctrl+WheelLeft" = "column-move-left";
       "Mod+Ctrl+WheelRight" = "column-move-right";
     }
-    // workspaceKeys
-
     // keys [ "Mod+H" "Mod+Left" ] "window-focus-left"
     // keys [ "Mod+J" "Mod+Down" ] "window-focus-down"
     // keys [ "Mod+K" "Mod+Up" ] "window-focus-up"
@@ -67,5 +65,7 @@
     // keys [ "Mod+Shift+Ctrl+H" "Mod+Shift+Ctrl+Left" ] "column-move-to-output-left"
     // keys [ "Mod+Shift+Ctrl+J" "Mod+Shift+Ctrl+Down" ] "column-move-to-output-down"
     // keys [ "Mod+Shift+Ctrl+K" "Mod+Shift+Ctrl+Up" ] "column-move-to-output-up"
-    // keys [ "Mod+Shift+Ctrl+L" "Mod+Shift+Ctrl+Right" ] "column-move-to-output-right";
+    // keys [ "Mod+Shift+Ctrl+L" "Mod+Shift+Ctrl+Right" ] "column-move-to-output-right"
+
+    // workspaceKeys;
 }
