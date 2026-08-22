@@ -1,6 +1,6 @@
 local input, output = ...
 
-local recorded = { colors_name = nil, highlights = 0 }
+local recorded = { colors_name = nil, highlights = 0, setups = {}, colorscheme = nil, loaded = nil }
 
 local ESCAPES =
     { ['"'] = '\\"', ["\\"] = "\\\\", ["\b"] = "\\b", ["\f"] = "\\f", ["\n"] = "\\n", ["\r"] = "\\r", ["\t"] = "\\t" }
@@ -118,6 +118,22 @@ local function build_vim()
         recorded.highlights = recorded.highlights + 1
     end
 
+    stub.cmd = setmetatable({}, {
+        __call = function(_, text)
+            local name = type(text) == "string" and text:match("^%s*colorscheme%s+(%S+)")
+            if name then
+                recorded.colorscheme = name
+            end
+        end,
+        __index = function(_, key)
+            return function(argument)
+                if key == "colorscheme" and type(argument) == "string" then
+                    recorded.colorscheme = argument
+                end
+            end
+        end,
+    })
+
     stub.tbl_deep_extend = deep_extend
     stub.tbl_extend = deep_extend
     stub.inspect = tostring
@@ -171,7 +187,33 @@ local SANDBOX = {
 }
 
 SANDBOX.vim = build_vim()
-SANDBOX.require = permissive()
+
+SANDBOX.require = function(name)
+    local module = {}
+    return setmetatable(module, {
+        __index = function(_, key)
+            if key == "setup" then
+                return function(options)
+                    recorded.setups[#recorded.setups + 1] = {
+                        module = name,
+                        options = type(options) == "table" and options or nil,
+                    }
+                end
+            end
+            if key == "load" then
+                return function()
+                    recorded.loaded = name
+                end
+            end
+            local child = permissive()
+            rawset(module, key, child)
+            return child
+        end,
+        __call = function()
+            return permissive()
+        end,
+    })
+end
 SANDBOX._G = SANDBOX
 
 local chunk, load_error = loadfile(input, "t", SANDBOX)
@@ -198,8 +240,13 @@ if recorded.colors_name or recorded.highlights > 0 then
 end
 
 local plugins, colorscheme, inline = {}, nil, false
+local configs = {}
 
 walk(result, function(node)
+    if type(node.config) == "function" then
+        configs[#configs + 1] = node.config
+    end
+
     if type(node[1]) == "string" and node[1]:match(REPO) then
         plugins[#plugins + 1] = {
             repo = node[1],
@@ -218,8 +265,13 @@ walk(result, function(node)
     end
 end, {})
 
+for _, config in ipairs(configs) do
+    pcall(config)
+end
+
 report({
     shape = inline and "inline_function" or (#plugins > 0 and "plugin" or "none"),
     plugins = plugins,
-    colorscheme = colorscheme,
+    colorscheme = colorscheme or recorded.colorscheme or recorded.loaded,
+    setups = recorded.setups,
 })

@@ -733,15 +733,26 @@ def plugin_stem(repo):
     return normalise(re.sub(r"[._-]?n?vim$", "", repo.split("/")[-1], flags=re.IGNORECASE))
 
 
-def own_plugin(spec, name):
-    wanted = normalise(name)
-    for plugin in spec.get("plugins", []):
-        stem = plugin_stem(plugin.get("repo", ""))
-        if stem in ("", "lazy"):
-            continue
-        if stem == wanted or (len(stem) >= 4 and (stem in wanted or wanted in stem)):
+def setup_options(spec, plugin):
+    direct = {k: v for k, v in (plugin.get("opts") or {}).items() if k != "colorscheme"}
+    if direct:
+        return direct
+
+    stem = plugin_stem(plugin.get("repo", ""))
+    for recorded in spec.get("setups") or []:
+        if normalise(recorded.get("module", "")) in (stem, normalise(plugin.get("name") or "")):
+            options = recorded.get("options")
+            if isinstance(options, dict):
+                return {k: v for k, v in options.items() if k != "colorscheme"}
+    return {}
+
+
+def theme_plugin(spec):
+    candidates = [p for p in spec.get("plugins", []) if plugin_stem(p.get("repo", "")) not in ("", "lazy")]
+    for plugin in candidates:
+        if PROVIDERS.get(plugin.get("repo", "").lower()):
             return plugin
-    return None
+    return candidates[0] if candidates else None
 
 
 def plan_neovim(spec, palette, joined, mode, slug, choice, name):
@@ -764,9 +775,9 @@ def plan_neovim(spec, palette, joined, mode, slug, choice, name):
                 continue
 
             entry = {"nvim": "plugin", "provider": provider, "scheme": scheme}
-            opts = {k: v for k, v in (plugin.get("opts") or {}).items() if k != "colorscheme"}
-            if opts:
-                entry["opts"] = opts
+            options = setup_options(spec, plugin)
+            if options:
+                entry["opts"] = options
             return entry, {}, "%s renders %s" % (provider, palette)
 
         if unfit:
@@ -780,32 +791,26 @@ def plan_neovim(spec, palette, joined, mode, slug, choice, name):
             "theme ships its own colorscheme",
         )
 
-    mine = own_plugin(spec, name)
-    if not mine and choice == "plugin":
-        mine = next((p for p in spec.get("plugins", []) if plugin_stem(p.get("repo", "")) != "lazy"), None)
-
-    if mine:
-        repo = mine["repo"]
+    plugin = theme_plugin(spec)
+    if plugin:
+        repo = plugin["repo"]
         provider = PROVIDERS.get(repo.lower())
         scheme = spec.get("colorscheme") or plugin_stem(repo)
-        opts = {k: v for k, v in (mine.get("opts") or {}).items() if k != "colorscheme"}
+        options = setup_options(spec, plugin)
 
         if provider:
             entry = {"nvim": "plugin", "provider": provider, "scheme": resolve_scheme(provider, scheme) or scheme}
-            if opts:
-                entry["opts"] = opts
+            if options:
+                entry["opts"] = options
             return entry, {}, "%s is already installed" % provider
 
         entry = {"nvim": "plugin", "scheme": scheme}
-        if opts:
-            entry["module"] = mine.get("name") or plugin_stem(repo)
-            entry["opts"] = opts
+        if options:
+            entry["module"] = plugin.get("name") or plugin_stem(repo)
+            entry["opts"] = options
         return entry, {"kind": "plugin", "repo": repo}, "installs %s" % repo
 
-    named = spec.get("colorscheme")
-    reason = "names %s, but the desktop shows %s" % (named, palette) if named else (
-        spec.get("error") or "no colorscheme in neovim.lua")
-    return palette_mode, {}, reason
+    return palette_mode, {}, spec.get("error") or "no colorscheme in neovim.lua"
 
 
 def lua_value(value, indent):
@@ -928,7 +933,7 @@ def write_plugins(repo=None):
         for n, u in sorted(pinned.items())
     )
     builds = "".join(
-        '        (pkgs.vimUtils.buildVimPlugin {\n          name = "%s";\n          src = inputs.plugins-%s;\n        })\n' % (n, n)
+        '        (pkgs.vimUtils.buildVimPlugin {\n          name = "%s";\n          src = inputs.plugins-%s;\n          doCheck = false;\n        })\n' % (n, n)
         for n in sorted(pinned)
     )
     PLUGINS.write_text(
@@ -1045,16 +1050,23 @@ def fetch(source, work, ref=None):
 
     clone = work if not subdir else work.parent / "clone"
     command = ["git", "clone", "--depth", "1", "--quiet"]
+    if subdir:
+        command += ["--filter=blob:none", "--sparse"]
     if ref:
         command += ["--branch", ref]
-    result = subprocess.run(
-        command + [url, str(clone)],
-        capture_output=True,
-        text=True,
-        timeout=180,
-    )
+
+    result = None
+    for attempt in range(3):
+        result = subprocess.run(command + [url, str(clone)], capture_output=True, text=True, timeout=300)
+        if result.returncode == 0:
+            break
+        shutil.rmtree(clone, ignore_errors=True)
     if result.returncode != 0:
         raise Failure("git clone failed for %s: %s" % (url, result.stderr.strip()))
+
+    if subdir:
+        subprocess.run(["git", "-C", str(clone), "sparse-checkout", "set", subdir],
+                       capture_output=True, text=True, timeout=120)
 
     if subdir:
         inner = clone / subdir
