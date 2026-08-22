@@ -60,8 +60,6 @@ local SCHEMES = {
     },
 }
 
--- Themes imported by omarchy-import land in a generated table. It is absent until the
--- first import, and its entries win, so an imported theme can restate a name above.
 local ok, imported = pcall(require, "colourscheme.omarchy")
 if ok and type(imported) == "table" then
     for name, entry in pairs(imported) do
@@ -69,8 +67,6 @@ if ok and type(imported) == "table" then
     end
 end
 
--- Returns nil when the palette has no colorscheme of its own, which is the signal to fall
--- back to mini.base16. A nil provider means the scheme needs no setup call, only :colorscheme.
 function M.resolve(name, is_light)
     local entry = SCHEMES[norm(name)]
     if not entry then
