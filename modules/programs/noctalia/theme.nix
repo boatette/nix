@@ -13,7 +13,6 @@
         "gtk3"
         "gtk4"
         "kcolorscheme"
-        "niri"
         "qt"
       ];
 

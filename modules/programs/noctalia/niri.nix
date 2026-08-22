@@ -9,7 +9,9 @@
       }
     ];
 
-    homeManager.noctalia.programs.noctalia.settings = {
+    homeManager.noctalia-niri.programs.noctalia.settings = {
+      theme.templates.builtin_ids = [ "niri" ];
+
       shell.niri_overview_type_to_launch_enabled = true;
 
       backdrop = {
