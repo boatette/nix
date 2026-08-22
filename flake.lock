@@ -116,6 +116,24 @@
         "type": "github"
       }
     },
+    "flake-parts_3": {
+      "inputs": {
+        "nixpkgs-lib": "nixpkgs-lib_2"
+      },
+      "locked": {
+        "lastModified": 1785627969,
+        "narHash": "sha256-4dtXQk/NMePegK/nWp5NSeuZKLATItOq61lpEvmXqGw=",
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "rev": "427bf4bd9435fdf21321c8cc628c24efc14c0f7a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "type": "github"
+      }
+    },
     "helium": {
       "inputs": {
         "nixpkgs": [
@@ -264,6 +282,21 @@
         "type": "github"
       }
     },
+    "nixpkgs-lib_2": {
+      "locked": {
+        "lastModified": 1785031560,
+        "narHash": "sha256-OmshNvn2vupOFpYinLUu+1Dnpu4n7Q5N3ggGVNHpkUI=",
+        "owner": "nix-community",
+        "repo": "nixpkgs.lib",
+        "rev": "0e79af5e3d4dcfcd676ab5ba3f95d2e3352e078c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "nixpkgs.lib",
+        "type": "github"
+      }
+    },
     "nixpkgs_2": {
       "locked": {
         "lastModified": 1786599213,
@@ -346,6 +379,27 @@
       "original": {
         "owner": "noctalia-dev",
         "repo": "noctalia-greeter",
+        "type": "github"
+      }
+    },
+    "noctalia-plugins": {
+      "inputs": {
+        "flake-parts": "flake-parts_3",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1787409564,
+        "narHash": "sha256-wIwaYfklx8tDJ2KT0VRfXCws2P4PpPM9VIuPMvx2IN4=",
+        "owner": "boatette",
+        "repo": "noctalia-plugins",
+        "rev": "927854a77d513457bcac56321f9d836bcaf5ccfa",
+        "type": "github"
+      },
+      "original": {
+        "owner": "boatette",
+        "repo": "noctalia-plugins",
         "type": "github"
       }
     },
@@ -447,6 +501,7 @@
         "nixvim": "nixvim",
         "noctalia": "noctalia",
         "noctalia-greeter": "noctalia-greeter",
+        "noctalia-plugins": "noctalia-plugins",
         "omarchy-import": "omarchy-import",
         "pkgs-by-name-for-flake-parts": "pkgs-by-name-for-flake-parts",
         "plugins-everforest-nvim": "plugins-everforest-nvim",
@@ -535,11 +590,11 @@
         "scenefx": "scenefx"
       },
       "locked": {
-        "lastModified": 1787392988,
-        "narHash": "sha256-16ymuspF8bD+P0QtzHejs/N0orvacDcYNkVSwhWpNwM=",
+        "lastModified": 1787405404,
+        "narHash": "sha256-fywTCQeCA76dztn/HuLaBGZtwXuy4N4ecMX1WBZVwU0=",
         "owner": "noctalia-dev",
         "repo": "umbriel",
-        "rev": "b4303605b6cd4bfdab898f24cd83a0261b1e6dec",
+        "rev": "cc7b80727eaab20e672cb956fc5e94761da03fba",
         "type": "github"
       },
       "original": {
