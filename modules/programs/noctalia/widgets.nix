@@ -76,7 +76,10 @@
       interactive = false;
     };
 
-    workspaces.labels_only_when_occupied = true;
+    workspaces = {
+      hide_when_empty = true;
+      labels_only_when_occupied = true;
+    };
 
     cpu = {
       type = "sysmon";

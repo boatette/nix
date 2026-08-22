@@ -13,6 +13,8 @@
         (m.position.x or 0)
         (m.position.y or 0)
       ];
+
+      workspaces = 10;
     }
     // lib.optionalAttrs (m.mode or null != null) { inherit (m) mode; }
   ) inputs.self.monitors;
