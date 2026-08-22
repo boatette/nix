@@ -43,10 +43,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     pkgs-by-name-for-flake-parts.url = "github:drupol/pkgs-by-name-for-flake-parts";
-    plugins-bamboo-nvim = {
-      url = "github:ribru17/bamboo.nvim";
-      flake = false;
-    };
     plugins-everforest-nvim = {
       url = "github:neanias/everforest-nvim";
       flake = false;

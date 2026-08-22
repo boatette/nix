@@ -6,9 +6,4 @@ return {
         scheme = "mars",
         source = "https://github.com/steve-lohmeyer/omarchy-mars-theme",
     },
-    ["Osaka-Jade"] = {
-        nvim = "plugin",
-        scheme = "bamboo",
-        source = "https://github.com/basecamp/omarchy",
-    },
 }
