@@ -1,3 +1,7 @@
+{ inputs, ... }:
+let
+  inherit (inputs.self.constants) flakeDir;
+in
 {
   flake.modules.homeManager.noctalia.programs.noctalia.settings.shell = {
     font_family = "sans-serif";
@@ -92,7 +96,7 @@
       launcher_position = "center";
       polkit_placement = "floating";
       polkit_position = "center";
-      session_placement = "floating";
+      session_placement = "attached";
       session_position = "top_center";
       wallpaper_placement = "attached";
       wallpaper_position = "top_center";
@@ -129,7 +133,7 @@
     };
 
     session = {
-      grid = false;
+      grid = true;
       grid_columns = 3;
       show_shortcuts = true;
       power = { };
@@ -148,9 +152,16 @@
         in
         [
           (action "lock" "l" "default")
-          (action "logout" "e" "default")
           (action "lock_and_suspend" "u" "default")
+          (action "logout" "e" "default")
           (action "reboot" "r" "default")
+          (
+            (action "command" "b" "default")
+            // {
+              command = ''foot -- sh -c "run0 nixos-rebuild boot --flake ${flakeDir} && systemctl reboot"'';
+              label = "Rebuild & Reboot";
+            }
+          )
           (action "shutdown" "s" "destructive")
         ];
     };
