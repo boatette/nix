@@ -4,6 +4,8 @@
     "Mod+Slash" = "cheatsheet-toggle";
 
     "Mod+Q" = "window-close";
+    "Mod+Alt+Q" =
+      ''spawn:app_id=$(umbriel windows --json | jq -r 'first(.[] | select(.active) | .app_id) // empty'); [ -n "$app_id" ] && { pkill -9 -x "$app_id" || pkill -9 -f "$app_id"; }'';
 
     "Mod+C" = "window-center";
     "Mod+V" = "window-toggle-floating";
