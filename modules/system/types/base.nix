@@ -38,6 +38,7 @@
 
         bat
         git
+        ssh
         nvim
         fastfetch
         fetch
