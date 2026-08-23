@@ -5,8 +5,8 @@
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  flake.modules = {
-    homeManager.apps =
+  flake.modules.homeManager = {
+    apps =
       { pkgs, ... }:
       let
         inherit (pkgs.stdenv.hostPlatform) system;
@@ -28,7 +28,7 @@
           ];
       };
 
-    homeManager.mime =
+    mime =
       { lib, ... }:
       let
         handles = handler: types: lib.genAttrs types (_: handler);
@@ -65,7 +65,7 @@
         };
       };
 
-    homeManager.umbriel.programs.umbriel.settings.window_rule = [
+    umbriel.programs.umbriel.settings.window_rule = [
       {
         match.app_id = "helium|vesktop|gimp|libreoffice";
         default_maximize = true;

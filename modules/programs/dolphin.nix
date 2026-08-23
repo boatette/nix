@@ -1,6 +1,6 @@
 {
-  flake.modules = {
-    homeManager.dolphin =
+  flake.modules.homeManager = {
+    dolphin =
       { pkgs, ... }:
       {
         kde.settings.dolphinrc = {
@@ -38,16 +38,7 @@
         ]);
       };
 
-    nixos.dolphin =
-      { pkgs, ... }:
-      {
-
-        environment.etc."xdg/menus/applications.menu".source = pkgs.runCommand "applications.menu" { } ''
-          cp ${pkgs.kdePackages.plasma-workspace}/etc/xdg/menus/plasma-applications.menu $out
-        '';
-      };
-
-    homeManager.mime =
+    mime =
       { lib, ... }:
       let
         associations = lib.genAttrs [
@@ -62,11 +53,20 @@
         };
       };
 
-    homeManager.umbriel.programs.umbriel.settings.window_rule = [
+    umbriel.programs.umbriel.settings.window_rule = [
       {
         match.app_id = "^org\\.kde\\.dolphin";
         opacity = 0.8;
       }
     ];
   };
+
+  flake.modules.nixos.dolphin =
+    { pkgs, ... }:
+    {
+
+      environment.etc."xdg/menus/applications.menu".source = pkgs.runCommand "applications.menu" { } ''
+        cp ${pkgs.kdePackages.plasma-workspace}/etc/xdg/menus/plasma-applications.menu $out
+      '';
+    };
 }
