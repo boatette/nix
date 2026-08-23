@@ -36,7 +36,7 @@ NixOS configuration for umbriel + noctalia.
 2. Partition, format and mount. Print the script and read it first:
 
    ```bash
-   nix run github:nix-community/disko/latest -- --mode destroy,format,mount --flake github:boatette/nix#aspire --dry-run
+   nix run github:nix-community/disko/latest -- --mode destroy,format,mount --flake github:boatette/nix#[host] --dry-run
    ```
 
    Drop `--dry-run` to do it.
@@ -45,13 +45,13 @@ NixOS configuration for umbriel + noctalia.
 
    ```bash
    mkdir -p /mnt/home/[user]
-   nix run nixpkgs#git -- clone https://github.com/boatette/nix.git /mnt/home/boatette/nix
+   nix run nixpkgs#git -- clone https://github.com/boatette/nix.git /mnt/home/[user]/nix
    ```
 
 4. Install:
 
    ```bash
-   nixos-install --flake /mnt/home/[user]/nix#aspire --option max-jobs 3 --option cores 4 --option extra-substituters "https://nix-community.cachix.org https://noctalia.cachix.org" --option extra-trusted-public-keys "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs= noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
+   nixos-install --flake /mnt/home/[user]/nix#[host] --option max-jobs 3 --option cores 4 --option extra-substituters "https://nix-community.cachix.org https://noctalia.cachix.org" --option extra-trusted-public-keys "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs= noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
    ```
 
    Job bounds and cachix keep ram usage down; neither is required.
