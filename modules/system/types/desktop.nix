@@ -17,6 +17,7 @@
 
     dolphin
     noctalia
+    umbriel
   ];
 
   flake.modules.homeManager.desktop.imports = with inputs.self.modules.homeManager; [
@@ -36,5 +37,6 @@
     dolphin
     zen
     noctalia
+    umbriel
   ];
 }
