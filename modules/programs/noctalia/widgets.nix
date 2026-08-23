@@ -131,8 +131,8 @@
 
         box_height = 240.0;
         box_width = 432.0;
-        cx = 265.0;
-        cy = 953.0;
+        cx = 226.0;
+        cy = 950.0;
         rotation = 0.0;
 
         settings = {
