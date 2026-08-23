@@ -3,8 +3,8 @@
     appearance = {
       prefer_no_csd = true;
 
-      border_width = 2;
-      outer_border_width = 0;
+      border_width = 1;
+      outer_border_width = 1;
       corner_radius = 4;
 
       blur = {
