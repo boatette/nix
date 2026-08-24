@@ -8,10 +8,7 @@
       format = "$directory$git_branch$git_commit$git_state$git_status$package$character\n";
       right_format = "$cmd_duration$jobs$sudo";
 
-      character = {
-        error_symbol = "[](bold red)";
-        vimcmd_symbol = "[](bold green)";
-      };
+      character.vimcmd_symbol = "[](bold green)";
     };
   };
 }
