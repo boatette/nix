@@ -25,15 +25,5 @@
       "Shift+ISO_Left_Tab"
       "Ctrl+p"
     ];
-
-    validate = [
-      "Return"
-      "KP_Enter"
-      "space"
-    ];
-    cancel = [ "Escape" ];
-    copy = [ "Ctrl+c" ];
-    delete = [ "Delete" ];
-    save = [ "Ctrl+s" ];
   };
 }

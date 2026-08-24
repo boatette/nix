@@ -18,7 +18,6 @@
           box_width = 400.0;
           cx = 960.0;
           cy = 898.0;
-          rotation = 0.0;
 
           settings = {
             layout = "compact";
@@ -43,30 +42,14 @@
     in
     {
       programs.noctalia.settings.lockscreen = {
-        enabled = true;
         monitors = [ primary ];
-
         allow_empty_password = true;
-        fingerprint = true;
-        lock_before_suspend = true;
-
-        blur_intensity = 0.5;
-        blurred_desktop = false;
-        tint_intensity = 0.3;
-        wallpaper = "";
       };
 
       programs.noctalia.settings.lockscreen_widgets = {
         enabled = true;
-        schema_version = 2;
         widget_order = map (entry: entry.name) loginBoxes;
         widget = lib.listToAttrs loginBoxes;
-
-        grid = {
-          cell_size = 16;
-          major_interval = 4;
-          visible = true;
-        };
       };
     };
 }

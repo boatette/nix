@@ -25,8 +25,6 @@
         noctalia = {
           settings = {
             plugins = {
-              auto_update = "all";
-
               enabled = [
                 "dotnetrob/cat"
                 "avivbintangaringga/nix-monitor"
