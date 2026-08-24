@@ -16,15 +16,10 @@
       };
     in
     {
-      plugins.oil = {
+      plugins.yazi = {
         enable = true;
         settings = {
-          default_file_explorer = true;
-          view_options.show_hidden = true;
-          float = {
-            max_width = 90;
-            max_height = 30;
-          };
+          open_for_directories = true;
         };
       };
 
@@ -37,13 +32,13 @@
         {
           mode = "n";
           key = "<leader>e";
-          action = "<cmd>Oil --float<cr>";
+          action = "<cmd>Yazi<cr>";
           options.desc = "File explorer";
         }
         {
           mode = "n";
           key = "<leader>E";
-          action = "<cmd>Oil . --float<cr>";
+          action = "<cmd>Yazi cwd<cr>";
           options.desc = "File explorer (cwd)";
         }
 
