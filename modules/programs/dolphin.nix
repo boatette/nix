@@ -20,8 +20,16 @@
         };
 
         home.packages = [
-
-          pkgs.local.dolphin-themed
+          pkgs.symlinkJoin
+          {
+            name = "dolphin-themed";
+            paths = [ pkgs.kdePackages.dolphin ];
+            nativeBuildInputs = [ pkgs.makeWrapper ];
+            postBuild = ''
+              wrapProgram $out/bin/dolphin --set QT_QPA_PLATFORMTHEME kde
+            '';
+            meta.mainProgram = "dolphin";
+          }
         ]
         ++ (with pkgs.kdePackages; [
           plasma-integration

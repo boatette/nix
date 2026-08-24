@@ -2,6 +2,8 @@
   flake.modules.homeManager.konsole =
     { pkgs, ... }:
     {
+      home.packages = [ pkgs.kdePackages.konsole ];
+
       xdg.dataFile."konsole/Noctalia.profile".source =
         (pkgs.formats.ini { }).generate "Noctalia.profile"
           {
