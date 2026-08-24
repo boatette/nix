@@ -158,7 +158,7 @@ in
           (
             (action "command" "b" "default")
             // {
-              command = ''ghostty -- sh -c "run0 nixos-rebuild boot --flake ${flakeDir} && systemctl reboot"'';
+              command = ''ghostty -e sh -c "run0 nixos-rebuild boot --flake ${flakeDir} && systemctl reboot"'';
               label = "Rebuild & Reboot";
             }
           )
