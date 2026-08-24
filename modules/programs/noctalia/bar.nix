@@ -29,7 +29,7 @@
 
       padding = 8;
       widget_spacing = 12;
-      margin_edge = 8;
+      margin_edge = 0;
       margin_ends = 8;
       margin_opposite_edge = 0;
       panel_overlap = 1;
