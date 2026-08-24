@@ -48,7 +48,7 @@
     show_instance_count = false;
 
     pinned = [
-      "footclient"
+      "com.mitchellh.ghostty"
       "zen-beta"
       "vesktop"
       "steam"

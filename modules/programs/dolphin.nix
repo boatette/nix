@@ -15,8 +15,8 @@
         };
 
         kde.settings.kdeglobals.General = {
-          TerminalApplication = "foot";
-          TerminalService = "foot.desktop";
+          TerminalApplication = "ghostty";
+          TerminalService = "ghostty.desktop";
         };
 
         home.packages = [

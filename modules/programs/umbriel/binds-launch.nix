@@ -1,12 +1,11 @@
 {
   flake.modules.homeManager.umbriel.programs.umbriel.settings.keybinds = {
-    "Mod+T" = "spawn:footclient-themed";
+    "Mod+T" = "spawn:ghostty";
     "Mod+W" = "spawn:zen-beta";
     "Mod+E" = "spawn:dolphin";
 
-    "Mod+Alt+T" = "spawn:ghostty";
     "Mod+Alt+W" = "spawn:helium";
-    "Mod+Alt+E" = "spawn:foot fish -C y";
+    "Mod+Alt+E" = "spawn:ghostty fish -C y";
 
     "Mod+D" = "spawn:noctalia msg panel-toggle launcher";
     "Mod+X" = "spawn:noctalia msg panel-toggle session";
