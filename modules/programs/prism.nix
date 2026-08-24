@@ -3,7 +3,7 @@
   flake.modules.homeManager.prism =
     { pkgs, ... }:
     {
-      home.packages = [ pkgs.local.prismlauncher-offload ];
+      home.packages = [ pkgs.prismlauncher ];
     };
 
   flake.modules.homeManager.mime =
