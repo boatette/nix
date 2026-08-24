@@ -31,8 +31,6 @@
           options = [ "--cmd cd" ];
           enableFishIntegration = false;
         };
-
-        starship.enable = true;
       };
     };
 }
