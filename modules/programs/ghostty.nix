@@ -21,6 +21,8 @@
           confirm-close-surface = false;
           gtk-single-instance = true;
           quit-after-last-window-closed = false;
+
+          window-inherit-working-directory = false;
         };
       };
 
