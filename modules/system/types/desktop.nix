@@ -16,7 +16,6 @@
     localsend
 
     dolphin
-    noctalia
     umbriel
   ];
 

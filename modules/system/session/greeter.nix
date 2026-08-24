@@ -1,11 +1,8 @@
-{ inputs, ... }:
 {
   flake.modules.nixos.greeter =
     { config, ... }:
     {
-      imports = [ inputs.noctalia-greeter.nixosModules.default ];
-
-      programs.noctalia-greeter = {
+      services.displayManager.noctalia-greeter = {
         enable = true;
         settings.appearance.hide_logo = true;
         settings.keyboard = { inherit (config.services.xserver.xkb) layout; };
