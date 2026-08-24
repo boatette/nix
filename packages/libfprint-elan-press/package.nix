@@ -21,7 +21,10 @@ libfprint.overrideAttrs (old: {
     (python3.withPackages (ps: [ ps.pygobject3 ]))
   ];
 
-  patches = (old.patches or [ ]) ++ [ ./elan-press-capture.patch ];
+  patches = (old.patches or [ ]) ++ [
+    ./elan-press-capture.patch
+    ./elan-disable-overheat.patch
+  ];
 
   buildInputs = old.buildInputs ++ [
     opencv

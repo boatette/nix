@@ -1,0 +1,15 @@
+--- a/libfprint/drivers/elan.c
++++ b/libfprint/drivers/elan.c
+@@ -1030,6 +1030,12 @@
+   dev_class->scan_type = FP_SCAN_TYPE_PRESS;
+   dev_class->nr_enroll_stages = 15;
+ 
++  /* the lock screen holds a verify call open for as long as it's locked,
++   * waiting for a press; libfprint's generic overheat simulation counts
++   * that whole wait as "active" and disables the sensor after 180s
++   */
++  dev_class->temp_hot_seconds = -1;
++
+   img_class->img_open = dev_init;
+   img_class->img_close = dev_deinit;
+   img_class->activate = dev_activate;
