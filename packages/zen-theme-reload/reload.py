@@ -56,7 +56,6 @@ class MarionetteError(Exception):
 
 
 class Marionette:
-
     def __init__(self, sock):
         self.sock = sock
         self.buf = b""

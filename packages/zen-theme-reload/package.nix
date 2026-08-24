@@ -1,5 +1,3 @@
 { writers }:
 
-writers.writePython3Bin "zen-theme-reload" { flakeIgnore = [ "E501" ]; } (
-  builtins.readFile ./reload.py
-)
+writers.writePython3Bin "zen-theme-reload" { } (builtins.readFile ./reload.py)
