@@ -32,7 +32,6 @@
     imports =
       (with inputs.self.modules.homeManager; [
         shell
-        scripts
         cli-tools
         toolchains
 

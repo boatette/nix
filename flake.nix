@@ -40,10 +40,6 @@
       url = "github:boatette/noctalia-plugins";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    omarchy-import = {
-      url = "github:boatette/omarchy-import";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     pkgs-by-name-for-flake-parts.url = "github:drupol/pkgs-by-name-for-flake-parts";
     plugins-everforest-nvim = {
       url = "github:neanias/everforest-nvim";

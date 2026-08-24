@@ -340,26 +340,6 @@
         "type": "github"
       }
     },
-    "omarchy-import": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1787389599,
-        "narHash": "sha256-LVXm3KwANsBvtJjcdsu5WaESdlHheCRnMnXna1LwhVU=",
-        "owner": "boatette",
-        "repo": "omarchy-import",
-        "rev": "61ea792fe71a6a3306f61e54decb80de5babe151",
-        "type": "github"
-      },
-      "original": {
-        "owner": "boatette",
-        "repo": "omarchy-import",
-        "type": "github"
-      }
-    },
     "pkgs-by-name-for-flake-parts": {
       "locked": {
         "lastModified": 1769286518,
@@ -437,7 +417,6 @@
         "nixpkgs": "nixpkgs",
         "nixvim": "nixvim",
         "noctalia-plugins": "noctalia-plugins",
-        "omarchy-import": "omarchy-import",
         "pkgs-by-name-for-flake-parts": "pkgs-by-name-for-flake-parts",
         "plugins-everforest-nvim": "plugins-everforest-nvim",
         "plugins-github-monochrome-nvim": "plugins-github-monochrome-nvim",
