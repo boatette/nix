@@ -2,7 +2,13 @@
 {
   flake.modules.homeManager.umbriel.programs.umbriel.settings.output = lib.mapAttrs (
     _: m:
+    let
+      transform = m.transform or "normal";
+    in
     {
+      scale = (m.scale or 1) * 1.0;
+      transform = if lib.isInt transform then toString transform else transform;
+
       position = [
         (m.position.x or 0)
         (m.position.y or 0)
@@ -11,9 +17,5 @@
       workspaces = 10;
     }
     // lib.optionalAttrs (m.mode or null != null) { inherit (m) mode; }
-    // lib.optionalAttrs (m.scale or null != null) { scale = m.scale * 1.0; }
-    // lib.optionalAttrs (m.transform or null != null) {
-      transform = if lib.isInt m.transform then toString m.transform else m.transform;
-    }
   ) inputs.self.monitors;
 }
