@@ -1,3 +1,4 @@
+{ inputs, ... }:
 {
   flake-file.inputs.zen-browser = {
     url = "github:0xc000022070/zen-browser-flake";
@@ -7,11 +8,11 @@
   flake.modules.homeManager = {
     zen =
       { pkgs, ... }:
+      let
+        inherit (pkgs.stdenv.hostPlatform) system;
+      in
       {
-        home.packages = [
-          pkgs.local.zen-beta
-          pkgs.local.zen-theme-reload
-        ];
+        home.packages = [ inputs.zen-browser.packages.${system}.beta ];
       };
 
     mime =
