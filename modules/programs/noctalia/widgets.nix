@@ -35,10 +35,7 @@
       display_mode = "icon";
     };
 
-    workspaces = {
-      hide_when_empty = true;
-      labels_only_when_occupied = true;
-    };
+    workspaces.style = "minimal";
   };
 
   flake.modules.homeManager.noctalia.programs.noctalia.settings.desktop_widgets =

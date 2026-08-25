@@ -19,16 +19,15 @@
     capsule_radius = 4.0;
 
     start = [
-      "workspaces"
-      "umbriel-layout"
+      "cat"
       "nix-monitor"
+      "umbriel-layout"
       "audio_visualizer"
       "media"
     ];
 
     center = [
-      "clock"
-      "binary-clock"
+      "workspaces"
     ];
 
     end = [
@@ -38,7 +37,8 @@
       "volume"
       "notifications"
       "battery"
-      "cat"
+      "clock"
+      "binary-clock"
     ];
 
     dead_zone.actions = {
