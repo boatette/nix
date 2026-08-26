@@ -24,7 +24,6 @@
           ripgrep
         ])
         ++ [
-
           inputs.claude-code.packages.${system}.default
         ];
     };
