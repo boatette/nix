@@ -37,7 +37,6 @@
       "volume"
       "notifications"
       "battery"
-      "clock"
       "binary-clock"
     ];
 

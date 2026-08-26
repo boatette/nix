@@ -8,14 +8,11 @@
 
     binary-clock = {
       braille_separator = ":";
-      enabled = true;
       render_style = "braille";
       type = "boatette/binary-clock:bar";
     };
 
     bluetooth.hide_when_no_connected_device = true;
-
-    clock.enabled = false;
 
     cat.type = "dotnetrob/cat:cat";
 
