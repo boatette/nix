@@ -49,10 +49,6 @@
       url = "github:idr4n/github-monochrome.nvim";
       flake = false;
     };
-    plugins-mars-nvim = {
-      url = "github:steve-lohmeyer/mars.nvim";
-      flake = false;
-    };
     selector = {
       url = "github:boatette/selector";
       inputs.nixpkgs.follows = "nixpkgs";

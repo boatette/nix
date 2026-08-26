@@ -11,7 +11,6 @@
     "Mod+X" = "spawn:noctalia msg panel-toggle session";
     "Mod+Y" = "spawn:noctalia msg panel-toggle wallpaper";
     "Mod+Alt+Y" = "spawn:noctalia msg panel-toggle noctalia/wallhaven:browser";
-    "Mod+Shift+Y" = "spawn:noctalia msg panel-toggle boatette/omarchy-import:browser";
     "Mod+N" = "spawn:noctalia msg panel-toggle control-center";
     "Mod+Comma" = "spawn:noctalia msg settings-toggle";
     "Mod+I" = "spawn:noctalia msg caffeine-toggle";

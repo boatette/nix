@@ -25,10 +25,6 @@
               "--quote-style=AutoPreferDouble"
             ];
             includes = [ "*.lua" ];
-            excludes = [
-              "modules/programs/nvim/omarchy/colors/*"
-              "modules/programs/nvim/omarchy/specs/*"
-            ];
           };
         };
       };

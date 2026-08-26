@@ -60,13 +60,6 @@ local SCHEMES = {
     },
 }
 
-local ok, imported = pcall(require, "colourscheme.omarchy")
-if ok and type(imported) == "table" then
-    for name, entry in pairs(imported) do
-        SCHEMES[norm(name)] = entry
-    end
-end
-
 function M.resolve(name, is_light)
     local entry = SCHEMES[norm(name)]
     if not entry then

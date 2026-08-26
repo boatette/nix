@@ -18,7 +18,6 @@
     {
       home.packages = [
         inputs.noctalia-plugins.packages.${pkgs.stdenv.hostPlatform.system}.umbriel-workspace-watch
-        inputs.noctalia-plugins.packages.${pkgs.stdenv.hostPlatform.system}.omarchy-import
       ];
 
       programs = {
@@ -32,7 +31,6 @@
 
                 "boatette/auto-theme"
                 "boatette/binary-clock"
-                "boatette/omarchy-import"
                 "boatette/umbriel-layout"
               ];
 
