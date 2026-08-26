@@ -17,36 +17,33 @@
     };
   };
 
-  flake.modules.nixvim.nvim = {
-    wrapRc = true;
-    performance.byteCompileLua.enable = true;
+  flake.modules = {
+    nixvim.nvim = {
+      wrapRc = true;
+      impureRtp = false;
+      performance.byteCompileLua.enable = true;
 
-    extraConfigLua = ''
-      vim.loader.enable()
-      pcall(function()
-          require("vim._core.ui2").enable()
-      end)
-    '';
-  };
-
-  flake.modules.nixos.nvim.environment.sessionVariables = {
-    EDITOR = "nvim";
-    SUDO_EDITOR = "nvim";
-  };
-
-  flake.modules.homeManager.nvim =
-    { pkgs, ... }:
-    {
-      imports = [ inputs.nixvim.homeModules.nixvim ];
-
-      xdg.configFile."nvim/.keep".text = "";
-
-      programs.nixvim = {
-        enable = true;
-        imports = [ inputs.self.modules.nixvim.nvim ];
-        nixpkgs.pkgs = pkgs;
-      };
+      extraConfigLuaPre = ''
+        vim.loader.enable()
+        pcall(function()
+            require("vim._core.ui2").enable()
+        end)
+      '';
     };
+
+    nixos.nvim.environment.sessionVariables = {
+      EDITOR = "nvim";
+      SUDO_EDITOR = "nvim";
+    };
+
+    homeManager.nvim =
+      { pkgs, ... }:
+      {
+        xdg.configFile."nvim/.keep".text = "";
+
+        home.packages = [ pkgs.local.nvim ];
+      };
+  };
 
   perSystem =
     { system, pkgs, ... }:
