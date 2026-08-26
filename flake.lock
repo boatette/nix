@@ -327,11 +327,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1787650656,
-        "narHash": "sha256-qF6tSRm1hUFjRFSNQYw4mkHsBCBQC6/WdLWsvElNxl8=",
+        "lastModified": 1787725544,
+        "narHash": "sha256-aHi8rhAQ5rZyP/WeiNL6W53237ffcHZqDFKFubISEGo=",
         "owner": "boatette",
         "repo": "noctalia-plugins",
-        "rev": "67f367a39ce8d859cff1a1854049bc64b7e7cd22",
+        "rev": "222397cb5f610068ee398dae8ba51163c416ff28",
         "type": "github"
       },
       "original": {
@@ -417,11 +417,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1787229586,
-        "narHash": "sha256-h072LsyVwyb56drWqe+2BQjOf0MFygr8oYKyCjMifUs=",
+        "lastModified": 1787728747,
+        "narHash": "sha256-X73JY4D0ZL5zCRkJS3BqvoCgS7mZJM0EkpksXHU0oYM=",
         "owner": "boatette",
         "repo": "selector",
-        "rev": "fd11a3285cd240a3b298d66b31bca485c1f07ab8",
+        "rev": "f9b365f63917d7ddd1675f507b5134c41b807cb0",
         "type": "github"
       },
       "original": {
@@ -469,11 +469,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1787716238,
-        "narHash": "sha256-6AkGivSWRGgxF+PV0Ius2PqZrFWRzHgP5o9PnJSMgiE=",
+        "lastModified": 1787719965,
+        "narHash": "sha256-UJUm6ul8kwQCm+2n2pgGdXmEO9AzAdY6lwQSuMiLuYQ=",
         "ref": "refs/heads/main",
-        "rev": "e8729f1c6c8777490ecc176d40f9cb522800f0d6",
-        "revCount": 547,
+        "rev": "15f0f73e94b6e9560198ac25228ec7dcf0879dc0",
+        "revCount": 549,
         "submodules": true,
         "type": "git",
         "url": "https://github.com/noctalia-dev/umbriel"
