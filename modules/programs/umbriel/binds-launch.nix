@@ -5,7 +5,7 @@
     "Mod+E" = "spawn:dolphin";
 
     "Mod+Alt+W" = "spawn:helium";
-    "Mod+Alt+E" = "spawn:ghostty fish -C y";
+    "Mod+Alt+E" = "spawn:ghostty zsh -ic \"y; exec zsh\"";
 
     "Mod+D" = "spawn:noctalia msg panel-toggle launcher";
     "Mod+X" = "spawn:noctalia msg panel-toggle session";

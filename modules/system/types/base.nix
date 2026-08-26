@@ -32,6 +32,7 @@
     imports =
       (with inputs.self.modules.homeManager; [
         shell
+        starship
         cli-tools
         toolchains
 

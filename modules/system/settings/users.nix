@@ -9,7 +9,7 @@
           "networkmanager"
           "wheel"
         ];
-        shell = pkgs.fish;
+        shell = pkgs.zsh;
       };
     };
 }

@@ -11,8 +11,6 @@
         cpplint
         glsl_analyzer
 
-        fish-lsp
-
         jdt-language-server
         google-java-format
         ktlint

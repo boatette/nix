@@ -14,9 +14,12 @@
 
         tarnow = "tar -acf";
         untar = "tar -zxvf";
+        extract = "ouch decompress";
+        copy = "cp -r";
         wget = "wget -c";
         psmem = "ps auxf | sort -nr -k 4";
         psmem10 = "ps auxf | sort -nr -k 4 | head -10";
+        psg = "ps aux | grep -v grep | grep -i --";
 
         ".." = "cd ..";
         "..." = "cd ../..";
@@ -43,6 +46,7 @@
         ff = "fastfetch";
         q = "exit";
         ZQ = "exit";
+        history = "fc -li 1";
         h = "history";
         c = "clear";
         cls = "clear";
@@ -79,6 +83,8 @@
         reboot = "systemctl reboot";
         du = "dust";
         ports = "ss -tulpn";
+        paths = "tr ':' '\\n' <<< $PATH";
+        serve = "python3 -m http.server";
         myip = "curl -s ifconfig.me";
         temps = "sensors";
         topcpu = "ps auxf | sort -nr -k 3 | head -10";

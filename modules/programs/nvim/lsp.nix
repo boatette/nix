@@ -34,7 +34,6 @@
           [
             "bashls"
             "eslint"
-            "fish_lsp"
             "glsl_analyzer"
             "gradle_ls"
             "jsonls"
