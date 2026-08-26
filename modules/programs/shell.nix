@@ -4,7 +4,7 @@
   flake.modules.homeManager.shell.programs = {
     fish = {
       enable = true;
-      interactiveShellInit = builtins.readFile ./init.fish;
+      interactiveShellInit = builtins.readFile ./shell/init.fish;
     };
 
     zoxide = {
