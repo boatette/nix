@@ -1,5 +1,7 @@
 {
   flake.modules.homeManager.noctalia.programs.noctalia.settings.bar.default = {
+    position = "left";
+
     thickness = 32;
 
     font_family = "JetBrainsMono NF";

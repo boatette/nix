@@ -6,7 +6,7 @@
     };
 
     binary-clock = {
-      braille_separator = "│";
+      braille_separator = "─";
       render_style = "braille";
       show_seconds = false;
       type = "boatette/binary-clock:bar";

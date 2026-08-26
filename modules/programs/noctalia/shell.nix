@@ -38,8 +38,10 @@ in
       transparency_mode = "glass";
       list_item_background = true;
 
-      launcher_placement = "attached";
+      control_center_placement = "floating";
+      launcher_placement = "floating";
       session_position = "top_center";
+      wallpaper_placement = "floating";
       wallpaper_position = "top_center";
 
       open_near_click_control_center = true;
