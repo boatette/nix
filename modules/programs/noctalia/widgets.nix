@@ -7,11 +7,15 @@
     };
 
     binary-clock = {
+      enabled = true;
+      render_style = "braille";
       type = "boatette/binary-clock:bar";
-      enabled = false;
     };
 
     bluetooth.hide_when_no_connected_device = true;
+
+    clock.enabled = false;
+
     cat.type = "dotnetrob/cat:cat";
 
     launcher.custom_image_colorize = true;
@@ -26,13 +30,13 @@
     tray.drawer = true;
 
     nix-monitor = {
-      type = "avivbintangaringga/nix-monitor:nix-monitor";
       show_text = false;
+      type = "avivbintangaringga/nix-monitor:nix-monitor";
     };
 
     umbriel-layout = {
-      type = "boatette/umbriel-layout:bar";
       display_mode = "icon";
+      type = "boatette/umbriel-layout:bar";
     };
 
     workspaces.style = "minimal";
