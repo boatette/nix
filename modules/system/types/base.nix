@@ -19,7 +19,7 @@
 
         bat
         nvim
-        shell
+        zsh
         toolchains
 
         essential-packages
@@ -31,7 +31,7 @@
   flake.modules.homeManager.base = {
     imports =
       (with inputs.self.modules.homeManager; [
-        shell
+        zsh
         starship
         cli-tools
         toolchains

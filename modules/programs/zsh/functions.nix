@@ -1,5 +1,5 @@
 {
-  flake.modules.homeManager.shell =
+  flake.modules.homeManager.zsh =
     { pkgs, ... }:
     {
       home.packages = with pkgs; [

@@ -1,7 +1,7 @@
 {
-  flake.modules.nixos.shell.programs.zsh.enable = true;
+  flake.modules.nixos.zsh.programs.zsh.enable = true;
 
-  flake.modules.homeManager.shell.programs = {
+  flake.modules.homeManager.zsh.programs = {
     zsh = {
       enable = true;
 
