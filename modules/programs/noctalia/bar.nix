@@ -12,9 +12,9 @@
     radius_top_left = 4;
     radius_top_right = 4;
 
-    padding = 8;
+    padding = 10;
     widget_spacing = 12;
-    margin_ends = 8;
+    margin_ends = 10;
 
     capsule_radius = 4.0;
 
