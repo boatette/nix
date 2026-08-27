@@ -14,8 +14,10 @@
       }
 
       {
-        match.app_id = "^(org\\.kde\\.dolphin|gimp|libreoffice|soffice)";
-        match.title = "^(Open|Save|Select|Import|Export|Rename|Properties|Preferences|Settings)\\b";
+        match = {
+          app_id = "^(org\\.kde\\.dolphin|gimp|libreoffice|soffice)";
+          title = "^(Open|Save|Select|Import|Export|Rename|Properties|Preferences|Settings)\\b";
+        };
         default_floating = true;
       }
 

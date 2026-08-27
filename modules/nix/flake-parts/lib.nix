@@ -15,8 +15,10 @@
       modules = [
         inputs.self.modules.nixos.${name}
         {
-          nixpkgs.hostPlatform = lib.mkDefault system;
-          nixpkgs.pkgs = withSystem system ({ pkgs, ... }: pkgs);
+          nixpkgs = {
+            hostPlatform = lib.mkDefault system;
+            pkgs = withSystem system ({ pkgs, ... }: pkgs);
+          };
         }
       ];
     };

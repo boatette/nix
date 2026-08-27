@@ -12,11 +12,13 @@
 
       programs.umbriel.enable = true;
 
-      systemd.packages = [ config.programs.umbriel.package ];
+      systemd = {
+        packages = [ config.programs.umbriel.package ];
 
-      systemd.user.services.umbriel = {
-        restartIfChanged = false;
-        enableDefaultPath = false;
+        user.services.umbriel = {
+          restartIfChanged = false;
+          enableDefaultPath = false;
+        };
       };
     };
 

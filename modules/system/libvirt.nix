@@ -17,6 +17,7 @@
 
         spiceUSBRedirection.enable = true;
       };
+
       programs.virt-manager.enable = true;
 
       users.extraGroups.libvirtd.members = [ config.constants.username ];
