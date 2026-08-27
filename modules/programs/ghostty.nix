@@ -13,7 +13,7 @@
       window-padding-y = 14;
       window-decoration = "none";
 
-      background-opacity = 0.8;
+      background-opacity = 0.5;
 
       confirm-close-surface = false;
       gtk-single-instance = true;
