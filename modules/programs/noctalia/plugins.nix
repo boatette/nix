@@ -64,7 +64,11 @@
 
               "boatette/auto-theme".default_dynamic_scheme = "vibrant";
               "dotnetrob/cat".panel_placement = "floating";
-              "noctalia/wallhaven".download_dir = "~/Pictures/Wallpapers/Dynamic";
+              "noctalia/wallhaven" = {
+                browser_placement = "floating";
+                browser_position = "top_center";
+                download_dir = "~/Pictures/Wallpapers/Dynamic";
+              };
             };
 
             hooks = {
