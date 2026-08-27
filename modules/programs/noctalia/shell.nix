@@ -40,6 +40,7 @@ in
 
       control_center_placement = "floating";
       launcher_placement = "floating";
+      session_placement = "floating";
       session_position = "top_center";
       wallpaper_placement = "floating";
       wallpaper_position = "top_center";
