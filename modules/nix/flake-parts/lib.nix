@@ -1,4 +1,9 @@
-{ inputs, lib, ... }:
+{
+  inputs,
+  lib,
+  withSystem,
+  ...
+}:
 {
   options.flake.lib = lib.mkOption {
     type = lib.types.attrsOf lib.types.unspecified;
@@ -9,7 +14,10 @@
     ${name} = inputs.nixpkgs.lib.nixosSystem {
       modules = [
         inputs.self.modules.nixos.${name}
-        { nixpkgs.hostPlatform = lib.mkDefault system; }
+        {
+          nixpkgs.hostPlatform = lib.mkDefault system;
+          nixpkgs.pkgs = withSystem system ({ pkgs, ... }: pkgs);
+        }
       ];
     };
   };

@@ -3,8 +3,6 @@
   flake.modules.nixos.base = {
     imports =
       (with inputs.self.modules.nixos; [
-        nixpkgs
-        pkgs-by-name
         home-manager
 
         boot

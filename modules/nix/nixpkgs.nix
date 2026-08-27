@@ -1,18 +1,14 @@
 { inputs, ... }:
-let
-  nixpkgsConfig.allowUnfree = true;
-in
 {
   flake-file.inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-
-  flake.modules.nixos.nixpkgs.nixpkgs.config = nixpkgsConfig;
 
   perSystem =
     { system, ... }:
     {
       _module.args.pkgs = import inputs.nixpkgs {
         inherit system;
-        config = nixpkgsConfig;
+        config.allowUnfree = true;
+        overlays = [ inputs.self.overlays.default ];
       };
     };
 }
