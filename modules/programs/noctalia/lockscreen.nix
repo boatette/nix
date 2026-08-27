@@ -41,15 +41,17 @@
       loginBoxes = map loginBox outputs;
     in
     {
-      programs.noctalia.settings.lockscreen = {
-        monitors = [ primary ];
-        allow_empty_password = true;
-      };
+      programs.noctalia.settings = {
+        lockscreen = {
+          monitors = [ primary ];
+          allow_empty_password = true;
+        };
 
-      programs.noctalia.settings.lockscreen_widgets = {
-        enabled = true;
-        widget_order = map (entry: entry.name) loginBoxes;
-        widget = lib.listToAttrs loginBoxes;
+        lockscreen_widgets = {
+          enabled = true;
+          widget_order = map (entry: entry.name) loginBoxes;
+          widget = lib.listToAttrs loginBoxes;
+        };
       };
     };
 }

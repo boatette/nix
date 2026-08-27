@@ -15,47 +15,49 @@
       content = {
         type = "gpt";
 
-        partitions.ESP = {
-          size = "1G";
-          type = "EF00";
-          content = {
-            type = "filesystem";
-            format = "vfat";
-            mountpoint = "/boot";
-            mountOptions = [
-              "fmask=0077"
-              "dmask=0077"
-            ];
+        partitions = {
+          ESP = {
+            size = "1G";
+            type = "EF00";
+            content = {
+              type = "filesystem";
+              format = "vfat";
+              mountpoint = "/boot";
+              mountOptions = [
+                "fmask=0077"
+                "dmask=0077"
+              ];
+            };
           };
-        };
 
-        partitions.root = {
-          size = "100%";
-          content = {
-            type = "btrfs";
-            extraArgs = [ "-f" ];
+          root = {
+            size = "100%";
+            content = {
+              type = "btrfs";
+              extraArgs = [ "-f" ];
 
-            subvolumes =
-              let
-                subvol = mountpoint: {
-                  inherit mountpoint;
-                  mountOptions = [
-                    "compress=zstd"
-                    "noatime"
-                  ];
+              subvolumes =
+                let
+                  subvol = mountpoint: {
+                    inherit mountpoint;
+                    mountOptions = [
+                      "compress=zstd"
+                      "noatime"
+                    ];
+                  };
+                in
+                {
+                  "root" = subvol "/";
+                  "home" = subvol "/home";
+                  "nix" = subvol "/nix";
+
+                  "swap" = {
+                    mountpoint = "/.swapvol";
+                    mountOptions = [ "noatime" ];
+                    swap.swapfile.size = "20G";
+                  };
                 };
-              in
-              {
-                "root" = subvol "/";
-                "home" = subvol "/home";
-                "nix" = subvol "/nix";
-
-                "swap" = {
-                  mountpoint = "/.swapvol";
-                  mountOptions = [ "noatime" ];
-                  swap.swapfile.size = "20G";
-                };
-              };
+            };
           };
         };
       };
