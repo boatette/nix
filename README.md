@@ -14,7 +14,7 @@ NixOS configuration for umbriel + noctalia.
     ├── system/        aspects that are not a program
     │   ├── settings/    everything every machine gets
     │   ├── session/     the graphical session
-    │   ├── constants/   values every class can read
+    │   ├── constants.nix values every class can read
     │   └── types/
     │       ├── base.nix
     │       └── desktop.nix

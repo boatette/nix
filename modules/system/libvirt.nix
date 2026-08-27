@@ -2,19 +2,22 @@
   flake.modules.nixos.libvirt =
     { config, pkgs, ... }:
     {
-      virtualisation.libvirtd = {
-        enable = true;
-        onBoot = "ignore";
-        onShutdown = "shutdown";
+      virtualisation = {
+        libvirtd = {
+          enable = true;
+          onBoot = "ignore";
+          onShutdown = "shutdown";
 
-        qemu = {
-          runAsRoot = false;
-          swtpm.enable = true;
-          vhostUserPackages = [ pkgs.virtiofsd ];
+          qemu = {
+            runAsRoot = false;
+            swtpm.enable = true;
+            vhostUserPackages = [ pkgs.virtiofsd ];
+          };
         };
+
+        spiceUSBRedirection.enable = true;
       };
 
-      virtualisation.spiceUSBRedirection.enable = true;
       programs.virt-manager.enable = true;
 
       users.extraGroups.libvirtd.members = [ config.constants.username ];

@@ -1,4 +1,7 @@
 { lib, config, ... }:
+let
+  inherit (config.flake) nixosConfigurations;
+in
 {
   perSystem =
     { config, ... }:
@@ -6,7 +9,10 @@
       checks = lib.mapAttrs' (name: lib.nameValuePair "package-${name}") config.packages;
     };
 
-  flake.checks.x86_64-linux = lib.mapAttrs' (
-    name: host: lib.nameValuePair "host-${name}" host.config.system.build.toplevel
-  ) config.flake.nixosConfigurations;
+  flake.checks = lib.foldlAttrs (
+    acc: name: host:
+    lib.recursiveUpdate acc {
+      ${host.config.nixpkgs.hostPlatform.system}."host-${name}" = host.config.system.build.toplevel;
+    }
+  ) { } nixosConfigurations;
 }

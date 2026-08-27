@@ -1,4 +1,21 @@
 { inputs, lib, ... }:
+let
+  isPortrait =
+    m:
+    lib.elem (toString (m.transform or "normal")) [
+      "90"
+      "270"
+      "flipped-90"
+      "flipped-270"
+    ];
+
+  portraitOutputs = lib.attrNames (lib.filterAttrs (_: isPortrait) inputs.self.monitors);
+
+  verticalWorkspace = output: index: {
+    inherit output index;
+    layout.scrolling.direction = "vertical";
+  };
+in
 {
   flake.modules.homeManager.umbriel.programs.umbriel.settings = {
     layout = {
@@ -13,27 +30,6 @@
         layout.mode = "dwindle";
       }
     ]
-    ++
-      lib.concatMap
-        (
-          output:
-          map (index: {
-            inherit output index;
-            layout.scrolling.direction = "vertical";
-          }) (lib.range 1 10)
-        )
-        (
-          lib.attrNames (
-            lib.filterAttrs (
-              _: m:
-              lib.elem (toString (m.transform or "normal")) [
-                "90"
-                "270"
-                "flipped-90"
-                "flipped-270"
-              ]
-            ) inputs.self.monitors
-          )
-        );
+    ++ lib.concatMap (output: map (verticalWorkspace output) (lib.range 1 10)) portraitOutputs;
   };
 }

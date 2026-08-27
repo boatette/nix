@@ -116,24 +116,6 @@
         "type": "github"
       }
     },
-    "flake-parts_3": {
-      "inputs": {
-        "nixpkgs-lib": "nixpkgs-lib_2"
-      },
-      "locked": {
-        "lastModified": 1785627969,
-        "narHash": "sha256-4dtXQk/NMePegK/nWp5NSeuZKLATItOq61lpEvmXqGw=",
-        "owner": "hercules-ci",
-        "repo": "flake-parts",
-        "rev": "427bf4bd9435fdf21321c8cc628c24efc14c0f7a",
-        "type": "github"
-      },
-      "original": {
-        "owner": "hercules-ci",
-        "repo": "flake-parts",
-        "type": "github"
-      }
-    },
     "helium": {
       "inputs": {
         "nixpkgs": [
@@ -211,46 +193,6 @@
         "type": "github"
       }
     },
-    "millennium": {
-      "inputs": {
-        "millennium-src": "millennium-src",
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "dir": "packages/nix",
-        "lastModified": 1787086436,
-        "narHash": "sha256-3Iphls5e/3XyoMh3TZJo0XknxNT1idLVabIqgRKUudY=",
-        "owner": "SteamClientHomebrew",
-        "repo": "Millennium",
-        "rev": "cecdc9532b76d16b7b63ddc206f5a8eb8c1afcaf",
-        "type": "github"
-      },
-      "original": {
-        "dir": "packages/nix",
-        "owner": "SteamClientHomebrew",
-        "repo": "Millennium",
-        "type": "github"
-      }
-    },
-    "millennium-src": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1787082953,
-        "narHash": "sha256-zgr4cdJfye4qunpD3ClNnZ9D1WPGQAXV0CnYwEbB52s=",
-        "owner": "SteamClientHomebrew",
-        "repo": "Millennium",
-        "rev": "513b02e809b0eb120ecf0ae12e548798dd756323",
-        "type": "github"
-      },
-      "original": {
-        "owner": "SteamClientHomebrew",
-        "repo": "Millennium",
-        "rev": "513b02e809b0eb120ecf0ae12e548798dd756323",
-        "type": "github"
-      }
-    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1787498568,
@@ -268,21 +210,6 @@
       }
     },
     "nixpkgs-lib": {
-      "locked": {
-        "lastModified": 1785031560,
-        "narHash": "sha256-OmshNvn2vupOFpYinLUu+1Dnpu4n7Q5N3ggGVNHpkUI=",
-        "owner": "nix-community",
-        "repo": "nixpkgs.lib",
-        "rev": "0e79af5e3d4dcfcd676ab5ba3f95d2e3352e078c",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-community",
-        "repo": "nixpkgs.lib",
-        "type": "github"
-      }
-    },
-    "nixpkgs-lib_2": {
       "locked": {
         "lastModified": 1785031560,
         "narHash": "sha256-OmshNvn2vupOFpYinLUu+1Dnpu4n7Q5N3ggGVNHpkUI=",
@@ -316,27 +243,6 @@
       "original": {
         "owner": "nix-community",
         "repo": "nixvim",
-        "type": "github"
-      }
-    },
-    "noctalia-plugins": {
-      "inputs": {
-        "flake-parts": "flake-parts_3",
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1787804393,
-        "narHash": "sha256-NBSWhqdnv/Hu0Pwgq0bKI26OaLS5rqiwYG8XnMxzh0s=",
-        "owner": "boatette",
-        "repo": "noctalia-plugins",
-        "rev": "45f872d375556e1d6539ab46a566e3244934fbfb",
-        "type": "github"
-      },
-      "original": {
-        "owner": "boatette",
-        "repo": "noctalia-plugins",
         "type": "github"
       }
     },
@@ -397,10 +303,8 @@
         "helium": "helium",
         "home-manager": "home-manager",
         "import-tree": "import-tree",
-        "millennium": "millennium",
         "nixpkgs": "nixpkgs",
         "nixvim": "nixvim",
-        "noctalia-plugins": "noctalia-plugins",
         "pkgs-by-name-for-flake-parts": "pkgs-by-name-for-flake-parts",
         "plugins-everforest-nvim": "plugins-everforest-nvim",
         "plugins-github-monochrome-nvim": "plugins-github-monochrome-nvim",

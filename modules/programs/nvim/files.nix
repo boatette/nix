@@ -16,16 +16,16 @@
       };
     in
     {
-      plugins.yazi = {
-        enable = true;
-        settings = {
-          open_for_directories = true;
+      plugins = {
+        yazi = {
+          enable = true;
+          settings.open_for_directories = true;
         };
-      };
 
-      plugins.harpoon = {
-        enable = true;
-        enableTelescope = false;
+        harpoon = {
+          enable = true;
+          enableTelescope = false;
+        };
       };
 
       keymaps = [

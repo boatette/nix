@@ -1,5 +1,4 @@
 {
-
   flake.modules.nixos.essential-packages =
     { pkgs, ... }:
     {

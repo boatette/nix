@@ -1,5 +1,4 @@
 {
-
   flake.modules.homeManager.bat =
     { pkgs, ... }:
     {

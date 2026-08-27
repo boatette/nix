@@ -86,38 +86,40 @@
       plugins.dap = {
         enable = true;
 
-        adapters.executables = {
-          lldb = {
-            command = "lldb-dap";
-            id = "lldb";
+        adapters = {
+          executables = {
+            lldb = {
+              command = "lldb-dap";
+              id = "lldb";
+            };
+
+            dart = {
+              command = "dart";
+              args = [ "debug_adapter" ];
+            };
+            flutter = {
+              command = "flutter";
+              args = [ "debug-adapter" ];
+            };
+
+            kotlin.command = "kotlin-debug-adapter";
+
+            python = {
+              command = "python3";
+              args = [
+                "-m"
+                "debugpy.adapter"
+              ];
+            };
           };
 
-          dart = {
-            command = "dart";
-            args = [ "debug_adapter" ];
-          };
-          flutter = {
-            command = "flutter";
-            args = [ "debug-adapter" ];
-          };
-
-          kotlin.command = "kotlin-debug-adapter";
-
-          python = {
-            command = "python3";
-            args = [
-              "-m"
-              "debugpy.adapter"
-            ];
-          };
-        };
-
-        adapters.servers."pwa-node" = {
-          host = "localhost";
-          port = "\${port}";
-          executable = {
-            command = "js-debug";
-            args = [ "\${port}" ];
+          servers."pwa-node" = {
+            host = "localhost";
+            port = "\${port}";
+            executable = {
+              command = "js-debug";
+              args = [ "\${port}" ];
+            };
           };
         };
 

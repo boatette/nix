@@ -1,6 +1,5 @@
 { inputs, lib, ... }:
 {
-
   options.flake.constants = lib.mkOption {
     type = lib.types.attrsOf lib.types.unspecified;
     default = { };
@@ -25,7 +24,7 @@
       options.constants = lib.mkOption {
         type = lib.types.attrsOf lib.types.unspecified;
         default = { };
-        description = "Values shared across configuration contexts.";
+        description = "Values shared across configuration contexts";
       };
 
       config.constants = inputs.self.constants;

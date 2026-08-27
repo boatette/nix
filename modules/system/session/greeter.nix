@@ -4,8 +4,10 @@
     {
       services.displayManager.noctalia-greeter = {
         enable = true;
-        settings.appearance.hide_logo = true;
-        settings.keyboard = { inherit (config.services.xserver.xkb) layout; };
+        settings = {
+          appearance.hide_logo = true;
+          keyboard = { inherit (config.services.xserver.xkb) layout; };
+        };
       };
 
       security.polkit.extraConfig = ''

@@ -1,10 +1,7 @@
+{ inputs, ... }:
 {
   flake.modules.homeManager.mime =
-    {
-      config,
-      lib,
-      ...
-    }:
+    { config, lib, ... }:
     let
       types = [
         "application/json"
@@ -20,15 +17,12 @@
         "text/x-makefile"
         "text/x-python"
       ];
-
-      associations = lib.genAttrs types (_: "nvim.desktop");
     in
-    {
-      xdg = {
-        mimeApps.defaultApplications = associations;
-        mimeApps.associations.added = associations;
+    lib.mkMerge [
+      (inputs.self.lib.mimeHandlers { "nvim.desktop" = types; })
 
-        desktopEntries.nvim = {
+      {
+        xdg.desktopEntries.nvim = {
           name = "Neovim";
           genericName = "Text Editor";
           comment = "Edit text files";
@@ -42,6 +36,6 @@
           ];
           mimeType = types;
         };
-      };
-    };
+      }
+    ];
 }
