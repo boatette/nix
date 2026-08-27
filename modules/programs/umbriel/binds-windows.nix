@@ -15,7 +15,6 @@
     "Mod+Shift+F" = "window-toggle-fullscreen";
     "Mod+Ctrl+F" = "window-toggle-maximize-to-edges";
     "Mod+R" = "window-cycle-width";
-    "Mod+Ctrl+R" = "config-reload";
     "Mod+Shift+T" = "workspace-set-layout:toggle";
 
     "Mod+U" = "scratchpad-toggle";
