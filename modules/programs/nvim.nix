@@ -21,6 +21,7 @@
     nixvim.nvim = {
       wrapRc = true;
       impureRtp = false;
+      enableMan = false;
       performance.byteCompileLua.enable = true;
 
       extraConfigLuaPre = ''
