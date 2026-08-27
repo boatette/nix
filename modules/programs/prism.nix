@@ -1,5 +1,4 @@
 {
-
   flake.modules.homeManager.prism =
     { pkgs, ... }:
     {
@@ -19,5 +18,4 @@
       xdg.mimeApps.defaultApplications = associations;
       xdg.mimeApps.associations.added = associations;
     };
-
 }

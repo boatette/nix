@@ -78,7 +78,6 @@
   flake.modules.nixos.dolphin =
     { pkgs, ... }:
     {
-
       environment.etc."xdg/menus/applications.menu".source = pkgs.runCommand "applications.menu" { } ''
         cp ${pkgs.kdePackages.plasma-workspace}/etc/xdg/menus/plasma-applications.menu $out
       '';

@@ -1,6 +1,5 @@
 { inputs, ... }:
 {
-
   flake.modules.nixos.boatette =
     { config, ... }:
     {

@@ -3,7 +3,6 @@
     enable = true;
 
     settings = {
-
       logo = {
         type = "builtin";
         source = "none";
@@ -29,7 +28,6 @@
           keyColor = "32";
         }
         {
-
           type = "disk";
           key = "AGE ";
           keyColor = "33";

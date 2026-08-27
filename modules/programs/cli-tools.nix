@@ -39,5 +39,4 @@
       xdg.mimeApps.defaultApplications = associations;
       xdg.mimeApps.associations.added = associations;
     };
-
 }

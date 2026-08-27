@@ -1,5 +1,4 @@
 {
-
   flake.modules.homeManager.mime =
     { pkgs, lib, ... }:
     let
