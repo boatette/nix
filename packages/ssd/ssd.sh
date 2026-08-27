@@ -14,6 +14,7 @@ readonly DIRS=(
     "Projects:Projects"
     "Videos:Videos"
     ".local/share/PrismLauncher:PrismLauncher"
+    ".local/state/noctalia/plugins/data/boatette/auto-theme:auto-theme"
 )
 
 log() { printf '%s: %s\n' "$APP" "$*"; }
