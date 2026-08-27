@@ -7,7 +7,9 @@
 
     binary-clock = {
       braille_separator = "─";
-      render_style = "braille";
+      render_style = "leds";
+      led_gap = 3;
+      led_size = 3;
       show_seconds = false;
       type = "boatette/binary-clock:bar";
     };
