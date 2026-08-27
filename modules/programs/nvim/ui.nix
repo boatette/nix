@@ -140,7 +140,7 @@
           callback = mkRaw ''
             function()
                 for name in pairs(vim.api.nvim_get_hl(0, {})) do
-                    if name:match("^BufferLine") then
+                    if name:match("^BufferLine") or name:match("^TabLine") then
                         local hl = vim.api.nvim_get_hl(0, { name = name, link = false })
                         if hl.bg ~= nil then
                             hl.bg = nil

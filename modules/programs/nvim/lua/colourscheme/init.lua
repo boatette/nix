@@ -91,6 +91,9 @@ local TRANSPARENT_GROUPS = {
     "FloatBorder",
     "FloatShadow",
     "WinSeparator",
+    "TabLine",
+    "TabLineFill",
+    "TabLineSel",
 }
 
 local MUTED_GROUPS = {
@@ -135,9 +138,8 @@ local function apply_scheme(entry)
         return false
     end
 
-    local configured = entry.provider and PROVIDERS[entry.provider]
-
     if entry.provider then
+        local configured = PROVIDERS[entry.provider]
         if not (configured and pcall(configured, entry.opts)) then
             return false
         end
@@ -149,10 +151,6 @@ local function apply_scheme(entry)
 
     if not pcall(vim.cmd.colorscheme, entry.scheme) then
         return false
-    end
-
-    if not configured then
-        clear_backgrounds()
     end
 
     return true
@@ -184,6 +182,8 @@ function M.apply()
     if not apply_scheme(schemes.resolve(palette_name(theme), is_light)) then
         apply_generated(palette, is_light)
     end
+
+    clear_backgrounds()
 
     vim.api.nvim_exec_autocmds("User", { pattern = "ColourschemeApplied", modeline = false })
 end
