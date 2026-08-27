@@ -5,15 +5,6 @@
       hide_when_plugged = true;
     };
 
-    binary-clock = {
-      braille_separator = "─";
-      render_style = "leds";
-      led_gap = 3;
-      led_size = 3;
-      show_seconds = false;
-      type = "boatette/binary-clock:bar";
-    };
-
     bluetooth.hide_when_no_connected_device = true;
 
     cat.type = "dotnetrob/cat:cat";

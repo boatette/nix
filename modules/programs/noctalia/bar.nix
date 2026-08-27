@@ -38,7 +38,7 @@
       "volume"
       "notifications"
       "battery"
-      "binary-clock"
+      "clock"
     ];
 
     dead_zone.actions = {

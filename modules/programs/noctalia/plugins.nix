@@ -30,7 +30,6 @@
                 "noctalia/wallhaven"
 
                 "boatette/auto-theme"
-                "boatette/binary-clock"
               ];
 
               source = [
