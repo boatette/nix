@@ -3,20 +3,31 @@
     dolphin =
       { pkgs, ... }:
       {
-        kde.settings.dolphinrc = {
-          General = {
-            ShowFullPath = true;
-            RememberOpenedTabs = false;
-            DoubleClickViewAction = "none";
-            TabStyle = "FixedSize";
+        kde.settings = {
+          dolphinrc = {
+            General = {
+              ShowFullPath = true;
+              RememberOpenedTabs = false;
+              DoubleClickViewAction = "none";
+              TabStyle = "FixedSize";
+            };
+
+            MainWindow.MenuBar = "Disabled";
           };
 
-          MainWindow.MenuBar = "Disabled";
-        };
+          kdeglobals.General = {
+            TerminalApplication = "ghostty";
+            TerminalService = "ghostty.desktop";
+          };
 
-        kde.settings.kdeglobals.General = {
-          TerminalApplication = "ghostty";
-          TerminalService = "ghostty.desktop";
+          darklyrc.Style = {
+            DolphinViewOpacity = 50;
+            DolphinSidebarOpacity = 50;
+            MenuOpacity = 50;
+            MenuBarOpacity = 50;
+            ToolBarOpacity = 50;
+            TabBarOpacity = 50;
+          };
         };
 
         home.packages = [
@@ -25,7 +36,10 @@
             paths = [ pkgs.kdePackages.dolphin ];
             nativeBuildInputs = [ pkgs.makeWrapper ];
             postBuild = ''
-              wrapProgram $out/bin/dolphin --set QT_QPA_PLATFORMTHEME kde
+              wrapProgram $out/bin/dolphin \
+                  --set QT_QPA_PLATFORMTHEME kde \
+                  --set QT_STYLE_OVERRIDE Darkly \
+                  --prefix QT_PLUGIN_PATH : ${pkgs.darkly}/lib/qt-6/plugins
             '';
             meta.mainProgram = "dolphin";
           })
@@ -59,13 +73,6 @@
           associations.added = associations;
         };
       };
-
-    umbriel.programs.umbriel.settings.window_rule = [
-      {
-        match.app_id = "^org\\.kde\\.dolphin";
-        opacity = 0.8;
-      }
-    ];
   };
 
   flake.modules.nixos.dolphin =
