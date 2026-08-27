@@ -32,10 +32,6 @@
       url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    noctalia-plugins = {
-      url = "github:boatette/noctalia-plugins";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     pkgs-by-name-for-flake-parts.url = "github:drupol/pkgs-by-name-for-flake-parts";
     plugins-everforest-nvim = {
       url = "github:neanias/everforest-nvim";

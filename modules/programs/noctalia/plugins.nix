@@ -1,9 +1,4 @@
 {
-  flake-file.inputs.noctalia-plugins = {
-    url = "github:boatette/noctalia-plugins";
-    inputs.nixpkgs.follows = "nixpkgs";
-  };
-
   flake.modules.homeManager.noctalia =
     {
       config,
