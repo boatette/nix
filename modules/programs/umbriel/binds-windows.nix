@@ -16,7 +16,7 @@
     "Mod+Ctrl+F" = "window-toggle-maximize-to-edges";
     "Mod+R" = "window-cycle-width";
     "Mod+Ctrl+R" = "config-reload";
-    "Mod+Shift+T" = "spawn:noctalia msg plugin boatette/umbriel-layout:bar all toggle";
+    "Mod+Shift+T" = "workspace-set-layout:toggle";
 
     "Mod+U" = "scratchpad-toggle";
     "Mod+Shift+U" = "window-move-to-scratchpad";

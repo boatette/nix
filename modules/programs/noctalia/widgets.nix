@@ -34,11 +34,6 @@
       type = "avivbintangaringga/nix-monitor:nix-monitor";
     };
 
-    umbriel-layout = {
-      display_mode = "icon";
-      type = "boatette/umbriel-layout:bar";
-    };
-
     workspaces.style = "minimal";
   };
 }

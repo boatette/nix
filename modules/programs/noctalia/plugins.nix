@@ -31,7 +31,6 @@
 
                 "boatette/auto-theme"
                 "boatette/binary-clock"
-                "boatette/umbriel-layout"
               ];
 
               source = [
