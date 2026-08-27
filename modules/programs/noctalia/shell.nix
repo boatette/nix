@@ -4,6 +4,9 @@ let
 in
 {
   flake.modules.homeManager.noctalia.programs.noctalia.settings.shell = {
+    app_icon_color = "primary";
+    app_icon_colorize = true;
+
     button_borders = false;
     card_borders = false;
     input_borders = false;
