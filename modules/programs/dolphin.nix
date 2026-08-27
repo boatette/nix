@@ -47,7 +47,6 @@
         plasma-integration
         breeze
         kconfig
-        konsole
 
         kio-fuse
         kio-extras

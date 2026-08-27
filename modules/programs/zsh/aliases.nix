@@ -1,10 +1,21 @@
 {
   flake.modules.homeManager.zsh =
-    { config, ... }:
+    { config, pkgs, ... }:
     let
       inherit (config.constants) flakeDir;
     in
     {
+      home.packages = with pkgs; [
+        ouch
+        gnutar
+        gzip
+        bzip2
+        xz
+        zstd
+        unzip
+        p7zip
+      ];
+
       home.shellAliases = {
         ls = "eza -al --color=always --group-directories-first --icons auto";
         la = "eza -a --color=always --group-directories-first --icons auto";
@@ -34,7 +45,7 @@
         nrd = "nixos-rebuild dry-build --flake ${flakeDir}";
         ngl = "nixos-rebuild list-generations";
         ngc = "run0 nix-collect-garbage --delete-older-than 7d";
-        nfu = ''env --chdir ${flakeDir} nix run ~/nix#write-flake && nix flake update --flake ${flakeDir} && git -C ${flakeDir} commit -m "chore: update flake lock" flake.lock'';
+        nfu = ''env --chdir ${flakeDir} nix run ${flakeDir}#write-flake && nix flake update --flake ${flakeDir} && git -C ${flakeDir} commit -m "chore: update flake lock" flake.lock'';
         ns = "nix search nixpkgs";
         nb = "nix path-info -rSh /run/current-system | sort -hk2 | tail -30";
         nrepl = "nix repl ${flakeDir}";

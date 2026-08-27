@@ -39,8 +39,6 @@
     homeManager.nvim =
       { pkgs, ... }:
       {
-        xdg.configFile."nvim/.keep".text = "";
-
         home.packages = [ pkgs.local.nvim ];
       };
   };

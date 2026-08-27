@@ -51,7 +51,7 @@
             branch = "nixos-unstable";
             panel_placement = "floating";
             show_update_available_notification = false;
-            update_command = ''nix run ~/nix#write-flake && nix flake update --flake ${flakeDir} && { git -C ${flakeDir} commit -m "chore: update flake lock" flake.lock || true; } && run0 nixos-rebuild switch --flake ${flakeDir}'';
+            update_command = ''nix run ${flakeDir}#write-flake && nix flake update --flake ${flakeDir} && { git -C ${flakeDir} commit -m "chore: update flake lock" flake.lock || true; } && run0 nixos-rebuild switch --flake ${flakeDir}'';
           };
 
           "boatette/auto-theme".default_dynamic_scheme = "vibrant";

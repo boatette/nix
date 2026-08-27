@@ -3,7 +3,7 @@
   flake.modules.homeManager.noctalia =
     { lib, ... }:
     let
-      monitors = inputs.self.monitors;
+      inherit (inputs.self) monitors;
       outputs = lib.attrNames monitors;
 
       primary = lib.findFirst (name: monitors.${name}.primary or false) (lib.head outputs) outputs;

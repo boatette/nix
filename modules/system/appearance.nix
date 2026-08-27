@@ -1,4 +1,3 @@
-{ inputs, ... }:
 {
   flake.modules.homeManager.appearance =
     {
@@ -17,8 +16,6 @@
       ];
     in
     {
-      imports = [ inputs.self.modules.homeManager.kde ];
-
       kde.settings.kdeglobals.Icons.Theme = "Papirus";
 
       gtk = {
