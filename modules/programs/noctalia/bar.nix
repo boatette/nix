@@ -6,7 +6,7 @@
 
     font_family = "JetBrainsMono NF";
 
-    background_opacity = 0.8;
+    background_opacity = 0.5;
 
     radius = 4;
     radius_bottom_left = 4;
