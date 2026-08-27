@@ -15,7 +15,6 @@
         settings = {
           blur = true;
           corner_radius = 4;
-          layer = "background";
 
           colors = "noctalia.toml";
         };
