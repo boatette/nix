@@ -8,6 +8,7 @@
   options.flake.lib = lib.mkOption {
     type = lib.types.attrsOf lib.types.unspecified;
     default = { };
+    description = "Helper functions shared across the flake";
   };
 
   config.flake.lib.mkNixos = system: name: {

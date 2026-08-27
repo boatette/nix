@@ -1,4 +1,7 @@
 { lib, config, ... }:
+let
+  inherit (config.flake) nixosConfigurations;
+in
 {
   perSystem =
     { config, ... }:
@@ -11,5 +14,5 @@
     lib.recursiveUpdate acc {
       ${host.config.nixpkgs.hostPlatform.system}."host-${name}" = host.config.system.build.toplevel;
     }
-  ) { } config.flake.nixosConfigurations;
+  ) { } nixosConfigurations;
 }
