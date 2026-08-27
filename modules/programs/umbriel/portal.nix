@@ -8,7 +8,9 @@
   flake.modules.nixos.umbriel =
     { pkgs, ... }:
     let
-      backend = inputs.xdg-desktop-portal-umbriel.packages.${pkgs.stdenv.hostPlatform.system}.default;
+      inherit (pkgs.stdenv.hostPlatform) system;
+
+      backend = inputs.xdg-desktop-portal-umbriel.packages.${system}.default;
     in
     {
       xdg.portal = {

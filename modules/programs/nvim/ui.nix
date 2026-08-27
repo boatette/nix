@@ -3,6 +3,37 @@
     { lib, ... }:
     let
       inherit (lib.nixvim) mkRaw;
+
+      disabledSnacks =
+        lib.genAttrs
+          [
+            "animate"
+            "dashboard"
+            "debug"
+            "dim"
+            "explorer"
+            "gh"
+            "git"
+            "gitbrowse"
+            "health"
+            "image"
+            "input"
+            "keymap"
+            "profiler"
+            "rename"
+            "scope"
+            "scratch"
+            "scroll"
+            "statuscolumn"
+            "toggle"
+            "util"
+            "win"
+            "words"
+            "zen"
+          ]
+          (_: {
+            enabled = false;
+          });
     in
     {
       plugins = {
@@ -67,36 +98,7 @@
               '';
             };
           }
-          //
-            lib.genAttrs
-              [
-                "animate"
-                "dashboard"
-                "debug"
-                "dim"
-                "explorer"
-                "gh"
-                "git"
-                "gitbrowse"
-                "health"
-                "image"
-                "input"
-                "keymap"
-                "profiler"
-                "rename"
-                "scope"
-                "scratch"
-                "scroll"
-                "statuscolumn"
-                "toggle"
-                "util"
-                "win"
-                "words"
-                "zen"
-              ]
-              (_: {
-                enabled = false;
-              });
+          // disabledSnacks;
         };
 
         bufferline = {
