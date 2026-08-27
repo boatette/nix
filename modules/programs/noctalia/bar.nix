@@ -16,7 +16,7 @@
 
     padding = 10;
     widget_spacing = 12;
-    margin_ends = 10;
+    margin_ends = 6;
 
     capsule_radius = 4.0;
 
