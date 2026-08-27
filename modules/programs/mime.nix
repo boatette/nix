@@ -1,3 +1,4 @@
+{ inputs, ... }:
 {
   flake.modules.homeManager.mime =
     { pkgs, lib, ... }:
@@ -29,28 +30,26 @@
         "application/x-xz-compressed-tar"
         "application/x-zstd-compressed-tar"
       ];
-
-      associations = lib.genAttrs archives (_: "extract-here.desktop");
     in
-    {
-      xdg.mimeApps = {
-        enable = true;
-        defaultApplications = associations;
-        associations.added = associations;
-      };
+    lib.mkMerge [
+      (inputs.self.lib.mimeHandlers { "extract-here.desktop" = archives; })
 
-      xdg.desktopEntries.extract-here = {
-        name = "Extract Here";
-        exec = "${lib.getExe pkgs.file-roller} --extract-here %U";
-        icon = "package-x-generic";
-        terminal = false;
-        noDisplay = true;
-        mimeType = archives;
-      };
+      {
+        xdg.mimeApps.enable = true;
 
-      home.packages = with pkgs; [
-        file-roller
-        p7zip
-      ];
-    };
+        xdg.desktopEntries.extract-here = {
+          name = "Extract Here";
+          exec = "${lib.getExe pkgs.file-roller} --extract-here %U";
+          icon = "package-x-generic";
+          terminal = false;
+          noDisplay = true;
+          mimeType = archives;
+        };
+
+        home.packages = with pkgs; [
+          file-roller
+          p7zip
+        ];
+      }
+    ];
 }

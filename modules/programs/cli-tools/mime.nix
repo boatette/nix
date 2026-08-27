@@ -1,15 +1,6 @@
+{ inputs, ... }:
 {
-  flake.modules.homeManager.mime =
-    { lib, ... }:
-    let
-      associations = lib.genAttrs [ "x-scheme-handler/claude-cli" ] (
-        _: "claude-code-url-handler.desktop"
-      );
-    in
-    {
-      xdg.mimeApps = {
-        defaultApplications = associations;
-        associations.added = associations;
-      };
-    };
+  flake.modules.homeManager.mime = inputs.self.lib.mimeHandlers {
+    "claude-code-url-handler.desktop" = [ "x-scheme-handler/claude-cli" ];
+  };
 }
