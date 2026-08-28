@@ -13,16 +13,7 @@
       backend = inputs.xdg-desktop-portal-umbriel.packages.${system}.default;
     in
     {
-      xdg.portal = {
-        enable = true;
-
-        configPackages = [ backend ];
-
-        extraPortals = [
-          backend
-          pkgs.xdg-desktop-portal-gtk
-        ];
-      };
+      programs.umbriel.portalPackage = backend;
     };
 
   perSystem =
