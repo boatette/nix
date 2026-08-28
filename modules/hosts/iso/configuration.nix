@@ -14,7 +14,7 @@
       ++ [ inputs.self.modules.generic.constants ];
 
       environment.systemPackages = [
-        pkgs.local.nvim
+        pkgs.local.nvim-minimal
         inputs.disko.packages.${pkgs.stdenv.hostPlatform.system}.disko
       ];
 
