@@ -1,15 +1,16 @@
 { inputs, ... }:
+let
+  bind = mode: key: action: desc: {
+    inherit mode key action;
+    options.desc = desc;
+  };
+in
 {
   flake.modules.nixvim.nvim =
     { lib, ... }:
     let
       inherit (lib.nixvim) mkRaw;
       inherit (inputs.self.constants) flakeDir;
-
-      bind = mode: key: action: desc: {
-        inherit mode key action;
-        options.desc = desc;
-      };
 
       rebuild =
         mode: sudo:
@@ -28,7 +29,16 @@
         (bind "n" "<leader>nt" (rebuild "test" true) "Rebuild test")
         (bind "n" "<leader>nb" (rebuild "boot" true) "Rebuild boot")
         (bind "n" "<leader>nd" (rebuild "dry-build" false) "Rebuild dry-build")
+      ];
+    };
 
+  flake.modules.nixvim.core =
+    { lib, ... }:
+    let
+      inherit (lib.nixvim) mkRaw;
+    in
+    {
+      keymaps = [
         (bind "n" "<Esc>" "<cmd>nohlsearch<cr>" "Clear search highlight")
         (bind "n" "<leader>v" "ggVG" "Select whole buffer")
         (bind "v" "p" "\"_dP`[v`]=" "Paste without yank")
