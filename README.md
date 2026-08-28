@@ -30,6 +30,7 @@ Build the image on a working machine. `iso-full` bakes the current `aspire` clos
 ```bash
 nix build .#iso-full
 sudo cp result/iso/*.iso /dev/[disk]
+sync
 ```
 
 Build it from the revision you intend to install — the baked closure is only reused
