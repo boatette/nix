@@ -1,5 +1,5 @@
 {
-  flake.modules.nixos.essential-packages =
+  flake.modules.nixos.packages =
     { pkgs, ... }:
     {
       environment.systemPackages = with pkgs; [

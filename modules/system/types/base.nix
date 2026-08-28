@@ -18,7 +18,7 @@
         zsh
         toolchains
 
-        essential-packages
+        packages
         session-path
       ])
       ++ [ inputs.self.modules.generic.constants ];
