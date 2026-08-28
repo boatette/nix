@@ -20,7 +20,7 @@
     "Mod+R" = "window-cycle-width";
     # TODO: witch-preset-window-height, reset-window-height, set-window-height
     # TODO: tabbed columns
-    "Mod+Shift+T" = "workspace-set-layout:toggle";
+    "Mod+O" = "workspace-set-layout:toggle";
 
     "Mod+U" = "scratchpad-toggle";
     "Mod+Shift+U" = "window-move-to-scratchpad";
