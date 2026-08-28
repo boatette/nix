@@ -18,18 +18,22 @@
   };
 
   flake.modules = {
-    nixvim.nvim = {
-      wrapRc = true;
-      impureRtp = false;
-      enableMan = false;
-      performance.byteCompileLua.enable = true;
+    nixvim = {
+      core = {
+        wrapRc = true;
+        impureRtp = false;
+        enableMan = false;
+        performance.byteCompileLua.enable = true;
 
-      extraConfigLuaPre = ''
-        vim.loader.enable()
-        pcall(function()
-            require("vim._core.ui2").enable()
-        end)
-      '';
+        extraConfigLuaPre = ''
+          vim.loader.enable()
+          pcall(function()
+              require("vim._core.ui2").enable()
+          end)
+        '';
+      };
+
+      nvim.imports = [ inputs.self.modules.nixvim.core ];
     };
 
     nixos.nvim.environment.sessionVariables = {
@@ -40,16 +44,28 @@
     homeManager.nvim =
       { pkgs, ... }:
       {
-        home.packages = [ pkgs.local.nvim ];
+        home.packages = [
+          pkgs.local.nvim
+          pkgs.local.vi
+        ];
       };
   };
 
   perSystem =
     { system, pkgs, ... }:
+    let
+      mkNvim =
+        module:
+        inputs.nixvim.legacyPackages.${system}.makeNixvimWithModule {
+          inherit pkgs module;
+        };
+
+      minimal = mkNvim inputs.self.modules.nixvim.core;
+    in
     {
-      packages.nvim = inputs.nixvim.legacyPackages.${system}.makeNixvimWithModule {
-        inherit pkgs;
-        module = inputs.self.modules.nixvim.nvim;
+      packages = {
+        nvim = mkNvim inputs.self.modules.nixvim.nvim;
+        nvim-minimal = minimal;
       };
     };
 }

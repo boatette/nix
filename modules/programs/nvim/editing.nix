@@ -1,5 +1,5 @@
 {
-  flake.modules.nixvim.nvim =
+  flake.modules.nixvim.core =
     { lib, ... }:
     let
       inherit (lib.nixvim) mkRaw;
