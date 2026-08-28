@@ -24,12 +24,6 @@ in
       scrolling.default_width_fraction = 0.5;
     };
 
-    workspace = [
-      {
-        index = 10;
-        layout.mode = "dwindle";
-      }
-    ]
-    ++ lib.concatMap (output: map (verticalWorkspace output) (lib.range 1 10)) portraitOutputs;
+    workspace = lib.concatMap (output: map (verticalWorkspace output) (lib.range 1 10)) portraitOutputs;
   };
 }
