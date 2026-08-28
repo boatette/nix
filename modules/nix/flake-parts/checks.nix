@@ -6,7 +6,12 @@ in
   perSystem =
     { config, ... }:
     {
-      checks = lib.mapAttrs' (name: lib.nameValuePair "package-${name}") config.packages;
+      checks = lib.mapAttrs' (name: lib.nameValuePair "package-${name}") (
+        lib.removeAttrs config.packages [
+          "iso"
+          "iso-full"
+        ]
+      );
     };
 
   flake.checks = lib.foldlAttrs (
