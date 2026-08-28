@@ -8,7 +8,9 @@
       ''spawn:app_id=$(umbriel windows --json | jq -r 'first(.[] | select(.active) | .app_id) // empty'); [ -n "$app_id" ] && { pkill -9 -x "$app_id" || pkill -9 -f "$app_id"; }'';
 
     "Mod+C" = "window-center";
+    "Mod+Ctrl+C" = "column-center";
     "Mod+V" = "window-toggle-floating";
+    "Mod+Shift+V" = "window-focus-switch-floating";
     "Mod+P" = "window-toggle-pinned";
 
     "Mod+F" = "window-toggle-maximize";
@@ -30,6 +32,11 @@
     "Mod+Up" = "window-focus-up";
     "Mod+L" = "window-focus-right";
     "Mod+Right" = "window-focus-right";
+
+    "Mod+Home" = "column-focus-first";
+    "Mod+End" = "column-focus-last";
+    "Mod+Shift+Home" = "column-move-to-first";
+    "Mod+Shift+End" = "column-move-to-last";
 
     "Mod+Shift+H" = "column-move-left";
     "Mod+Shift+Left" = "column-move-left";
@@ -89,6 +96,8 @@
 
     "Mod+WheelUp" = "workspace-previous";
     "Mod+WheelDown" = "workspace-next";
+    "Mod+Shift+WheelUp" = "column-move-to-workspace-previous";
+    "Mod+Shift+WheelDown" = "column-move-to-workspace-next";
     "Mod+WheelLeft" = "window-focus-left";
     "Mod+WheelRight" = "window-focus-right";
     "Mod+Ctrl+WheelLeft" = "column-move-left";
