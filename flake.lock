@@ -376,11 +376,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1787728747,
-        "narHash": "sha256-X73JY4D0ZL5zCRkJS3BqvoCgS7mZJM0EkpksXHU0oYM=",
+        "lastModified": 1787920545,
+        "narHash": "sha256-s01OwnLG5zFN4HZoRg5gFOZ6yTD4Jw6sVxUtcBmdMhg=",
         "owner": "boatette",
         "repo": "selector",
-        "rev": "f9b365f63917d7ddd1675f507b5134c41b807cb0",
+        "rev": "12b642874d0f41f0b45bf6fd1d86591ed105fad8",
         "type": "github"
       },
       "original": {
@@ -429,11 +429,11 @@
         "xdg-desktop-portal-umbriel": "xdg-desktop-portal-umbriel"
       },
       "locked": {
-        "lastModified": 1787891915,
-        "narHash": "sha256-OIuFD+h2O8hY5SUEAE280saJ7opwjoefSrIWRiRvYOw=",
+        "lastModified": 1787921068,
+        "narHash": "sha256-GCVc3WngGSY4YLjZ/POuUuFpdqptEPS/cBNXHaMV68g=",
         "ref": "refs/heads/main",
-        "rev": "26b292fce8937be40577915fd436387967453327",
-        "revCount": 627,
+        "rev": "eefdbb49c929f067724229754b3601dbcf45e299",
+        "revCount": 631,
         "submodules": true,
         "type": "git",
         "url": "https://github.com/noctalia-dev/umbriel"
@@ -451,11 +451,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1787580138,
-        "narHash": "sha256-fqU58lZeFchlY5aqyQgIfrN5ec/jqbhXNwNxyL2lp/g=",
+        "lastModified": 1787856051,
+        "narHash": "sha256-+NwioGIiTws3zavU2Bo3v8fhcCcub1MNXjrS27IIUK8=",
         "owner": "noctalia-dev",
         "repo": "xdg-desktop-portal-umbriel",
-        "rev": "515c9f70f13ba4b4b9e19930b3e899c4ac8a50a4",
+        "rev": "ebcf96d2c9f184aea332db4354583c89155e5e9a",
         "type": "github"
       },
       "original": {
@@ -471,11 +471,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1787856051,
-        "narHash": "sha256-+NwioGIiTws3zavU2Bo3v8fhcCcub1MNXjrS27IIUK8=",
+        "lastModified": 1787921015,
+        "narHash": "sha256-cy4VQcdAjd4tH8Fnn8dThFDFgvyRk7+k6SNaVRmW6Ko=",
         "owner": "noctalia-dev",
         "repo": "xdg-desktop-portal-umbriel",
-        "rev": "ebcf96d2c9f184aea332db4354583c89155e5e9a",
+        "rev": "0d083de87951244a4828096f5e1600f82349d4ce",
         "type": "github"
       },
       "original": {
