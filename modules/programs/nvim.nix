@@ -66,6 +66,11 @@
       packages = {
         nvim = mkNvim inputs.self.modules.nixvim.nvim;
         nvim-minimal = minimal;
+
+        vi = pkgs.runCommandLocal "vi" { } ''
+          mkdir -p $out/bin
+          ln -s ${minimal}/bin/nvim $out/bin/vi
+        '';
       };
     };
 }
