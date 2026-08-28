@@ -14,6 +14,16 @@
       }
 
       {
+        match.app_id = "^org\\.gtk\\.FileChooserDialog$";
+        default_floating = true;
+      }
+
+      {
+        match.title = "Sign in - Google Accounts";
+        default_floating = true;
+      }
+
+      {
         match = {
           app_id = "^(org\\.kde\\.dolphin|gimp|libreoffice|soffice)";
           title = "^(Open|Save|Select|Import|Export|Rename|Properties|Preferences|Settings)\\b";
