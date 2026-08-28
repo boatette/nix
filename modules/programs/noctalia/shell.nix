@@ -43,6 +43,7 @@
           transparency_mode = "glass";
           list_item_background = true;
 
+          clipboard_position = "auto";
           control_center_placement = "floating";
           launcher_placement = "floating";
           session_placement = "floating";
@@ -50,6 +51,7 @@
           wallpaper_placement = "floating";
           wallpaper_position = "top_center";
 
+          open_near_click_clipboard = true;
           open_near_click_control_center = true;
         };
 

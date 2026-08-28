@@ -38,6 +38,7 @@
       "volume"
       "notifications"
       "battery"
+      "clipboard"
       "clock"
     ];
 
