@@ -8,6 +8,7 @@
       ''spawn:app_id=$(umbriel windows --json | jq -r 'first(.[] | select(.active) | .app_id) // empty'); [ -n "$app_id" ] && { pkill -9 -x "$app_id" || pkill -9 -f "$app_id"; }'';
 
     "Mod+C" = "window-center";
+    # TODO: center-visible-columns; umbriel only centers the focused one
     "Mod+Ctrl+C" = "column-center";
     "Mod+V" = "window-toggle-floating";
     "Mod+Shift+V" = "window-focus-switch-floating";
@@ -17,6 +18,8 @@
     "Mod+Shift+F" = "window-toggle-fullscreen";
     "Mod+Ctrl+F" = "window-toggle-maximize-to-edges";
     "Mod+R" = "window-cycle-width";
+    # TODO: witch-preset-window-height, reset-window-height, set-window-height
+    # TODO: tabbed columns
     "Mod+Shift+T" = "workspace-set-layout:toggle";
 
     "Mod+U" = "scratchpad-toggle";
@@ -86,6 +89,8 @@
     "Mod+Shift+8" = "window-move-to-workspace:8";
     "Mod+Shift+9" = "window-move-to-workspace:9";
     "Mod+Shift+0" = "window-move-to-workspace:10";
+
+    # TODO: silent move column
 
     "Mod+BracketLeft" = "window-consume-left";
     "Mod+BracketRight" = "window-expel-right";
