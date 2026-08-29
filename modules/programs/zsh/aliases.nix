@@ -40,12 +40,11 @@
           "......" = "cd ../../../../..";
           cn = "cd ${flakeDir}";
 
-          nrs = "run0 nixos-rebuild switch --flake ${flakeDir}";
-          nrb = "run0 nixos-rebuild boot --flake ${flakeDir}";
-          nrt = "run0 nixos-rebuild test --flake ${flakeDir}";
+          nrs = "nh os switch";
+          nrb = "nh os boot";
+          nrt = "nh os test";
           nrd = "nixos-rebuild dry-build --flake ${flakeDir}";
           ngl = "nixos-rebuild list-generations";
-          ngc = "run0 nix-collect-garbage --delete-older-than 7d";
           nfu = ''env --chdir ${flakeDir} nix run ${flakeDir}#write-flake && nix flake update --flake ${flakeDir} && git -C ${flakeDir} commit -m "chore: update flake lock" flake.lock'';
           ns = "nix search nixpkgs";
           nb = "nix path-info -rSh /run/current-system | sort -hk2 | tail -30";

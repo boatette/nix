@@ -14,6 +14,7 @@
         zram
 
         bat
+        nh
         nvim
         zsh
         toolchains

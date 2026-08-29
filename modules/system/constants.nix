@@ -6,17 +6,21 @@
     description = "Shared values";
   };
 
-  config.flake.constants = {
-    username = "boatette";
-    description = "Jonathan Clark";
-    email = "boatette@gmail.com";
+  config.flake.constants =
+    let
+      username = "boatette";
+    in
+    {
+      inherit username;
+      description = "Jonathan Clark";
+      email = "boatette@gmail.com";
 
-    flakeDir = "~/nix";
+      flakeDir = "/home/${username}/nix";
 
-    locale = "en_AU.UTF-8";
-    timeZone = "Australia/Hobart";
-    stateVersion = "26.05";
-  };
+      locale = "en_AU.UTF-8";
+      timeZone = "Australia/Hobart";
+      stateVersion = "26.05";
+    };
 
   config.flake.modules.generic.constants =
     { lib, ... }:
