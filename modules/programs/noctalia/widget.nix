@@ -18,7 +18,10 @@
 
     network.show_label = false;
     volume.show_label = false;
-    tray.drawer = true;
+    tray = {
+      detached_panel = true;
+      drawer = true;
+    };
 
     nix-monitor = {
       show_text = false;
