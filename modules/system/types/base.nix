@@ -14,6 +14,8 @@
         zram
 
         bat
+        nh
+        nix-index
         nvim
         zsh
         toolchains
@@ -34,6 +36,7 @@
 
         bat
         git
+        nix-index
         ssh
         nvim
         fastfetch

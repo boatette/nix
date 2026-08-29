@@ -1,6 +1,10 @@
+{ inputs, ... }:
 {
   flake.modules.homeManager.appearance =
-    { pkgs, ... }:
+    { config, pkgs, ... }:
+    let
+      inherit (config.constants.fonts) sans;
+    in
     {
       gtk = {
         enable = true;
@@ -9,7 +13,13 @@
           name = "adw-gtk3";
           package = pkgs.adw-gtk3;
         };
+
+        font = {
+          inherit (sans) name size;
+        };
       };
+
+      kde.settings.kdeglobals.General.font = inputs.self.lib.qtFont sans;
 
       home = {
         pointerCursor = {

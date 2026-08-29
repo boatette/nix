@@ -21,6 +21,7 @@
           gh
           jq
           lm_sensors
+          nix-tree
           ripgrep
         ])
         ++ [

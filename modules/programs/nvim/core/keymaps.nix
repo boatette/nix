@@ -12,23 +12,22 @@ in
       inherit (lib.nixvim) mkRaw;
       inherit (inputs.self.constants) flakeDir;
 
-      rebuild =
-        mode: sudo:
+      term =
+        cmd:
         mkRaw ''
           function()
-              require("snacks").terminal(
-                  "${lib.optionalString sudo "run0 "}nixos-rebuild ${mode} --flake ${flakeDir}",
-                  { interactive = true }
-              )
+              require("snacks").terminal("${cmd}", { interactive = true })
           end
         '';
+
+      rebuild = mode: term "nh os ${mode} ${flakeDir}";
     in
     {
       keymaps = [
-        (bind "n" "<leader>ns" (rebuild "switch" true) "Rebuild switch")
-        (bind "n" "<leader>nt" (rebuild "test" true) "Rebuild test")
-        (bind "n" "<leader>nb" (rebuild "boot" true) "Rebuild boot")
-        (bind "n" "<leader>nd" (rebuild "dry-build" false) "Rebuild dry-build")
+        (bind "n" "<leader>ns" (rebuild "switch") "Rebuild switch")
+        (bind "n" "<leader>nt" (rebuild "test") "Rebuild test")
+        (bind "n" "<leader>nb" (rebuild "boot") "Rebuild boot")
+        (bind "n" "<leader>nd" (term "nixos-rebuild dry-build --flake ${flakeDir}") "Rebuild dry-build")
       ];
     };
 

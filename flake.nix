@@ -28,6 +28,10 @@
     };
     import-tree.url = "github:denful/import-tree";
     millennium.url = "github:SteamClientHomebrew/Millennium?dir=packages/nix";
+    nix-index-database = {
+      url = "github:nix-community/nix-index-database";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixvim = {
       url = "github:nix-community/nixvim";
