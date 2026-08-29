@@ -42,7 +42,6 @@
       "Mod+R" = "window-cycle-width";
       # TODO: Mod+Shift+R: switch-preset-window-height
       #       Mod+Ctrl+R: reset-window-height
-      #       Mod+Shift+[-, =]: set-window-height
 
       # TODO: Mod+A: tabbed-columns
       "Mod+O" = "workspace-set-layout:toggle";
@@ -123,6 +122,9 @@
 
       "Mod+Minus" = "window-modify-width:-0.1";
       "Mod+Equal" = "window-modify-width:0.1";
+
+      "Mod+Shift+Minus" = "window-modify-height:-0.1";
+      "Mod+Shift+Equal" = "window-modify-height:0.1";
 
       "Mod+WheelUp" = "workspace-previous";
       "Mod+WheelDown" = "workspace-next";
