@@ -1,6 +1,9 @@
 {
   flake.modules.homeManager.ghostty =
     { config, ... }:
+    let
+      inherit (config.constants.fonts) mono;
+    in
     {
       programs.ghostty = {
         enable = true;
@@ -8,8 +11,8 @@
         settings = {
           theme = "noctalia";
 
-          font-family = "JetBrainsMono Nerd Font";
-          font-size = 12;
+          font-family = mono.name;
+          font-size = mono.size;
 
           window-padding-x = 14;
           window-padding-y = 14;

@@ -1,6 +1,7 @@
+{ inputs, ... }:
 {
   flake.modules.homeManager.konsole =
-    { pkgs, ... }:
+    { config, pkgs, ... }:
     {
       home.packages = [ pkgs.kdePackages.konsole ];
 
@@ -14,7 +15,7 @@
 
             Appearance = {
               ColorScheme = "Noctalia";
-              Font = "JetBrainsMono Nerd Font,12,-1,5,50,0,0,0,0,0";
+              Font = inputs.self.lib.qtFont config.constants.fonts.mono;
               TerminalMargin = 14;
               TerminalCenter = false;
             };

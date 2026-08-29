@@ -20,6 +20,18 @@
       locale = "en_AU.UTF-8";
       timeZone = "Australia/Hobart";
       stateVersion = "26.05";
+
+      fonts = {
+        mono = {
+          name = "JetBrainsMono Nerd Font";
+          size = 12;
+        };
+
+        sans = {
+          name = "Inter";
+          size = 11;
+        };
+      };
     };
 
   config.flake.modules.generic.constants =
