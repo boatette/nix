@@ -5,6 +5,8 @@
     reserve_space = false;
     smart_auto_hide = true;
 
+    background_opacity = 0.5;
+
     icon_size = 40;
 
     radius = 4;
