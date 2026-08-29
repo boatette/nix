@@ -14,7 +14,6 @@
       "zen-browser"
       "discord"
       "lazygit"
-      "papirus-icons"
       "prismlauncher"
       "steam"
       "yazi"
