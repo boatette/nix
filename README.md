@@ -6,19 +6,19 @@ NixOS configuration for umbriel + noctalia.
 
 ```
 ~/nix/
-├── flake.nix          generated
+├── flake.nix               generated
 ├── packages/
 └── modules/
-    ├── nix/           how the flake itself is assembled
+    ├── nix/                how the flake itself is assembled
     ├── hosts/
-    ├── system/        aspects that are not a program
-    │   ├── settings/    everything every machine gets
-    │   ├── session/     the graphical session
-    │   ├── constants.nix values every class can read
+    ├── system/             aspects that are not a program
+    │   ├── settings/       everything every machine gets
+    │   ├── session/        the graphical session
+    │   ├── constants.nix   values every class can read
     │   └── types/
     │       ├── base.nix
     │       └── desktop.nix
-    ├── services/      systemd stuff
+    ├── services/           systemd stuff
     ├── programs/
     └── users/
 ```
