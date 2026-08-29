@@ -8,10 +8,6 @@
 
     touchpad.natural_scroll = true;
 
-    cursor = {
-      theme = "capitaine-cursors";
-      hide_when_typing = true;
-      hide_timeout_ms = 5000;
-    };
+    cursor.theme = "capitaine-cursors";
   };
 }
