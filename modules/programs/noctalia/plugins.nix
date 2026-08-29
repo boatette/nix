@@ -1,10 +1,6 @@
 {
   flake.modules.homeManager.noctalia =
-    {
-      config,
-      lib,
-      ...
-    }:
+    { config, ... }:
     let
       inherit (config.constants) flakeDir;
     in
@@ -56,20 +52,6 @@
             browser_position = "top_center";
             download_dir = "~/Pictures/Wallpapers/Dynamic";
           };
-        };
-
-        hooks = {
-          colors_changed = lib.mkBefore [
-            "noctalia msg plugin boatette/auto-theme:auto-theme all colors-changed"
-          ];
-
-          theme_mode_changed = [
-            "noctalia msg plugin boatette/auto-theme:auto-theme all theme-mode-changed"
-          ];
-
-          wallpaper_changed = [
-            ''noctalia msg plugin boatette/auto-theme:auto-theme all wallpaper-changed "$NOCTALIA_WALLPAPER_PATH"''
-          ];
         };
       };
     };
