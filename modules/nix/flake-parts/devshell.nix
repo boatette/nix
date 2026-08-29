@@ -6,9 +6,7 @@
         packages = [
           config.formatter
 
-          pkgs.age
           pkgs.deadnix
-          pkgs.sops
           pkgs.statix
         ];
       };
