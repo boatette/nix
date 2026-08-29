@@ -25,7 +25,7 @@ NixOS configuration for umbriel + noctalia.
 
 ## Installing
 
-Build the image on a working machine. `iso-full` bakes the current `aspire` closure into the image, so the install needs almost no network; `iso` is a plain installer.
+`iso-full` bakes the current `aspire` closure into the image, so the install needs almost no network; `iso` is a plain installer. Build it from the revision you intend to install, the baked closure is only reused if `flake.lock` matches.
 
 ```bash
 nix build .#iso-full
@@ -33,8 +33,7 @@ sudo cp result/iso/*.iso /dev/[disk]
 sync
 ```
 
-Build it from the revision you intend to install — the baked closure is only reused
-if `flake.lock` matches.
+Both images carry the flake at `/etc/nixos-config`, a symlink to the store path the image was built from. That is what the commands below install from, so the install cannot drift from the image.
 
 1. Set up the ISO environment:
 
@@ -43,26 +42,28 @@ if `flake.lock` matches.
    nmtui
    ```
 
-2. Partition, format and mount. Print the script and read it first:
+2. Partition, format and mount. `modules/hosts/[host]/disko.nix` names a specific `/dev/disk/by-id/...`, check it is the disk in this machine before running anything. Print the script and read it first:
 
    ```bash
    disko --mode destroy,format,mount --flake /etc/nixos-config#[host] --dry-run
    ```
 
-   Drop `--dry-run` to do it.
+   Drop `--dry-run` to do it. It destroys the disk it names.
 
-3. Install:
+3. Install. It asks for the root password at the end:
 
    ```bash
    nixos-install --flake /etc/nixos-config#[host]
    ```
 
-4. Clone the repo to where it lives after the reboot:
+4. Put the repo where it lives after the reboot. `~/nix` is set as a constant, which the rebuild aliases and nvim both bake in:
 
    ```bash
    mkdir -p /mnt/home/[user]
    git clone https://github.com/boatette/nix.git /mnt/home/[user]/nix
    ```
+
+   No network, or an image built from a revision that is not `origin/master`? Copy the tree the image already carries instead. See below.
 
 5. Set the user password and fix ownership:
 
@@ -72,6 +73,30 @@ if `flake.lock` matches.
    ```
 
 6. Reboot.
+
+<details>
+<summary>Step 4 without a clone</summary>
+
+`/etc/nixos-config` is the tree the image was built from, so it can be copied out instead. Unlike a clone it is guaranteed to match the baked closure:
+
+```bash
+mkdir -p /mnt/home/[user]
+cp -rL --no-preserve=mode /etc/nixos-config /mnt/home/[user]/nix
+```
+
+The copy has no `.git`. Rebuilds do not care, but reattach it once there is a network:
+
+```bash
+cd ~/nix
+git init -b master
+git remote add origin https://github.com/boatette/nix.git
+git fetch origin
+git reset --mixed origin/master
+git branch -u origin/master
+git status   # should be empty
+```
+
+</details>
 
 <details>
 <summary>From a stock or stale ISO</summary>
