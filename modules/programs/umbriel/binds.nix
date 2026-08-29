@@ -30,9 +30,8 @@
       "Mod+Alt+Q" =
         ''spawn:app_id=$(umbriel windows --json | jq -r 'first(.[] | select(.active) | .app_id) // empty'); [ -n "$app_id" ] && { pkill -9 -x "$app_id" || pkill -9 -f "$app_id"; }'';
 
-      "Mod+C" = "window-center";
-      # TODO: center-visible-columns; umbriel only centers the focused one
-      "Mod+Ctrl+C" = "column-center";
+      "Mod+C" = "column-center";
+      # TODO: Mod+Ctrl+C: center-visible-columns
       "Mod+V" = "window-toggle-floating";
       "Mod+Shift+V" = "window-focus-switch-floating";
       "Mod+P" = "window-toggle-pinned";
@@ -41,8 +40,11 @@
       "Mod+Shift+F" = "window-toggle-fullscreen";
       "Mod+Ctrl+F" = "window-toggle-maximize-to-edges";
       "Mod+R" = "window-cycle-width";
-      # TODO: witch-preset-window-height, reset-window-height, set-window-height
-      # TODO: tabbed columns
+      # TODO: Mod+Shift+R: switch-preset-window-height
+      #       Mod+Ctrl+R: reset-window-height
+      #       Mod+Shift+[-, =]: set-window-height
+
+      # TODO: Mod+A: tabbed-columns
       "Mod+O" = "workspace-set-layout:toggle";
 
       "Mod+U" = "scratchpad-toggle";
@@ -113,7 +115,7 @@
       "Mod+Shift+9" = "window-move-to-workspace:9";
       "Mod+Shift+0" = "window-move-to-workspace:10";
 
-      # TODO: silent move column
+      # TODO: Mod+Ctrl+[1... 10]: silent-move-column
 
       "Mod+BracketLeft" = "window-consume-left";
       "Mod+BracketRight" = "window-expel-right";
