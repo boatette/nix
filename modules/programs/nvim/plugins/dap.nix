@@ -1,6 +1,6 @@
 {
   flake.modules.nixvim.nvim =
-    { lib, ... }:
+    { lib, pkgs, ... }:
     let
       inherit (lib.nixvim) mkRaw;
 
@@ -83,6 +83,14 @@
       };
     in
     {
+      extraPackages = with pkgs; [
+        lldb
+        vscode-js-debug
+        (python3.withPackages (ps: [ ps.debugpy ]))
+      ];
+
+      extraPlugins = [ pkgs.vimPlugins.nvim-dap-view ];
+
       plugins.dap = {
         enable = true;
 

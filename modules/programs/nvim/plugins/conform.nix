@@ -1,10 +1,21 @@
 {
   flake.modules.nixvim.nvim =
-    { lib, ... }:
+    { lib, pkgs, ... }:
     let
       inherit (lib.nixvim) mkRaw;
     in
     {
+      extraPackages = with pkgs; [
+        clang-tools
+        google-java-format
+        ktlint
+        nixfmt
+        prettierd
+        ruff
+        shfmt
+        stylua
+      ];
+
       plugins.conform-nvim = {
         enable = true;
         autoInstall.enable = false;

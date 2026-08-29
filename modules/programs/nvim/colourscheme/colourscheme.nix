@@ -20,7 +20,7 @@
         map
           (name: {
             name = "lua/colourscheme/${name}.lua";
-            value.source = ./lua/colourscheme/${name}.lua;
+            value.source = ./lua/${name}.lua;
           })
           [
             "init"

@@ -44,7 +44,6 @@
           callback = mkRaw ''
             function(ev)
                 local buf = ev.buf
-                -- a commit message should open at the top, every time
                 if vim.tbl_contains({ "gitcommit", "gitrebase" }, vim.bo[buf].filetype) or vim.b[buf].restore_cursor then
                     return
                 end
@@ -64,7 +63,6 @@
           desc = "Create missing parent directories on write";
           callback = mkRaw ''
             function(ev)
-                -- oil://, fugitive:// and friends are not paths
                 if ev.match:match("^%w%w+://") then
                     return
                 end
