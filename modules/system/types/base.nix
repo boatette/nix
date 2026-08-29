@@ -10,6 +10,7 @@
         locale
         networking
         nix-settings
+        secrets
         users
         zram
 
