@@ -25,6 +25,7 @@
       "Ctrl+Shift+Escape" = "spawn:noctalia msg panel-toggle control-center system";
 
       "Mod+G" = "overview-toggle";
+      "Mod+Slash" = "cheatsheet-toggle";
 
       "Mod+Q" = "window-close";
       "Mod+Alt+Q" =
