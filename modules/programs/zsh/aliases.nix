@@ -45,7 +45,6 @@
           nrt = "nh os test";
           nrd = "nixos-rebuild dry-build --flake ${flakeDir}";
           ngl = "nixos-rebuild list-generations";
-          nfu = ''env --chdir ${flakeDir} nix run ${flakeDir}#write-flake && nix flake update --flake ${flakeDir} && git -C ${flakeDir} commit -m "chore: update flake lock" flake.lock'';
           ns = "nix search nixpkgs";
           nb = "nix path-info -rSh /run/current-system | sort -hk2 | tail -30";
           nrepl = "nix repl ${flakeDir}";
