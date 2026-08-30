@@ -7,7 +7,7 @@
     {
       programs.noctalia.settings.shell = {
         app_icon_color = "primary";
-        app_icon_colorize = true;
+        app_icon_colorize = false;
 
         button_borders = false;
         card_borders = false;
