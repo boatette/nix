@@ -118,7 +118,7 @@
 
       "Mod+BracketLeft" = "window-consume-or-expel-left";
       "Mod+BracketRight" = "window-consume-or-expel-right";
-      "Mod+Period" = "window-expel-right";
+      # TODO: "Mod+Period" = "window-expel";
 
       "Mod+Minus" = "window-modify-width:-0.1";
       "Mod+Equal" = "window-modify-width:0.1";
