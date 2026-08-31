@@ -40,15 +40,15 @@
         plugin_settings = {
           "avivbintangaringga/nix-monitor" = {
             branch = "nixos-unstable";
-            panel_placement = "floating";
+            panel_placement = "attached";
             show_update_available_notification = false;
             update_command = ''nix run ${flakeDir}#write-flake && nix flake update --flake ${flakeDir} && { git -C ${flakeDir} commit -m "chore: update flake lock" flake.lock || true; } && run0 nixos-rebuild switch --flake ${flakeDir}'';
           };
 
           "boatette/auto-theme".default_dynamic_scheme = "vibrant";
-          "dotnetrob/cat".panel_placement = "floating";
+          "dotnetrob/cat".panel_placement = "attached";
           "noctalia/wallhaven" = {
-            browser_placement = "floating";
+            browser_placement = "attached";
             browser_position = "top_center";
             download_dir = "~/Pictures/Wallpapers/Dynamic";
           };

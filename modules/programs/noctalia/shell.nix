@@ -43,12 +43,14 @@
           transparency_mode = "glass";
           list_item_background = true;
 
-          clipboard_position = "auto";
-          control_center_placement = "floating";
+          clipboard_placement = "attached";
+          control_center_placement = "attached";
           launcher_placement = "floating";
-          session_placement = "floating";
+          session_placement = "attached";
+          wallpaper_placement = "attached";
+
+          clipboard_position = "auto";
           session_position = "top_center";
-          wallpaper_placement = "floating";
           wallpaper_position = "top_center";
 
           open_near_click_clipboard = true;
