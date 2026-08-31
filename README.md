@@ -128,6 +128,8 @@ nixos-install --flake github:boatette/nix#[host] --option max-jobs 3 --option co
 
 > [!TIP]
 >
+> To avoid manually typing the cachix stuff
+>
 > ```bash
 > curl -sL https://raw.githubusercontent.com/boatette/nix/master/README.md | grep -m1 '^nixos-install '
 > ```
