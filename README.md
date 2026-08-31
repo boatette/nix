@@ -28,6 +28,7 @@ NixOS configuration for umbriel + noctalia.
 `iso-full` bakes the current `aspire` closure into the image, so the install needs almost no network; `iso` is a plain installer. Build it from the revision you intend to install, the baked closure is only reused if `flake.lock` matches.
 
 ```bash
+cd [flakeDir]
 nix build .#iso-full
 sudo cp result/iso/*.iso /dev/[disk]
 sync
