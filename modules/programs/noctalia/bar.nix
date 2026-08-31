@@ -3,7 +3,7 @@
     { config, ... }:
     {
       programs.noctalia.settings.bar.default = {
-        position = "left";
+        position = "top";
 
         thickness = 32;
 
@@ -19,7 +19,7 @@
 
         padding = 10;
         widget_spacing = 12;
-        margin_ends = 6;
+        margin_ends = 50;
 
         capsule_radius = 4.0;
 
