@@ -26,6 +26,7 @@
         start = [
           "cat"
           "nix-monitor"
+          "umbriel-companion"
           "audio_visualizer"
           "media"
         ];

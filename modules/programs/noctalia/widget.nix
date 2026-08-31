@@ -28,6 +28,8 @@
       type = "avivbintangaringga/nix-monitor:nix-monitor";
     };
 
+    umbriel-companion.type = "noctalia/umbriel-companion:bar";
+
     workspaces.style = "minimal";
   };
 }
