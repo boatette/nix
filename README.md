@@ -34,6 +34,22 @@ sudo cp result/iso/*.iso /dev/[disk] # this may take a lot longer depending on t
 sync
 ```
 
+<details>
+<summary>Onto a Ventoy drive instead of a raw disk</summary>
+
+Ventoy boots the `.iso` as a file, so drop it on the Ventoy data partition rather than writing to `/dev/[disk]`. Nothing to reformat; the boot menu picks it up.
+
+```bash
+rsync -h --progress result/iso/*.iso /run/media/[user]/Ventoy/
+sync
+```
+
+`rsync` (and `cp`) return once the copy is in the page cache, not on the stick; `sync` is the real wait. `watch -d 'grep -E "Dirty|Writeback" /proc/meminfo'` shows that flush drain to zero. Check the partition mounted as `exfat`, not `fuseblk` (`mount | grep -i ventoy`) — the fuse driver is far slower.
+
+`iso-full` is large because it embeds the `aspire` closure; use `.#iso` if the target has a network and you want a quicker copy.
+
+</details>
+
 Both images carry the flake at `/etc/nixos-config`, a symlink to the store path the image was built from. That is what the commands below install from, so the install cannot drift from the image.
 
 1. Set up the ISO environment:
