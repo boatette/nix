@@ -127,6 +127,8 @@
       "Mod+Shift+Minus" = "window-modify-height:-0.1";
       "Mod+Shift+Equal" = "window-modify-height:0.1";
 
+      "Mod+MouseMiddle" = "layout-scroll-drag";
+
       "Mod+WheelUp" = "workspace-previous";
       "Mod+WheelDown" = "workspace-next";
       "Mod+Shift+WheelUp" = "column-move-to-workspace-previous";
