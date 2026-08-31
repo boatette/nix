@@ -18,6 +18,7 @@
           stremio-linux-shell
           qbittorrent
           proton-pass
+          ventoy
 
           libreoffice-qt
           hunspell
