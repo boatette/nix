@@ -29,7 +29,7 @@ NixOS configuration for umbriel + noctalia.
 
 ```bash
 cd [flakeDir]
-nix build .#iso-full # this may take a while
+nix build .#iso-full # or `.#iso` for the plain installer; this may take a while
 sudo cp result/iso/*.iso /dev/[disk] # this may take a lot longer depending on the drive
 sync
 ```
