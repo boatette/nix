@@ -20,6 +20,21 @@ readonly DIRS=(
 log() { printf '%s: %s\n' "$APP" "$*"; }
 err() { printf '%s: %s\n' "$APP" "$*" >&2; }
 
+notify() {
+    [[ "${SSD_NOTIFY:-}" == 1 ]] || return 0
+    command -v notify-send >/dev/null 2>&1 || return 0
+
+    local urgency=normal
+    case "$1" in
+    normal | critical | low)
+        urgency=$1
+        shift
+        ;;
+    esac
+
+    notify-send -a "$APP" -u "$urgency" "$@" || true
+}
+
 usage() {
     cat <<EOF
 usage: ssd <command>
@@ -32,6 +47,7 @@ Both are no-ops when \$SSD_ROOT is not mounted.
 Environment:
   SSD_ROOT   mount point (default: /mnt/storage)
   BAK_ROOT   backup tree (default: \$SSD_ROOT/bak)
+  SSD_NOTIFY set to 1 to send a desktop notification on completion or failure
 EOF
 }
 
@@ -48,6 +64,7 @@ cmd_backup() {
 
     mkdir -p "$BAK_ROOT" || {
         err "cannot create $BAK_ROOT"
+        notify critical "SSD backup failed" "Cannot create $BAK_ROOT"
         return 1
     }
 
@@ -70,7 +87,12 @@ cmd_backup() {
         }
     done
 
-    ((rc == 0)) && log "done"
+    if ((rc == 0)); then
+        log "done"
+        notify "SSD backup complete" "Mirrored home to $SSD_ROOT"
+    else
+        notify critical "SSD backup failed" "One or more directories did not sync"
+    fi
     return $rc
 }
 
@@ -113,6 +135,9 @@ cmd_restore() {
         mkdir -p "$(dirname "$stamp")"
         date -Iseconds >"$stamp"
         log "done"
+        notify "SSD restore complete" "Restored home from $SSD_ROOT"
+    else
+        notify critical "SSD restore failed" "One or more directories did not restore"
     fi
 
     return $rc

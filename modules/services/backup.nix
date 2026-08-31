@@ -16,6 +16,7 @@
             Service = {
               ExecStart = "${pkgs.local.ssd}/bin/ssd backup";
               Type = "oneshot";
+              Environment = "SSD_NOTIFY=1";
               IOSchedulingClass = "idle";
               Nice = 10;
             };
@@ -30,6 +31,7 @@
             Service = {
               ExecStart = "${pkgs.local.ssd}/bin/ssd restore";
               Type = "oneshot";
+              Environment = "SSD_NOTIFY=1";
               IOSchedulingClass = "idle";
               Nice = 10;
             };

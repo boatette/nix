@@ -4,6 +4,7 @@
   util-linux,
   coreutils,
   gnugrep,
+  libnotify,
 }:
 writeShellApplication {
   name = "ssd";
@@ -14,6 +15,7 @@ writeShellApplication {
     util-linux
     coreutils
     gnugrep
+    libnotify
   ];
 
   bashOptions = [ ];
