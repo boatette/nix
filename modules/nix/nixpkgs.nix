@@ -7,7 +7,10 @@
     {
       _module.args.pkgs = import inputs.nixpkgs {
         inherit system;
-        config.allowUnfree = true;
+        config = {
+          allowUnfree = true;
+          allowInsecurePredicate = pkg: inputs.nixpkgs.lib.getName pkg == "ventoy";
+        };
         overlays = [ inputs.self.overlays.default ];
       };
     };
