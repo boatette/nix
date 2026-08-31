@@ -14,9 +14,13 @@
           MainWindow.MenuBar = "Disabled";
         };
 
-        kdeglobals.General = {
-          TerminalApplication = "ghostty";
-          TerminalService = "ghostty.desktop";
+        kdeglobals = {
+          General = {
+            TerminalApplication = "ghostty";
+            TerminalService = "ghostty.desktop";
+          };
+
+          KDE.SingleClick = false;
         };
 
         darklyrc.Style = {
