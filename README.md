@@ -27,15 +27,21 @@ NixOS configuration for umbriel + noctalia.
 
 `iso-full` bakes the current `aspire` closure into the image, so the install needs almost no network; `iso` is a plain installer. Build it from the revision you intend to install, the baked closure is only reused if `flake.lock` matches.
 
+### Build the image
+
 ```bash
 cd [flakeDir]
 nix build .#iso-full # or `.#iso` for the plain installer; this may take a while
+```
+
+### Write it to a raw disk
+
+```bash
 sudo cp result/iso/*.iso /dev/[disk] # this may take a lot longer depending on the drive
 sync
 ```
 
-<details>
-<summary>Onto a Ventoy drive instead of a raw disk</summary>
+### Write it to a Ventoy drive
 
 Ventoy boots the `.iso` as a file, so drop it on the Ventoy data partition rather than writing to `/dev/[disk]`. Nothing to reformat; the boot menu picks it up.
 
@@ -44,11 +50,9 @@ rsync -h --progress result/iso/*.iso /run/media/[user]/Ventoy/
 sync
 ```
 
-`rsync` (and `cp`) return once the copy is in the page cache, not on the stick; `sync` is the real wait. `watch -d 'grep -E "Dirty|Writeback" /proc/meminfo'` shows that flush drain to zero. Check the partition mounted as `exfat`, not `fuseblk` (`mount | grep -i ventoy`) — the fuse driver is far slower.
+`rsync` (and `cp`) return once the copy is in the page cache, not on the stick; `sync` is the real wait. `watch -d 'grep -E "Dirty|Writeback" /proc/meminfo'` shows that flush drain to zero. Check the partition mounted as `exfat`, not `fuseblk` (`mount | grep -i ventoy`) — the fuse driver is far slower. `iso-full` is large; `.#iso` copies quicker if the target has a network.
 
-`iso-full` is large because it embeds the `aspire` closure; use `.#iso` if the target has a network and you want a quicker copy.
-
-</details>
+### Install
 
 Both images carry the flake at `/etc/nixos-config`, a symlink to the store path the image was built from. That is what the commands below install from, so the install cannot drift from the image.
 
@@ -80,7 +84,7 @@ Both images carry the flake at `/etc/nixos-config`, a symlink to the store path 
    git clone https://github.com/boatette/nix.git /mnt/home/[user]/nix
    ```
 
-   No network, or an image built from a revision that is not `origin/master`? Copy the tree the image already carries instead. See below.
+   No network, or an image built from a revision that is not `origin/master`? [Copy the tree the image already carries instead.](#fetch-the-repo-without-a-clone)
 
 5. Set the user password and fix ownership:
 
@@ -91,10 +95,9 @@ Both images carry the flake at `/etc/nixos-config`, a symlink to the store path 
 
 6. Reboot.
 
-<details>
-<summary>Step 4 without a clone</summary>
+### Fetch the repo without a clone
 
-`/etc/nixos-config` is the tree the image was built from, so it can be copied out instead. Unlike a clone it is guaranteed to match the baked closure:
+An alternative to step 4. `/etc/nixos-config` is the tree the image was built from, so it can be copied out instead. Unlike a clone it is guaranteed to match the baked closure:
 
 ```bash
 mkdir -p /mnt/home/[user]
@@ -113,10 +116,7 @@ git branch -u origin/master
 git status   # should be empty
 ```
 
-</details>
-
-<details>
-<summary>From a stock or stale ISO</summary>
+### Install from a stock or stale ISO
 
 Without the baked closure the install builds and downloads on a tmpfs root, so it needs the job bounds and cachix keys to keep ram usage down:
 
@@ -125,5 +125,3 @@ export NIX_CONFIG="experimental-features = nix-command flakes"
 nix run github:nix-community/disko/latest -- --mode destroy,format,mount --flake github:boatette/nix#[host] --dry-run
 nixos-install --flake github:boatette/nix#[host] --option max-jobs 3 --option cores 4 --option extra-substituters "https://nix-community.cachix.org https://noctalia.cachix.org" --option extra-trusted-public-keys "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs= noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
 ```
-
-</details>
