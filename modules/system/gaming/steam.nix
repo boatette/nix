@@ -14,6 +14,8 @@
         enable = true;
         onSteamRunning = "close";
 
+        desktopEntries.enable = true;
+
         apps = {
           "252950" = {
             name = "Rocket League";
