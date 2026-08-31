@@ -19,7 +19,7 @@
 
       locale = "en_AU.UTF-8";
       timeZone = "Australia/Hobart";
-      stateVersion = "26.05";
+      stateVersion = "26.11";
 
       fonts = {
         mono = {
