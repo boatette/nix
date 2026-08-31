@@ -11,6 +11,7 @@
             "dotnetrob/cat"
             "avivbintangaringga/nix-monitor"
             "noctalia/wallhaven"
+            "noctalia/umbriel-companion"
 
             "boatette/auto-theme"
           ];
