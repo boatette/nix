@@ -55,7 +55,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     umbriel = {
-      url = "git+https://github.com/noctalia-dev/umbriel";
+      url = "github:noctalia-dev/umbriel";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     xdg-desktop-portal-umbriel = {
