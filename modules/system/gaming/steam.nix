@@ -1,15 +1,5 @@
-{ inputs, lib, ... }:
+{ inputs, ... }:
 let
-  primary = lib.head (
-    lib.attrValues (lib.filterAttrs (_: m: m.primary or false) inputs.self.monitors)
-  );
-
-  mode = builtins.match "([0-9]+)x([0-9]+)@([0-9.]+)" primary.mode;
-
-  width = builtins.elemAt mode 0;
-  height = builtins.elemAt mode 1;
-  refresh = toString (builtins.floor (builtins.fromJSON (builtins.elemAt mode 2)));
-
   nvidiaOffload = {
     __NV_PRIME_RENDER_OFFLOAD = 1;
     __NV_PRIME_RENDER_OFFLOAD_PROVIDER = "NVIDIA-G0";
@@ -24,7 +14,37 @@ in
   };
 
   flake.modules.homeManager.steam =
-    { lib, pkgs, ... }:
+    {
+      lib,
+      pkgs,
+      osConfig,
+      ...
+    }:
+    let
+      host = osConfig.networking.hostName;
+      monitors = inputs.self.monitors.${host} or { };
+
+      primary = lib.findFirst (m: m.primary or false) null (lib.attrValues monitors);
+
+      primaryMode =
+        lib.throwIf (primary == null)
+          "gaming/steam.nix: no monitor in flake.monitors.${host} is marked `primary = true`"
+          (primary.mode or null);
+
+      matched =
+        lib.throwIf (primaryMode == null)
+          "gaming/steam.nix: the primary monitor on ${host} has no `mode`; gamescope needs one"
+          (builtins.match "([0-9]+)x([0-9]+)@([0-9.]+)" primaryMode);
+
+      parsed =
+        lib.throwIf (matched == null)
+          "gaming/steam.nix: monitor mode must be WxH@R, got: ${primaryMode}"
+          matched;
+
+      width = builtins.elemAt parsed 0;
+      height = builtins.elemAt parsed 1;
+      refresh = toString (builtins.floor (builtins.fromJSON (builtins.elemAt parsed 2)));
+    in
     {
       imports = [ inputs.steam-config-nix.homeModules.default ];
 

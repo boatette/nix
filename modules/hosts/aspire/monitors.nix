@@ -1,5 +1,5 @@
 {
-  flake.monitors = {
+  flake.monitors.aspire = {
     "eDP-1" = {
       mode = "1920x1080@144";
       primary = true;
