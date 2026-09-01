@@ -25,13 +25,13 @@ NixOS configuration for umbriel + noctalia.
 
 ## Installing
 
-`iso-full` bakes the current `aspire` closure into the image, so the install needs almost no network; `iso` is a plain installer. This also means the full iso is a lot larger at about **10GB** compared to the minimal one at around **1.5GB**. Build it from the revision you intend to install, the baked closure is only reused if `flake.lock` matches.
+`iso` is a minimal installer at around **1.5GB**. It carries the flake and this config's substituters, so the install pulls prebuilt paths from the caches rather than building them. Build it from the revision you intend to install.
 
 ### Build the image
 
 ```bash
 cd [flakeDir]
-nix build .#iso-full # or `.#iso` for the plain installer; this may take a while
+nix build .#iso # this may take a while
 ```
 
 ### Write it to a raw disk
@@ -50,11 +50,11 @@ rsync -h --progress result/iso/*.iso /run/media/[user]/Ventoy/
 sync
 ```
 
-`rsync` (and `cp`) return once the copy is in the page cache, not on the stick; `sync` is the real wait. `watch -d 'grep -E "Dirty|Writeback" /proc/meminfo'` shows that flush drain to zero. Check the partition mounted as `exfat`, not `fuseblk` (`mount | grep -i ventoy`) — the fuse driver is far slower. `iso-full` is large; `.#iso` copies quicker if the target has a network.
+`rsync` (and `cp`) return once the copy is in the page cache, not on the stick; `sync` is the real wait. `watch -d 'grep -E "Dirty|Writeback" /proc/meminfo'` shows that flush drain to zero. Check the partition mounted as `exfat`, not `fuseblk` (`mount | grep -i ventoy`) — the fuse driver is far slower.
 
 ### Install
 
-Both images carry the flake at `/etc/nixos-config`, a symlink to the store path the image was built from. That is what the commands below install from, so the install cannot drift from the image.
+The image carries the flake at `/etc/nixos-config`, a symlink to the store path the image was built from. That is what the commands below install from, so the install cannot drift from the image.
 
 1. Set up the ISO environment:
 
@@ -97,7 +97,7 @@ Both images carry the flake at `/etc/nixos-config`, a symlink to the store path 
 
 ### Fetch the repo without a clone
 
-An alternative to step 4. `/etc/nixos-config` is the tree the image was built from, so it can be copied out instead. Unlike a clone it is guaranteed to match the baked closure:
+An alternative to step 4. `/etc/nixos-config` is the tree the image was built from, so it can be copied out instead. Unlike a clone it is guaranteed to match the revision the image was built from:
 
 ```bash
 mkdir -p /mnt/home/[user]
@@ -116,9 +116,9 @@ git branch -u origin/master
 git status   # should be empty
 ```
 
-### Install from a stock or stale ISO
+### Install from a stock ISO
 
-Without the baked closure the install builds and downloads on a tmpfs root, so it needs the job bounds and cachix keys to keep ram usage down:
+An ISO built from this repo already carries the substituters below, so `nixos-install --flake /etc/nixos-config#[host]` is all you need. An upstream NixOS ISO does not, and it installs onto a tmpfs root, so it needs the caches and the job bounds to keep ram usage down:
 
 ```bash
 export NIX_CONFIG="experimental-features = nix-command flakes"

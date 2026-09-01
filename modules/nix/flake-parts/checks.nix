@@ -4,6 +4,8 @@ let
 
   root = ../../..;
 
+  isoPackages = [ "iso" ];
+
   nixFiles = lib.fileset.toSource {
     inherit root;
     fileset = lib.fileset.fileFilter (file: file.hasExt "nix") root;
@@ -15,10 +17,7 @@ in
     {
       checks =
         lib.mapAttrs' (name: lib.nameValuePair "package-${name}") (
-          lib.removeAttrs config.packages [
-            "iso"
-            "iso-full"
-          ]
+          lib.removeAttrs config.packages isoPackages
         )
         // {
           deadnix = pkgs.runCommandLocal "check-deadnix" { } ''
@@ -33,8 +32,10 @@ in
 
   flake.checks = lib.foldlAttrs (
     acc: name: host:
-    lib.recursiveUpdate acc {
-      ${host.config.nixpkgs.hostPlatform.system}."host-${name}" = host.config.system.build.toplevel;
-    }
+    lib.recursiveUpdate acc (
+      lib.optionalAttrs (!lib.elem name isoPackages) {
+        ${host.config.nixpkgs.hostPlatform.system}."host-${name}" = host.config.system.build.toplevel;
+      }
+    )
   ) { } nixosConfigurations;
 }
