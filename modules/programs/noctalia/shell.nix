@@ -16,7 +16,7 @@
         popup_shadows = false;
 
         polkit_agent = true;
-        passowrd_style = "random";
+        password_style = "random";
 
         launch_apps_as_systemd_services = true;
 
