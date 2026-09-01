@@ -34,7 +34,6 @@
             lua = [ "stylua" ];
             nix = [ "nixfmt" ];
             rust = [ "rustfmt" ];
-            zig = [ "zigfmt" ];
 
             python = [
               "ruff_format"
