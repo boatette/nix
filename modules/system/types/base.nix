@@ -13,20 +13,22 @@
         users
         zram
 
-        bat
         nh
         nix-index
-        nvim
         zsh
-        toolchains
 
         packages
-        session-path
       ])
       ++ [ inputs.self.modules.generic.constants ];
   };
 
   flake.modules.homeManager.base = {
+    home.sessionPath = [
+      "$HOME/.local/bin"
+      "$HOME/go/bin"
+      "$HOME/.cargo/bin"
+    ];
+
     imports =
       (with inputs.self.modules.homeManager; [
         zsh
