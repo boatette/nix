@@ -6,6 +6,12 @@
 
   flake.modules.homeManager.backup =
     { pkgs, config, ... }:
+    let
+      environment = [
+        "SSD_NOTIFY=1"
+        "XDG_STATE_HOME=${config.xdg.stateHome}"
+      ];
+    in
     {
       home.packages = [ pkgs.local.ssd ];
 
@@ -16,7 +22,7 @@
             Service = {
               ExecStart = "${pkgs.local.ssd}/bin/ssd backup";
               Type = "oneshot";
-              Environment = "SSD_NOTIFY=1";
+              Environment = environment;
               IOSchedulingClass = "idle";
               Nice = 10;
             };
@@ -26,12 +32,12 @@
             Install.WantedBy = [ "default.target" ];
             Unit = {
               Description = "Restore home from the SSD";
-              ConditionPathExists = "!${config.home.homeDirectory}/.local/state/ssd-restore.stamp";
+              ConditionPathExists = "!${config.xdg.stateHome}/ssd-restore.stamp";
             };
             Service = {
               ExecStart = "${pkgs.local.ssd}/bin/ssd restore";
               Type = "oneshot";
-              Environment = "SSD_NOTIFY=1";
+              Environment = environment;
               IOSchedulingClass = "idle";
               Nice = 10;
             };

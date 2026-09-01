@@ -5,7 +5,7 @@
       {
         programs.noctalia.settings.theme.templates.user.nvim = {
           input_path = ./noctalia.lua;
-          output_path = "${config.home.homeDirectory}/.config/nvim/noctalia.lua";
+          output_path = "${config.xdg.configHome}/nvim/noctalia.lua";
           post_hook = "pkill -SIGUSR1 nvim";
         };
       };
