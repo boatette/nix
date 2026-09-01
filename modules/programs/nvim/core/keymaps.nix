@@ -20,14 +20,14 @@ in
           end
         '';
 
-      rebuild = mode: term "nh os ${mode} ${flakeDir}";
+      rebuild = inputs.self.lib.rebuild flakeDir;
     in
     {
       keymaps = [
-        (bind "n" "<leader>ns" (rebuild "switch") "Rebuild switch")
-        (bind "n" "<leader>nt" (rebuild "test") "Rebuild test")
-        (bind "n" "<leader>nb" (rebuild "boot") "Rebuild boot")
-        (bind "n" "<leader>nd" (term "nixos-rebuild dry-build --flake ${flakeDir}") "Rebuild dry-build")
+        (bind "n" "<leader>ns" (term (rebuild.os "switch")) "Rebuild switch")
+        (bind "n" "<leader>nt" (term (rebuild.os "test")) "Rebuild test")
+        (bind "n" "<leader>nb" (term (rebuild.os "boot")) "Rebuild boot")
+        (bind "n" "<leader>nd" (term rebuild.dryBuild) "Rebuild dry-build")
       ];
     };
 
