@@ -1,9 +1,6 @@
 { inputs, ... }:
 {
-  flake-file.inputs.umbriel = {
-    url = "github:noctalia-dev/umbriel";
-    inputs.nixpkgs.follows = "nixpkgs";
-  };
+  flake-file.inputs.umbriel.url = "github:noctalia-dev/umbriel";
 
   flake.modules.nixos.umbriel =
     { config, ... }:

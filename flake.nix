@@ -54,14 +54,8 @@
       url = "github:different-name/steam-config-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    umbriel = {
-      url = "github:noctalia-dev/umbriel";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    xdg-desktop-portal-umbriel = {
-      url = "github:noctalia-dev/xdg-desktop-portal-umbriel";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    umbriel.url = "github:noctalia-dev/umbriel";
+    xdg-desktop-portal-umbriel.url = "github:noctalia-dev/xdg-desktop-portal-umbriel";
     zen-browser = {
       url = "github:0xc000022070/zen-browser-flake";
       inputs.nixpkgs.follows = "nixpkgs";
