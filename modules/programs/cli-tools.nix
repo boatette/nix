@@ -17,7 +17,6 @@
           dust
           eza
           fd
-          fzf
           gh
           jq
           lm_sensors
@@ -27,5 +26,10 @@
         ++ [
           inputs.claude-code.packages.${system}.default
         ];
+
+      programs.fzf = {
+        enable = true;
+        enableZshIntegration = true;
+      };
     };
 }
