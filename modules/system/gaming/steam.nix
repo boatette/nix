@@ -36,14 +36,25 @@ in
           "gaming/steam.nix: the primary monitor on ${host} has no `mode`; gamescope needs one"
           (builtins.match "([0-9]+)x([0-9]+)@([0-9.]+)" primaryMode);
 
-      parsed =
-        lib.throwIf (matched == null)
-          "gaming/steam.nix: monitor mode must be WxH@R, got: ${primaryMode}"
-          matched;
+      parsed = lib.throwIf (
+        matched == null
+      ) "gaming/steam.nix: monitor mode must be WxH@R, got: ${primaryMode}" matched;
 
       width = builtins.elemAt parsed 0;
       height = builtins.elemAt parsed 1;
       refresh = toString (builtins.floor (builtins.fromJSON (builtins.elemAt parsed 2)));
+
+      wrappers = [
+        (lib.getExe pkgs.gamemode)
+        (lib.getExe pkgs.gamescope)
+        "-W"
+        width
+        "-H"
+        height
+        "-r"
+        refresh
+        "--"
+      ];
     in
     {
       imports = [ inputs.steam-config-nix.homeModules.default ];
@@ -59,27 +70,21 @@ in
             name = "Rocket League";
             compatTool = "proton_experimental";
             env = nvidiaOffload;
+            inherit wrappers;
           };
 
           "753640" = {
             name = "Outer Wilds";
             compatTool = "proton_experimental";
             env = nvidiaOffload;
+            inherit wrappers;
           };
 
           "322170" = {
             name = "Geometry Dash";
             dllOverrides."xinput1_4" = "n,b";
-            wrappers = [
-              (lib.getExe pkgs.gamescope)
-              "-W"
-              width
-              "-H"
-              height
-              "-r"
-              refresh
-              "--"
-            ];
+            env = nvidiaOffload;
+            inherit wrappers;
           };
         };
       };
