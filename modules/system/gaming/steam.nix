@@ -1,4 +1,15 @@
-{ inputs, ... }:
+{ inputs, lib, ... }:
+let
+  primary = lib.head (
+    lib.attrValues (lib.filterAttrs (_: m: m.primary or false) inputs.self.monitors)
+  );
+
+  mode = builtins.match "([0-9]+)x([0-9]+)@([0-9.]+)" primary.mode;
+
+  width = builtins.elemAt mode 0;
+  height = builtins.elemAt mode 1;
+  refresh = toString (builtins.floor (builtins.fromJSON (builtins.elemAt mode 2)));
+in
 {
   flake-file.inputs.steam-config-nix = {
     url = "github:different-name/steam-config-nix";
@@ -33,9 +44,11 @@
             wrappers = [
               (lib.getExe pkgs.gamescope)
               "-W"
-              "1920"
+              width
               "-H"
-              "1080"
+              height
+              "-r"
+              refresh
               "--"
             ];
           };
