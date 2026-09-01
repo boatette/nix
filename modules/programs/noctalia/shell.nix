@@ -1,8 +1,11 @@
+{ inputs, ... }:
 {
   flake.modules.homeManager.noctalia =
     { config, ... }:
     let
       inherit (config.constants) flakeDir;
+
+      rebuild = inputs.self.lib.rebuild flakeDir;
     in
     {
       programs.noctalia.settings.shell = {
@@ -85,7 +88,7 @@
               (
                 (action "command" "b")
                 // {
-                  command = ''ghostty -e sh -c "run0 nixos-rebuild boot --flake ${flakeDir} && systemctl reboot"'';
+                  command = ''ghostty -e sh -c "${rebuild.os "boot"} && systemctl reboot"'';
                   label = "Rebuild & Reboot";
                 }
               )

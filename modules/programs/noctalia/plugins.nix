@@ -1,8 +1,11 @@
+{ inputs, ... }:
 {
   flake.modules.homeManager.noctalia =
     { config, ... }:
     let
       inherit (config.constants) flakeDir;
+
+      rebuild = inputs.self.lib.rebuild flakeDir;
     in
     {
       programs.noctalia.settings = {
@@ -43,7 +46,7 @@
             branch = "nixos-unstable";
             panel_placement = "attached";
             show_update_available_notification = false;
-            update_command = ''nix run ${flakeDir}#write-flake && nix flake update --flake ${flakeDir} && { git -C ${flakeDir} commit -m "chore: update flake lock" flake.lock || true; } && run0 nixos-rebuild switch --flake ${flakeDir}'';
+            update_command = rebuild.upgrade;
           };
 
           "boatette/auto-theme".default_dynamic_scheme = "vibrant";

@@ -1,8 +1,11 @@
+{ inputs, ... }:
 {
   flake.modules.homeManager.zsh =
     { config, pkgs, ... }:
     let
       inherit (config.constants) flakeDir;
+
+      rebuild = inputs.self.lib.rebuild flakeDir;
     in
     {
       home = {
@@ -40,10 +43,10 @@
           "......" = "cd ../../../../..";
           cn = "cd ${flakeDir}";
 
-          nrs = "nh os switch";
-          nrb = "nh os boot";
-          nrt = "nh os test";
-          nrd = "nixos-rebuild dry-build --flake ${flakeDir}";
+          nrs = rebuild.os "switch";
+          nrb = rebuild.os "boot";
+          nrt = rebuild.os "test";
+          nrd = rebuild.dryBuild;
           ngl = "nixos-rebuild list-generations";
           ns = "nix search nixpkgs";
           nb = "nix path-info -rSh /run/current-system | sort -hk2 | tail -30";

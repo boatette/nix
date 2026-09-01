@@ -1,8 +1,11 @@
+{ inputs, ... }:
 {
   flake.modules.homeManager.zsh =
     { config, ... }:
     let
       inherit (config.constants) flakeDir;
+
+      rebuild = inputs.self.lib.rebuild flakeDir;
     in
     {
       programs.zsh.initContent = ''
@@ -12,10 +15,7 @@
 
         nrun() { local pkg="$1"; shift; nix run "nixpkgs#$pkg" -- "$@"; }
 
-        nfu() {
-          env --chdir ${flakeDir} nix run ${flakeDir}#write-flake \
-            && nix flake update --flake ${flakeDir} --commit-lock-file "$@"
-        }
+        nfu() { ${rebuild.update} "$@"; }
 
         unowned() { find "$@" -not -user "$USER"; }
       '';
