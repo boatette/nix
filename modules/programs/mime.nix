@@ -48,10 +48,7 @@
           };
         };
 
-        home.packages = with pkgs; [
-          file-roller
-          p7zip
-        ];
+        home.packages = [ pkgs.file-roller ];
       }
     ];
 }

@@ -36,6 +36,7 @@
         cli-tools
         toolchains
 
+        archive-tools
         bat
         git
         nix-index
