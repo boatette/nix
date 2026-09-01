@@ -9,6 +9,13 @@ let
   width = builtins.elemAt mode 0;
   height = builtins.elemAt mode 1;
   refresh = toString (builtins.floor (builtins.fromJSON (builtins.elemAt mode 2)));
+
+  nvidiaOffload = {
+    __NV_PRIME_RENDER_OFFLOAD = 1;
+    __NV_PRIME_RENDER_OFFLOAD_PROVIDER = "NVIDIA-G0";
+    __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+    __VK_LAYER_NV_optimus = "NVIDIA_only";
+  };
 in
 {
   flake-file.inputs.steam-config-nix = {
@@ -31,11 +38,13 @@ in
           "252950" = {
             name = "Rocket League";
             compatTool = "proton_experimental";
+            env = nvidiaOffload;
           };
 
           "753640" = {
             name = "Outer Wilds";
             compatTool = "proton_experimental";
+            env = nvidiaOffload;
           };
 
           "322170" = {
