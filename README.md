@@ -133,3 +133,14 @@ nixos-install --flake github:boatette/nix#[host] --option max-jobs 3 --option co
 > ```bash
 > curl -sL https://raw.githubusercontent.com/boatette/nix/master/README.md | grep -m1 '^nixos-install '
 > ```
+
+## Known Issues
+
+### Steam
+
+If steam doesn't work, try removing `/.local/share/Steam and ~/.steam and/or disabling gpu acceleration
+
+```bash
+rm -rf ~/.steam ~/.local/share/Steam
+steam -cef-disable-gpu
+```
