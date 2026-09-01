@@ -1,9 +1,6 @@
 { inputs, ... }:
 {
-  flake-file.inputs.xdg-desktop-portal-umbriel = {
-    url = "github:noctalia-dev/xdg-desktop-portal-umbriel";
-    inputs.nixpkgs.follows = "nixpkgs";
-  };
+  flake-file.inputs.xdg-desktop-portal-umbriel.url = "github:noctalia-dev/xdg-desktop-portal-umbriel";
 
   flake.modules.nixos.umbriel =
     { pkgs, ... }:
