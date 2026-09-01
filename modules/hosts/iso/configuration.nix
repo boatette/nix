@@ -9,7 +9,7 @@
       ++ (with inputs.self.modules.nixos; [
         locale
         nix-settings
-        nvim
+        zram
       ])
       ++ [ inputs.self.modules.generic.constants ];
 
@@ -19,8 +19,6 @@
       ];
 
       environment.etc."nixos-config".source = inputs.self;
-
-      zramSwap.enable = true;
 
       isoImage = {
         volumeID = "nixos-boatette";
