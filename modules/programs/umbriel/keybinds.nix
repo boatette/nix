@@ -40,8 +40,6 @@
       "Mod+Shift+F" = "window-toggle-fullscreen";
       "Mod+Ctrl+F" = "window-toggle-maximize-to-edges";
       "Mod+R" = "window-cycle-width";
-      # TODO: Mod+Shift+R: switch-preset-window-height
-      #       Mod+Ctrl+R: reset-window-height
 
       # TODO: Mod+A: tabbed-columns
       "Mod+O" = "workspace-set-layout:toggle";
