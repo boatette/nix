@@ -32,7 +32,6 @@
         ''spawn:app_id=$(umbriel windows --json | jq -r 'first(.[] | select(.active) | .app_id) // empty'); [ -n "$app_id" ] && { pkill -9 -x "$app_id" || pkill -9 -f "$app_id"; }'';
 
       "Mod+C" = "column-center";
-      # TODO: Mod+Ctrl+C: center-visible-columns
       "Mod+V" = "window-toggle-floating";
       "Mod+Shift+V" = "window-focus-switch-floating";
       "Mod+P" = "window-toggle-pinned";
