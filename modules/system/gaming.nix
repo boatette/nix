@@ -11,12 +11,21 @@
       programs = {
         steam = {
           enable = true;
-          package = inputs.millennium.packages.${system}.millennium-steam;
+
+          package = inputs.millennium.packages.${system}.millennium-steam.override {
+            extraArgs = "-cef-disable-gpu";
+          };
+
           remotePlay.openFirewall = true;
           dedicatedServer.openFirewall = true;
         };
 
         gamemode.enable = true;
+
+        gamescope = {
+          enable = true;
+          capSysNice = true;
+        };
       };
     };
 }

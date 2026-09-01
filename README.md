@@ -138,9 +138,8 @@ nixos-install --flake github:boatette/nix#[host] --option max-jobs 3 --option co
 
 ### Steam
 
-If steam doesn't work, try removing `/.local/share/Steam and ~/.steam and/or disabling gpu acceleration
+Steam's embedded CEF browser can fail to start, leaving a blank client window. `-cef-disable-gpu` is applied declaratively in `modules/system/gaming.nix`; if the client still fails, clear its local state:
 
 ```bash
 rm -rf ~/.steam ~/.local/share/Steam
-steam -cef-disable-gpu
 ```
