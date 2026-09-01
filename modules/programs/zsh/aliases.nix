@@ -1,7 +1,7 @@
 { inputs, ... }:
 {
   flake.modules.homeManager.zsh =
-    { config, pkgs, ... }:
+    { config, ... }:
     let
       inherit (config.constants) flakeDir;
 
@@ -9,17 +9,6 @@
     in
     {
       home = {
-        packages = with pkgs; [
-          ouch
-          gnutar
-          gzip
-          bzip2
-          xz
-          zstd
-          unzip
-          p7zip
-        ];
-
         shellAliases = {
           ls = "eza -al --color=always --group-directories-first --icons auto";
           la = "eza -a --color=always --group-directories-first --icons auto";
