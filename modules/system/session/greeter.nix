@@ -6,9 +6,11 @@
         enable = true;
         settings = {
           appearance.hide_logo = true;
-          keyboard = { inherit (config.services.xserver.xkb) layout; };
+          inherit (config.constants) keyboard;
         };
       };
+
+      security.polkit.enable = true;
 
       security.polkit.extraConfig = ''
         polkit.addRule(function(action, subject) {

@@ -21,6 +21,12 @@
       timeZone = "Australia/Hobart";
       stateVersion = "26.11";
 
+      keyboard = {
+        layout = "us,us";
+        variant = ",dvp";
+        options = "caps:super,grp:win_space_toggle";
+      };
+
       fonts = {
         mono = {
           name = "JetBrainsMono Nerd Font";
