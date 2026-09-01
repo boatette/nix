@@ -14,8 +14,7 @@
 
         nfu() {
           env --chdir ${flakeDir} nix run ${flakeDir}#write-flake \
-            && nix flake update --flake ${flakeDir} "$@" \
-            && git -C ${flakeDir} commit -m "chore: update flake lock''${1:+ ($*)}" flake.lock
+            && nix flake update --flake ${flakeDir} --commit-lock-file "$@"
         }
 
         unowned() { find "$@" -not -user "$USER"; }
