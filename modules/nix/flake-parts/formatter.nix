@@ -19,12 +19,6 @@
 
             stylua = {
               command = "stylua";
-              options = [
-                "--column-width=120"
-                "--indent-type=Spaces"
-                "--indent-width=4"
-                "--quote-style=AutoPreferDouble"
-              ];
               includes = [ "*.lua" ];
             };
           };

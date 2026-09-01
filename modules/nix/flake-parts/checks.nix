@@ -10,6 +10,14 @@ let
     inherit root;
     fileset = lib.fileset.fileFilter (file: file.hasExt "nix") root;
   };
+
+  treeFiles = lib.fileset.toSource {
+    inherit root;
+    fileset = lib.fileset.unions [
+      (lib.fileset.fileFilter (file: file.hasExt "nix" || file.hasExt "lua") root)
+      (root + "/.stylua.toml")
+    ];
+  };
 in
 {
   perSystem =
@@ -26,6 +34,13 @@ in
 
           statix = pkgs.runCommandLocal "check-statix" { } ''
             ${lib.getExe pkgs.statix} check ${nixFiles} && touch $out
+          '';
+
+          formatting = pkgs.runCommandLocal "check-formatting" { } ''
+            cp -r --no-preserve=mode ${treeFiles} tree
+            cd tree
+            ${lib.getExe config.formatter} --ci
+            touch $out
           '';
         };
     };
