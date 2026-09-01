@@ -2,27 +2,25 @@
   flake.modules.homeManager.toolchains =
     { pkgs, ... }:
     {
-      home.packages = with pkgs; [
-        cargo
-        clippy
-        gcc
-        gnumake
-        go
-        nodejs
-        python3
-        rustc
-        rustfmt
-        tree-sitter
-      ];
-    };
+      home = {
+        packages = with pkgs; [
+          cargo
+          clippy
+          gcc
+          gnumake
+          go
+          nodejs
+          python3
+          rustc
+          rustfmt
+          tree-sitter
+        ];
 
-  flake.modules.nixos.toolchains =
-    { pkgs, ... }:
-    {
-      environment.sessionVariables = {
-        GOPATH = "$HOME/go";
-        CARGO_HOME = "$HOME/.cargo";
-        RUST_SRC_PATH = "${pkgs.rustPlatform.rustLibSrc}";
+        sessionVariables = {
+          GOPATH = "$HOME/go";
+          CARGO_HOME = "$HOME/.cargo";
+          RUST_SRC_PATH = "${pkgs.rustPlatform.rustLibSrc}";
+        };
       };
     };
 }

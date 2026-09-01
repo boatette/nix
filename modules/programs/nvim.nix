@@ -36,18 +36,20 @@
       nvim.imports = [ inputs.self.modules.nixvim.core ];
     };
 
-    nixos.nvim.environment.sessionVariables = {
-      EDITOR = "nvim";
-      SUDO_EDITOR = "nvim";
-    };
-
     homeManager.nvim =
       { pkgs, ... }:
       {
-        home.packages = [
-          pkgs.local.nvim
-          pkgs.local.vi
-        ];
+        home = {
+          packages = [
+            pkgs.local.nvim
+            pkgs.local.vi
+          ];
+
+          sessionVariables = {
+            EDITOR = "nvim";
+            SUDO_EDITOR = "nvim";
+          };
+        };
       };
   };
 
