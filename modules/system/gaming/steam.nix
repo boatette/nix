@@ -1,11 +1,11 @@
 { inputs, ... }:
 let
-  nvidiaOffload = {
-    __NV_PRIME_RENDER_OFFLOAD = 1;
-    __NV_PRIME_RENDER_OFFLOAD_PROVIDER = "NVIDIA-G0";
-    __GLX_VENDOR_LIBRARY_NAME = "nvidia";
-    __VK_LAYER_NV_optimus = "NVIDIA_only";
-  };
+  nvidiaOffload = [
+    "__NV_PRIME_RENDER_OFFLOAD=1"
+    "__NV_PRIME_RENDER_OFFLOAD_PROVIDER=NVIDIA-G0"
+    "__GLX_VENDOR_LIBRARY_NAME=nvidia"
+    "__VK_LAYER_NV_optimus=NVIDIA_only"
+  ];
 in
 {
   flake-file.inputs.steam-config-nix = {
@@ -54,7 +54,9 @@ in
         "-r"
         refresh
         "--"
-      ];
+        (lib.getExe' pkgs.coreutils "env")
+      ]
+      ++ nvidiaOffload;
     in
     {
       imports = [ inputs.steam-config-nix.homeModules.default ];
@@ -69,21 +71,18 @@ in
           "252950" = {
             name = "Rocket League";
             compatTool = "proton_experimental";
-            env = nvidiaOffload;
             inherit wrappers;
           };
 
           "753640" = {
             name = "Outer Wilds";
             compatTool = "proton_experimental";
-            env = nvidiaOffload;
             inherit wrappers;
           };
 
           "322170" = {
             name = "Geometry Dash";
             dllOverrides."xinput1_4" = "n,b";
-            env = nvidiaOffload;
             inherit wrappers;
           };
         };
