@@ -31,13 +31,13 @@ NixOS configuration for umbriel + noctalia.
 
 ```bash
 cd [flakeDir]
-nix build .#iso # this may take a while
+nix build .#iso
 ```
 
 ### Write it to a raw disk
 
 ```bash
-sudo cp result/iso/*.iso /dev/[disk] # this may take a lot longer for the full iso depending on the drive
+sudo cp result/iso/*.iso /dev/[disk]
 sync
 ```
 
