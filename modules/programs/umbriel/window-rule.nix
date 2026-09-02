@@ -41,6 +41,7 @@
         title = "\\bdvp\\.webp\\b";
       };
       default_floating = true;
+      default_pinned = true;
       default_size = [
         900
         300
