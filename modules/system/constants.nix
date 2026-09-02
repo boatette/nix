@@ -23,7 +23,7 @@
 
       keyboard = {
         layout = "us,us";
-        variant = ",dvp";
+        variant = "dvp,";
         options = "caps:super,grp:win_space_toggle";
       };
 
