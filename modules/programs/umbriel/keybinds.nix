@@ -8,6 +8,7 @@
     in
     {
       "Mod+T" = "spawn:ghostty";
+      "Mod+Return" = "spawn:qimgv $HOME/Pictures/dvp.webp";
       "Mod+W" = "spawn:zen-beta";
       "Mod+E" = "spawn:dolphin";
 
