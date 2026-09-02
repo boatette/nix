@@ -30,4 +30,10 @@ jobs:
 
       - uses: DeterminateSystems/magic-nix-cache-action@main
 
-      - run: nix flake check -L
+      - run: nix flake check --no-build -L
+
+      - name: build non-host checks
+        run: |
+          nix build -L --no-link $(nix eval --raw .#checks.x86_64-linux --apply \
+            'cs: builtins.concatStringsSep " " (map (n: ".#checks.x86_64-linux." + n)
+              (builtins.filter (n: builtins.substring 0 5 n != "host-") (builtins.attrNames cs)))')
