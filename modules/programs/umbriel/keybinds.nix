@@ -8,12 +8,13 @@
     in
     {
       "Mod+T" = "spawn:ghostty";
-      "Mod+Return" = "spawn:qimgv $HOME/Pictures/dvp.webp";
       "Mod+W" = "spawn:zen-beta";
       "Mod+E" = "spawn:dolphin";
 
       "Mod+Alt+W" = "spawn:helium";
       "Mod+Alt+E" = ''spawn:ghostty -e zsh -ic "y; exec zsh"'';
+
+      "Mod+Return" = "spawn:pkill -fx \"qimgv $HOME/Pictures/dvp.webp\" || qimgv $HOME/Pictures/dvp.webp";
 
       "Mod+D" = "spawn:noctalia msg panel-toggle launcher";
       "Mod+X" = "spawn:noctalia msg panel-toggle session";
