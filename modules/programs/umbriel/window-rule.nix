@@ -34,5 +34,22 @@
       match.title = "^Picture-in-Picture$";
       default_floating = true;
     }
+
+    {
+      match = {
+        app_id = "^qimgv$";
+        title = "\\bdvp\\.webp\\b";
+      };
+      default_floating = true;
+      default_size = [
+        900
+        300
+      ];
+      default_position = {
+        x = 0;
+        y = 0;
+        anchor = "bottom_right";
+      };
+    }
   ];
 }
