@@ -32,6 +32,11 @@ jobs:
 
       - uses: DeterminateSystems/magic-nix-cache-action@main
 
+      - name: materialise pkgs.path
+        run: |
+          nix eval --raw .#nixosConfigurations --apply \
+            'cs: builtins.concatStringsSep "\n" (map (c: "${c.pkgs.path}") (builtins.attrValues cs))'
+
       - run: nix flake check --no-build -L
 
       - name: build non-host checks
