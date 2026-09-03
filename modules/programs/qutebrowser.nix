@@ -14,6 +14,9 @@
           colors.webpage.darkmode.enabled = true;
           tabs.show = "multiple";
 
+          url.start_pages = [ "qute://start" ];
+          url.default_page = "qute://start";
+
           new_instance_open_target = "tab-silent";
         };
 
