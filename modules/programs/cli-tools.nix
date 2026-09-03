@@ -22,6 +22,7 @@
           lm_sensors
           nix-tree
           ripgrep
+          microfetch
         ])
         ++ [
           inputs.claude-code.packages.${system}.default
