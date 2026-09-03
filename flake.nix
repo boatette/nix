@@ -4,10 +4,6 @@
   outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./modules);
 
   inputs = {
-    areofyl-fetch = {
-      url = "github:areofyl/fetch";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     claude-code = {
       url = "github:sadjow/claude-code-nix";
       inputs.nixpkgs.follows = "nixpkgs";

@@ -42,8 +42,6 @@
         nix-index
         ssh
         nvim
-        fastfetch
-        fetch
         yazi
         zellij
       ])
