@@ -11,7 +11,6 @@
           1080
           920
         ];
-        blur_popups = false;
       }
 
       {
