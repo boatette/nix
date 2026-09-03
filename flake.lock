@@ -347,6 +347,22 @@
         "type": "github"
       }
     },
+    "noctalia-community-templates": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1788391861,
+        "narHash": "sha256-phCZfurjqrOEy+1RssStJlSJM8szykkFteGpTDyad68=",
+        "owner": "noctalia-dev",
+        "repo": "community-templates",
+        "rev": "83808b68b035146d974283042bca4774379bebcc",
+        "type": "github"
+      },
+      "original": {
+        "owner": "noctalia-dev",
+        "repo": "community-templates",
+        "type": "github"
+      }
+    },
     "pkgs-by-name-for-flake-parts": {
       "locked": {
         "lastModified": 1769286518,
@@ -407,6 +423,7 @@
         "nix-index-database": "nix-index-database",
         "nixpkgs": "nixpkgs_2",
         "nixvim": "nixvim",
+        "noctalia-community-templates": "noctalia-community-templates",
         "pkgs-by-name-for-flake-parts": "pkgs-by-name-for-flake-parts",
         "plugins-everforest-nvim": "plugins-everforest-nvim",
         "plugins-github-monochrome-nvim": "plugins-github-monochrome-nvim",
