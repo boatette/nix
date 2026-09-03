@@ -20,6 +20,17 @@
           url.default_page = "qute://start";
 
           new_instance_open_target = "tab-silent";
+
+          content.blocking.method = "both";
+          content.blocking.adblock.lists = [
+            "https://easylist.to/easylist/easylist.txt"
+            "https://easylist.to/easylist/easyprivacy.txt"
+            "https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/filters.txt"
+            "https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/privacy.txt"
+            "https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/badware.txt"
+            "https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/unbreak.txt"
+            "https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/quick-fixes.txt"
+          ];
         };
 
         searchEngines = {
