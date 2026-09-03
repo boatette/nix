@@ -1,7 +1,7 @@
 {
   flake.modules.homeManager.umbriel.programs.umbriel.settings.window_rule = [
     {
-      match.app_id = "helium|vesktop|gimp|libreoffice";
+      match.app_id = "vesktop|gimp|libreoffice";
       default_maximize = true;
     }
     {
