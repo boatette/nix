@@ -27,7 +27,13 @@
           nix = "https://search.nixos.org/packages?query={}";
         };
 
-        keyBindings.normal."<Ctrl-t>" = "open -t ;; cmd-set-text -s :open";
+        keyBindings.normal = {
+          "<Ctrl-t>" = "open -t ;; cmd-set-text -s :open";
+
+          ",M" = "spawn umpv {url}";
+          ",m" = "hint links spawn umpv {hint-url}";
+          ";M" = "hint --rapid links spawn umpv {hint-url}";
+        };
 
         extraConfig = ''
           if (config.configdir / "noctalia" / "colors.py").exists():
