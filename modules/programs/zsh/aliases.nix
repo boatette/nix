@@ -45,7 +45,7 @@
 
           please = "run0";
           jctl = "journalctl -p 3 -xb";
-          ff = "fastfetch";
+          ff = "microfetch";
           q = "exit";
           ZQ = "exit";
           history = "fc -li 1";
