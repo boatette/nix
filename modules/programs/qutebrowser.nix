@@ -19,7 +19,7 @@
           url.start_pages = [ "qute://start" ];
           url.default_page = "qute://start";
 
-          new_instance_open_target = "tab-silent";
+          new_instance_open_target = "tab";
 
           content.blocking.method = "both";
           content.blocking.adblock.lists = [
