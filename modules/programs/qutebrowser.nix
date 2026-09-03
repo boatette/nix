@@ -27,6 +27,8 @@
           nix = "https://search.nixos.org/packages?query={}";
         };
 
+        keyBindings.normal."<Ctrl-t>" = "open -t ;; cmd-set-text -s :open";
+
         extraConfig = ''
           if (config.configdir / "noctalia" / "colors.py").exists():
               config.source("noctalia/colors.py")
