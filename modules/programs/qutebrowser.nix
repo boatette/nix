@@ -14,6 +14,8 @@
           colors.webpage.darkmode.enabled = true;
           tabs.show = "multiple";
 
+          tabs.last_close = "default-page";
+
           url.start_pages = [ "qute://start" ];
           url.default_page = "qute://start";
 
