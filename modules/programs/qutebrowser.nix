@@ -13,12 +13,19 @@
           fonts.default_size = "${toString mono.size}pt";
           colors.webpage.darkmode.enabled = true;
           tabs.show = "multiple";
+
+          new_instance_open_target = "tab-silent";
         };
 
         searchEngines = {
           DEFAULT = "https://www.startpage.com/sp/search?query={}&prfe=f553b88948f2386e97944a17f918362dbaedfb6381ed1bcb684b1f32e856a0fbc55532682719dcb7ce08628290db7ab6f5fc795492b620e0fc5634f33adfb8e816eaf81977d31c2b9322224f1f2432f1";
           nix = "https://search.nixos.org/packages?query={}";
         };
+
+        extraConfig = ''
+          if (config.configdir / "noctalia" / "colors.py").exists():
+              config.source("noctalia/colors.py")
+        '';
       };
     };
 }
