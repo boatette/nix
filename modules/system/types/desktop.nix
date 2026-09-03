@@ -33,7 +33,6 @@
     ghostty
     konsole
     dolphin
-    zen
     qutebrowser
     noctalia
     umbriel

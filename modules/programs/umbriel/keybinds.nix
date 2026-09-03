@@ -8,7 +8,7 @@
     in
     {
       "Mod+T" = "spawn:ghostty";
-      "Mod+W" = "spawn:zen-beta";
+      "Mod+W" = "spawn:qutebrowser";
       "Mod+E" = "spawn:dolphin";
 
       "Mod+Alt+W" = "spawn:helium";
