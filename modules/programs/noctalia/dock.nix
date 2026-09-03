@@ -20,7 +20,7 @@
 
     pinned = [
       "com.mitchellh.ghostty"
-      "qutebrowser"
+      "org.qutebrowser.qutebrowser"
       "vesktop"
       "steam"
       "org.prismlauncher.PrismLauncher"
