@@ -45,7 +45,25 @@
   flake.modules.nixvim.nvim =
     { lib, ... }:
     {
-      plugins.mini.modules.snippets.snippets =
-        lib.nixvim.mkRaw ''{ require("mini.snippets").gen_loader.from_lang() }'';
+      extraFiles = lib.listToAttrs (
+        map
+          (name: {
+            name = "snippets/${name}.json";
+            value.source = ../snippets/${name}.json;
+          })
+          [
+            "bash"
+            "global"
+            "lua"
+            "nix"
+          ]
+      );
+
+      plugins.mini.modules.snippets.snippets = lib.nixvim.mkRaw ''
+        {
+            require("mini.snippets").gen_loader.from_runtime("global.json"),
+            require("mini.snippets").gen_loader.from_lang(),
+        }
+      '';
     };
 }

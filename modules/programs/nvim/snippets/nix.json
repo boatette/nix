@@ -1,0 +1,288 @@
+{
+  "Flake module": {
+    "prefix": "mod",
+    "description": "flake-parts module (attribute set)",
+    "body": [
+      "{",
+      "  flake.modules.${1|nixos,homeManager,nixvim,generic|}.${2:name} = {",
+      "    $0",
+      "  };",
+      "}"
+    ]
+  },
+  "Flake module (function)": {
+    "prefix": "modf",
+    "description": "flake-parts module taking module arguments",
+    "body": [
+      "{",
+      "  flake.modules.${1|nixos,homeManager,nixvim,generic|}.${2:name} =",
+      "    { ${3:lib}, ... }:",
+      "    {",
+      "      $0",
+      "    };",
+      "}"
+    ]
+  },
+  "Flake module (inputs)": {
+    "prefix": "modi",
+    "description": "flake-parts module that reads flake inputs",
+    "body": [
+      "{ inputs, ... }:",
+      "{",
+      "  flake.modules.${1|nixos,homeManager,nixvim,generic|}.${2:name} = {",
+      "    $0",
+      "  };",
+      "}"
+    ]
+  },
+  "let ... in": {
+    "prefix": "let",
+    "description": "let binding",
+    "body": ["let", "  ${1:name} = ${2:value};", "in", "$0"]
+  },
+  "inherit from": {
+    "prefix": "inh",
+    "description": "inherit (attrs) names",
+    "body": "inherit (${1:config}) ${2:name};"
+  },
+  "inherit constants": {
+    "prefix": "inhc",
+    "description": "inherit from config.constants",
+    "body": "inherit (config.constants) ${1:username};"
+  },
+  "inherit flake constants": {
+    "prefix": "inhs",
+    "description": "inherit from inputs.self.constants",
+    "body": "inherit (inputs.self.constants) ${1:flakeDir};"
+  },
+  "inherit mkRaw": {
+    "prefix": "inhraw",
+    "description": "inherit mkRaw from lib.nixvim",
+    "body": "inherit (lib.nixvim) mkRaw;"
+  },
+  "mkOption": {
+    "prefix": "opt",
+    "description": "declare an option",
+    "body": [
+      "options.${1:name} = lib.mkOption {",
+      "  type = lib.types.${2|str,bool,int,path,package,attrsOf lib.types.unspecified,listOf lib.types.str|};",
+      "  default = ${3:null};",
+      "  description = \"${4:description}\";",
+      "};"
+    ]
+  },
+  "mkEnableOption": {
+    "prefix": "enable",
+    "description": "declare a boolean enable option",
+    "body": "${1:name} = lib.mkEnableOption \"${2:description}\";"
+  },
+  "mkIf": {
+    "prefix": "mkif",
+    "description": "conditional attribute set",
+    "body": ["lib.mkIf ${1:condition} {", "  $0", "}"]
+  },
+  "mkMerge": {
+    "prefix": "mkmerge",
+    "description": "merge a list of attribute sets",
+    "body": ["lib.mkMerge [", "  $0", "]"]
+  },
+  "mkDefault": {
+    "prefix": "mkd",
+    "description": "low priority value",
+    "body": "lib.mkDefault ${1:value}"
+  },
+  "mkForce": {
+    "prefix": "mkf",
+    "description": "high priority value",
+    "body": "lib.mkForce ${1:value}"
+  },
+  "genAttrs": {
+    "prefix": "gen",
+    "description": "build an attribute set from a list of names",
+    "body": ["lib.genAttrs [", "  \"${1:name}\"", "] (${2:_}: ${3:value})"]
+  },
+  "optionals": {
+    "prefix": "optl",
+    "description": "list included only when a condition holds",
+    "body": ["lib.optionals ${1:condition} [", "  $0", "]"]
+  },
+  "optionalAttrs": {
+    "prefix": "opta",
+    "description": "attributes included only when a condition holds",
+    "body": ["lib.optionalAttrs ${1:condition} {", "  $0", "}"]
+  },
+  "with pkgs": {
+    "prefix": "wp",
+    "description": "list of packages",
+    "body": ["with pkgs; [", "  $0", "]"]
+  },
+  "home.packages": {
+    "prefix": "hp",
+    "description": "home-manager packages",
+    "body": ["home.packages = with pkgs; [", "  $0", "];"]
+  },
+  "environment.systemPackages": {
+    "prefix": "sp",
+    "description": "system packages",
+    "body": ["environment.systemPackages = with pkgs; [", "  $0", "];"]
+  },
+  "systemd user service": {
+    "prefix": "svc",
+    "description": "systemd user service",
+    "body": [
+      "systemd.user.services.${1:name} = {",
+      "  Unit.Description = \"${2:description}\";",
+      "",
+      "  Service = {",
+      "    ExecStart = \"${3:command}\";",
+      "    Type = \"${4|oneshot,simple,notify|}\";",
+      "  };",
+      "",
+      "  Install.WantedBy = [ \"default.target\" ];",
+      "};"
+    ]
+  },
+  "systemd user timer": {
+    "prefix": "timer",
+    "description": "systemd user timer",
+    "body": [
+      "systemd.user.timers.${1:name} = {",
+      "  Unit.Description = \"${2:description}\";",
+      "",
+      "  Timer = {",
+      "    OnCalendar = \"${3|hourly,daily,weekly,monthly|}\";",
+      "    Persistent = true;",
+      "  };",
+      "",
+      "  Install.WantedBy = [ \"timers.target\" ];",
+      "};"
+    ]
+  },
+  "xdg.configFile (text)": {
+    "prefix": "xdgt",
+    "description": "config file from an inline string",
+    "body": ["xdg.configFile.\"${1:path}\".text = ''", "  $0", "'';"]
+  },
+  "xdg.configFile (source)": {
+    "prefix": "xdgs",
+    "description": "config file from a path in the flake",
+    "body": "xdg.configFile.\"${1:path}\".source = ./${2:file};"
+  },
+  "package (stdenv)": {
+    "prefix": "pkg",
+    "description": "pkgs-by-name package.nix",
+    "body": [
+      "{",
+      "  lib,",
+      "  stdenv,",
+      "  fetchFromGitHub,",
+      "}:",
+      "stdenv.mkDerivation (finalAttrs: {",
+      "  pname = \"${1:name}\";",
+      "  version = \"${2:0.1.0}\";",
+      "",
+      "  src = fetchFromGitHub {",
+      "    owner = \"${3:owner}\";",
+      "    repo = \"${4:repo}\";",
+      "    tag = \"v\\${finalAttrs.version}\";",
+      "    hash = \"\";",
+      "  };",
+      "",
+      "  meta = {",
+      "    description = \"${5:description}\";",
+      "    license = lib.licenses.${6:mit};",
+      "    platforms = lib.platforms.linux;",
+      "  };",
+      "})"
+    ]
+  },
+  "writeShellApplication": {
+    "prefix": "wsa",
+    "description": "package a shell script",
+    "body": [
+      "{",
+      "  writeShellApplication,",
+      "  ${1:coreutils},",
+      "}:",
+      "writeShellApplication {",
+      "  name = \"${2:name}\";",
+      "  meta.description = \"${3:description}\";",
+      "",
+      "  runtimeInputs = [",
+      "    $1",
+      "  ];",
+      "",
+      "  text = builtins.readFile ./$2.sh;",
+      "}"
+    ]
+  },
+  "readFile": {
+    "prefix": "rf",
+    "description": "read a file from the flake",
+    "body": "builtins.readFile ./${1:file}"
+  },
+  "nixvim keymap": {
+    "prefix": "keymap",
+    "description": "entry for the keymaps list",
+    "body": [
+      "{",
+      "  mode = \"${1|n,i,v,x,t,c|}\";",
+      "  key = \"${2:<leader>}\";",
+      "  action = mkRaw ''",
+      "    function()",
+      "        $0",
+      "    end",
+      "  '';",
+      "  options.desc = \"${3:description}\";",
+      "}"
+    ]
+  },
+  "nixvim autocmd": {
+    "prefix": "autocmd",
+    "description": "entry for the autoCmd list",
+    "body": [
+      "{",
+      "  event = \"${1:BufWritePre}\";",
+      "  group = \"${2:Group}\";",
+      "  desc = \"${3:description}\";",
+      "  callback = mkRaw ''",
+      "    function(ev)",
+      "        $0",
+      "    end",
+      "  '';",
+      "}"
+    ]
+  },
+  "mkRaw function": {
+    "prefix": "raw",
+    "description": "raw lua function",
+    "body": ["mkRaw ''", "  function()", "      $0", "  end", "''"]
+  },
+  "nixvim lsp server": {
+    "prefix": "lsp",
+    "description": "language server entry",
+    "body": [
+      "${1:name} = {",
+      "  enable = true;",
+      "  package = null;",
+      "",
+      "  config = {",
+      "    $0",
+      "  };",
+      "};"
+    ]
+  },
+  "nixvim plugin": {
+    "prefix": "plug",
+    "description": "plugin with settings",
+    "body": [
+      "plugins.${1:name} = {",
+      "  enable = true;",
+      "",
+      "  settings = {",
+      "    $0",
+      "  };",
+      "};"
+    ]
+  }
+}
