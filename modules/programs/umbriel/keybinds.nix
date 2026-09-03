@@ -11,7 +11,6 @@
       "Mod+W" = "spawn:qutebrowser";
       "Mod+E" = "spawn:dolphin";
 
-      "Mod+Alt+W" = "spawn:helium";
       "Mod+Alt+E" = ''spawn:ghostty -e zsh -ic "y; exec zsh"'';
 
       "Mod+Return" = "spawn:pkill -fx \"qimgv $HOME/Pictures/dvp.webp\" || qimgv $HOME/Pictures/dvp.webp";
