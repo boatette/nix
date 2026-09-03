@@ -11,7 +11,6 @@
     ];
 
     community_ids = [
-      "zen-browser"
       "discord"
       "lazygit"
       "prismlauncher"
