@@ -41,6 +41,8 @@
         keyBindings.normal = {
           "<Ctrl-t>" = "open -t ;; cmd-set-text -s :open";
 
+          ",v" = "fake-key <Ctrl-a>";
+
           ",M" = "spawn umpv {url}";
           ",m" = "hint links spawn umpv {hint-url}";
           ";M" = "hint --rapid links spawn umpv {hint-url}";
