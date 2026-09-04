@@ -15,6 +15,7 @@
           tabs.show = "multiple";
 
           tabs.last_close = "default-page";
+          auto_save.session = true;
 
           url.start_pages = [ "qute://start" ];
           url.default_page = "qute://start";
