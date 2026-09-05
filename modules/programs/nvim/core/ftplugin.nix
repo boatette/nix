@@ -73,10 +73,6 @@
           ''
         )
 
-        (mkFt [ "oil" ] "No colourcolumn in oil" ''
-          vim.opt_local.colorcolumn = ""
-        '')
-
         (mkFt [ "help" ] "Open :help in a vertical split" ''
           local function vertical()
               if vim.bo.buftype == "help" and vim.api.nvim_win_get_config(0).relative == "" then

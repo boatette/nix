@@ -12,7 +12,6 @@
             "bashls"
             "eslint"
             "glsl_analyzer"
-            "gradle_ls"
             "jsonls"
             "ols"
             "qmlls"
