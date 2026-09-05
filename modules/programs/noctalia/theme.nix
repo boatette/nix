@@ -7,8 +7,7 @@
       "gtk4"
       "kcolorscheme"
       "qt"
-      # NOTE: add back once noctalia updates
-      # "umbriel"
+      "umbriel"
     ];
 
     community_ids = [

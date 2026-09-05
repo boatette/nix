@@ -1,7 +1,6 @@
 {
   flake.modules.homeManager.umbriel.programs.umbriel.settings = {
-    # NOTE: change to "noctalia.toml" after noctalia updates
-    include.files = [ "noctalia-theme.toml" ];
+    include.files = [ "noctalia.toml" ];
 
     window_rule = [
       {
