@@ -36,6 +36,9 @@
           nrb = rebuild.os "boot";
           nrt = rebuild.os "test";
           nrd = rebuild.dryBuild;
+          nfu = rebuild.update;
+          nup = rebuild.upgrade;
+          ncl = rebuild.clean;
           ngl = "nixos-rebuild list-generations";
           ns = "nix search nixpkgs";
           nb = "nix path-info -rSh /run/current-system | sort -hk2 | tail -30";
