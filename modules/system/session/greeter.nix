@@ -1,24 +1,21 @@
+{ inputs, ... }:
 {
+  flake-file.inputs.noctalia-greeter.url = "github:noctalia-dev/noctalia-greeter";
+
   flake.modules.nixos.greeter =
     { config, ... }:
     {
-      services.displayManager.noctalia-greeter = {
+      imports = [ inputs.noctalia-greeter.nixosModules.default ];
+
+      programs.noctalia-greeter = {
         enable = true;
+
         settings = {
           appearance.hide_logo = true;
           inherit (config.constants) keyboard;
         };
+
+        passwordless-sync-users = [ config.constants.username ];
       };
-
-      security.polkit.enable = true;
-
-      security.polkit.extraConfig = ''
-        polkit.addRule(function(action, subject) {
-            if (action.id == "org.noctalia.greeter.apply-appearance" &&
-                subject.local && subject.active && subject.isInGroup("wheel")) {
-                return polkit.Result.YES;
-            }
-        });
-      '';
     };
 }
