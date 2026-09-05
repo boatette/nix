@@ -12,6 +12,9 @@
         systemd.enable = true;
       };
 
-      home.packages = [ pkgs.imagemagick ];
+      home.packages = with pkgs; [
+        imagemagick
+        glib
+      ];
     };
 }
