@@ -5,14 +5,23 @@
       writeFlake = "nix run ${flakeDir}#write-flake";
 
       os = mode: "nh os ${mode} ${flakeDir}";
+
+      cleanArgs = "--keep 5 --keep-since 7d";
+
+      update = "${writeFlake} && nix flake update --flake ${flakeDir} --commit-lock-file";
     in
     {
-      inherit writeFlake os;
+      inherit
+        writeFlake
+        os
+        cleanArgs
+        update
+        ;
 
       dryBuild = "nixos-rebuild dry-build --flake ${flakeDir}";
 
-      update = "${writeFlake} && nix flake update --flake ${flakeDir} --commit-lock-file";
+      clean = "nh clean all ${cleanArgs}";
 
-      upgrade = "${writeFlake} && nix flake update --flake ${flakeDir} --commit-lock-file && ${os "switch"}";
+      upgrade = "${update} && ${os "switch"}";
     };
 }

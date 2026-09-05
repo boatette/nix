@@ -47,6 +47,8 @@
             panel_placement = "attached";
             show_update_available_notification = false;
             update_command = rebuild.upgrade;
+            clean_command = rebuild.clean;
+            hide_optimize_button = true;
           };
 
           "boatette/auto-theme".default_dynamic_scheme = "vibrant";

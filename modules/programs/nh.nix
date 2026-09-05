@@ -1,14 +1,20 @@
+{ inputs, ... }:
 {
   flake.modules.nixos.nh =
     { config, ... }:
+    let
+      inherit (config.constants) flakeDir;
+
+      rebuild = inputs.self.lib.rebuild flakeDir;
+    in
     {
       programs.nh = {
         enable = true;
-        flake = config.constants.flakeDir;
+        flake = flakeDir;
 
         clean = {
           enable = true;
-          extraArgs = "--keep 5 --keep-since 7d";
+          extraArgs = rebuild.cleanArgs;
         };
       };
 

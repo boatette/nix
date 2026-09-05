@@ -1,23 +1,13 @@
-{ inputs, ... }:
 {
-  flake.modules.homeManager.zsh =
-    { config, ... }:
-    let
-      inherit (config.constants) flakeDir;
+  flake.modules.homeManager.zsh = {
+    programs.zsh.initContent = ''
+      mkcd() { mkdir -p -- "$1" && cd "$1"; }
 
-      rebuild = inputs.self.lib.rebuild flakeDir;
-    in
-    {
-      programs.zsh.initContent = ''
-        mkcd() { mkdir -p -- "$1" && cd "$1"; }
+      nsh() { nix shell "''${@/#/nixpkgs#}"; }
 
-        nsh() { nix shell "''${@/#/nixpkgs#}"; }
+      nrun() { local pkg="$1"; shift; nix run "nixpkgs#$pkg" -- "$@"; }
 
-        nrun() { local pkg="$1"; shift; nix run "nixpkgs#$pkg" -- "$@"; }
-
-        nfu() { ${rebuild.update} "$@"; }
-
-        unowned() { find "$@" -not -user "$USER"; }
-      '';
-    };
+      unowned() { find "$@" -not -user "$USER"; }
+    '';
+  };
 }
