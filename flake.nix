@@ -34,6 +34,7 @@
       url = "github:noctalia-dev/community-templates";
       flake = false;
     };
+    noctalia-greeter.url = "github:noctalia-dev/noctalia-greeter";
     pkgs-by-name-for-flake-parts.url = "github:drupol/pkgs-by-name-for-flake-parts";
     plugins-everforest-nvim = {
       url = "github:neanias/everforest-nvim";
