@@ -29,6 +29,7 @@
       url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    noctalia.url = "github:noctalia-dev/noctalia/cachix";
     noctalia-community-templates = {
       url = "github:noctalia-dev/community-templates";
       flake = false;
