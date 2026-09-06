@@ -1,9 +1,7 @@
 {
   flake.modules.homeManager.umbriel.programs.umbriel = {
-    validateConfig = false;
-
     settings = {
-      include.files = [ "noctalia.toml" ];
+      include.optional.files = [ "noctalia.toml" ];
 
       window_rule = [
         {
