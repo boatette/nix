@@ -38,8 +38,10 @@
 
         archive-tools
         bat
+        direnv
         git
         nix-index
+        nix-your-shell
         ssh
         nvim
         yazi
