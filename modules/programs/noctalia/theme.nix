@@ -11,13 +11,17 @@
     ];
 
     community_ids = [
+      "claude-code"
       "discord"
-      "lazygit"
+      "gimp"
+      "libreoffice"
       "prismlauncher"
       "steam"
-      "yazi"
-      "bat"
       "zellij"
+      "bat"
+      "fzf"
+      "lazygit"
+      "yazi"
     ];
   };
 }
