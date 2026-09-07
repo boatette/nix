@@ -46,7 +46,25 @@
         searchEngines = {
           DEFAULT = "https://www.startpage.com/sp/search?query={}&prfe=f553b88948f2386e97944a17f918362dbaedfb6381ed1bcb684b1f32e856a0fbc55532682719dcb7ce08628290db7ab6f5fc795492b620e0fc5634f33adfb8e816eaf81977d31c2b9322224f1f2432f1";
           search = "https://www.startpage.com/sp/search?query={}&prfe=f553b88948f2386e97944a17f918362dbaedfb6381ed1bcb684b1f32e856a0fbc55532682719dcb7ce08628290db7ab6f5fc795492b620e0fc5634f33adfb8e816eaf81977d31c2b9322224f1f2432f1";
-          nix = "https://search.nixos.org/packages?channel=unstable&query={}";
+          nixpkg = "https://search.nixos.org/packages?channel=unstable&query={}";
+          nixopt = "https://search.nixos.org/options?channel=unstable&query={}";
+          hm = "https://home-manager-options.extranix.com/?query={}&release=master";
+          noogle = "https://noogle.dev/q?term={}";
+          nixwiki = "https://wiki.nixos.org/w/index.php?search={}";
+          nixdisc = "https://discourse.nixos.org/search?q={}";
+
+          youtube = "https://youtube.com/results?search_query={}";
+          gh = "https://github.com/search?q={}&type=repositories";
+          ghc = "https://github.com/search?q={}&type=code";
+          so = "https://stackoverflow.com/search?q={}";
+          reddit = "https://www.reddit.com/search/?q={}";
+          wiki = "https://en.wikipedia.org/w/index.php?search={}";
+          aw = "https://wiki.archlinux.org/index.php?search={}";
+          man = "https://man.archlinux.org/search?q={}";
+          mdn = "https://developer.mozilla.org/en-US/search?q={}";
+          crates = "https://crates.io/search?q={}";
+          docsrs = "https://docs.rs/releases/search?query={}";
+          archive = "https://web.archive.org/web/{}";
         };
 
         keyBindings.normal = {
