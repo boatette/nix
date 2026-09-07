@@ -1,12 +1,21 @@
 {
   flake.modules.homeManager.qutebrowser =
-    { config, ... }:
+    { config, pkgs, ... }:
     let
       inherit (config.constants.fonts) mono;
     in
     {
       programs.qutebrowser = {
         enable = true;
+
+        package = pkgs.qutebrowser.overrideAttrs (prev: {
+          postPatch = (prev.postPatch or "") + ''
+            substituteInPlace qutebrowser/app.py \
+              --replace-fail \
+                "command_target = config.val.new_instance_open_target" \
+                "command_target = 'tab-silent'"
+          '';
+        });
 
         settings = {
           fonts.default_family = mono.name;
