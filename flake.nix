@@ -57,5 +57,9 @@
     };
     umbriel.url = "github:noctalia-dev/umbriel";
     xdg-desktop-portal-umbriel.url = "github:noctalia-dev/xdg-desktop-portal-umbriel";
+    yazi-plugins = {
+      url = "github:yazi-rs/plugins";
+      flake = false;
+    };
   };
 }
