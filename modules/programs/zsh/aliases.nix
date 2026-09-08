@@ -62,6 +62,7 @@
           cat = "bat";
           lg = "lazygit";
           z = "zellij";
+          zd = "zellij --layout dev";
 
           gs = "git status";
           ga = "git add";
