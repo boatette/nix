@@ -1,4 +1,14 @@
 { inputs, lib, ... }:
+let
+  isPortrait =
+    m:
+    lib.elem (toString (m.transform or "normal")) [
+      "90"
+      "270"
+      "flipped-90"
+      "flipped-270"
+    ];
+in
 {
   flake.modules.homeManager.umbriel =
     { osConfig, ... }:
@@ -18,6 +28,8 @@
           ];
 
           workspaces = 10;
+
+          workspace_axis = if isPortrait m then "horizontal" else "vertical";
         }
         // lib.optionalAttrs (m.mode or null != null) { inherit (m) mode; }
       ) (inputs.self.monitors.${osConfig.networking.hostName} or { });
