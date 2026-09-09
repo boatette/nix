@@ -1,9 +1,28 @@
 {
   flake.modules.homeManager.umbriel.programs.umbriel.settings.window_rule = [
     {
-      match.app_id = "^steam$";
+      match.app_id = "^steam(webhelper)?$";
+      default_floating = true;
+    }
+
+    {
+      match = {
+        app_id = "^steam$";
+        title = "^Steam$";
+      };
+      default_floating = false;
       default_maximize = true;
     }
+
+    {
+      match = {
+        app_id = "^steam$";
+        title = "^Steam Big Picture Mode$";
+      };
+      default_floating = false;
+      default_fullscreen = true;
+    }
+
     {
       match = {
         app_id = "^steam$";
