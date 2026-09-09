@@ -7,8 +7,8 @@
     blur = {
       enabled = true;
       optimized = true;
-      passes = 3;
-      radius = 3;
+      passes = 4;
+      radius = 4;
       noise = 0.02;
       brightness = 0.9;
       contrast = 0.9;
