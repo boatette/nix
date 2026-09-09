@@ -9,6 +9,7 @@
         backup
         gaming
         libvirt
+        secure-boot
 
         boatette
       ];

@@ -23,8 +23,8 @@
         kernelModules = [ "kvm-intel" ];
         extraModulePackages = [ ];
 
-        #   resumeDevice = "/dev/mapper/cryptroot";
-        #   kernelParams = [ "resume_offset=<new offset>" ];
+        resumeDevice = "/dev/mapper/cryptroot";
+        kernelParams = [ "resume_offset=533760" ];
       };
 
       hardware = {
