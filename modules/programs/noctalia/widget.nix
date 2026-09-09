@@ -30,6 +30,6 @@
 
     umbriel-companion.type = "noctalia/umbriel-companion:bar";
 
-    workspaces.style = "minimal";
+    workspaces.style = "regular";
   };
 }
