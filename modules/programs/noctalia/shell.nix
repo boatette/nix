@@ -42,6 +42,8 @@
             wallpaper.prefix = "";
             windows.prefix = "@";
           };
+
+          show_app_actions = true;
         };
 
         panel = {
