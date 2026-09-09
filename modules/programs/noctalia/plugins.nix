@@ -44,7 +44,7 @@
         plugin_settings = {
           "avivbintangaringga/nix-monitor" = {
             branch = "nixos-unstable";
-            panel_placement = "attached";
+            panel_placement = "floating";
             show_update_available_notification = false;
             update_command = rebuild.upgrade;
             clean_command = rebuild.clean;
@@ -52,12 +52,13 @@
           };
 
           "boatette/auto-theme".default_dynamic_scheme = "m3-content";
-          "dotnetrob/cat".panel_placement = "attached";
+          "dotnetrob/cat".panel_placement = "floating";
           "noctalia/wallhaven" = {
-            browser_placement = "attached";
+            browser_placement = "floating";
             browser_position = "top_center";
             download_dir = "~/Pictures/Wallpapers/Dynamic";
           };
+          "noctalia/umbriel-companion".panel_placement = "floating";
         };
       };
     };

@@ -49,11 +49,11 @@
           transparency_mode = "soft";
           list_item_background = true;
 
-          clipboard_placement = "attached";
-          control_center_placement = "attached";
+          clipboard_placement = "floating";
+          control_center_placement = "floating";
           launcher_placement = "floating";
-          session_placement = "attached";
-          wallpaper_placement = "attached";
+          session_placement = "floating";
+          wallpaper_placement = "floating";
 
           clipboard_position = "auto";
           session_position = "top_center";
@@ -97,6 +97,8 @@
               ((action "shutdown" "s") // { variant = "destructive"; })
             ];
         };
+
+        shadow.alpha = 0.0;
       };
     };
 }

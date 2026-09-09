@@ -3,7 +3,7 @@
     { config, ... }:
     {
       programs.noctalia.settings.bar.default = {
-        position = "top";
+        position = "left";
 
         thickness = 32;
 
@@ -15,31 +15,31 @@
 
         padding = 10;
         widget_spacing = 12;
-        margin_ends = 50;
+        margin_ends = 0;
 
-        capsule_radius = 4.0;
+        capsule_radius = 0.0;
 
         start = [
-          "cat"
-          "nix-monitor"
           "umbriel-companion"
+          "workspaces"
           "audio_visualizer"
           "media"
         ];
 
         center = [
-          "workspaces"
+          "clock"
         ];
 
         end = [
           "tray"
+          "nix-monitor"
           "network"
           "bluetooth"
           "volume"
           "notifications"
           "battery"
           "clipboard"
-          "clock"
+          "cat"
         ];
 
         dead_zone.actions = {
