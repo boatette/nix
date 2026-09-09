@@ -51,7 +51,7 @@
             hide_optimize_button = true;
           };
 
-          "boatette/auto-theme".default_dynamic_scheme = "vibrant";
+          "boatette/auto-theme".default_dynamic_scheme = "m3-content";
           "dotnetrob/cat".panel_placement = "attached";
           "noctalia/wallhaven" = {
             browser_placement = "attached";
