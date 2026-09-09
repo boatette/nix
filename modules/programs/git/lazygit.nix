@@ -40,12 +40,16 @@
           showFileTree = true;
         };
 
-        git.diffRenderers = [
-          {
-            colorArg = "always";
-            command = "delta --paging=never";
-          }
-        ];
+        git = {
+          overrideGpg = true;
+
+          diffRenderers = [
+            {
+              colorArg = "always";
+              command = "delta --paging=never";
+            }
+          ];
+        };
       };
     };
 }
