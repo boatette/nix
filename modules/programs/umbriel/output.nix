@@ -27,7 +27,7 @@ in
             (m.position.y or 0)
           ];
 
-          workspaces = 10;
+          min_workspaces = 5;
 
           workspace_axis = if isPortrait m then "horizontal" else "vertical";
         }
