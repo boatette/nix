@@ -5,8 +5,8 @@
     scrolling.default_width_fraction = 0.5;
 
     struts = {
-      left = 40;
-      right = 40;
+      left = 10;
+      right = 10;
     };
   };
 }
