@@ -5,7 +5,7 @@
     reserve_space = false;
     smart_auto_hide = true;
 
-    background_opacity = 0.5;
+    background_opacity = 0.8;
 
     icon_size = 40;
 

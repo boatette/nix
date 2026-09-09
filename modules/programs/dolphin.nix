@@ -24,12 +24,12 @@
         };
 
         darklyrc.Style = {
-          DolphinViewOpacity = 50;
-          DolphinSidebarOpacity = 50;
-          MenuOpacity = 50;
-          MenuBarOpacity = 50;
-          ToolBarOpacity = 50;
-          TabBarOpacity = 50;
+          DolphinViewOpacity = 80;
+          DolphinSidebarOpacity = 80;
+          MenuOpacity = 80;
+          MenuBarOpacity = 80;
+          ToolBarOpacity = 80;
+          TabBarOpacity = 80;
         };
       };
 

@@ -9,7 +9,7 @@
 
         font_family = config.constants.fonts.mono.name;
 
-        background_opacity = 0.5;
+        background_opacity = 0.8;
 
         radius = 4;
         radius_bottom_left = 4;

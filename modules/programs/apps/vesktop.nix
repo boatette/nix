@@ -52,7 +52,7 @@
         }
 
         body {
-          --alpha: 50%;
+          --alpha: 80%;
 
           --bg-1: color-mix(in srgb, var(--bg-src-1) var(--alpha), transparent) !important;
           --bg-2: color-mix(in srgb, var(--bg-src-2) var(--alpha), transparent) !important;

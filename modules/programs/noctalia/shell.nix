@@ -44,7 +44,7 @@
 
         panel = {
           borders = false;
-          transparency_mode = "glass";
+          transparency_mode = "soft";
           list_item_background = true;
 
           clipboard_placement = "attached";
