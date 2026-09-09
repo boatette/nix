@@ -2,7 +2,6 @@
   flake.modules.nixos.aspire =
     {
       config,
-      lib,
       modulesPath,
       pkgs,
       ...
@@ -19,8 +18,6 @@
             "usb_storage"
             "sd_mod"
           ];
-
-          kernelModules = [ "i915" ];
         };
 
         kernelModules = [ "kvm-intel" ];
@@ -32,9 +29,6 @@
       };
 
       hardware = {
-        cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
-        graphics.extraPackages = [ pkgs.intel-media-driver ];
-
         nvidia = {
           open = true;
           modesetting.enable = true;

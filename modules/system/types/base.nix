@@ -7,9 +7,11 @@
 
         boot
         btrfs
+        firmware
         locale
         networking
         nix-settings
+        smart
         users
         zram
 
