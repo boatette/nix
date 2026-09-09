@@ -17,7 +17,7 @@
 
         partitions = {
           ESP = {
-            size = "1G";
+            size = "2G";
             type = "EF00";
             content = {
               type = "filesystem";
@@ -33,30 +33,37 @@
           root = {
             size = "100%";
             content = {
-              type = "btrfs";
-              extraArgs = [ "-f" ];
+              type = "luks";
+              name = "cryptroot";
 
-              subvolumes =
-                let
-                  subvol = mountpoint: {
-                    inherit mountpoint;
-                    mountOptions = [
-                      "compress=zstd"
-                      "noatime"
-                    ];
-                  };
-                in
-                {
-                  "root" = subvol "/";
-                  "home" = subvol "/home";
-                  "nix" = subvol "/nix";
+              settings.allowDiscards = true;
 
-                  "swap" = {
-                    mountpoint = "/.swapvol";
-                    mountOptions = [ "noatime" ];
-                    swap.swapfile.size = "20G";
+              content = {
+                type = "btrfs";
+                extraArgs = [ "-f" ];
+
+                subvolumes =
+                  let
+                    subvol = mountpoint: {
+                      inherit mountpoint;
+                      mountOptions = [
+                        "compress=zstd"
+                        "noatime"
+                      ];
+                    };
+                  in
+                  {
+                    "root" = subvol "/";
+                    "home" = subvol "/home";
+                    "nix" = subvol "/nix";
+
+                    "swap" = {
+                      mountpoint = "/.swapvol";
+                      mountOptions = [ "noatime" ];
+                      swap.swapfile.size = "20G";
+                    };
                   };
-                };
+              };
             };
           };
         };

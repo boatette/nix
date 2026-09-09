@@ -71,6 +71,8 @@ The image carries the flake at `/etc/nixos-config`, a symlink to the store path 
 
    Drop `--dry-run` to do it. It destroys the disk it names.
 
+   The root partition is LUKS2. `disko` prompts for the passphrase while formatting; there is no keyfile and no way to recover the volume without it.
+
 3. Install. It asks for the root password at the end:
 
    ```bash
@@ -93,7 +95,15 @@ The image carries the flake at `/etc/nixos-config`, a symlink to the store path 
    chown -R 1000:100 /mnt/home/[user]
    ```
 
-6. Reboot.
+6. Reboot. The passphrase prompt appears over the boot splash.
+
+7. Hibernation is off until the swapfile offset is re-derived, because the LUKS2 header shifts every offset inside the mapper relative to the raw partition:
+
+   ```bash
+   sudo btrfs inspect-internal map-swapfile -r /.swapvol/swapfile
+   ```
+
+   Restore both lines in `modules/hosts/[host]/hardware.nix` with the value it prints, pointing `resumeDevice` at the mapper rather than the partition, then rebuild and test `systemctl hibernate` before trusting it.
 
 ### Fetch the repo without a clone
 
@@ -133,6 +143,59 @@ nixos-install --flake github:boatette/nix#[host] --option max-jobs 3 --option co
 > ```bash
 > curl -sL https://raw.githubusercontent.com/boatette/nix/master/README.md | grep -m1 '^nixos-install '
 > ```
+
+## Secure Boot
+
+Secure Boot is handled by [lanzaboote](https://github.com/nix-community/lanzaboote), which replaces `systemd-boot` and signs each generation as a UKI. The module lives at `modules/system/settings/secure-boot.nix` and is **not** imported by default: on a fresh install there are no signing keys yet, so enabling it would fail the bootloader install. Do it in this order.
+
+1. Create the keys. They land in `/var/lib/sbctl`.
+
+   ```bash
+   sudo sbctl create-keys
+   ```
+
+2. Add `secure-boot` to the host's imports in `modules/hosts/[host]/configuration.nix`, rebuild, and check every generation got signed. The raw `...-bzImage.efi` is expected to be unsigned.
+
+   ```bash
+   sudo sbctl verify
+   ```
+
+3. Reboot into the firmware. `boot.loader.timeout` is 0, so **hold Space** during boot to reach the menu and its "Reboot Into Firmware Interface" entry. Then put the firmware into Setup Mode.
+
+4. Boot back into NixOS and enroll:
+
+   ```bash
+   sudo sbctl enroll-keys --microsoft
+   ```
+
+   `--microsoft` matters here. This machine has an NVIDIA dGPU whose OptionROM is Microsoft-signed, and dropping those keys is a common way to end up unable to boot.
+
+5. Reboot and confirm:
+
+   ```bash
+   bootctl status   # Secure Boot: enabled (user), TPM2 Support: yes
+   ```
+
+### TPM2 auto-unlock
+
+Only after Secure Boot is enabled, PCR 7 measures Secure Boot state, so enrolling earlier just means the unlock fails and you get the passphrase prompt back.
+
+```bash
+sudo systemd-cryptenroll /dev/disk/by-id/[disk]-part2 --tpm2-device=auto --tpm2-pcrs=7
+sudo systemd-cryptenroll /dev/disk/by-id/[disk]-part2 --recovery-key
+```
+
+PCR 7 alone is the right tradeoff: it refuses to release the key if Secure Boot is disabled or the keys are swapped, while surviving kernel and generation changes. PCR 0 would break on every firmware update, and PCR 11 changes on every rebuild.
+
+**Write the recovery key down somewhere that is not this laptop.** The original passphrase keyslot survives enrollment, but if you lose both and the TPM is cleared the data is gone.
+
+Then add `crypttabExtraOpts = [ "tpm2-device=auto" ];` to the LUKS `settings` in `modules/hosts/[host]/disko.nix`, rebuild, and confirm it unlocks without prompting.
+
+> [!TIP]
+>
+> If a firmware update invalidates the enrollment, the passphrase prompt simply comes back, it is not a lockout. Re-enroll with `systemd-cryptenroll --wipe-slot=tpm2 ... --tpm2-device=auto --tpm2-pcrs=7`.
+>
+> If the machine refuses to boot at all after enrolling keys, disable Secure Boot in the firmware, boot, and `sbctl reset`.
 
 ## Known Issues
 

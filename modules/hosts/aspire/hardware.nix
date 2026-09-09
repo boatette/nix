@@ -23,9 +23,8 @@
         kernelModules = [ "kvm-intel" ];
         extraModulePackages = [ ];
 
-        resumeDevice = "/dev/disk/by-id/nvme-WD_PC_SN740_SDDQNQD-512G-1014_2309F9403437-part2";
-
-        kernelParams = [ "resume_offset=32253184" ];
+        #   resumeDevice = "/dev/mapper/cryptroot";
+        #   kernelParams = [ "resume_offset=<new offset>" ];
       };
 
       hardware = {
