@@ -62,14 +62,20 @@
           --hover: color-mix(in srgb, var(--hover-src) 40%, transparent) !important;
           --active: color-mix(in srgb, var(--active-src) 55%, transparent) !important;
           --message-hover: color-mix(in srgb, var(--message-hover-src) 40%, transparent) !important;
+        }
 
-          --remove-bg-layer: on !important;
-          --transparency-tweaks: on !important;
+        body {
+          --background-base-lowest: color-mix(in srgb, var(--bg-src-4) var(--alpha), transparent) !important;
+          --background-base-lower: color-mix(in srgb, var(--bg-src-4) var(--alpha), transparent) !important;
+          --background-base-low: color-mix(in srgb, var(--bg-src-3) var(--alpha), transparent) !important;
+
+          --background-surface-high: color-mix(in srgb, var(--bg-src-2) var(--alpha), transparent) !important;
+          --background-surface-higher: color-mix(in srgb, var(--bg-src-2) var(--alpha), transparent) !important;
+          --background-surface-highest: color-mix(in srgb, var(--bg-src-1) var(--alpha), transparent) !important;
         }
 
         html,
-        body,
-        #app-mount {
+        body {
           background: transparent !important;
         }
       '';
