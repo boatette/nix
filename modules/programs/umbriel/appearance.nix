@@ -14,5 +14,7 @@
       contrast = 0.9;
       saturation = 1.1;
     };
+
+    shadow.enabled = false;
   };
 }
