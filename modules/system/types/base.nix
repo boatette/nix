@@ -41,6 +41,7 @@
         archive-tools
         bat
         direnv
+        fzf
         git
         nix-index
         nix-your-shell

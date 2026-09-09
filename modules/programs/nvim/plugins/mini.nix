@@ -12,6 +12,7 @@
         modules = {
           icons = { };
           ai = { };
+          diff = { };
           splitjoin = { };
 
           hipatterns.highlighters.hex_color = mkRaw ''require("mini.hipatterns").gen_highlighter.hex_color()'';

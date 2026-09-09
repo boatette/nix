@@ -12,6 +12,7 @@
             "bashls"
             "eslint"
             "glsl_analyzer"
+            "gopls"
             "jsonls"
             "ols"
             "qmlls"
@@ -29,6 +30,7 @@
         bash-language-server
         clang-tools
         glsl_analyzer
+        gopls
         kdePackages.qtdeclarative
         lua-language-server
         nixd

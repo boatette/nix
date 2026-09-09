@@ -7,7 +7,9 @@
     {
       extraPackages = with pkgs; [
         clang-tools
+        gofumpt
         google-java-format
+        gotools
         ktlint
         nixfmt
         prettierd
@@ -28,6 +30,11 @@
             c = [ "clang_format" ];
             cpp = [ "clang_format" ];
             glsl = [ "clang_format" ];
+
+            go = [
+              "goimports"
+              "gofumpt"
+            ];
 
             java = [ "google-java-format" ];
             kotlin = [ "ktlint" ];

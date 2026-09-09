@@ -6,9 +6,11 @@
         cpplint
         deadnix
         eslint_d
+        golangci-lint
         ktlint
         markdownlint-cli2
         ruff
+        shellcheck
         statix
       ];
 
@@ -17,7 +19,11 @@
         autoInstall.enable = false;
 
         lintersByFt = {
+          bash = [ "shellcheck" ];
+          sh = [ "shellcheck" ];
+
           cpp = [ "cpplint" ];
+          go = [ "golangcilint" ];
           kotlin = [ "ktlint" ];
           markdown = [ "markdownlint-cli2" ];
           python = [ "ruff" ];
