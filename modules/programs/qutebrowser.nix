@@ -70,6 +70,11 @@
         keyBindings.normal = {
           "<Ctrl-t>" = "open -t ;; cmd-set-text -s :open";
 
+          "H" = "tab-prev";
+          "L" = "tab-next";
+          "J" = "forward";
+          "K" = "back";
+
           ",v" = "fake-key <Ctrl-a>";
 
           ",M" = "spawn umpv {url}";
