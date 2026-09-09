@@ -12,6 +12,8 @@
         app_icon_color = "primary";
         app_icon_colorize = false;
 
+        corner_radius_scale = 0.0;
+
         button_borders = false;
         card_borders = false;
         input_borders = false;

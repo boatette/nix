@@ -11,11 +11,7 @@
 
         background_opacity = 0.8;
 
-        radius = 4;
-        radius_bottom_left = 4;
-        radius_bottom_right = 4;
-        radius_top_left = 4;
-        radius_top_right = 4;
+        radius = 0;
 
         padding = 10;
         widget_spacing = 12;

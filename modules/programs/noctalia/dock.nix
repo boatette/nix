@@ -9,11 +9,7 @@
 
     icon_size = 40;
 
-    radius = 4;
-    radius_bottom_left = 4;
-    radius_bottom_right = 4;
-    radius_top_left = 4;
-    radius_top_right = 4;
+    radius = 0;
 
     show_dots = true;
     show_instance_count = false;
