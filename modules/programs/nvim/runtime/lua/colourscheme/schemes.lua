@@ -52,11 +52,7 @@ local SCHEMES = {
 
     nord = { provider = "nord", scheme = "nord" },
 
-    monochrome = {
-        provider = "github-monochrome",
-        dark = "github-monochrome-zenbones",
-        light = "github-monochrome-light",
-    },
+    monochrome = { provider = "zenwritten", scheme = "zenwritten" },
 }
 
 function M.resolve(name, is_light)

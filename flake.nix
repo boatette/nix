@@ -47,14 +47,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     pkgs-by-name-for-flake-parts.url = "github:drupol/pkgs-by-name-for-flake-parts";
-    plugins-everforest-nvim = {
-      url = "github:neanias/everforest-nvim";
-      flake = false;
-    };
-    plugins-github-monochrome-nvim = {
-      url = "github:idr4n/github-monochrome.nvim";
-      flake = false;
-    };
     selector = {
       url = "github:boatette/selector";
       inputs.nixpkgs.follows = "nixpkgs";

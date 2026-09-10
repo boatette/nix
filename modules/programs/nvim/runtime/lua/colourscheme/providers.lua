@@ -21,9 +21,7 @@ return {
     end,
 
     everforest = function()
-        require("everforest").setup({
-            transparent_background_level = 2,
-        })
+        vim.g.everforest_transparent_background = 2
     end,
 
     kanagawa = function()
@@ -32,11 +30,8 @@ return {
         })
     end,
 
-    ["github-monochrome"] = function()
-        require("github-monochrome").setup({
-            transparent = true,
-            styles = { floats = "transparent", sidebars = "transparent" },
-        })
+    zenwritten = function()
+        vim.g.zenwritten = { transparent_background = true }
     end,
 
     nord = function()

@@ -1,4 +1,3 @@
-{ inputs, ... }:
 {
   flake.modules.nvf.nvim =
     {
@@ -8,29 +7,21 @@
     }:
     let
       inherit (lib.nvim.dag) entryAfter;
-
-      mkFlakePlugin =
-        name: src:
-        pkgs.vimUtils.buildVimPlugin {
-          inherit name src;
-        };
     in
     {
       vim = {
-        startPlugins =
-          (with pkgs.vimPlugins; [
-            catppuccin-nvim
-            kanagawa-nvim
-            nord-nvim
-            rose-pine
-            tokyonight-nvim
+        startPlugins = with pkgs.vimPlugins; [
+          catppuccin-nvim
+          everforest
+          kanagawa-nvim
+          nord-nvim
+          rose-pine
+          tokyonight-nvim
+          zenbones-nvim
 
-            mini-base16
-          ])
-          ++ [
-            (mkFlakePlugin "everforest-nvim" inputs.plugins-everforest-nvim)
-            (mkFlakePlugin "github-monochrome-nvim" inputs.plugins-github-monochrome-nvim)
-          ];
+          lush-nvim
+          mini-base16
+        ];
 
         luaConfigRC.colourscheme = entryAfter [ "autocmds" ] ''
           require("colourscheme").setup(require("colourscheme.providers"))

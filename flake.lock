@@ -494,38 +494,6 @@
         "type": "github"
       }
     },
-    "plugins-everforest-nvim": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1785144799,
-        "narHash": "sha256-+/GahVEA2ensvI/EWCH/tRVbCYUxAKPXmyzZEra8u40=",
-        "owner": "neanias",
-        "repo": "everforest-nvim",
-        "rev": "a0e9edc57379e8feafc6ba207c26dbb12fc1b6d8",
-        "type": "github"
-      },
-      "original": {
-        "owner": "neanias",
-        "repo": "everforest-nvim",
-        "type": "github"
-      }
-    },
-    "plugins-github-monochrome-nvim": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1769334297,
-        "narHash": "sha256-2+ie8X+ssWuDzkW4QztsROA5eDiCIkQIGvTxUsibEK4=",
-        "owner": "idr4n",
-        "repo": "github-monochrome.nvim",
-        "rev": "e77321ecd5a68f020d9c543592e222d7786169bf",
-        "type": "github"
-      },
-      "original": {
-        "owner": "idr4n",
-        "repo": "github-monochrome.nvim",
-        "type": "github"
-      }
-    },
     "pre-commit": {
       "inputs": {
         "flake-compat": "flake-compat",
@@ -567,8 +535,6 @@
         "noctalia-greeter": "noctalia-greeter",
         "nvf": "nvf",
         "pkgs-by-name-for-flake-parts": "pkgs-by-name-for-flake-parts",
-        "plugins-everforest-nvim": "plugins-everforest-nvim",
-        "plugins-github-monochrome-nvim": "plugins-github-monochrome-nvim",
         "selector": "selector",
         "steam-config-nix": "steam-config-nix",
         "umbriel": "umbriel",

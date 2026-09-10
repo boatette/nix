@@ -5,16 +5,6 @@
       url = "github:notashelf/nvf";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    plugins-everforest-nvim = {
-      url = "github:neanias/everforest-nvim";
-      flake = false;
-    };
-
-    plugins-github-monochrome-nvim = {
-      url = "github:idr4n/github-monochrome.nvim";
-      flake = false;
-    };
   };
 
   flake.modules = {
