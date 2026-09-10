@@ -27,19 +27,34 @@
 
             enableLuaLoader = true;
 
-            lazy.enable = false;
-
             luaConfigRC.core-pre = lib.nvim.dag.entryBefore [ "basic" ] ''
               pcall(function()
                   require("vim._core.ui2").enable()
               end)
             '';
           };
-
-          mnw.appName = "nvim";
         };
 
-      nvim.imports = [ inputs.self.modules.nvf.core ];
+      nvim = {
+        imports = [ inputs.self.modules.nvf.core ];
+
+        vim.viAlias = false;
+
+        mnw.appName = "nvim";
+      };
+
+      nvim-full.imports = [ inputs.self.modules.nvf.nvim ];
+
+      minimal = {
+        imports = [ inputs.self.modules.nvf.core ];
+
+        vim = {
+          viAlias = false;
+          vimAlias = false;
+        };
+
+        mnw.appName = "nvim";
+      };
     };
 
     homeManager.nvim =
@@ -69,11 +84,12 @@
           modules = [ module ];
         }).neovim;
 
-      minimal = mkNvf inputs.self.modules.nvf.core;
+      minimal = mkNvf inputs.self.modules.nvf.minimal;
     in
     {
       packages = {
         nvim = mkNvf inputs.self.modules.nvf.nvim;
+        nvim-full = mkNvf inputs.self.modules.nvf.nvim-full;
         nvim-minimal = minimal;
 
         vi = pkgs.runCommandLocal "vi" { } ''

@@ -44,7 +44,6 @@ local SCHEMES = {
     tokyonightday = { provider = "tokyonight", scheme = "tokyonight-day" },
 
     everforest = { provider = "everforest", scheme = "everforest" },
-    everforestalt = { provider = "everforest", scheme = "everforest" },
 
     kanagawa = { provider = "kanagawa", dark = "kanagawa-wave", light = "kanagawa-lotus" },
     kanagawawave = { provider = "kanagawa", scheme = "kanagawa-wave" },

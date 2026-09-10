@@ -4,7 +4,10 @@ let
 
   root = ../../..;
 
-  isoPackages = [ "iso" ];
+  uncheckedPackages = [
+    "iso"
+    "nvim-full"
+  ];
 
   nixFiles = lib.fileset.toSource {
     inherit root;
@@ -25,7 +28,7 @@ in
     {
       checks =
         lib.mapAttrs' (name: lib.nameValuePair "package-${name}") (
-          lib.removeAttrs config.packages isoPackages
+          lib.removeAttrs config.packages uncheckedPackages
         )
         // {
           deadnix = pkgs.runCommandLocal "check-deadnix" { } ''
@@ -48,7 +51,7 @@ in
   flake.checks = lib.foldlAttrs (
     acc: name: host:
     lib.recursiveUpdate acc (
-      lib.optionalAttrs (!lib.elem name isoPackages) {
+      lib.optionalAttrs (!lib.elem name uncheckedPackages) {
         ${host.config.nixpkgs.hostPlatform.system}."host-${name}" = host.config.system.build.toplevel;
       }
     )

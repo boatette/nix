@@ -16,8 +16,6 @@
             "json"
             "lua"
             "nix"
-            "odin"
-            "qml"
             "typescript"
             "zig"
           ]
@@ -35,10 +33,8 @@
           clang-tools
           glsl_analyzer
           gopls
-          kdePackages.qtdeclarative
           lua-language-server
           nixd
-          ols
           pyright
           ruff
           typescript-language-server
@@ -124,30 +120,7 @@
             };
           };
 
-          lua-language-server.on_init = mkLuaInline ''
-            function(client)
-                if client.workspace_folders then
-                    local path = client.workspace_folders[1].name
-                    if
-                        path ~= vim.fn.stdpath("config")
-                        and (vim.uv.fs_stat(path .. "/.luarc.json") or vim.uv.fs_stat(path .. "/.luarc.jsonc"))
-                    then
-                        return
-                    end
-                end
-
-                client.config.settings.Lua = vim.tbl_deep_extend("force", client.config.settings.Lua, {
-                    runtime = {
-                        version = "LuaJIT",
-                        path = { "lua/?.lua", "lua/?/init.lua" },
-                    },
-                    workspace = {
-                        checkThirdParty = false,
-                        library = { vim.env.VIMRUNTIME },
-                    },
-                })
-            end
-          '';
+          lua-language-server.on_init = mkLuaInline ''require("config.luals").on_init'';
 
           nixd.settings = mkLuaInline ''
             (function()
@@ -170,6 +143,29 @@
           '';
 
           pyright.settings.python.pythonPath = mkLuaInline ''vim.fn.exepath("python3")'';
+        };
+      };
+    };
+
+  flake.modules.nvf.nvim-full =
+    { pkgs, ... }:
+    {
+      vim = {
+        extraPackages = [
+          pkgs.ols
+          pkgs.kdePackages.qtdeclarative
+        ];
+
+        languages = {
+          odin = {
+            enable = true;
+            lsp.enable = true;
+          };
+
+          qml = {
+            enable = true;
+            lsp.enable = true;
+          };
         };
       };
     };

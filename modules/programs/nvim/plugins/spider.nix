@@ -1,28 +1,23 @@
+{ inputs, ... }:
 {
   flake.modules.nvf.core =
     { pkgs, ... }:
     let
-      spider = motion: {
-        mode = [
+      spider =
+        motion:
+        inputs.self.lib.nvim.mod [
           "n"
           "o"
           "x"
-        ];
-        key = motion;
-        action = ''function() require("spider").motion("${motion}") end'';
-        lua = true;
-        desc = "Spider-${motion}";
-        silent = false;
-      };
+        ] motion "spider" ''motion("${motion}")'' "Spider-${motion}";
     in
     {
-      vim = {
-        extraPlugins.nvim-spider = {
-          package = pkgs.vimPlugins.nvim-spider;
-          setup = ''require("spider").setup({})'';
-        };
+      vim.lazy.plugins.nvim-spider = {
+        package = pkgs.vimPlugins.nvim-spider;
+        setupModule = "spider";
+        setupOpts = { };
 
-        keymaps = map spider [
+        keys = map spider [
           "w"
           "e"
           "b"

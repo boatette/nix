@@ -15,18 +15,18 @@
         '';
       };
 
-      utilityWindow = ''
+      utilityWindow = /* lua */ ''
         vim.bo[ev.buf].buflisted = false
         vim.keymap.set("n", "q", "<cmd>close<cr>", { buffer = ev.buf, silent = true, desc = "Close" })
       '';
 
-      prose = ''
+      prose = /* lua */ ''
         vim.opt_local.wrap = true
         vim.opt_local.linebreak = true
         vim.opt_local.spell = true
       '';
 
-      twoSpace = ''
+      twoSpace = /* lua */ ''
         vim.opt_local.shiftwidth = 2
         vim.opt_local.tabstop = 2
         vim.opt_local.softtabstop = 2
@@ -69,12 +69,12 @@
               "jsonc"
             ]
             "Show quotes in JSON"
-            ''
+            /* lua */ ''
               vim.opt_local.conceallevel = 0
             ''
           )
 
-          (mkFt [ "help" ] "Open :help in a vertical split" ''
+          (mkFt [ "help" ] "Open :help in a vertical split" /* lua */ ''
             local function vertical()
                 if vim.bo.buftype == "help" and vim.api.nvim_win_get_config(0).relative == "" then
                     vim.cmd("wincmd L")

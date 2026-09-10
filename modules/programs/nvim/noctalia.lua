@@ -1,4 +1,6 @@
 return {
+    mode = "{{mode}}",
+
     base00 = "{{colors.surface.default.hex}}",
     base01 = "{{colors.surface_container.default.hex}}",
     base02 = "{{colors.surface_container_high.default.hex}}",

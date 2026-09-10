@@ -1,3 +1,4 @@
+{ inputs, ... }:
 {
   flake.modules.nvf.nvim =
     { pkgs, ... }:
@@ -6,9 +7,7 @@
         extraPackages = with pkgs; [
           clang-tools
           gofumpt
-          google-java-format
           gotools
-          ktlint
           nixfmt
           prettierd
           ruff
@@ -33,8 +32,6 @@
                 "gofumpt"
               ];
 
-              java = [ "google-java-format" ];
-              kotlin = [ "ktlint" ];
               lua = [ "stylua" ];
               nix = [ "nixfmt" ];
               rust = [ "rustfmt" ];
@@ -53,8 +50,6 @@
               markdown = [ "prettierd" ];
             };
 
-            formatters."google-java-format".prepend_args = [ "--aosp" ];
-
             format_on_save.lsp_format = "fallback";
 
             format_after_save = null;
@@ -62,19 +57,31 @@
         };
 
         keymaps = [
-          {
-            mode = "n";
-            key = "<leader>cf";
-            action = ''
-              function()
-                  require("conform").format({ async = true, lsp_format = "fallback" })
-              end
-            '';
-            lua = true;
-            desc = "Format buffer";
-            silent = false;
-          }
+          (inputs.self.lib.nvim.mod "n" "<leader>cf" "conform"
+            ''format({ async = true, lsp_format = "fallback" })''
+            "Format buffer"
+          )
         ];
+      };
+    };
+
+  flake.modules.nvf.nvim-full =
+    { pkgs, ... }:
+    {
+      vim = {
+        extraPackages = with pkgs; [
+          google-java-format
+          ktlint
+        ];
+
+        formatter.conform-nvim.setupOpts = {
+          formatters_by_ft = {
+            java = [ "google-java-format" ];
+            kotlin = [ "ktlint" ];
+          };
+
+          formatters."google-java-format".prepend_args = [ "--aosp" ];
+        };
       };
     };
 }

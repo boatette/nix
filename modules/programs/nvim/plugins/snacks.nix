@@ -5,6 +5,7 @@
     let
       inherit (lib.generators) mkLuaInline;
       inherit (inputs.self.constants) flakeDir;
+      inherit (inputs.self.lib.nvim) mod;
 
       disabledSnacks =
         lib.genAttrs
@@ -37,16 +38,9 @@
             enabled = false;
           });
 
-      snack = mode: key: expr: desc: {
-        inherit mode key desc;
-        action = ''
-          function()
-              require("snacks").${expr}
-          end
-        '';
-        lua = true;
-        silent = false;
-      };
+      snack =
+        mode: key: expr:
+        mod mode key "snacks" expr;
     in
     {
       vim = {
@@ -54,7 +48,7 @@
           enable = true;
 
           setupOpts = {
-            bigfile = { };
+            bigfile.size = 1024 * 1024;
             bufdelete = { };
             quickfile = { };
 
@@ -87,28 +81,34 @@
                 follow = true;
               };
 
-              layouts = mkLuaInline ''
-                {
-                    custom = {
-                        layout = {
-                            box = "vertical",
-                            backdrop = true,
-                            row = 1000,
-                            width = 0,
-                            height = 0.4,
-                            border = "top",
-                            title = " {title} {live} {flags}",
-                            title_pos = "left",
-                            {
-                                box = "horizontal",
-                                { win = "list", border = "none" },
-                                { win = "preview", title = "{preview}", width = 0.6, border = "left" },
-                            },
-                            { win = "input", height = 1 },
-                        },
-                    },
-                }
-              '';
+              layouts.custom.layout = {
+                box = "vertical";
+                backdrop = true;
+                row = 1000;
+                width = 0;
+                height = 0.4;
+                border = "top";
+                title = " {title} {live} {flags}";
+                title_pos = "left";
+
+                "@1" = {
+                  box = "horizontal";
+                  "@1" = {
+                    win = "list";
+                    border = "none";
+                  };
+                  "@2" = {
+                    win = "preview";
+                    title = "{preview}";
+                    width = 0.6;
+                    border = "left";
+                  };
+                };
+                "@2" = {
+                  win = "input";
+                  height = 1;
+                };
+              };
             };
           }
           // disabledSnacks;

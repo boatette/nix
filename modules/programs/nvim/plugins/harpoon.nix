@@ -1,49 +1,33 @@
+{ inputs, ... }:
 {
   flake.modules.nvf.nvim =
     let
-      harpoonSelect = n: {
-        mode = "n";
-        key = "<leader>${toString n}";
-        action = ''
+      inherit (inputs.self.lib.nvim) lua;
+
+      harpoon =
+        key: expr:
+        lua "n" key /* lua */ ''
           function()
-              require("harpoon"):list():select(${toString n})
+              require("harpoon")${expr}
           end
         '';
-        lua = true;
-        desc = "Harpoon: file ${toString n}";
-        silent = false;
-      };
+
+      harpoonSelect =
+        n: harpoon "<leader>${toString n}" ":list():select(${toString n})" "Harpoon: file ${toString n}";
     in
     {
       vim = {
         navigation.harpoon.enable = true;
 
         keymaps = [
-          {
-            mode = "n";
-            key = "<leader>a";
-            action = ''
-              function()
-                  require("harpoon"):list():add()
-              end
-            '';
-            lua = true;
-            desc = "Harpoon: add file";
-            silent = false;
-          }
-          {
-            mode = "n";
-            key = "<leader>h";
-            action = ''
-              function()
-                  local harpoon = require("harpoon")
-                  harpoon.ui:toggle_quick_menu(harpoon:list())
-              end
-            '';
-            lua = true;
-            desc = "Harpoon: menu";
-            silent = false;
-          }
+          (harpoon "<leader>a" ":list():add()" "Harpoon: add file")
+
+          (lua "n" "<leader>h" /* lua */ ''
+            function()
+                local harpoon = require("harpoon")
+                harpoon.ui:toggle_quick_menu(harpoon:list())
+            end
+          '' "Harpoon: menu")
         ]
         ++ map harpoonSelect [
           1

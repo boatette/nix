@@ -1,5 +1,6 @@
+{ inputs, ... }:
 {
-  flake.modules.nvf.nvim =
+  flake.modules.nvf.nvim-full =
     { lib, pkgs, ... }:
     let
       inherit (lib.generators) mkLuaInline;
@@ -72,17 +73,7 @@
         }
       ];
 
-      dapMap = key: expr: desc: {
-        mode = "n";
-        inherit key desc;
-        action = ''
-          function()
-              require("dap").${expr}
-          end
-        '';
-        lua = true;
-        silent = false;
-      };
+      dapMap = key: expr: inputs.self.lib.nvim.mod "n" key "dap" expr;
     in
     {
       vim = {
@@ -91,11 +82,6 @@
           vscode-js-debug
           (python3.withPackages (ps: [ ps.debugpy ]))
         ];
-
-        extraPlugins.nvim-dap-view = {
-          package = pkgs.vimPlugins.nvim-dap-view;
-          setup = "";
-        };
 
         debugger.nvim-dap = {
           enable = true;
@@ -199,21 +185,26 @@
           };
         };
 
-        luaConfigRC.dap-view = entryAfter [ "extraPluginConfigs" ] ''
+        lazy.plugins.nvim-dap-view = {
+          package = pkgs.vimPlugins.nvim-dap-view;
+          setupModule = "dap-view";
+          setupOpts = { };
+
+          keys = [ (inputs.self.lib.nvim.mod "n" "<leader>dv" "dap-view" "toggle()" "Toggle DAP view") ];
+        };
+
+        luaConfigRC.dap-view = entryAfter [ "pluginConfigs" ] ''
           do
               local dap = require("dap")
-              local dapview = require("dap-view")
-
-              dapview.setup()
 
               dap.listeners.after.event_initialized["dap-view"] = function()
-                  dapview.open()
+                  require("dap-view").open()
               end
               dap.listeners.before.event_terminated["dap-view"] = function()
-                  dapview.close()
+                  require("dap-view").close()
               end
               dap.listeners.before.event_exited["dap-view"] = function()
-                  dapview.close()
+                  require("dap-view").close()
               end
           end
         '';
@@ -227,14 +218,6 @@
           (dapMap "<leader>do" "step_out()" "Step out")
           (dapMap "<leader>dl" "run_last()" "Run last")
           (dapMap "<leader>dx" "terminate()" "Terminate")
-          {
-            mode = "n";
-            key = "<leader>dv";
-            action = ''function() require("dap-view").toggle() end'';
-            lua = true;
-            desc = "Toggle DAP view";
-            silent = false;
-          }
         ];
       };
     };

@@ -90,6 +90,7 @@ local TRANSPARENT_GROUPS = {
     "NormalFloat",
     "FloatBorder",
     "FloatShadow",
+    "FloatTitle",
     "WinSeparator",
     "TabLine",
     "TabLineFill",
@@ -114,9 +115,6 @@ local function apply_generated(palette, is_light)
     end)
 
     if ok then
-        for _, group in ipairs(TRANSPARENT_GROUPS) do
-            vim.api.nvim_set_hl(0, group, { bg = "none" })
-        end
         for _, group in ipairs(MUTED_GROUPS) do
             vim.api.nvim_set_hl(0, group, { fg = palette.base04 })
         end
@@ -153,19 +151,8 @@ local function apply_scheme(entry)
 end
 
 local function is_light_mode(theme, palette)
-    if theme.mode == "light" then
-        return true
-    elseif theme.mode == "dark" then
-        return false
-    end
-
-    local r, g, b = tostring(palette and palette.base00 or ""):match("^#(%x%x)(%x%x)(%x%x)$")
-    if not r then
-        return false
-    end
-
-    local luma = (0.299 * tonumber(r, 16) + 0.587 * tonumber(g, 16) + 0.114 * tonumber(b, 16)) / 255
-    return luma > 0.5
+    local mode = (palette and palette.mode) or theme.mode
+    return mode == "light"
 end
 
 function M.apply()

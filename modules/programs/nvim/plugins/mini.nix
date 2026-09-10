@@ -1,3 +1,4 @@
+{ inputs, ... }:
 {
   flake.modules.nvf.core =
     { lib, ... }:
@@ -32,43 +33,20 @@
           };
         };
 
-        # nixvim's plugins.mini.mockDevIcons has no nvf equivalent; nvf's
-        # vim.mini.icons only ever calls setup().
         luaConfigRC.mini-mock-devicons = entryAfter [ "pluginConfigs" ] ''
           require("mini.icons").mock_nvim_web_devicons()
         '';
 
         keymaps = [
-          {
-            mode = "n";
-            key = "gS";
-            action = ''
-              function()
-                  require("mini.splitjoin").toggle()
-              end
-            '';
-            lua = true;
-            desc = "Split/join";
-            silent = false;
-          }
+          (inputs.self.lib.nvim.mod "n" "gS" "mini.splitjoin" "toggle()" "Split/join")
         ];
       };
     };
 
   flake.modules.nvf.nvim =
-    { lib, pkgs, ... }:
+    { lib, ... }:
     {
       vim = {
-        # nvf has no extraFiles equivalent, so the snippet JSON is staged into a
-        # directory that gets added to the runtimepath. mini.snippets' loaders
-        # look for `snippets/` on the rtp, which is what this provides.
-        additionalRuntimePaths = [
-          (pkgs.runCommand "nvim-snippets" { } ''
-            mkdir -p $out/snippets
-            cp ${../snippets}/*.json $out/snippets/
-          '')
-        ];
-
         mini.snippets = {
           enable = true;
           setupOpts.snippets = lib.generators.mkLuaInline ''

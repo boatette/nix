@@ -11,7 +11,6 @@
           deadnix
           eslint_d
           golangci-lint
-          ktlint
           markdownlint-cli2
           ruff
           shellcheck
@@ -27,7 +26,6 @@
 
             cpp = [ "cpplint" ];
             go = [ "golangcilint" ];
-            kotlin = [ "ktlint" ];
             markdown = [ "markdownlint-cli2" ];
             python = [ "ruff" ];
 
@@ -52,10 +50,9 @@
             event = [
               "BufWritePost"
               "BufReadPost"
-              "InsertLeave"
             ];
             group = "nvim_lint";
-            desc = "Auto-lint on save and text change";
+            desc = "Auto-lint on read and save";
             callback = mkLuaInline ''
               function(args)
                   nvf_lint(args.buf)
@@ -63,6 +60,16 @@
             '';
           }
         ];
+      };
+    };
+
+  flake.modules.nvf.nvim-full =
+    { pkgs, ... }:
+    {
+      vim = {
+        extraPackages = [ pkgs.ktlint ];
+
+        diagnostics.nvim-lint.linters_by_ft.kotlin = [ "ktlint" ];
       };
     };
 }

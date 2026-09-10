@@ -7,7 +7,6 @@
     {
       vim = {
         augroups = map (name: { inherit name; }) [
-          "LargeFile"
           "RestoreCursor"
           "AutoMkdir"
           "NoAutoComment"
@@ -17,27 +16,6 @@
         ];
 
         autocmds = [
-          {
-            event = [ "BufReadPre" ];
-            group = "LargeFile";
-            desc = "Disable expensive features for files over 1 MB";
-            callback = mkLuaInline ''
-              function()
-                  local ok, stats = pcall(vim.uv.fs_stat, vim.api.nvim_buf_get_name(0))
-                  if ok and stats and stats.size > 1024 * 1024 then
-                      vim.b.large_file = true
-                      vim.cmd("syntax clear")
-                      vim.opt_local.foldmethod = "manual"
-                      vim.opt_local.spell = false
-                      vim.opt_local.swapfile = false
-                      vim.opt_local.undofile = false
-                      vim.opt_local.signcolumn = "no"
-                      vim.opt_local.statuscolumn = ""
-                  end
-              end
-            '';
-          }
-
           {
             event = [ "BufReadPost" ];
             group = "RestoreCursor";
@@ -74,12 +52,13 @@
           }
 
           {
-            event = [ "BufEnter" ];
+            event = [ "FileType" ];
+            pattern = [ "*" ];
             group = "NoAutoComment";
             desc = "Prevent auto-comment on new lines";
             callback = mkLuaInline ''
               function()
-                  vim.opt.formatoptions:remove({ "c", "r", "o" })
+                  vim.opt_local.formatoptions:remove({ "c", "r", "o" })
               end
             '';
           }
@@ -93,9 +72,7 @@
             desc = "Cursor line in active window";
             callback = mkLuaInline ''
               function()
-                  if not vim.b.large_file then
-                      vim.opt_local.cursorline = true
-                  end
+                  vim.opt_local.cursorline = true
               end
             '';
           }
@@ -119,7 +96,7 @@
             desc = "Disable relative numbers in insert mode";
             callback = mkLuaInline ''
               function()
-                  vim.opt.relativenumber = false
+                  vim.opt_local.relativenumber = false
               end
             '';
           }
@@ -129,7 +106,7 @@
             desc = "Enable relative numbers in normal mode";
             callback = mkLuaInline ''
               function()
-                  vim.opt.relativenumber = true
+                  vim.opt_local.relativenumber = true
               end
             '';
           }

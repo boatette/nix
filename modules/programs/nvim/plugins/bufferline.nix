@@ -1,3 +1,4 @@
+{ inputs, ... }:
 {
   flake.modules.nvf.nvim =
     { lib, ... }:
@@ -9,45 +10,23 @@
         tabline.nvimBufferline = {
           enable = true;
 
-          setupOpts = {
-            options = {
-              always_show_bufferline = true;
-              numbers = "none";
-              sort_by = "id";
-              diagnostics = "nvim_lsp";
-              diagnostics_update_in_insert = false;
-            };
-
-            highlights = mkLuaInline ''
-              function(defaults)
-                  local hl = vim.deepcopy(defaults.highlights)
-                  for _, group in pairs(hl) do
-                      if type(group) == "table" then
-                          group.bg = "NONE"
-                      end
-                  end
-                  return hl
-              end
-            '';
+          setupOpts.options = {
+            always_show_bufferline = true;
+            numbers = "none";
+            sort_by = "id";
+            diagnostics = "nvim_lsp";
+            diagnostics_update_in_insert = false;
           };
         };
 
-        keymaps = [
-          {
-            mode = "n";
-            key = "<S-h>";
-            action = "<cmd>BufferLineCyclePrev<CR>";
-            desc = "Prev tab";
-            silent = false;
-          }
-          {
-            mode = "n";
-            key = "<S-l>";
-            action = "<cmd>BufferLineCycleNext<CR>";
-            desc = "Next tab";
-            silent = false;
-          }
-        ];
+        keymaps =
+          let
+            inherit (inputs.self.lib.nvim) cmd;
+          in
+          [
+            (cmd "n" "<S-h>" "<cmd>BufferLineCyclePrev<CR>" "Prev tab")
+            (cmd "n" "<S-l>" "<cmd>BufferLineCycleNext<CR>" "Next tab")
+          ];
 
         augroups = [ { name = "BufferlineTransparency"; } ];
 

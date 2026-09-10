@@ -3,62 +3,35 @@
   flake.modules.nvf.nvim =
     let
       inherit (inputs.self.constants) flakeDir;
-
-      luaBind = key: action: desc: {
-        mode = "n";
-        inherit key action desc;
-        lua = true;
-        silent = false;
-      };
-
-      term = cmd: ''
-        function()
-            require("snacks").terminal("${cmd}", { interactive = true })
-        end
-      '';
+      inherit (inputs.self.lib.nvim) mod;
 
       rebuild = inputs.self.lib.rebuild flakeDir;
+
+      nixosRebuild =
+        key: cmd: desc:
+        mod "n" key "snacks" ''terminal("${cmd}", { interactive = true })'' desc;
     in
     {
       vim.keymaps = [
-        (luaBind "<leader>ns" (term (rebuild.os "switch")) "Rebuild switch")
-        (luaBind "<leader>nt" (term (rebuild.os "test")) "Rebuild test")
-        (luaBind "<leader>nb" (term (rebuild.os "boot")) "Rebuild boot")
-        (luaBind "<leader>nd" (term rebuild.dryBuild) "Rebuild dry-build")
+        (nixosRebuild "<leader>ns" (rebuild.os "switch") "Rebuild switch")
+        (nixosRebuild "<leader>nt" (rebuild.os "test") "Rebuild test")
+        (nixosRebuild "<leader>nb" (rebuild.os "boot") "Rebuild boot")
+        (nixosRebuild "<leader>nd" rebuild.dryBuild "Rebuild dry-build")
       ];
     };
 
   flake.modules.nvf.core =
     let
-      cmdBind = mode: key: action: desc: {
-        inherit
-          mode
-          key
-          action
-          desc
-          ;
-        silent = false;
-      };
-
-      luaBind = mode: key: action: desc: {
-        inherit
-          mode
-          key
-          action
-          desc
-          ;
-        lua = true;
-        silent = false;
-      };
+      inherit (inputs.self.lib.nvim) cmd lua;
     in
     {
       vim.keymaps = [
-        (cmdBind "n" "<Esc>" "<cmd>nohlsearch<cr>" "Clear search highlight")
-        (cmdBind "n" "<leader>v" "ggVG" "Select whole buffer")
-        (cmdBind "v" "p" "\"_dP`[v`]=" "Paste without yank")
-        (cmdBind "n" "J" "mzJ`z" "Better join")
+        (cmd "n" "<Esc>" "<cmd>nohlsearch<cr>" "Clear search highlight")
+        (cmd "n" "<leader>v" "ggVG" "Select whole buffer")
+        (cmd "v" "p" "\"_dP`[v`]=" "Paste without yank")
+        (cmd "n" "J" "mzJ`z" "Better join")
 
-        (luaBind "n" "<leader>R" ''
+        (lua "n" "<leader>R" /* lua */ ''
           function()
               local session = vim.fn.stdpath("state") .. "/restart_session.vim"
               vim.cmd("mksession! " .. vim.fn.fnameescape(session))
@@ -66,66 +39,51 @@
           end
         '' "Restart Neovim")
 
-        {
-          mode = "n";
-          key = "i";
-          action = ''
+        (
+          lua "n" "i" /* lua */ ''
             function()
                 return vim.fn.getline("."):len() == 0 and '"_cc' or "i"
             end
-          '';
-          lua = true;
-          silent = false;
-          expr = true;
-          desc = "Auto-indent on empty line";
-        }
+          '' "Auto-indent on empty line"
+          // {
+            expr = true;
+          }
+        )
 
-        (cmdBind "n" "j" "gj" "Navigate wrapped lines")
-        (cmdBind "n" "k" "gk" "Navigate wrapped lines")
+        (cmd "n" "j" "gj" "Navigate wrapped lines")
+        (cmd "n" "k" "gk" "Navigate wrapped lines")
 
-        (cmdBind "v" "<" "<gv" "Indent left")
-        (cmdBind "v" ">" ">gv" "Indent right")
+        (cmd "v" "<" "<gv" "Indent left")
+        (cmd "v" ">" ">gv" "Indent right")
 
-        {
-          mode = "v";
-          key = "J";
-          action = ":m '>+1<cr>gv=gv";
-          silent = true;
-          desc = "Move lines down";
-        }
-        {
-          mode = "v";
-          key = "K";
-          action = ":m '<-2<cr>gv=gv";
-          silent = true;
-          desc = "Move lines up";
-        }
+        (cmd "v" "J" ":m '>+1<cr>gv=gv" "Move lines down" // { silent = true; })
+        (cmd "v" "K" ":m '<-2<cr>gv=gv" "Move lines up" // { silent = true; })
 
-        (cmdBind "n" "<C-d>" "<C-d>zz" "Half page down (centred)")
-        (cmdBind "n" "<C-u>" "<C-u>zz" "Half page up (centred)")
-        (cmdBind "n" "n" "nzzzv" "Next search result (centred)")
-        (cmdBind "n" "N" "Nzzzv" "Prev search result (centred)")
+        (cmd "n" "<C-d>" "<C-d>zz" "Half page down (centred)")
+        (cmd "n" "<C-u>" "<C-u>zz" "Half page up (centred)")
+        (cmd "n" "n" "nzzzv" "Next search result (centred)")
+        (cmd "n" "N" "Nzzzv" "Prev search result (centred)")
 
-        (cmdBind "n" "<C-h>" "<C-w>h" "Focus left window")
-        (cmdBind "n" "<C-j>" "<C-w>j" "Focus lower window")
-        (cmdBind "n" "<C-k>" "<C-w>k" "Focus upper window")
-        (cmdBind "n" "<C-l>" "<C-w>l" "Focus right window")
+        (cmd "n" "<C-h>" "<C-w>h" "Focus left window")
+        (cmd "n" "<C-j>" "<C-w>j" "Focus lower window")
+        (cmd "n" "<C-k>" "<C-w>k" "Focus upper window")
+        (cmd "n" "<C-l>" "<C-w>l" "Focus right window")
 
-        (cmdBind "n" "<C-Up>" "<cmd>resize +2<cr>" "Increase height")
-        (cmdBind "n" "<C-Down>" "<cmd>resize -2<cr>" "Decrease height")
-        (cmdBind "n" "<C-Left>" "<cmd>vertical resize -2<cr>" "Decrease width")
-        (cmdBind "n" "<C-Right>" "<cmd>vertical resize +2<cr>" "Increase width")
+        (cmd "n" "<C-Up>" "<cmd>resize +2<cr>" "Increase height")
+        (cmd "n" "<C-Down>" "<cmd>resize -2<cr>" "Decrease height")
+        (cmd "n" "<C-Left>" "<cmd>vertical resize -2<cr>" "Decrease width")
+        (cmd "n" "<C-Right>" "<cmd>vertical resize +2<cr>" "Increase width")
 
-        (cmdBind "n" "<leader>wd" "<C-W>c" "Delete window")
-        (cmdBind "n" "<leader>w-" "<C-W>s" "Split below")
-        (cmdBind "n" "<leader>w|" "<C-W>v" "Split right")
-        (cmdBind "n" "<leader>w=" "<C-w>=" "Equalise windows")
+        (cmd "n" "<leader>wd" "<C-W>c" "Delete window")
+        (cmd "n" "<leader>w-" "<C-W>s" "Split below")
+        (cmd "n" "<leader>w|" "<C-W>v" "Split right")
+        (cmd "n" "<leader>w=" "<C-w>=" "Equalise windows")
 
-        (cmdBind "n" "<leader>fn" "<cmd>enew<cr>" "New file")
+        (cmd "n" "<leader>fn" "<cmd>enew<cr>" "New file")
 
-        (luaBind "n" "<leader>ca" "vim.lsp.buf.code_action" "Code action")
-        (luaBind "n" "<leader>cr" "vim.lsp.buf.rename" "Rename symbol")
-        (luaBind "n" "<leader>co" ''
+        (lua "n" "<leader>ca" "vim.lsp.buf.code_action" "Code action")
+        (lua "n" "<leader>cr" "vim.lsp.buf.rename" "Rename symbol")
+        (lua "n" "<leader>co" /* lua */ ''
           function()
               vim.lsp.buf.code_action({
                   context = { only = { "source.organizeImports" }, diagnostics = {} },
@@ -133,7 +91,7 @@
               })
           end
         '' "Organise imports")
-        (luaBind "n" "<leader>cq" ''
+        (lua "n" "<leader>cq" /* lua */ ''
           function()
               vim.lsp.buf.code_action({
                   context = { only = { "quickfix" }, diagnostics = {} },
@@ -141,25 +99,25 @@
               })
           end
         '' "Quick fix")
-        (luaBind "n" "<leader>cl" "vim.lsp.codelens.run" "Run code lens")
-        (luaBind "i" "<C-k>" "vim.lsp.buf.signature_help" "Signature help")
+        (lua "n" "<leader>cl" "vim.lsp.codelens.run" "Run code lens")
+        (lua "i" "<C-k>" "vim.lsp.buf.signature_help" "Signature help")
 
-        (luaBind "n" "<leader>cd" "vim.diagnostic.open_float" "Line diagnostics")
-        (luaBind "n" "[d" ''
+        (lua "n" "<leader>cd" "vim.diagnostic.open_float" "Line diagnostics")
+        (lua "n" "[d" /* lua */ ''
           function()
               vim.diagnostic.jump({ count = -1, float = true })
           end
         '' "Prev diagnostic")
-        (luaBind "n" "]d" ''
+        (lua "n" "]d" /* lua */ ''
           function()
               vim.diagnostic.jump({ count = 1, float = true })
           end
         '' "Next diagnostic")
 
-        (cmdBind "n" "[q" "<cmd>cprev<cr>" "Prev quickfix")
-        (cmdBind "n" "]q" "<cmd>cnext<cr>" "Next quickfix")
+        (cmd "n" "[q" "<cmd>cprev<cr>" "Prev quickfix")
+        (cmd "n" "]q" "<cmd>cnext<cr>" "Next quickfix")
 
-        (cmdBind "t" "<Esc><Esc>" "<C-\\><C-n>" "Exit terminal mode")
+        (cmd "t" "<Esc><Esc>" "<C-\\><C-n>" "Exit terminal mode")
       ];
     };
 }

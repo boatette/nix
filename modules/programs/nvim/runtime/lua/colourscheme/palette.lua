@@ -1,5 +1,24 @@
 local M = {}
 
+local SLOTS = {
+    "base00",
+    "base01",
+    "base02",
+    "base03",
+    "base04",
+    "base05",
+    "base06",
+    "base07",
+    "base08",
+    "base09",
+    "base0A",
+    "base0B",
+    "base0C",
+    "base0D",
+    "base0E",
+    "base0F",
+}
+
 local ACCENTS = { "base08", "base09", "base0A", "base0B", "base0C", "base0D", "base0E", "base0F" }
 local ACCENT_CONTRAST = 4.5
 local COMMENT_CONTRAST = 3.0
@@ -128,7 +147,11 @@ function M.normalise(palette, is_light)
         return palette
     end
 
-    local out = vim.deepcopy(palette)
+    local out = {}
+    for _, slot in ipairs(SLOTS) do
+        out[slot] = palette[slot]
+    end
+
     for _, slot in ipairs(ACCENTS) do
         out[slot] = lift(out[slot], out.base00, ACCENT_CONTRAST, is_light)
     end

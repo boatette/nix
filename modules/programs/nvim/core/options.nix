@@ -35,7 +35,7 @@
           splitbelow = true;
           winborder = "single";
 
-          updatetime = 50;
+          updatetime = 250;
           timeoutlen = 500;
 
           expandtab = true;
@@ -68,8 +68,6 @@
           foldenable = true;
           foldlevel = 99;
           foldlevelstart = 99;
-          foldmethod = "expr";
-          foldexpr = "v:lua.vim.treesitter.foldexpr()";
 
           list = true;
           listchars = {
@@ -85,6 +83,7 @@
           };
 
           mouse = "a";
+          whichwrap = "b,s,<,>,[,],h,l";
 
           grepprg = mkLuaInline ''vim.fn.executable("rg") == 1 and "rg --vimgrep --smart-case --hidden" or vim.o.grepprg'';
           grepformat = mkLuaInline ''vim.fn.executable("rg") == 1 and "%f:%l:%c:%m" or vim.o.grepformat'';
@@ -94,8 +93,6 @@
           vim.schedule(function()
               vim.opt.clipboard = "unnamedplus"
           end)
-
-          vim.opt.whichwrap:append("<>[]hl")
         '';
       };
     };

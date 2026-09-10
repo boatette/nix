@@ -57,7 +57,6 @@
           c = "clear";
           cls = "clear";
           vim = "nvim";
-          vi = "nvim";
           v = "nvim";
           cat = "bat";
           lg = "lazygit";
