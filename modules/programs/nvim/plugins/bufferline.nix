@@ -12,6 +12,7 @@
           setupOpts = {
             options = {
               always_show_bufferline = true;
+              numbers = "none";
               sort_by = "id";
               diagnostics = "nvim_lsp";
               diagnostics_update_in_insert = false;
