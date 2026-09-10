@@ -17,7 +17,10 @@
 
           context = {
             enable = true;
-            setupOpts.max_lines = 3;
+            setupOpts = {
+              max_lines = 3;
+              separator = null;
+            };
           };
         };
 
