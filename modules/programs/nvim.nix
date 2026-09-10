@@ -1,8 +1,8 @@
 { inputs, ... }:
 {
   flake-file.inputs = {
-    nixvim = {
-      url = "github:nix-community/nixvim";
+    nvf = {
+      url = "github:notashelf/nvf";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -18,22 +18,28 @@
   };
 
   flake.modules = {
-    nixvim = {
-      core = {
-        wrapRc = true;
-        impureRtp = false;
-        enableMan = false;
-        performance.byteCompileLua.enable = true;
+    nvf = {
+      core =
+        { lib, ... }:
+        {
+          vim = {
+            vendoredKeymaps.enable = false;
 
-        extraConfigLuaPre = ''
-          vim.loader.enable()
-          pcall(function()
-              require("vim._core.ui2").enable()
-          end)
-        '';
-      };
+            enableLuaLoader = true;
 
-      nvim.imports = [ inputs.self.modules.nixvim.core ];
+            lazy.enable = false;
+
+            luaConfigRC.core-pre = lib.nvim.dag.entryBefore [ "basic" ] ''
+              pcall(function()
+                  require("vim._core.ui2").enable()
+              end)
+            '';
+          };
+
+          mnw.appName = "nvim";
+        };
+
+      nvim.imports = [ inputs.self.modules.nvf.core ];
     };
 
     homeManager.nvim =
@@ -54,19 +60,20 @@
   };
 
   perSystem =
-    { system, pkgs, ... }:
+    { pkgs, ... }:
     let
-      mkNvim =
+      mkNvf =
         module:
-        inputs.nixvim.legacyPackages.${system}.makeNixvimWithModule {
-          inherit pkgs module;
-        };
+        (inputs.nvf.lib.neovimConfiguration {
+          inherit pkgs;
+          modules = [ module ];
+        }).neovim;
 
-      minimal = mkNvim inputs.self.modules.nixvim.core;
+      minimal = mkNvf inputs.self.modules.nvf.core;
     in
     {
       packages = {
-        nvim = mkNvim inputs.self.modules.nixvim.nvim;
+        nvim = mkNvf inputs.self.modules.nvf.nvim;
         nvim-minimal = minimal;
 
         vi = pkgs.runCommandLocal "vi" { } ''

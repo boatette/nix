@@ -1,8 +1,8 @@
 {
-  flake.modules.nixvim.nvim.plugins.blink-cmp = {
+  flake.modules.nvf.nvim.vim.autocomplete.blink-cmp = {
     enable = true;
 
-    settings = {
+    setupOpts = {
       completion = {
         accept.auto_brackets.enabled = true;
         documentation.auto_show = true;
@@ -27,6 +27,7 @@
       };
 
       keymap.preset = "super-tab";
+
       snippets.preset = "mini_snippets";
       signature.enabled = true;
     };

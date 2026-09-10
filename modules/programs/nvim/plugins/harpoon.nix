@@ -1,55 +1,57 @@
 {
-  flake.modules.nixvim.nvim =
-    { lib, ... }:
+  flake.modules.nvf.nvim =
     let
-      inherit (lib.nixvim) mkRaw;
-
       harpoonSelect = n: {
         mode = "n";
         key = "<leader>${toString n}";
-        action = mkRaw ''
+        action = ''
           function()
               require("harpoon"):list():select(${toString n})
           end
         '';
-        options.desc = "Harpoon: file ${toString n}";
+        lua = true;
+        desc = "Harpoon: file ${toString n}";
+        silent = false;
       };
     in
     {
-      plugins.harpoon = {
-        enable = true;
-        enableTelescope = false;
-      };
+      vim = {
+        navigation.harpoon.enable = true;
 
-      keymaps = [
-        {
-          mode = "n";
-          key = "<leader>a";
-          action = mkRaw ''
-            function()
-                require("harpoon"):list():add()
-            end
-          '';
-          options.desc = "Harpoon: add file";
-        }
-        {
-          mode = "n";
-          key = "<leader>h";
-          action = mkRaw ''
-            function()
-                local harpoon = require("harpoon")
-                harpoon.ui:toggle_quick_menu(harpoon:list())
-            end
-          '';
-          options.desc = "Harpoon: menu";
-        }
-      ]
-      ++ map harpoonSelect [
-        1
-        2
-        3
-        4
-        5
-      ];
+        keymaps = [
+          {
+            mode = "n";
+            key = "<leader>a";
+            action = ''
+              function()
+                  require("harpoon"):list():add()
+              end
+            '';
+            lua = true;
+            desc = "Harpoon: add file";
+            silent = false;
+          }
+          {
+            mode = "n";
+            key = "<leader>h";
+            action = ''
+              function()
+                  local harpoon = require("harpoon")
+                  harpoon.ui:toggle_quick_menu(harpoon:list())
+              end
+            '';
+            lua = true;
+            desc = "Harpoon: menu";
+            silent = false;
+          }
+        ]
+        ++ map harpoonSelect [
+          1
+          2
+          3
+          4
+          5
+        ];
+      };
     };
 }

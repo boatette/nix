@@ -1,14 +1,14 @@
 {
-  flake.modules.nixvim.core =
+  flake.modules.nvf.core =
     { lib, ... }:
     let
-      inherit (lib.nixvim) mkRaw;
+      inherit (lib.generators) mkLuaInline;
 
       mkFt = pattern: desc: body: {
-        event = "FileType";
+        event = [ "FileType" ];
         group = "Ftplugin";
         inherit pattern desc;
-        callback = mkRaw ''
+        callback = mkLuaInline ''
           function(ev)
           ${body}
           end
@@ -33,64 +33,66 @@
       '';
     in
     {
-      autoGroups.Ftplugin.clear = true;
+      vim = {
+        augroups = [ { name = "Ftplugin"; } ];
 
-      autoCmd = [
-        (mkFt [
-          "checkhealth"
-          "help"
-          "lazygit"
-          "lspinfo"
-          "man"
-          "notify"
-          "qf"
-          "query"
-        ] "Utility window: unlisted, q to close" utilityWindow)
+        autocmds = [
+          (mkFt [
+            "checkhealth"
+            "help"
+            "lazygit"
+            "lspinfo"
+            "man"
+            "notify"
+            "qf"
+            "query"
+          ] "Utility window: unlisted, q to close" utilityWindow)
 
-        (mkFt [
-          "gitcommit"
-          "markdown"
-          "text"
-        ] "Prose: wrap, linebreak, spell" prose)
+          (mkFt [
+            "gitcommit"
+            "markdown"
+            "text"
+          ] "Prose: wrap, linebreak, spell" prose)
 
-        (mkFt [
-          "dart"
-          "json"
-          "json5"
-          "jsonc"
-          "nix"
-        ] "Two-space indent" twoSpace)
-
-        (mkFt
-          [
+          (mkFt [
+            "dart"
             "json"
             "json5"
             "jsonc"
-          ]
-          "Show quotes in JSON"
-          ''
-            vim.opt_local.conceallevel = 0
-          ''
-        )
+            "nix"
+          ] "Two-space indent" twoSpace)
 
-        (mkFt [ "help" ] "Open :help in a vertical split" ''
-          local function vertical()
-              if vim.bo.buftype == "help" and vim.api.nvim_win_get_config(0).relative == "" then
-                  vim.cmd("wincmd L")
-              end
-          end
+          (mkFt
+            [
+              "json"
+              "json5"
+              "jsonc"
+            ]
+            "Show quotes in JSON"
+            ''
+              vim.opt_local.conceallevel = 0
+            ''
+          )
 
-          local group = vim.api.nvim_create_augroup("HelpVertical", { clear = false })
-          vim.api.nvim_clear_autocmds({ group = group, buffer = ev.buf })
-          vim.api.nvim_create_autocmd("BufWinEnter", {
-              group = group,
-              buffer = ev.buf,
-              callback = vertical,
-              desc = "Open :help in a vertical split",
-          })
+          (mkFt [ "help" ] "Open :help in a vertical split" ''
+            local function vertical()
+                if vim.bo.buftype == "help" and vim.api.nvim_win_get_config(0).relative == "" then
+                    vim.cmd("wincmd L")
+                end
+            end
 
-          vertical()
-        '')
-      ];
+            local group = vim.api.nvim_create_augroup("HelpVertical", { clear = false })
+            vim.api.nvim_clear_autocmds({ group = group, buffer = ev.buf })
+            vim.api.nvim_create_autocmd("BufWinEnter", {
+                group = group,
+                buffer = ev.buf,
+                callback = vertical,
+                desc = "Open :help in a vertical split",
+            })
+
+            vertical()
+          '')
+        ];
+      };
     };
 }

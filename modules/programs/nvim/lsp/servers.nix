@@ -1,55 +1,94 @@
 { inputs, ... }:
 {
-  flake.modules.nixvim.nvim =
+  flake.modules.nvf.nvim =
     { lib, pkgs, ... }:
     let
-      inherit (lib.nixvim) mkRaw;
+      inherit (lib.generators) mkLuaInline;
       inherit (inputs.self.constants) flakeDir;
 
-      simpleServers =
+      lspOnly =
         lib.genAttrs
           [
-            "bashls"
-            "eslint"
-            "glsl_analyzer"
-            "gopls"
-            "jsonls"
-            "ols"
-            "qmlls"
-            "ruff"
-            "ts_ls"
-            "zls"
+            "bash"
+            "clang"
+            "glsl"
+            "go"
+            "json"
+            "lua"
+            "nix"
+            "odin"
+            "qml"
+            "typescript"
+            "zig"
           ]
           (_: {
             enable = true;
-            package = null;
+            lsp.enable = true;
           });
     in
     {
-      extraPackages = with pkgs; [
-        bash-language-server
-        clang-tools
-        glsl_analyzer
-        gopls
-        kdePackages.qtdeclarative
-        lua-language-server
-        nixd
-        ols
-        pyright
-        ruff
-        typescript-language-server
-        vscode-langservers-extracted
-        zls
-      ];
+      vim = {
+        lsp.enable = true;
 
-      lsp.servers = simpleServers // {
-        clangd = {
-          enable = true;
-          package = null;
+        extraPackages = with pkgs; [
+          bash-language-server
+          clang-tools
+          glsl_analyzer
+          gopls
+          kdePackages.qtdeclarative
+          lua-language-server
+          nixd
+          ols
+          pyright
+          ruff
+          typescript-language-server
+          vscode-langservers-extracted
+          zls
+        ];
 
-          config = {
+        languages = lib.recursiveUpdate lspOnly {
+          nix.lsp.servers = [ "nixd" ];
+          clang.lsp.servers = [ "clangd" ];
+
+          python = {
+            enable = true;
+            lsp = {
+              enable = true;
+              servers = [
+                "pyright"
+                "ruff"
+              ];
+            };
+          };
+        };
+
+        lsp.servers = {
+          eslint = {
+            enable = true;
             cmd = [
-              "clangd"
+              "${pkgs.vscode-langservers-extracted}/bin/vscode-eslint-language-server"
+              "--stdio"
+            ];
+            filetypes = [
+              "javascript"
+              "javascriptreact"
+              "typescript"
+              "typescriptreact"
+            ];
+            root_markers = [
+              ".eslintrc"
+              ".eslintrc.js"
+              ".eslintrc.json"
+              "eslint.config.js"
+              "eslint.config.mjs"
+              "package.json"
+              ".git"
+            ];
+          };
+
+          clangd = {
+            cmd = lib.mkForce [
+              "${pkgs.clang-tools}/bin/clangd"
               "--background-index"
               "--clang-tidy"
               "--header-insertion=never"
@@ -59,7 +98,7 @@
               "--fallback-style=llvm"
             ];
 
-            root_markers = [
+            root_markers = lib.mkForce [
               ".clangd"
               ".clang-tidy"
               ".clang-format"
@@ -71,7 +110,7 @@
               "Makefile"
             ];
 
-            on_init = mkRaw ''
+            on_init = mkLuaInline ''
               function(client)
                   client.server_capabilities.offsetEncoding = "utf-8"
               end
@@ -84,13 +123,8 @@
               DeducedTypes = true;
             };
           };
-        };
 
-        lua_ls = {
-          enable = true;
-          package = null;
-
-          config.on_init = mkRaw ''
+          lua-language-server.on_init = mkLuaInline ''
             function(client)
                 if client.workspace_folders then
                     local path = client.workspace_folders[1].name
@@ -114,13 +148,8 @@
                 })
             end
           '';
-        };
 
-        nixd = {
-          enable = true;
-          package = null;
-
-          config.settings = mkRaw ''
+          nixd.settings = mkLuaInline ''
             (function()
                 local flake = vim.fn.expand("${flakeDir}")
                 local self = string.format('(builtins.getFlake "%s")', flake)
@@ -139,12 +168,8 @@
                 }
             end)()
           '';
-        };
 
-        pyright = {
-          enable = true;
-          package = null;
-          config.settings.python.pythonPath = mkRaw ''vim.fn.exepath("python3")'';
+          pyright.settings.python.pythonPath = mkLuaInline ''vim.fn.exepath("python3")'';
         };
       };
     };

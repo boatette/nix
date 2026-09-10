@@ -1,23 +1,27 @@
 {
-  flake.modules.nixvim.nvim = {
-    plugins.yazi = {
-      enable = true;
-      settings.open_for_directories = true;
-    };
+  flake.modules.nvf.nvim = {
+    vim = {
+      utility.yazi-nvim = {
+        enable = true;
+        setupOpts.open_for_directories = true;
+      };
 
-    keymaps = [
-      {
-        mode = "n";
-        key = "<leader>e";
-        action = "<cmd>Yazi<cr>";
-        options.desc = "File explorer";
-      }
-      {
-        mode = "n";
-        key = "<leader>E";
-        action = "<cmd>Yazi cwd<cr>";
-        options.desc = "File explorer (cwd)";
-      }
-    ];
+      keymaps = [
+        {
+          mode = "n";
+          key = "<leader>e";
+          action = "<cmd>Yazi<cr>";
+          desc = "File explorer";
+          silent = false;
+        }
+        {
+          mode = "n";
+          key = "<leader>E";
+          action = "<cmd>Yazi cwd<cr>";
+          desc = "File explorer (cwd)";
+          silent = false;
+        }
+      ];
+    };
   };
 }

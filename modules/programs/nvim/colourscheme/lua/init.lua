@@ -140,13 +140,9 @@ local function apply_scheme(entry)
 
     if entry.provider then
         local configured = PROVIDERS[entry.provider]
-        if not (configured and pcall(configured, entry.opts)) then
+        if not (configured and pcall(configured)) then
             return false
         end
-    elseif entry.module then
-        pcall(function()
-            require(entry.module).setup(entry.opts or {})
-        end)
     end
 
     if not pcall(vim.cmd.colorscheme, entry.scheme) then

@@ -1,35 +1,38 @@
 {
-  flake.modules.nixvim.nvim =
-    { lib, ... }:
-    let
-      inherit (lib.nixvim) mkRaw;
-    in
-    {
-      plugins.todo-comments.enable = true;
+  flake.modules.nvf.nvim = {
+    vim = {
+      notes.todo-comments.enable = true;
 
       keymaps = [
         {
           mode = "n";
           key = "<leader>st";
-          action = mkRaw ''
+          action = ''
             function()
                 require("snacks").picker.todo_comments()
             end
           '';
-          options.desc = "Todo";
+          lua = true;
+          desc = "Todo";
+          silent = false;
         }
         {
           mode = "n";
           key = "]t";
-          action = mkRaw ''function() require("todo-comments").jump_next() end'';
-          options.desc = "Next todo";
+          action = ''function() require("todo-comments").jump_next() end'';
+          lua = true;
+          desc = "Next todo";
+          silent = false;
         }
         {
           mode = "n";
           key = "[t";
-          action = mkRaw ''function() require("todo-comments").jump_prev() end'';
-          options.desc = "Prev todo";
+          action = ''function() require("todo-comments").jump_prev() end'';
+          lua = true;
+          desc = "Prev todo";
+          silent = false;
         }
       ];
     };
+  };
 }

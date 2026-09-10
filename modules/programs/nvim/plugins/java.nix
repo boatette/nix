@@ -1,30 +1,35 @@
 {
-  flake.modules.nixvim.nvim =
+  flake.modules.nvf.nvim =
     { lib, pkgs, ... }:
     let
-      inherit (lib.nixvim) mkRaw;
+      inherit (lib.generators) mkLuaInline;
     in
     {
-      extraPackages = [ pkgs.jdt-language-server ];
+      vim = {
+        extraPackages = [ pkgs.jdt-language-server ];
 
-      extraPlugins = [ pkgs.vimPlugins.nvim-java ];
+        extraPlugins.nvim-java = {
+          package = pkgs.vimPlugins.nvim-java;
+          setup = "";
+        };
 
-      autoGroups.LanguageSetup.clear = true;
+        augroups = [ { name = "LanguageSetup"; } ];
 
-      autoCmd = [
-        {
-          event = "FileType";
-          pattern = [ "java" ];
-          group = "LanguageSetup";
-          once = true;
-          desc = "Set up nvim-java and jdtls on first Java buffer";
-          callback = mkRaw ''
-            function()
-                require("java").setup({ spring_boot_tools = { enable = false } })
-                vim.lsp.enable("jdtls")
-            end
-          '';
-        }
-      ];
+        autocmds = [
+          {
+            event = [ "FileType" ];
+            pattern = [ "java" ];
+            group = "LanguageSetup";
+            once = true;
+            desc = "Set up nvim-java and jdtls on first Java buffer";
+            callback = mkLuaInline ''
+              function()
+                  require("java").setup({ spring_boot_tools = { enable = false } })
+                  vim.lsp.enable("jdtls")
+              end
+            '';
+          }
+        ];
+      };
     };
 }

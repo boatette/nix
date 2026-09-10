@@ -1,27 +1,35 @@
 {
-  flake.modules.nixvim.nvim =
+  flake.modules.nvf.nvim =
     { pkgs, ... }:
     {
-      extraPackages = [ pkgs.rust-analyzer ];
+      vim = {
+        extraPackages = [ pkgs.rust-analyzer ];
 
-      plugins.rustaceanvim = {
-        enable = true;
+        languages.rust = {
+          enable = true;
+          lsp.enable = false;
+          dap.enable = false;
 
-        settings = {
-          tools.hover_actions.replace_builtin_hover = true;
+          extensions.rustaceanvim = {
+            enable = true;
 
-          server.default_settings."rust-analyzer" = {
-            cargo.allFeatures = true;
-            checkOnSave = true;
-            check.command = "clippy";
-            inlayHints.enable = true;
-            procMacro.enable = true;
-          };
+            setupOpts = {
+              tools.hover_actions.replace_builtin_hover = true;
 
-          dap.adapter = {
-            type = "executable";
-            command = "lldb-dap";
-            name = "lldb";
+              server.default_settings."rust-analyzer" = {
+                cargo.allFeatures = true;
+                checkOnSave = true;
+                check.command = "clippy";
+                inlayHints.enable = true;
+                procMacro.enable = true;
+              };
+
+              dap.adapter = {
+                type = "executable";
+                command = "lldb-dap";
+                name = "lldb";
+              };
+            };
           };
         };
       };

@@ -1,12 +1,14 @@
 { inputs, ... }:
 {
-  flake.modules.nixvim.nvim =
+  flake.modules.nvf.nvim =
     {
       lib,
       pkgs,
       ...
     }:
     let
+      inherit (lib.nvim.dag) entryAfter;
+
       mkFlakePlugin =
         name: src:
         pkgs.vimUtils.buildVimPlugin {
@@ -14,101 +16,97 @@
         };
     in
     {
-      extraFiles = lib.listToAttrs (
-        map
-          (name: {
-            name = "lua/colourscheme/${name}.lua";
-            value.source = ./lua/${name}.lua;
-          })
-          [
-            "init"
-            "palette"
-            "schemes"
-          ]
-      );
-
-      extraPlugins =
-        (with pkgs.vimPlugins; [
-          catppuccin-nvim
-          kanagawa-nvim
-          nord-nvim
-          rose-pine
-          tokyonight-nvim
-
-          mini-base16
-        ])
-        ++ [
-          (mkFlakePlugin "everforest-nvim" inputs.plugins-everforest-nvim)
-          (mkFlakePlugin "github-monochrome-nvim" inputs.plugins-github-monochrome-nvim)
+      vim = {
+        additionalRuntimePaths = [
+          (pkgs.runCommand "nvim-colourscheme" { } ''
+            mkdir -p $out/lua/colourscheme
+            cp ${./lua}/*.lua $out/lua/colourscheme/
+          '')
         ];
 
-      extraConfigLua = ''
-        do
-            local FLOAT_GROUPS = { "NormalFloat", "FloatBorder", "FloatShadow", "FloatTitle" }
+        startPlugins =
+          (with pkgs.vimPlugins; [
+            catppuccin-nvim
+            kanagawa-nvim
+            nord-nvim
+            rose-pine
+            tokyonight-nvim
 
-            local function clear_floats(hl, palette)
-                for _, group in ipairs(FLOAT_GROUPS) do
-                    hl[group] = { bg = palette.none }
-                end
-            end
+            mini-base16
+          ])
+          ++ [
+            (mkFlakePlugin "everforest-nvim" inputs.plugins-everforest-nvim)
+            (mkFlakePlugin "github-monochrome-nvim" inputs.plugins-github-monochrome-nvim)
+          ];
 
-            require("colourscheme").setup({
-                catppuccin = function(opts)
-                    require("catppuccin").setup(vim.tbl_deep_extend("force", opts or {}, {
-                        transparent_background = true,
-                        float = { transparent = true },
-                    }))
-                end,
+        luaConfigRC.colourscheme = entryAfter [ "autocmds" ] ''
+          do
+              local FLOAT_GROUPS = { "NormalFloat", "FloatBorder", "FloatShadow", "FloatTitle" }
 
-                ["rose-pine"] = function(opts)
-                    require("rose-pine").setup(vim.tbl_deep_extend("force", opts or {}, {
-                        dim_inactive_windows = false,
-                        styles = { transparency = true },
-                    }))
-                end,
+              local function clear_floats(hl, palette)
+                  for _, group in ipairs(FLOAT_GROUPS) do
+                      hl[group] = { bg = palette.none }
+                  end
+              end
 
-                tokyonight = function(opts)
-                    require("tokyonight").setup(vim.tbl_deep_extend("force", opts or {}, {
-                        transparent = true,
-                        styles = { sidebars = "transparent", floats = "transparent" },
-                    }))
-                end,
+              require("colourscheme").setup({
+                  catppuccin = function()
+                      require("catppuccin").setup({
+                          transparent_background = true,
+                          float = { transparent = true },
+                      })
+                  end,
 
-                everforest = function(opts)
-                    require("everforest").setup(vim.tbl_deep_extend("force", opts or {}, {
-                        transparent_background_level = 2,
-                        on_highlights = clear_floats,
-                    }))
-                end,
+                  ["rose-pine"] = function()
+                      require("rose-pine").setup({
+                          dim_inactive_windows = false,
+                          styles = { transparency = true },
+                      })
+                  end,
 
-                kanagawa = function(opts)
-                    require("kanagawa").setup(vim.tbl_deep_extend("force", opts or {}, {
-                        transparent = true,
-                        overrides = function()
-                            local overrides = { LineNr = { bg = "NONE" }, SignColumn = { bg = "NONE" } }
-                            for _, group in ipairs(FLOAT_GROUPS) do
-                                overrides[group] = { bg = "NONE" }
-                            end
-                            return overrides
-                        end,
-                    }))
-                end,
+                  tokyonight = function()
+                      require("tokyonight").setup({
+                          transparent = true,
+                          styles = { sidebars = "transparent", floats = "transparent" },
+                      })
+                  end,
 
-                ["github-monochrome"] = function(opts)
-                    require("github-monochrome").setup(vim.tbl_deep_extend("force", opts or {}, {
-                        transparent = true,
-                        styles = { floats = "transparent", sidebars = "transparent" },
-                    }))
-                end,
+                  everforest = function()
+                      require("everforest").setup({
+                          transparent_background_level = 2,
+                          on_highlights = clear_floats,
+                      })
+                  end,
 
-                nord = function(opts)
-                    require("nord").setup(vim.tbl_deep_extend("force", opts or {}, {
-                        transparent = true,
-                        on_highlights = clear_floats,
-                    }))
-                end,
-            })
-        end
-      '';
+                  kanagawa = function()
+                      require("kanagawa").setup({
+                          transparent = true,
+                          overrides = function()
+                              local overrides = { LineNr = { bg = "NONE" }, SignColumn = { bg = "NONE" } }
+                              for _, group in ipairs(FLOAT_GROUPS) do
+                                  overrides[group] = { bg = "NONE" }
+                              end
+                              return overrides
+                          end,
+                      })
+                  end,
+
+                  ["github-monochrome"] = function()
+                      require("github-monochrome").setup({
+                          transparent = true,
+                          styles = { floats = "transparent", sidebars = "transparent" },
+                      })
+                  end,
+
+                  nord = function()
+                      require("nord").setup({
+                          transparent = true,
+                          on_highlights = clear_floats,
+                      })
+                  end,
+              })
+          end
+        '';
+      };
     };
 }

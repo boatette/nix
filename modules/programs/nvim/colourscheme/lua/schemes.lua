@@ -68,7 +68,6 @@ function M.resolve(name, is_light)
     return {
         provider = entry.provider,
         scheme = entry.scheme or (is_light and entry.light or entry.dark),
-        opts = entry.opts,
     }
 end
 

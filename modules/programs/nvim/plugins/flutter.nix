@@ -1,32 +1,37 @@
 {
-  flake.modules.nixvim.nvim =
+  flake.modules.nvf.nvim =
     { lib, pkgs, ... }:
     let
-      inherit (lib.nixvim) mkRaw;
+      inherit (lib.generators) mkLuaInline;
     in
     {
-      extraPlugins = [ pkgs.vimPlugins.flutter-tools-nvim ];
+      vim = {
+        extraPlugins.flutter-tools-nvim = {
+          package = pkgs.vimPlugins.flutter-tools-nvim;
+          setup = "";
+        };
 
-      autoGroups.LanguageSetup.clear = true;
+        augroups = [ { name = "LanguageSetup"; } ];
 
-      autoCmd = [
-        {
-          event = "FileType";
-          pattern = [ "dart" ];
-          group = "LanguageSetup";
-          once = true;
-          desc = "Set up flutter-tools on first Dart buffer";
-          callback = mkRaw ''
-            function()
-                require("flutter-tools").setup({
-                    ui = { notification_style = "native" },
-                    debugger = { enabled = true },
-                    widget_guides = { enabled = true },
-                    lsp = { color = { enabled = true } },
-                })
-            end
-          '';
-        }
-      ];
+        autocmds = [
+          {
+            event = [ "FileType" ];
+            pattern = [ "dart" ];
+            group = "LanguageSetup";
+            once = true;
+            desc = "Set up flutter-tools on first Dart buffer";
+            callback = mkLuaInline ''
+              function()
+                  require("flutter-tools").setup({
+                      ui = { notification_style = "native" },
+                      debugger = { enabled = true },
+                      widget_guides = { enabled = true },
+                      lsp = { color = { enabled = true } },
+                  })
+              end
+            '';
+          }
+        ];
+      };
     };
 }

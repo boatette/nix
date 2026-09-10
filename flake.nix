@@ -36,16 +36,16 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nixvim = {
-      url = "github:nix-community/nixvim";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     noctalia.url = "github:noctalia-dev/noctalia/cachix";
     noctalia-community-templates = {
       url = "github:noctalia-dev/community-templates";
       flake = false;
     };
     noctalia-greeter.url = "github:noctalia-dev/noctalia-greeter";
+    nvf = {
+      url = "github:notashelf/nvf";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     pkgs-by-name-for-flake-parts.url = "github:drupol/pkgs-by-name-for-flake-parts";
     plugins-everforest-nvim = {
       url = "github:neanias/everforest-nvim";

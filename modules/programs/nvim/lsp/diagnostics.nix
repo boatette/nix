@@ -1,30 +1,34 @@
 {
-  flake.modules.nixvim.nvim =
+  flake.modules.nvf.nvim =
     { lib, ... }:
     let
-      inherit (lib.nixvim) mkRaw;
+      inherit (lib.generators) mkLuaInline;
     in
     {
-      diagnostic.settings = {
-        underline = true;
-        update_in_insert = false;
-        severity_sort = true;
+      vim.diagnostics = {
+        enable = true;
 
-        virtual_text.prefix = mkRaw ''
-          function(diag)
-              local icons = { ERROR = " 󰅚 ", WARN = " 󰀪 ", INFO = " 󰋽 ", HINT = " 󰌶 " }
-              return icons[vim.diagnostic.severity[diag.severity]]
-          end
-        '';
+        config = {
+          underline = true;
+          update_in_insert = false;
+          severity_sort = true;
 
-        signs.text = mkRaw ''
-          {
-              [vim.diagnostic.severity.ERROR] = "󰅚 ",
-              [vim.diagnostic.severity.WARN] = "󰀪 ",
-              [vim.diagnostic.severity.INFO] = "󰋽 ",
-              [vim.diagnostic.severity.HINT] = "󰌶 ",
-          }
-        '';
+          virtual_text.prefix = mkLuaInline ''
+            function(diag)
+                local icons = { ERROR = " 󰅚 ", WARN = " 󰀪 ", INFO = " 󰋽 ", HINT = " 󰌶 " }
+                return icons[vim.diagnostic.severity[diag.severity]]
+            end
+          '';
+
+          signs.text = mkLuaInline ''
+            {
+                [vim.diagnostic.severity.ERROR] = "󰅚 ",
+                [vim.diagnostic.severity.WARN] = "󰀪 ",
+                [vim.diagnostic.severity.INFO] = "󰋽 ",
+                [vim.diagnostic.severity.HINT] = "󰌶 ",
+            }
+          '';
+        };
       };
     };
 }

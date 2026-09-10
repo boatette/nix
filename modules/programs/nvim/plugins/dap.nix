@@ -1,18 +1,19 @@
 {
-  flake.modules.nixvim.nvim =
+  flake.modules.nvf.nvim =
     { lib, pkgs, ... }:
     let
-      inherit (lib.nixvim) mkRaw;
+      inherit (lib.generators) mkLuaInline;
+      inherit (lib.nvim.dag) entryAfter;
 
       promptProgram =
         start:
-        mkRaw ''
+        mkLuaInline ''
           function()
               return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "${start}", "file")
           end
         '';
 
-      pickProcess = mkRaw ''require("dap.utils").pick_process'';
+      pickProcess = mkLuaInline ''require("dap.utils").pick_process'';
 
       lldbLaunch = start: {
         name = "Launch";
@@ -73,153 +74,168 @@
 
       dapMap = key: expr: desc: {
         mode = "n";
-        inherit key;
-        action = mkRaw ''
+        inherit key desc;
+        action = ''
           function()
               require("dap").${expr}
           end
         '';
-        options.desc = desc;
+        lua = true;
+        silent = false;
       };
     in
     {
-      extraPackages = with pkgs; [
-        lldb
-        vscode-js-debug
-        (python3.withPackages (ps: [ ps.debugpy ]))
-      ];
+      vim = {
+        extraPackages = with pkgs; [
+          lldb
+          vscode-js-debug
+          (python3.withPackages (ps: [ ps.debugpy ]))
+        ];
 
-      extraPlugins = [ pkgs.vimPlugins.nvim-dap-view ];
+        extraPlugins.nvim-dap-view = {
+          package = pkgs.vimPlugins.nvim-dap-view;
+          setup = "";
+        };
 
-      plugins.dap = {
-        enable = true;
+        debugger.nvim-dap = {
+          enable = true;
 
-        adapters = {
-          executables = {
+          adapters = {
             lldb = {
+              type = "executable";
               command = "lldb-dap";
               id = "lldb";
             };
 
             dart = {
+              type = "executable";
               command = "dart";
               args = [ "debug_adapter" ];
             };
+
             flutter = {
+              type = "executable";
               command = "flutter";
               args = [ "debug-adapter" ];
             };
 
-            kotlin.command = "kotlin-debug-adapter";
+            kotlin = {
+              type = "executable";
+              command = "kotlin-debug-adapter";
+            };
 
             python = {
+              type = "executable";
               command = "python3";
               args = [
                 "-m"
                 "debugpy.adapter"
               ];
             };
-          };
 
-          servers."pwa-node" = {
-            host = "localhost";
-            port = "\${port}";
-            executable = {
-              command = "js-debug";
-              args = [ "\${port}" ];
+            "pwa-node" = {
+              type = "server";
+              host = "localhost";
+              port = "\${port}";
+              executable = {
+                command = "js-debug";
+                args = [ "\${port}" ];
+              };
             };
           };
+
+          configurations = {
+            c = cLike;
+            cpp = cLike;
+            odin = [ (lldbLaunch "/") ];
+            zig = [ (lldbLaunch "/zig-out/bin/") ];
+
+            javascript = jsLike;
+            typescript = jsLike;
+            javascriptreact = jsLike;
+            typescriptreact = jsLike;
+
+            dart = [
+              {
+                name = "Launch Dart";
+                type = "dart";
+                request = "launch";
+                program = "\${workspaceFolder}/lib/main.dart";
+                cwd = "\${workspaceFolder}";
+              }
+              {
+                name = "Launch Flutter";
+                type = "flutter";
+                request = "launch";
+                program = "\${workspaceFolder}/lib/main.dart";
+                cwd = "\${workspaceFolder}";
+                flutterMode = "debug";
+              }
+            ];
+
+            kotlin = [
+              {
+                name = "Launch Kotlin Program";
+                type = "kotlin";
+                request = "launch";
+                projectRoot = "\${workspaceFolder}";
+                mainClass = "MainKt";
+              }
+            ];
+
+            python = [
+              {
+                name = "Launch file";
+                type = "python";
+                request = "launch";
+                program = "\${file}";
+                pythonPath = mkLuaInline ''
+                  function()
+                      return vim.fn.exepath("python3") or "python"
+                  end
+                '';
+              }
+            ];
+          };
         };
 
-        configurations = {
-          c = cLike;
-          cpp = cLike;
-          odin = [ (lldbLaunch "/") ];
-          zig = [ (lldbLaunch "/zig-out/bin/") ];
+        luaConfigRC.dap-view = entryAfter [ "extraPluginConfigs" ] ''
+          do
+              local dap = require("dap")
+              local dapview = require("dap-view")
 
-          javascript = jsLike;
-          typescript = jsLike;
-          javascriptreact = jsLike;
-          typescriptreact = jsLike;
+              dapview.setup()
 
-          dart = [
-            {
-              name = "Launch Dart";
-              type = "dart";
-              request = "launch";
-              program = "\${workspaceFolder}/lib/main.dart";
-              cwd = "\${workspaceFolder}";
-            }
-            {
-              name = "Launch Flutter";
-              type = "flutter";
-              request = "launch";
-              program = "\${workspaceFolder}/lib/main.dart";
-              cwd = "\${workspaceFolder}";
-              flutterMode = "debug";
-            }
-          ];
+              dap.listeners.after.event_initialized["dap-view"] = function()
+                  dapview.open()
+              end
+              dap.listeners.before.event_terminated["dap-view"] = function()
+                  dapview.close()
+              end
+              dap.listeners.before.event_exited["dap-view"] = function()
+                  dapview.close()
+              end
+          end
+        '';
 
-          kotlin = [
-            {
-              name = "Launch Kotlin Program";
-              type = "kotlin";
-              request = "launch";
-              projectRoot = "\${workspaceFolder}";
-              mainClass = "MainKt";
-            }
-          ];
-
-          python = [
-            {
-              name = "Launch file";
-              type = "python";
-              request = "launch";
-              program = "\${file}";
-              pythonPath = mkRaw ''
-                function()
-                    return vim.fn.exepath("python3") or "python"
-                end
-              '';
-            }
-          ];
-        };
+        keymaps = [
+          (dapMap "<leader>db" "toggle_breakpoint()" "Toggle breakpoint")
+          (dapMap "<leader>dB" ''set_breakpoint(vim.fn.input("Condition: "))'' "Conditional breakpoint")
+          (dapMap "<leader>dc" "continue()" "Continue")
+          (dapMap "<leader>dn" "step_over()" "Step over")
+          (dapMap "<leader>di" "step_into()" "Step into")
+          (dapMap "<leader>do" "step_out()" "Step out")
+          (dapMap "<leader>dl" "run_last()" "Run last")
+          (dapMap "<leader>dx" "terminate()" "Terminate")
+          {
+            mode = "n";
+            key = "<leader>dv";
+            action = ''function() require("dap-view").toggle() end'';
+            lua = true;
+            desc = "Toggle DAP view";
+            silent = false;
+          }
+        ];
       };
-
-      extraConfigLua = ''
-        do
-            local dap = require("dap")
-            local dapview = require("dap-view")
-
-            dapview.setup()
-
-            dap.listeners.after.event_initialized["dap-view"] = function()
-                dapview.open()
-            end
-            dap.listeners.before.event_terminated["dap-view"] = function()
-                dapview.close()
-            end
-            dap.listeners.before.event_exited["dap-view"] = function()
-                dapview.close()
-            end
-        end
-      '';
-
-      keymaps = [
-        (dapMap "<leader>db" "toggle_breakpoint()" "Toggle breakpoint")
-        (dapMap "<leader>dB" ''set_breakpoint(vim.fn.input("Condition: "))'' "Conditional breakpoint")
-        (dapMap "<leader>dc" "continue()" "Continue")
-        (dapMap "<leader>dn" "step_over()" "Step over")
-        (dapMap "<leader>di" "step_into()" "Step into")
-        (dapMap "<leader>do" "step_out()" "Step out")
-        (dapMap "<leader>dl" "run_last()" "Run last")
-        (dapMap "<leader>dx" "terminate()" "Terminate")
-        {
-          mode = "n";
-          key = "<leader>dv";
-          action = mkRaw ''function() require("dap-view").toggle() end'';
-          options.desc = "Toggle DAP view";
-        }
-      ];
     };
 }
