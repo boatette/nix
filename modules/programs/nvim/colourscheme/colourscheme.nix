@@ -7,8 +7,6 @@
       ...
     }:
     let
-      inherit (lib.nixvim) mkRaw;
-
       mkFlakePlugin =
         name: src:
         pkgs.vimUtils.buildVimPlugin {
@@ -43,11 +41,6 @@
           (mkFlakePlugin "everforest-nvim" inputs.plugins-everforest-nvim)
           (mkFlakePlugin "github-monochrome-nvim" inputs.plugins-github-monochrome-nvim)
         ];
-
-      userCommands.ThemeReload = {
-        command = mkRaw ''function() require("colourscheme").apply() end'';
-        desc = "Re-apply the colorscheme from noctalia's current palette";
-      };
 
       extraConfigLua = ''
         do
