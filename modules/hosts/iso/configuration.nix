@@ -18,7 +18,6 @@
         inputs.disko.packages.${pkgs.stdenv.hostPlatform.system}.disko
 
         pkgs.cryptsetup
-        pkgs.sbctl
       ];
 
       environment.etc."nixos-config".source = inputs.self;
