@@ -11,6 +11,7 @@ NixOS configuration for umbriel + noctalia.
 └── modules/
     ├── nix/                how the flake itself is assembled
     ├── hosts/
+    │   └── iso/            builder for custom iso
     ├── system/             aspects that are not a program
     │   ├── settings/       everything every machine gets
     │   ├── session/        the graphical session
@@ -25,110 +26,59 @@ NixOS configuration for umbriel + noctalia.
 
 ## Installing
 
-`iso` is a minimal installer at around **1.5GB**. It carries the flake and this config's substituters, so the install pulls prebuilt paths from the caches rather than building them. Build it from the revision you intend to install.
+`iso` is a minimal installer that carries the flake at `/etc/nixos-config` and this config's substituters, so the install pulls from the caches rather than building. Build it from the revision you intend to install.
 
-### Build the image
+1. Build the image and write it to a stick:
 
-```bash
-cd [flakeDir]
-nix build .#iso
-```
+   ```bash
+   nix build .#iso
+   sudo cp result/iso/*.iso /dev/[disk] && sync
+   ```
 
-### Write it to a raw disk
+   For a Ventoy drive, copy the `.iso` onto its data partition instead, then `sync`. Check it is mounted as `exfat`, not `fuseblk` (`mount | grep -i ventoy`), as the fuse driver is far slower.
 
-```bash
-sudo cp result/iso/*.iso /dev/[disk]
-sync
-```
+2. Put the firmware into **Setup Mode** (clear the Secure Boot keys). The installer and the fresh install are both unsigned, so old keys would refuse to boot them. From a running system, `boot.loader.timeout` is 0: **hold Space** during boot to reach "Reboot Into Firmware Interface".
 
-### Write it to a Ventoy drive
-
-Ventoy boots the `.iso` as a file, so drop it on the Ventoy data partition rather than writing to `/dev/[disk]`. Nothing to reformat; the boot menu picks it up.
-
-```bash
-rsync -h --progress result/iso/*.iso /run/media/[user]/Ventoy/
-sync
-```
-
-`rsync` (and `cp`) return once the copy is in the page cache, not on the stick; `sync` is the real wait. `watch -d 'grep -E "Dirty|Writeback" /proc/meminfo'` shows that flush drain to zero. Check the partition mounted as `exfat`, not `fuseblk` (`mount | grep -i ventoy`), as the fuse driver is far slower.
-
-### Install
-
-The image carries the flake at `/etc/nixos-config`, a symlink to the store path the image was built from. That is what the commands below install from, so the install cannot drift from the image.
-
-1. Set up the ISO environment:
+3. Boot the stick and install:
 
    ```bash
    sudo -i
    nmtui
-   ```
-
-2. Partition, format and mount. `modules/hosts/[host]/disko.nix` names a specific `/dev/disk/by-id/...`, check it is the disk in this machine before running anything. Print the script and read it first:
-
-   ```bash
    disko --mode destroy,format,mount --flake /etc/nixos-config#[host] --dry-run
    ```
 
-   Drop `--dry-run` to do it. It destroys the disk it names.
-
-   The root partition is LUKS2. `disko` prompts for the passphrase while formatting; there is no keyfile and no way to recover the volume without it.
-
-3. Install. It asks for the root password at the end:
+   `modules/hosts/[host]/disko.nix` names a specific `/dev/disk/by-id/...`. Read the printed script, check it is the disk in this machine, then drop `--dry-run`. It destroys the disk it names and prompts for the LUKS passphrase, which has no keyfile and no recovery without it.
 
    ```bash
    nixos-install --flake /etc/nixos-config#[host]
-   ```
-
-4. Put the repo where it lives after the reboot. `~/nix` is set as a constant, which the rebuild aliases and nvim both bake in:
-
-   ```bash
-   mkdir -p /mnt/home/[user]
-   git clone https://github.com/boatette/nix.git /mnt/home/[user]/nix
-   ```
-
-   No network, or an image built from a revision that is not `origin/master`? [Copy the tree the image already carries instead.](#fetch-the-repo-without-a-clone)
-
-5. Set the user password and fix ownership:
-
-   ```bash
    nixos-enter --root /mnt -c 'passwd [user]'
-   chown -R 1000:100 /mnt/home/[user]
+   reboot
    ```
 
-6. Reboot. The passphrase prompt appears over the boot splash.
-
-7. Hibernation is off until the swapfile offset is re-derived, because the LUKS2 header shifts every offset inside the mapper relative to the raw partition:
+4. The first boot generates the Secure Boot keys and stages them on the ESP. Reboot once more and systemd-boot enrolls them. Confirm with:
 
    ```bash
-   sudo btrfs inspect-internal map-swapfile -r /.swapvol/swapfile
+   bootctl status   # Secure Boot: enabled (user)
    ```
 
-   Restore both lines in `modules/hosts/[host]/hardware.nix` with the value it prints, pointing `resumeDevice` at the mapper rather than the partition, then rebuild and test `systemctl hibernate` before trusting it.
+5. Enroll the TPM so the disk unlocks without the passphrase:
 
-### Fetch the repo without a clone
+   ```bash
+   sudo systemd-cryptenroll --tpm2-device=auto --tpm2-pcrs=7
+   sudo systemd-cryptenroll --recovery-key
+   ```
 
-An alternative to step 4. `/etc/nixos-config` is the tree the image was built from, so it can be copied out instead. Unlike a clone it is guaranteed to match the revision the image was built from:
+   **Write the recovery key down somewhere that is not this laptop.**
 
-```bash
-mkdir -p /mnt/home/[user]
-cp -rL --no-preserve=mode /etc/nixos-config /mnt/home/[user]/nix
-```
+6. Clone the repo to `~/nix`, where the rebuild aliases and nvim expect it:
 
-The copy has no `.git`. Rebuilds do not care, but reattach it once there is a network:
-
-```bash
-cd ~/nix
-git init -b master
-git remote add origin https://github.com/boatette/nix.git
-git fetch origin
-git reset --mixed origin/master
-git branch -u origin/master
-git status   # should be empty
-```
+   ```bash
+   git clone https://github.com/boatette/nix.git ~/nix
+   ```
 
 ### Install from a stock ISO
 
-An ISO built from this repo already carries the substituters below, so `nixos-install --flake /etc/nixos-config#[host]` is all you need. An upstream NixOS ISO does not, and it installs onto a tmpfs root, so it needs the caches and the job bounds to keep ram usage down:
+An upstream NixOS ISO has neither the flake nor the caches, and installs onto a tmpfs root, so it needs the substituters and job bounds passed in:
 
 ```bash
 export NIX_CONFIG="experimental-features = nix-command flakes"
@@ -146,56 +96,19 @@ nixos-install --flake github:boatette/nix#[host] --option max-jobs 3 --option co
 
 ## Secure Boot
 
-Secure Boot is handled by [lanzaboote](https://github.com/nix-community/lanzaboote), which replaces `systemd-boot` and signs each generation as a UKI. The module lives at `modules/system/secure-boot.nix` and is **not** imported by default: on a fresh install there are no signing keys yet, so enabling it would fail the bootloader install. Do it in this order.
+[lanzaboote](https://github.com/nix-community/lanzaboote) (`modules/system/secure-boot.nix`) replaces systemd-boot and signs every generation on rebuild. Keys live in `/var/lib/sbctl`, and a copy of their enrollment files stays on the ESP, so a firmware key reset is re-enrolled on the next boot. Nothing here needs redoing short of a reinstall.
 
-1. Create the keys. They land in `/var/lib/sbctl`.
-
-   ```bash
-   sudo sbctl create-keys
-   ```
-
-2. Add `secure-boot` to the host's imports in `modules/hosts/[host]/configuration.nix`, rebuild, and check every generation got signed. The raw `...-bzImage.efi` is expected to be unsigned.
-
-   ```bash
-   sudo sbctl verify
-   ```
-
-3. Reboot into the firmware. `boot.loader.timeout` is 0, so **hold Space** during boot to reach the menu and its "Reboot Into Firmware Interface" entry. Then put the firmware into Setup Mode.
-
-4. Boot back into NixOS and enroll:
-
-   ```bash
-   sudo sbctl enroll-keys --microsoft
-   ```
-
-   `--microsoft` matters here. This machine has an NVIDIA dGPU whose OptionROM is Microsoft-signed, and dropping those keys is a common way to end up unable to boot.
-
-5. Reboot and confirm:
-
-   ```bash
-   bootctl status   # Secure Boot: enabled (user), TPM2 Support: yes
-   ```
-
-### TPM2 auto-unlock
-
-Only after Secure Boot is enabled, PCR 7 measures Secure Boot state, so enrolling earlier just means the unlock fails and you get the passphrase prompt back.
-
-```bash
-sudo systemd-cryptenroll /dev/disk/by-id/[disk]-part2 --tpm2-device=auto --tpm2-pcrs=7
-sudo systemd-cryptenroll /dev/disk/by-id/[disk]-part2 --recovery-key
-```
-
-PCR 7 alone is the right tradeoff: it refuses to release the key if Secure Boot is disabled or the keys are swapped, while surviving kernel and generation changes. PCR 0 would break on every firmware update, and PCR 11 changes on every rebuild.
-
-**Write the recovery key down somewhere that is not this laptop.** The original passphrase keyslot survives enrollment, but if you lose both and the TPM is cleared the data is gone.
-
-Then add `crypttabExtraOpts = [ "tpm2-device=auto" ];` to the LUKS `settings` in `modules/hosts/[host]/disko.nix`, rebuild, and confirm it unlocks without prompting.
+The TPM is bound to PCR 7 alone. It refuses to release the key if Secure Boot is disabled or the keys are swapped, but survives kernel and generation changes.
 
 > [!TIP]
 >
-> If a firmware update invalidates the enrollment, the passphrase prompt simply comes back, it is not a lockout. Re-enroll with `systemd-cryptenroll --wipe-slot=tpm2 ... --tpm2-device=auto --tpm2-pcrs=7`.
+> If a firmware update invalidates the enrollment, the passphrase prompt simply comes back, it is not a lockout. Re-enroll with:
 >
-> If the machine refuses to boot at all after enrolling keys, disable Secure Boot in the firmware, boot, and `sbctl reset`.
+> ```bash
+> sudo systemd-cryptenroll --wipe-slot=tpm2 /dev/disk/by-partlabel/disk-main-root --tpm2-device=auto --tpm2-pcrs=7
+> ```
+>
+> If the machine refuses to boot at all, disable Secure Boot in the firmware, boot, and `sbctl reset`.
 
 ## Known Issues
 
