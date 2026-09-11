@@ -35,17 +35,13 @@
       (inputs.self.lib.mimeHandlers { "extract-here.desktop" = archives; })
 
       {
-        xdg = {
-          mimeApps.enable = true;
-
-          desktopEntries.extract-here = {
-            name = "Extract Here";
-            exec = "${lib.getExe pkgs.file-roller} --extract-here %U";
-            icon = "package-x-generic";
-            terminal = false;
-            noDisplay = true;
-            mimeType = archives;
-          };
+        xdg.desktopEntries.extract-here = {
+          name = "Extract Here";
+          exec = "${lib.getExe pkgs.file-roller} --extract-here %U";
+          icon = "package-x-generic";
+          terminal = false;
+          noDisplay = true;
+          mimeType = archives;
         };
 
         home.packages = [ pkgs.file-roller ];

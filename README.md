@@ -146,7 +146,7 @@ nixos-install --flake github:boatette/nix#[host] --option max-jobs 3 --option co
 
 ## Secure Boot
 
-Secure Boot is handled by [lanzaboote](https://github.com/nix-community/lanzaboote), which replaces `systemd-boot` and signs each generation as a UKI. The module lives at `modules/system/settings/secure-boot.nix` and is **not** imported by default: on a fresh install there are no signing keys yet, so enabling it would fail the bootloader install. Do it in this order.
+Secure Boot is handled by [lanzaboote](https://github.com/nix-community/lanzaboote), which replaces `systemd-boot` and signs each generation as a UKI. The module lives at `modules/system/secure-boot.nix` and is **not** imported by default: on a fresh install there are no signing keys yet, so enabling it would fail the bootloader install. Do it in this order.
 
 1. Create the keys. They land in `/var/lib/sbctl`.
 
@@ -201,7 +201,7 @@ Then add `crypttabExtraOpts = [ "tpm2-device=auto" ];` to the LUKS `settings` in
 
 ### Steam
 
-Steam's embedded CEF browser can fail to start, leaving a blank client window. `-cef-disable-gpu` is applied declaratively in `modules/system/gaming.nix`; if the client still fails, clear its local state:
+Steam's embedded CEF browser can fail to start, leaving a blank client window. `-cef-disable-gpu` is applied declaratively in `modules/programs/gaming.nix`; if the client still fails, clear its local state:
 
 ```bash
 rm -rf ~/.steam ~/.local/share/Steam
