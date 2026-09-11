@@ -13,7 +13,15 @@
       ];
     in
     {
-      home.packages = [ pkgs.local.ssd ];
+      home = {
+        packages = [ pkgs.local.ssd ];
+
+        shellAliases = {
+          baknow = "systemctl --user start ssd-backup.service";
+          bakstatus = "systemctl --user list-timers ssd-backup.timer";
+          baklog = "journalctl --user -u ssd-backup -n 50 --no-pager";
+        };
+      };
 
       systemd.user = {
         services = {
