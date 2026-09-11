@@ -22,8 +22,8 @@
         start = [
           "umbriel-companion"
           "workspaces"
-          "audio_visualizer"
           "media"
+          "audio_visualizer"
         ];
 
         center = [
