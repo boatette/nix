@@ -1,7 +1,14 @@
 { lib, ... }:
 {
   flake.modules.homeManager.umbriel.programs.umbriel.settings.window_rule = lib.mkBefore [
-    { blur = true; }
+    {
+      blur = true;
+    }
+
+    {
+      match.is_alone = true;
+      default_maximize = true;
+    }
 
     {
       match.app_id = "^xdg-desktop-portal-gtk$";
