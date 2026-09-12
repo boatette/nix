@@ -9,11 +9,15 @@
 
     icon_size = 40;
 
+    border_width = 1.0;
+    margin_edge = 10;
+
     radius = 0;
 
     show_dots = true;
     show_instance_count = false;
 
+    launcher_position = "start";
     pinned = [
       "com.mitchellh.ghostty"
       "org.qutebrowser.qutebrowser"
