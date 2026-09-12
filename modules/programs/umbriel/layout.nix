@@ -8,7 +8,5 @@
     };
 
     scrolling.default_width_fraction = 0.5;
-
-    master.position = "center";
   };
 }
