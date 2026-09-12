@@ -32,7 +32,7 @@ NixOS configuration for umbriel + noctalia.
 
    ```bash
    nix build .#iso
-   sudo cp result/iso/*.iso /dev/[disk] && sync
+   sudo cp result/iso/*.iso /dev/sdX && sync
    ```
 
    For a Ventoy drive, copy the `.iso` onto its data partition instead, then `sync`. Check it is mounted as `exfat`, not `fuseblk` (`mount | grep -i ventoy`), as the fuse driver is far slower.
