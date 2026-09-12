@@ -14,10 +14,11 @@
 
         corner_radius_scale = 0.0;
 
-        button_borders = false;
-        card_borders = false;
-        input_borders = false;
-        popup_borders = false;
+        button_borders = true;
+        card_borders = true;
+        input_borders = true;
+        popup_borders = true;
+
         popup_shadows = false;
 
         polkit_agent = true;
@@ -47,7 +48,7 @@
         };
 
         panel = {
-          borders = false;
+          borders = true;
           transparency_mode = "soft";
           list_item_background = true;
 

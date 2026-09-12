@@ -15,9 +15,13 @@
 
         padding = 10;
         widget_spacing = 12;
-        margin_ends = 0;
+        margin_ends = 10;
+        margin_edge = 10;
+
+        border_width = 1.0;
 
         capsule_radius = 0.0;
+        capsule_thickness = 1.0;
 
         start = [
           "umbriel-companion"
