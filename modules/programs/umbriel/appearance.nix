@@ -1,7 +1,7 @@
 {
   flake.modules.homeManager.umbriel.programs.umbriel.settings.appearance = {
     border_width = 1;
-    outer_border_width = 1;
+    outer_border_width = 0;
     corner_radius = 0;
 
     blur = {
