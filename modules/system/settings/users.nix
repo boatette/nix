@@ -4,6 +4,7 @@
     {
       users.users.${config.constants.username} = {
         isNormalUser = true;
+        homeMode = "711";
         inherit (config.constants) description;
         extraGroups = [
           "networkmanager"
