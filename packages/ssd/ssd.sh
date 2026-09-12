@@ -15,6 +15,9 @@ readonly DIRS=(
     "Videos:Videos"
     ".local/share/PrismLauncher:PrismLauncher"
     ".local/state/noctalia/plugins/data/boatette/auto-theme:auto-theme"
+)
+
+readonly FILES=(
     ".face:.face"
 )
 
@@ -88,11 +91,34 @@ cmd_backup() {
         }
     done
 
+    for entry in "${FILES[@]}"; do
+        name=${entry%%:*}
+        src="$HOME/$name"
+        dst="$BAK_ROOT/${entry##*:}"
+
+        if [[ ! -f "$src" ]]; then
+            log "skipping $name (missing)"
+            continue
+        fi
+
+        mkdir -p "$(dirname "$dst")" || {
+            err "cannot create $(dirname "$dst")"
+            rc=1
+            continue
+        }
+
+        log "backing up $name"
+        rsync -a "$src" "$dst" || {
+            err "rsync failed for $name"
+            rc=1
+        }
+    done
+
     if ((rc == 0)); then
         log "done"
         notify "SSD backup complete" "Mirrored home to $SSD_ROOT"
     else
-        notify critical "SSD backup failed" "One or more directories did not sync"
+        notify critical "SSD backup failed" "One or more entries did not sync"
     fi
     return $rc
 }
@@ -132,13 +158,33 @@ cmd_restore() {
         }
     done
 
+    for entry in "${FILES[@]}"; do
+        name=${entry%%:*}
+        src="$BAK_ROOT/${entry##*:}"
+        dst="$HOME/$name"
+
+        [[ -f "$src" ]] || continue
+
+        mkdir -p "$(dirname "$dst")" || {
+            err "cannot create $(dirname "$dst")"
+            rc=1
+            continue
+        }
+
+        log "restoring $name"
+        rsync -a --ignore-existing "$src" "$dst" || {
+            err "rsync failed for $name"
+            rc=1
+        }
+    done
+
     if ((rc == 0)); then
         mkdir -p "$(dirname "$stamp")"
         date -Iseconds >"$stamp"
         log "done"
         notify "SSD restore complete" "Restored home from $SSD_ROOT"
     else
-        notify critical "SSD restore failed" "One or more directories did not restore"
+        notify critical "SSD restore failed" "One or more entries did not restore"
     fi
 
     return $rc
