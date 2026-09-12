@@ -23,13 +23,17 @@
           KDE.SingleClick = false;
         };
 
-        darklyrc.Style = {
-          DolphinViewOpacity = 80;
-          DolphinSidebarOpacity = 80;
-          MenuOpacity = 80;
-          MenuBarOpacity = 80;
-          ToolBarOpacity = 80;
-          TabBarOpacity = 80;
+        darklyrc = {
+          Common.CornerRadius = 0;
+
+          Style = {
+            DolphinViewOpacity = 80;
+            DolphinSidebarOpacity = 80;
+            MenuOpacity = 80;
+            MenuBarOpacity = 80;
+            ToolBarOpacity = 80;
+            TabBarOpacity = 80;
+          };
         };
       };
 
