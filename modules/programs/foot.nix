@@ -17,7 +17,7 @@
             pad = "14x14";
           };
 
-          colors.alpha = 0.8;
+          colors-dark.alpha = 0.8;
 
           csd.preferred = "none";
         };
