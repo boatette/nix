@@ -19,7 +19,7 @@
 
     launcher_position = "start";
     pinned = [
-      "com.mitchellh.ghostty"
+      "footclient"
       "org.qutebrowser.qutebrowser"
       "vesktop"
       "steam"

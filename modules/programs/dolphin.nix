@@ -16,8 +16,8 @@
 
         kdeglobals = {
           General = {
-            TerminalApplication = "ghostty";
-            TerminalService = "com.mitchellh.ghostty.desktop";
+            TerminalApplication = "footclient";
+            TerminalService = "footclient.desktop";
           };
 
           KDE.SingleClick = false;

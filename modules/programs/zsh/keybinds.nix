@@ -56,23 +56,21 @@
           bindkey -M vicmd 'k' history-substring-search-up
           bindkey -M vicmd 'j' history-substring-search-down
 
-          if [[ "$GHOSTTY_SHELL_FEATURES" != *cursor* ]]; then
-            autoload -Uz add-zle-hook-widget
+          autoload -Uz add-zle-hook-widget
 
-            _zsh_cursor_shape() {
-              case ''${KEYMAP-} in
-                vicmd | visual) printf '\e[2 q' ;;
-                *) printf '\e[6 q' ;;
-              esac
-            }
-            _zsh_cursor_reset() { printf '\e[0 q'; }
+          _zsh_cursor_shape() {
+            case ''${KEYMAP-} in
+              vicmd | visual) printf '\e[2 q' ;;
+              *) printf '\e[6 q' ;;
+            esac
+          }
+          _zsh_cursor_reset() { printf '\e[0 q'; }
 
-            zle -N _zsh_cursor_shape
-            zle -N _zsh_cursor_reset
-            add-zle-hook-widget keymap-select _zsh_cursor_shape
-            add-zle-hook-widget line-init _zsh_cursor_shape
-            add-zle-hook-widget line-finish _zsh_cursor_reset
-          fi
+          zle -N _zsh_cursor_shape
+          zle -N _zsh_cursor_reset
+          add-zle-hook-widget keymap-select _zsh_cursor_shape
+          add-zle-hook-widget line-init _zsh_cursor_shape
+          add-zle-hook-widget line-finish _zsh_cursor_reset
         '')
       ];
     };

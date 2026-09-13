@@ -93,7 +93,7 @@
               (
                 (action "command" "b")
                 // {
-                  command = ''ghostty -e sh -c "${rebuild.os "boot"} && systemctl reboot"'';
+                  command = ''footclient sh -c "${rebuild.os "boot"} && systemctl reboot"'';
                   label = "Rebuild & Reboot";
                 }
               )

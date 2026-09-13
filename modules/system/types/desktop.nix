@@ -31,7 +31,6 @@
     selector
 
     foot
-    ghostty
     konsole
     dolphin
     qutebrowser

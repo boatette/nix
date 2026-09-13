@@ -3,7 +3,6 @@
     builtin_ids = [
       "btop"
       "foot"
-      "ghostty"
       "gtk3"
       "gtk4"
       "kcolorscheme"
