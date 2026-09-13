@@ -30,6 +30,7 @@
     prism
     selector
 
+    foot
     ghostty
     konsole
     dolphin

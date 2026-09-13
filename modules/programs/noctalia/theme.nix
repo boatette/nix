@@ -2,6 +2,7 @@
   flake.modules.homeManager.noctalia.programs.noctalia.settings.theme.templates = {
     builtin_ids = [
       "btop"
+      "foot"
       "ghostty"
       "gtk3"
       "gtk4"
