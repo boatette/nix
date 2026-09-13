@@ -16,7 +16,7 @@
 
       systemd.services.plymouth-quit.serviceConfig.ExecStart = [
         ""
-        "${config.boot.plymouth.package}/bin/plymouth quit --retain-splash"
+        "-${config.boot.plymouth.package}/bin/plymouth quit --retain-splash"
       ];
     };
 }
