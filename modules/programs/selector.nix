@@ -15,6 +15,8 @@
         blur = true;
         corner_radius = 0;
 
+        fade_out = 100;
+
         colors = "noctalia.toml";
       };
     };
