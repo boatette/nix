@@ -13,6 +13,7 @@
 
       "Mod+Alt+E" = ''spawn:foot zsh -ic "y; exec zsh"'';
 
+      "Ctrl+Shift+Escape" = "spawn:btop";
       "Mod+Return" = "spawn:pkill -fx \"qimgv $HOME/Pictures/dvp.webp\" || qimgv $HOME/Pictures/dvp.webp";
 
       "Mod+D" = "spawn:noctalia msg panel-toggle launcher";
@@ -23,7 +24,6 @@
       "Mod+Comma" = "spawn:noctalia msg settings-toggle";
       "Mod+I" = "spawn:noctalia msg caffeine-toggle";
       "Alt+Tab" = "spawn:noctalia msg window-switcher";
-      "Ctrl+Shift+Escape" = "spawn:noctalia msg panel-toggle control-center system";
 
       "Mod+G" = "overview-toggle";
       "Mod+Slash" = "cheatsheet-toggle";

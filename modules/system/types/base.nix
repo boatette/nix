@@ -40,6 +40,7 @@
 
         archive-tools
         bat
+        btop
         direnv
         fzf
         git
