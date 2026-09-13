@@ -8,7 +8,7 @@
 
       cleanArgs = "--keep 5 --keep-since 7d";
 
-      update = "${writeFlake} && nix flake update --flake ${flakeDir} --commit-lock-file";
+      update = "${writeFlake} && nix flake update --flake ${flakeDir} && ${writeFlake} && { git -C ${flakeDir} diff --quiet HEAD -- flake.nix flake.lock || git -C ${flakeDir} commit -m 'flake.lock: Update' -- flake.nix flake.lock; }";
     in
     {
       inherit
