@@ -26,7 +26,7 @@
           name = "Neovim";
           genericName = "Text Editor";
           comment = "Edit text files";
-          exec = "${lib.getExe' config.programs.foot.package "footclient"} nvim %F";
+          exec = "${lib.getExe config.programs.foot.package} nvim %F";
           icon = "nvim";
           terminal = false;
           categories = [

@@ -7,11 +7,11 @@
       };
     in
     {
-      "Mod+T" = "spawn:footclient";
+      "Mod+T" = "spawn:foot";
       "Mod+W" = "spawn:qutebrowser";
       "Mod+E" = "spawn:dolphin";
 
-      "Mod+Alt+E" = ''spawn:footclient zsh -ic "y; exec zsh"'';
+      "Mod+Alt+E" = ''spawn:foot zsh -ic "y; exec zsh"'';
 
       "Mod+Return" = "spawn:pkill -fx \"qimgv $HOME/Pictures/dvp.webp\" || qimgv $HOME/Pictures/dvp.webp";
 

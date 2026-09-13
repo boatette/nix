@@ -93,7 +93,7 @@
               (
                 (action "command" "b")
                 // {
-                  command = ''footclient sh -c "${rebuild.os "boot"} && systemctl reboot"'';
+                  command = ''foot sh -c "${rebuild.os "boot"} && systemctl reboot"'';
                   label = "Rebuild & Reboot";
                 }
               )

@@ -16,8 +16,8 @@
 
         kdeglobals = {
           General = {
-            TerminalApplication = "footclient";
-            TerminalService = "footclient.desktop";
+            TerminalApplication = "foot";
+            TerminalService = "foot.desktop";
           };
 
           KDE.SingleClick = false;
