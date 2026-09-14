@@ -56,9 +56,6 @@
         (cmd "v" "<" "<gv" "Indent left")
         (cmd "v" ">" ">gv" "Indent right")
 
-        (cmd "v" "J" ":m '>+1<cr>gv=gv" "Move lines down" // { silent = true; })
-        (cmd "v" "K" ":m '<-2<cr>gv=gv" "Move lines up" // { silent = true; })
-
         (cmd "n" "<C-d>" "<C-d>zz" "Half page down (centred)")
         (cmd "n" "<C-u>" "<C-u>zz" "Half page up (centred)")
         (cmd "n" "n" "nzzzv" "Next search result (centred)")
