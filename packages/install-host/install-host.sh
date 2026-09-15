@@ -215,8 +215,12 @@ done
 echo
 echo "Then:"
 if ((${#luks[@]})); then
-    echo "  - disko asks for the new disk encryption passphrase. Until finish-install"
-    echo "    adds a recovery key, it is the only way into the disk."
+    echo "  - disko asks for the new disk encryption passphrase."
+    if ((${#tpm[@]})); then
+        echo "    Until finish-install adds a recovery key, it is the only way into the disk."
+    else
+        echo "    It is the only way into the disk."
+    fi
 fi
 echo "  - nixos-install installs $host and asks for a root password."
 if ((${#users[@]})); then
