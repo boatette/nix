@@ -8,6 +8,7 @@
         boot
         btrfs
         firmware
+        install
         locale
         networking
         nix-settings

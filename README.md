@@ -26,7 +26,7 @@ NixOS configuration for umbriel + noctalia.
 
 ## Installing
 
-`iso` is a minimal installer that carries the flake at `/etc/nixos-config` and this config's substituters, so the install pulls from the caches rather than building. Build it from the revision you intend to install.
+`iso` is a minimal installer that carries the flake at `/etc/nixos-config`, this config's substituters and `install-host`, so the install pulls from the caches rather than building. Build it from the revision you intend to install.
 
 1. Build the image and write it to a stick:
 
@@ -37,62 +37,51 @@ NixOS configuration for umbriel + noctalia.
 
    For a Ventoy drive, copy the `.iso` onto its data partition instead, then `sync`. Check it is mounted as `exfat`, not `fuseblk` (`mount | grep -i ventoy`), as the fuse driver is far slower.
 
-2. Put the firmware into **Setup Mode** (clear the Secure Boot keys). The installer and the fresh install are both unsigned, so old keys would refuse to boot them. From a running system, `boot.loader.timeout` is 0: **hold Space** during boot to reach "Reboot Into Firmware Interface".
+2. Put the firmware into **Setup Mode** (clear the Secure Boot keys). The installer and the fresh install are both unsigned, so old keys would refuse to boot them. From a running system, `boot.loader.timeout` is 0: **hold Space** during boot to reach "Reboot Into Firmware Interface". `install-host` checks this for hosts with Secure Boot, and offers to reboot into the firmware if it was missed.
 
-3. Boot the stick and install:
-
-   ```bash
-   sudo -i
-   nmtui
-   disko --mode destroy,format,mount --flake /etc/nixos-config#[host] --dry-run
-   ```
-
-   `modules/hosts/[host]/disko.nix` names a specific `/dev/disk/by-id/...`. Read the printed script, check it is the disk in this machine, then drop `--dry-run`. It destroys the disk it names and prompts for the LUKS passphrase, which has no keyfile and no recovery without it.
+3. Boot the stick and run:
 
    ```bash
-   nixos-install --flake /etc/nixos-config#[host]
-   nixos-enter --root /mnt -c 'passwd [user]'
-   reboot
+   sudo install-host          # pick a host from a menu
+   sudo install-host [host]   # or name it
    ```
 
-4. The first boot generates the Secure Boot keys and stages them on the ESP. Reboot once more and systemd-boot enrolls them. Confirm with:
+   It opens `nmtui` if there is no network, checks this machine has the disk `modules/hosts/[host]/disko.nix` names, shows what it will erase, and waits for you to type the host name. Then it partitions (prompting for the LUKS passphrase, which has no recovery until step 4), installs, sets the user passwords and clones the repo to `~/nix`. `--dry-run` shows all of that, plus disko's script, without touching anything.
+
+4. Reboot, log in, and run:
 
    ```bash
-   bootctl status   # Secure Boot: enabled (user)
+   finish-install
    ```
 
-5. Enroll the TPM so the disk unlocks without the passphrase:
-
-   ```bash
-   sudo systemd-cryptenroll --tpm2-device=auto --tpm2-pcrs=7
-   sudo systemd-cryptenroll --recovery-key
-   ```
+   It waits for the Secure Boot keys to be enrolled, which takes one more reboot, then binds the disk to the TPM and creates a recovery key. Rerun it whenever it asks; `finish-install --check` shows what is left.
 
    **Write the recovery key down somewhere that is not this laptop.**
 
-6. Clone the repo to `~/nix`, where the rebuild aliases and nvim expect it:
+What each host needs is read from its own config (`modules/system/settings/install.nix`): its disko disks, whether it uses Secure Boot, which LUKS devices unlock with the TPM, and which users have no password. A reminder that can't be derived goes in the host, and both commands print it:
 
-   ```bash
-   git clone https://github.com/boatette/nix.git ~/nix
-   ```
+```nix
+# modules/hosts/[host]/install.nix
+{
+  flake.modules.nixos.[host].install.notes = [ "..." ];
+}
+```
+
+### Install a new machine
+
+Boot the stick and run `sudo install-host [host]`. When the disk isn't found, it lists this machine's disks by their `/dev/disk/by-id` names. Put the right one in `modules/hosts/[host]/disko.nix`, push, and install from GitHub rather than the stick's copy of the flake:
+
+```bash
+sudo install-host --flake github:boatette/nix [host]
+```
 
 ### Install from a stock ISO
 
-An upstream NixOS ISO has neither the flake nor the caches, and installs onto a tmpfs root, so it needs the substituters and job bounds passed in:
+An upstream NixOS ISO has neither the flake nor `install-host`, so run it from GitHub. It passes the substituters, and the job bounds a tmpfs root needs, by itself:
 
 ```bash
-export NIX_CONFIG="experimental-features = nix-command flakes"
-nix run github:nix-community/disko/latest -- --mode destroy,format,mount --flake github:boatette/nix#[host] --dry-run
-nixos-install --flake github:boatette/nix#[host] --option max-jobs 3 --option cores 4 --option extra-substituters "https://nix-community.cachix.org https://noctalia.cachix.org" --option extra-trusted-public-keys "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs= noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
+sudo nix --extra-experimental-features 'nix-command flakes' run github:boatette/nix#install-host
 ```
-
-> [!TIP]
->
-> To avoid manually typing the cachix stuff
->
-> ```bash
-> curl -sL https://raw.githubusercontent.com/boatette/nix/master/README.md | grep -m1 '^nixos-install '
-> ```
 
 ## Secure Boot
 
@@ -105,7 +94,7 @@ The TPM is bound to PCR 7 alone. It refuses to release the key if Secure Boot is
 > If a firmware update invalidates the enrollment, the passphrase prompt simply comes back, it is not a lockout. Re-enroll with:
 >
 > ```bash
-> sudo systemd-cryptenroll --wipe-slot=tpm2 /dev/disk/by-partlabel/disk-main-root --tpm2-device=auto --tpm2-pcrs=7
+> finish-install --reenroll-tpm
 > ```
 >
 > If the machine refuses to boot at all, disable Secure Boot in the firmware, boot, and `sbctl reset`.

@@ -16,6 +16,7 @@
       email = "boatette@gmail.com";
 
       flakeDir = "/home/${username}/nix";
+      repo = "boatette/nix";
 
       locale = "en_AU.UTF-8";
       timeZone = "Australia/Hobart";
