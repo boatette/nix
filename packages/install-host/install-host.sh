@@ -110,17 +110,31 @@ fi
 log "finding installable hosts in $flake"
 
 hosts_json=$(nix eval --json "$flake#nixosConfigurations" --apply \
-    'cs: builtins.filter (n: ((builtins.getAttr n cs).config.install.plan.disks or [ ]) != [ ]) (builtins.attrNames cs)')
-mapfile -t hosts < <(jq -r '.[]' <<<"$hosts_json")
+    'cs: builtins.filter (h: h.disks != [ ]) (map (n: { name = n; disks = (builtins.getAttr n cs).config.install.plan.disks or [ ]; }) (builtins.attrNames cs))')
+mapfile -t hosts < <(jq -r '.[].name' <<<"$hosts_json")
 ((${#hosts[@]})) || die "no host in $flake has a disko disk to install onto"
 
 if [[ -z "$host" ]]; then
+    choices=()
+    for candidate in "${hosts[@]}"; do
+        present=1
+        while IFS= read -r disk; do
+            [[ -e "$disk" ]] || present=0
+        done < <(jq -r --arg host "$candidate" '.[] | select(.name == $host) | .disks[]' <<<"$hosts_json")
+        ((present)) && choices+=("$candidate")
+    done
+
+    if ((!${#choices[@]})); then
+        warn "no host's disks are all on this machine, showing every installable host"
+        choices=("${hosts[@]}")
+    fi
+
     PS3="host to install: "
-    select host in "${hosts[@]}"; do
+    select host in "${choices[@]}"; do
         [[ -n "$host" ]] && break
     done
     [[ -n "$host" ]] || die "no host chosen"
-elif ! jq -e --arg host "$host" 'any(.[]; . == $host)' <<<"$hosts_json" >/dev/null; then
+elif ! jq -e --arg host "$host" 'any(.[]; .name == $host)' <<<"$hosts_json" >/dev/null; then
     die "$host is not an installable host in $flake (installable: ${hosts[*]})"
 fi
 
