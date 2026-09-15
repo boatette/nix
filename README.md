@@ -11,7 +11,8 @@ NixOS configuration for umbriel + noctalia.
 └── modules/
     ├── nix/                how the flake itself is assembled
     ├── hosts/
-    │   └── iso/            builder for custom iso
+    │   ├── iso/            builder for custom iso
+    │   └── vm/             the desktop as a qemu guest
     ├── system/             aspects that are not a program
     │   ├── settings/       everything every machine gets
     │   ├── session/        the graphical session
@@ -82,6 +83,22 @@ An upstream NixOS ISO has neither the flake nor `install-host`, so run it from G
 ```bash
 sudo nix --extra-experimental-features 'nix-command flakes' run github:boatette/nix#install-host
 ```
+
+## VM
+
+`vm` (`modules/hosts/vm/`) is the desktop, `desktop` + `boatette` without aspire's hardware, as a QEMU guest. It runs straight off the host's `/nix/store`, so it builds from what is already there. Its root and `/home` live in `~/.local/share/nixos-vm/vm.qcow2` and persist between runs. Hosts that import `libvirt` get:
+
+```bash
+vm               # build and start it in a window, log in as boatette / vm
+vm --headless    # no window, use vm-ssh
+vm-ssh [cmd]     # ssh on localhost:2222
+vm-stop          # ACPI shutdown, --force to kill it
+vm-status        # running or not, disk size, built system
+vm-reset         # delete the disk so the next boot is fresh
+vm-build         # build only
+```
+
+To change the guest, edit the config here and run `vm` again, rather than rebuilding inside it: its store is the host's, with a tmpfs overlay.
 
 ## Secure Boot
 
