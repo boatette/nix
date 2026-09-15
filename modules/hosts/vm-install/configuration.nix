@@ -1,23 +1,24 @@
 { inputs, ... }:
 {
   flake.modules.nixos.vm-install =
-    { config, modulesPath, ... }:
+    {
+      config,
+      lib,
+      modulesPath,
+      ...
+    }:
     {
       imports = [
         (modulesPath + "/profiles/qemu-guest.nix")
-      ]
-      ++ (with inputs.self.modules.nixos; [
-        boot
-        btrfs
-        install
-        locale
-        networking
-        nix-settings
-        users
-        zram
-        zsh
-      ])
-      ++ [ inputs.self.modules.generic.constants ];
+        inputs.self.modules.nixos.base
+      ];
+
+      home-manager.users.${config.constants.username} = {
+        imports = [ inputs.self.modules.homeManager.base ];
+        home.stateVersion = config.constants.stateVersion;
+      };
+
+      services.smartd.enable = lib.mkForce false;
 
       networking.hostName = "vm-install";
       system.stateVersion = config.constants.stateVersion;

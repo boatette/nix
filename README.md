@@ -102,7 +102,7 @@ To change the guest, edit the config here and run `vm` again, rather than rebuil
 
 ### Installer in a VM
 
-`vm-install` (`modules/hosts/vm-install/`) is a minimal host whose disko config targets the VM's disk, `/dev/disk/by-id/virtio-install-test`. It uses LUKS and btrfs like aspire, but no TPM or Secure Boot, so `finish-install` is not needed.
+`vm-install` (`modules/hosts/vm-install/`) is the `base` type with your terminal home-manager config (no desktop), and its disko config targets the VM's disk, `/dev/disk/by-id/virtio-install-test`. It uses LUKS and btrfs like aspire, but no TPM or Secure Boot, so `finish-install` is not needed.
 
 ```bash
 vm-iso           # build .#iso and boot it (UEFI) with the install disk attached
