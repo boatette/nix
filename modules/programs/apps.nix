@@ -8,6 +8,7 @@
         stremio-linux-shell
         qbittorrent
         proton-pass
+        proton-vpn
         ventoy
 
         libreoffice-qt
