@@ -43,6 +43,11 @@
     }
 
     {
+      match.title = "^QEMU \\(";
+      default_maximize = true;
+    }
+
+    {
       match = {
         app_id = "^qimgv$";
         title = "\\bdvp\\.webp\\b";

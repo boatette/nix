@@ -9,8 +9,8 @@
 
       options = [
         "-vga none"
-        "-device virtio-vga-gl"
-        "-display gtk,gl=on"
+        "-device virtio-vga-gl,xres=1920,yres=1080"
+        "-display gtk,gl=on,zoom-to-fit=on"
       ];
     };
 

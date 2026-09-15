@@ -98,7 +98,7 @@ vm-reset         # delete the disk so the next boot is fresh
 vm-build         # build only
 ```
 
-To change the guest, edit the config here and run `vm` again, rather than rebuilding inside it: its store is the host's, with a tmpfs overlay.
+To change the guest, edit the config here and run `vm` again, rather than rebuilding inside it: its store is the host's, with a tmpfs overlay. The guest runs at a fixed 1920x1080 that is scaled to the window.
 
 ## Secure Boot
 
