@@ -56,12 +56,12 @@ jobs:
 
       - name: build non-host checks
         run: |
-          nix build -L --no-link $(jq -r 'to_entries[] | select(.key | startswith("host-") | not)
+          nix build -L --no-link --keep-going $(jq -r 'to_entries[] | select(.key | startswith("host-") | not)
             | "\(.value.drv)^*"' "$RUNNER_TEMP/checks.json")
 
       - name: build hosts
         run: |
-          nix build -L --no-link $(jq -r 'to_entries[] | select(.key | startswith("host-"))
+          nix build -L --no-link --keep-going $(jq -r 'to_entries[] | select(.key | startswith("host-"))
             | "\(.value.drv)^*"' "$RUNNER_TEMP/checks.json")
 
       - name: push to cachix
