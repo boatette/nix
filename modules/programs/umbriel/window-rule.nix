@@ -6,11 +6,6 @@
     }
 
     {
-      match.is_alone = true;
-      default_maximize = true;
-    }
-
-    {
       match.app_id = "^xdg-desktop-portal-gtk$";
       default_floating = true;
       default_size = [
