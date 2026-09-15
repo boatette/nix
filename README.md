@@ -108,6 +108,7 @@ To change the guest, edit the config here and run `vm` again, rather than rebuil
 vm-iso           # build .#iso and boot it (UEFI) with the install disk attached
                  # then, in the VM: sudo install-host vm-install
 vm-iso-boot      # boot the installed disk without the ISO
+vm-iso-ssh [cmd] # ssh into the installer as root on localhost:2223, with ~/.ssh/id_ed25519
 vm-iso-stop      # ACPI shutdown, --force to kill it
 vm-iso-reset     # delete the install disk and its UEFI variables
 ```

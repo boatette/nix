@@ -51,6 +51,13 @@
           if [[ $2 == --force ]]; then _vm_monitor $1 quit; else _vm_monitor $1 system_powerdown; fi
         }
 
+        _vm_ssh() {
+          local port=$1 user=$2
+          shift 2
+          ssh -p $port -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR \
+            "$user@localhost" "$@"
+        }
+
         vm-build() {
           local dir=$(_vm_dir)
           mkdir -p -- "$dir" && nh os build-vm --diff never -H vm -o "$dir/result" ${flakeDir} "$@"
@@ -66,10 +73,7 @@
             env NIX_DISK_IMAGE="$dir/vm.qcow2" "$dir/result/bin/run-vm-vm" "''${extra[@]}" "$@"
         }
 
-        vm-ssh() {
-          ssh -p 2222 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR \
-            ${username}@localhost "$@"
-        }
+        vm-ssh() { _vm_ssh 2222 ${username} "$@"; }
 
         vm-stop() { _vm_stop vm "$@"; }
 
@@ -82,11 +86,12 @@
         }
 
         _vm_iso_run() {
-          local dir=$(_vm_dir)
+          local dir=$(_vm_dir) key="$HOME/.ssh/id_ed25519.pub" cred=()
           _vm_running vm-iso && { print -u2 "vm-iso: already running"; return 1; }
           mkdir -p -- "$dir"
           [[ -e $dir/install.qcow2 ]] || ${qemu-img} create -q -f qcow2 "$dir/install.qcow2" 64G || return
           [[ -e $dir/install-vars.fd ]] || install -m 644 -- ${ovmf}/OVMF_VARS.fd "$dir/install-vars.fd" || return
+          [[ -r $key ]] && cred=(-fw_cfg "name=opt/io.systemd.credentials/ssh.authorized_keys.root,file=$key")
 
           _vm_launch vm-iso "$dir/install.log" ${qemu} \
             -name vm-iso -machine q35,accel=kvm -cpu host -smp 4 -m 8192 \
@@ -94,9 +99,9 @@
             -drive "if=pflash,format=raw,file=$dir/install-vars.fd" \
             -drive "if=none,id=disk,format=qcow2,file=$dir/install.qcow2" \
             -device virtio-blk-pci,drive=disk,serial=install-test,bootindex=1 \
-            -nic user,model=virtio-net-pci \
+            -nic user,model=virtio-net-pci,hostfwd=tcp:127.0.0.1:2223-:22 \
             -vga none -device virtio-vga -display gtk \
-            "$@"
+            "''${cred[@]}" "$@"
         }
 
         vm-iso() {
@@ -112,6 +117,8 @@
         }
 
         vm-iso-boot() { _vm_iso_run "$@"; }
+
+        vm-iso-ssh() { _vm_ssh 2223 root "$@"; }
 
         vm-iso-stop() { _vm_stop vm-iso "$@"; }
 
