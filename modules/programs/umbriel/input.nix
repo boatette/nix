@@ -8,7 +8,10 @@
           repeat_rate = 35;
         };
 
-        touchpad.natural_scroll = true;
+        touchpad = {
+          natural_scroll = true;
+          # disable_while_typing = false;
+        };
 
         cursor.theme = "capitaine-cursors";
       };
