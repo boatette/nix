@@ -18,7 +18,10 @@
         home.stateVersion = config.constants.stateVersion;
       };
 
-      services.smartd.enable = lib.mkForce false;
+      services = {
+        openssh.enable = true;
+        smartd.enable = lib.mkForce false;
+      };
 
       networking.hostName = "vm-install";
       system.stateVersion = config.constants.stateVersion;
