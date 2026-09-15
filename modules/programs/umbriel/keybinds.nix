@@ -13,7 +13,7 @@
 
       "Mod+Alt+E" = ''spawn:foot zsh -ic "y; exec zsh"'';
 
-      "Ctrl+Shift+Escape" = "spawn:btop";
+      "Ctrl+Shift+Escape" = "spawn:foot -e btop";
       "Mod+Return" = "spawn:pkill -fx \"qimgv $HOME/Pictures/dvp.webp\" || qimgv $HOME/Pictures/dvp.webp";
 
       "Mod+D" = "spawn:noctalia msg panel-toggle launcher";
