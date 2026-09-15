@@ -100,6 +100,20 @@ vm-build         # build only
 
 To change the guest, edit the config here and run `vm` again, rather than rebuilding inside it: its store is the host's, with a tmpfs overlay. The guest runs at a fixed 1920x1080 that is scaled to the window.
 
+### Installer in a VM
+
+`vm-install` (`modules/hosts/vm-install/`) is a minimal host whose disko config targets the VM's disk, `/dev/disk/by-id/virtio-install-test`. It uses LUKS and btrfs like aspire, but no TPM or Secure Boot, so `finish-install` is not needed.
+
+```bash
+vm-iso           # build .#iso and boot it (UEFI) with the install disk attached
+                 # then, in the VM: sudo install-host vm-install
+vm-iso-boot      # boot the installed disk without the ISO
+vm-iso-stop      # ACPI shutdown, --force to kill it
+vm-iso-reset     # delete the install disk and its UEFI variables
+```
+
+The ISO carries the flake as it was built, so stage new files before `vm-iso`. `vm-status` shows both VMs.
+
 ## Secure Boot
 
 [lanzaboote](https://github.com/nix-community/lanzaboote) (`modules/system/secure-boot.nix`) replaces systemd-boot and signs every generation on rebuild. Keys live in `/var/lib/sbctl`, and a copy of their enrollment files stays on the ESP, so a firmware key reset is re-enrolled on the next boot. Nothing here needs redoing short of a reinstall.
