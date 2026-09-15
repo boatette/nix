@@ -28,6 +28,12 @@
       "Mod+G" = "overview-toggle";
       "Mod+Slash" = "cheatsheet-toggle";
 
+      "Mod+Escape" = {
+        action = "submap:passthrough";
+        repeat = false;
+      };
+      "submap[passthrough],Mod+Escape" = "submap:reset";
+
       "Mod+Q" = "window-close";
       "Mod+Alt+Q" =
         ''spawn:app_id=$(umbriel windows --json | jq -r 'first(.[] | select(.active) | .app_id) // empty'); [ -n "$app_id" ] && { pkill -9 -x "$app_id" || pkill -9 -f "$app_id"; }'';
