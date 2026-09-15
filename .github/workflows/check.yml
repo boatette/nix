@@ -22,6 +22,10 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
+      - uses: wimpysworld/nothing-but-nix@v10
+        with:
+          hatchet-protocol: carve
+
       - uses: DeterminateSystems/nix-installer-action@main
         with:
           extra-conf: |
@@ -30,7 +34,11 @@ jobs:
             extra-substituters = https://nix-community.cachix.org https://noctalia.cachix.org
             extra-trusted-public-keys = nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs= noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4=
 
-      - uses: DeterminateSystems/magic-nix-cache-action@main
+      - uses: cachix/cachix-action@v17
+        with:
+          name: boatette
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+          skipPush: true
 
       - name: materialise pkgs.path
         run: |
@@ -39,8 +47,44 @@ jobs:
 
       - run: nix flake check --no-build -L
 
+      - name: evaluate checks
+        run: |
+          nix eval --json .#checks.x86_64-linux \
+            --apply 'builtins.mapAttrs (_: c: { drv = c.drvPath; out = c.outPath; })' \
+            > "$RUNNER_TEMP/checks.json"
+
       - name: build non-host checks
         run: |
-          nix build -L --no-link $(nix eval --raw .#checks.x86_64-linux --apply \
-            'cs: builtins.concatStringsSep " " (map (n: ".#checks.x86_64-linux." + n)
-              (builtins.filter (n: builtins.substring 0 5 n != "host-") (builtins.attrNames cs)))')
+          nix build -L --no-link $(jq -r 'to_entries[] | select(.key | startswith("host-") | not)
+            | "\(.value.drv)^*"' "$RUNNER_TEMP/checks.json")
+
+      - name: build hosts
+        run: |
+          nix build -L --no-link $(jq -r 'to_entries[] | select(.key | startswith("host-"))
+            | "\(.value.drv)^*"' "$RUNNER_TEMP/checks.json")
+
+      - name: push to cachix
+        if: always()
+        env:
+          CACHIX_AUTH_TOKEN: ${{ secrets.CACHIX_AUTH_TOKEN }}
+          WITHHELD: '^/nix/store/[a-z0-9]{32}-(claude-code|ventoy|stremio-linux-shell|vimplugin-neotest-dart)-[0-9]'
+        run: |
+          [ -n "$CACHIX_AUTH_TOKEN" ] && [ -f "$RUNNER_TEMP/checks.json" ] || exit 0
+          cd "$RUNNER_TEMP"
+
+          jq -r '.[].out' checks.json | sort > outs
+          xargs nix-store --check-validity --print-invalid < outs | sort > invalid
+          comm -23 outs invalid > built
+          [ -s built ] || exit 0
+
+          xargs nix-store -qR < built | sort -u > closure
+          grep -E "$WITHHELD" closure > withheld || true
+          if [ -s withheld ]; then
+            xargs nix-store -q --referrers-closure < withheld | sort -u > tainted
+          else
+            : > tainted
+          fi
+
+          echo "withholding $(comm -12 closure tainted | wc -l) paths:"
+          comm -12 closure tainted | sed -E 's#^/nix/store/[a-z0-9]{32}-#  #'
+          comm -23 closure tainted | cachix push boatette
