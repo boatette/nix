@@ -22,6 +22,7 @@
           nix-tree
           ripgrep
           microfetch
+          tldr
         ])
         ++ [
           inputs.claude-code.packages.${system}.default
