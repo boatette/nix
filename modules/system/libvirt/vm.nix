@@ -100,7 +100,7 @@
             -drive "if=none,id=disk,format=qcow2,file=$dir/install.qcow2" \
             -device virtio-blk-pci,drive=disk,serial=install-test,bootindex=1 \
             -nic user,model=virtio-net-pci,hostfwd=tcp:127.0.0.1:2223-:22 \
-            -vga none -device virtio-vga -display gtk \
+            -vga none -device virtio-vga -display gtk,show-menubar=off \
             "''${cred[@]}" "$@"
         }
 
