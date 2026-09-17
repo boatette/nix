@@ -46,10 +46,10 @@
       "Mod+F" = "window-toggle-maximize";
       "Mod+Shift+F" = "window-toggle-fullscreen";
       "Mod+Ctrl+F" = "window-toggle-maximize-to-edges";
-      "Mod+R" = "window-cycle-width";
-      "Mod+Shift+R" = "window-cycle-width-back";
-      "Mod+Alt+R" = "window-cycle-height";
-      "Mod+Alt+Shift+R" = "window-cycle-height-back";
+      "Mod+R" = "window-cycle-primary-extent";
+      "Mod+Shift+R" = "window-cycle-primary-extent-back";
+      "Mod+Alt+R" = "window-cycle-secondary-extent";
+      "Mod+Alt+Shift+R" = "window-cycle-secondary-extent-back";
 
       # TODO: Mod+A: tabbed-columns
       "Mod+O" = "workspace-set-layout:toggle";
@@ -128,11 +128,11 @@
       "Mod+BracketRight" = "window-consume-or-expel-right";
       # TODO: "Mod+Period" = "window-expel";
 
-      "Mod+Minus" = "window-modify-width:-0.1";
-      "Mod+Equal" = "window-modify-width:0.1";
+      "Mod+Minus" = "window-modify-primary-extent:-0.1";
+      "Mod+Equal" = "window-modify-primary-extent:0.1";
 
-      "Mod+Shift+Minus" = "window-modify-height:-0.1";
-      "Mod+Shift+Equal" = "window-modify-height:0.1";
+      "Mod+Shift+Minus" = "window-modify-secondary-extent:-0.1";
+      "Mod+Shift+Equal" = "window-modify-secondary-extent:0.1";
 
       "Mod+MouseMiddle" = "layout-scroll-drag";
 

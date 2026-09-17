@@ -8,10 +8,10 @@
     {
       match.app_id = "^xdg-desktop-portal-gtk$";
       default_floating = true;
-      default_size = [
-        800
-        1000
-      ];
+      default_floating_size_px = {
+        width = 800;
+        height = 1000;
+      };
     }
 
     {
@@ -49,10 +49,10 @@
       };
       default_floating = true;
       default_pinned = true;
-      default_size = [
-        900
-        300
-      ];
+      default_floating_size_px = {
+        width = 900;
+        height = 300;
+      };
       default_position = {
         x = 0;
         y = 0;
