@@ -17,7 +17,11 @@
         enable = true;
 
         settings = {
-          appearance.hide_logo = true;
+          appearance = {
+            hide_logo = true;
+            password_style = "random";
+            scheme_selector_position = "hidden";
+          };
           inherit (config.constants) keyboard;
 
           output.name = lib.throwIf (
