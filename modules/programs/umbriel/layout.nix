@@ -7,6 +7,6 @@
       right = 10;
     };
 
-    scrolling.default_width_fraction = 0.5;
+    scrolling.default_extent_fraction = 0.5;
   };
 }
