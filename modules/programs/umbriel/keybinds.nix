@@ -27,6 +27,7 @@
 
       "Mod+G" = "overview-toggle";
       "Mod+Slash" = "cheatsheet-toggle";
+      "Mod+Shift+Comma" = "config-reload";
 
       "Mod+Escape" = {
         action = "submap:passthrough";
