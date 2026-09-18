@@ -9,6 +9,7 @@
         backup
         gaming
         libvirt
+        power
         secure-boot
 
         boatette

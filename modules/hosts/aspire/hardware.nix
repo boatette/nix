@@ -48,7 +48,6 @@
       };
 
       services = {
-        power-profiles-daemon.enable = true;
         xserver.videoDrivers = [ "nvidia" ];
 
         fprintd.package = pkgs.fprintd.override {
