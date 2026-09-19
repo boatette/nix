@@ -1,0 +1,133 @@
+[[window_rule]]
+blur = true
+
+[[window_rule]]
+default_floating = true
+
+[window_rule.default_floating_size_px]
+height = 1000
+width = 800
+
+[window_rule.match]
+app_id = "^xdg-desktop-portal-gtk$"
+
+[[window_rule]]
+default_floating = true
+
+[window_rule.match]
+app_id = '^org\.gtk\.FileChooserDialog$'
+
+[[window_rule]]
+default_floating = true
+
+[window_rule.match]
+title = "Sign in - Google Accounts"
+
+[[window_rule]]
+default_floating = true
+
+[window_rule.match]
+app_id = '^(org\.kde\.dolphin|gimp|libreoffice|soffice)'
+title = '^(Open|Save|Select|Import|Export|Rename|Properties|Preferences|Settings)\b'
+
+[[window_rule]]
+default_floating = true
+
+[window_rule.match]
+title = "^Picture-in-Picture$"
+
+[[window_rule]]
+default_maximize = true
+
+[window_rule.match]
+title = '^QEMU \('
+
+[[window_rule]]
+default_floating = true
+default_pinned = true
+
+[window_rule.default_floating_size_px]
+height = 300
+width = 900
+
+[window_rule.default_position]
+anchor = "bottom_right"
+x = 0
+y = 0
+
+[window_rule.match]
+app_id = "^qimgv$"
+title = '\bdvp\.webp\b'
+
+[[window_rule]]
+default_maximize = true
+
+[window_rule.match]
+app_id = '^org\.qutebrowser\.qutebrowser$'
+
+[[window_rule]]
+default_floating = true
+
+[window_rule.default_floating_size_px]
+height = 920
+width = 1080
+
+[window_rule.match]
+app_id = '^dev\.noctalia\.Noctalia$'
+
+[[window_rule]]
+default_floating = true
+
+[window_rule.default_floating_size_px]
+height = 600
+width = 800
+
+[window_rule.match]
+app_id = '^dev\.noctalia\.UmbrielSharePicker$'
+
+[[window_rule]]
+default_floating = true
+
+[window_rule.match]
+app_id = "^steam(webhelper)?$"
+
+[[window_rule]]
+default_floating = false
+default_maximize = true
+
+[window_rule.match]
+app_id = "^steam$"
+title = "^Steam$"
+
+[[window_rule]]
+default_floating = false
+default_fullscreen = true
+
+[window_rule.match]
+app_id = "^steam$"
+title = "^Steam Big Picture Mode$"
+
+[[window_rule]]
+default_focused = false
+default_pinned = true
+
+[window_rule.default_position]
+anchor = "bottom_right"
+x = 10
+y = 10
+
+[window_rule.match]
+app_id = "^steam$"
+title = '^notificationtoasts_\d+_desktop$'
+
+[[window_rule]]
+default_maximize = true
+
+[window_rule.match]
+app_id = "vesktop|gimp|libreoffice"
+
+[[window_rule]]
+default_fullscreen = true
+
+[window_rule.match]
+app_id = "stremio"

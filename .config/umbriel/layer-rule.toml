@@ -1,0 +1,22 @@
+[[layer_rule]]
+blur = false
+blur_ignore_alpha = 0.05
+blur_optimized = false
+
+[layer_rule.match]
+namespace = "^selector$"
+
+[[layer_rule]]
+blur = true
+blur_ignore_alpha = 0.05
+blur_popups = true
+
+[layer_rule.match]
+namespace = '^noctalia-(bar-[^"]+|notification|dock|panel|attached-panel|osd|desktop-widget-[^"]*)$'
+
+[[layer_rule]]
+blur = true
+blur_ignore_alpha = 0.05
+
+[layer_rule.match]
+namespace = "^noctalia-window-switcher$"

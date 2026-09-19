@@ -1,0 +1,9 @@
+[layout]
+gap = 10
+
+[layout.scrolling]
+default_extent_fraction = 0.5
+
+[layout.struts]
+left = 10
+right = 10
