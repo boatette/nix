@@ -977,12 +977,52 @@ units() {
     done
 }
 
+default_shell() {
+    local zsh user current
+    if ! zsh=$(command -v zsh); then
+        warn "zsh not found, leaving the login shell alone"
+        return
+    fi
+
+    user=$(id -un)
+    if have getent; then
+        current=$(getent passwd "$user" | cut -d: -f7)
+    else
+        current=${SHELL:-}
+    fi
+
+    if [[ $current == "$zsh" ]]; then
+        return
+    fi
+
+    if ! grep -qxF -- "$zsh" /etc/shells 2>/dev/null; then
+        say "adding $zsh to /etc/shells"
+        printf '%s\n' "$zsh" | as_root tee -a /etc/shells >/dev/null || {
+            warn "could not add $zsh to /etc/shells, leaving the login shell alone"
+            return
+        }
+    fi
+
+    if ! ask "change the login shell for $user from ${current:-unknown} to $zsh?"; then
+        warn "leaving the login shell as ${current:-unknown}"
+        return
+    fi
+
+    say "changing the login shell to $zsh"
+    if as_root chsh -s "$zsh" "$user"; then
+        say "log out and back in for the new shell to take effect"
+    else
+        warn "could not change the login shell, run 'chsh -s $zsh' by hand"
+    fi
+}
+
 bootstrap() {
     zsh_plugins
     lazygit_theme
     yazi_plugins
     zellij_plugin
     units
+    default_shell
     say "done, open nvim once to let vim.pack and mason install"
 }
 

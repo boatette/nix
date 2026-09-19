@@ -14,7 +14,7 @@ cd ~/dotfiles
 
 - `deps`: install the dependencies with the system package manager, building from source where the distribution has no package
 - `link`: symlink every tracked file into `$HOME`, moving anything already there to `<name>.bak`
-- `bootstrap`: clone the zsh plugins, install the yazi and zellij plugins, enable the user units
+- `bootstrap`: clone the zsh plugins, install the yazi and zellij plugins, enable the user units, set zsh as the login shell
 
 Run one on its own with `./install.sh link`, `./install.sh deps`, and so on.
 
