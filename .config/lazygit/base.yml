@@ -6,7 +6,7 @@ git:
     command: delta --paging=never
   overrideGpg: true
 gui:
-  border: rounded
+  border: single
   nerdFontsVersion: '3'
   showFileTree: true
   showRandomTip: false
