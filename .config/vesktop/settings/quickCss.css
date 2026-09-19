@@ -1,0 +1,37 @@
+:root {
+  --bg-src-1: var(--bg-1);
+  --bg-src-2: var(--bg-2);
+  --bg-src-3: var(--bg-3);
+  --bg-src-4: var(--bg-4);
+  --hover-src: var(--hover);
+  --active-src: var(--active);
+  --message-hover-src: var(--message-hover);
+}
+
+body {
+  --alpha: 80%;
+
+  --bg-1: color-mix(in srgb, var(--bg-src-1) var(--alpha), transparent) !important;
+  --bg-2: color-mix(in srgb, var(--bg-src-2) var(--alpha), transparent) !important;
+  --bg-3: color-mix(in srgb, var(--bg-src-3) var(--alpha), transparent) !important;
+  --bg-4: color-mix(in srgb, var(--bg-src-4) var(--alpha), transparent) !important;
+
+  --hover: color-mix(in srgb, var(--hover-src) 40%, transparent) !important;
+  --active: color-mix(in srgb, var(--active-src) 55%, transparent) !important;
+  --message-hover: color-mix(in srgb, var(--message-hover-src) 40%, transparent) !important;
+}
+
+body {
+  --background-base-lowest: color-mix(in srgb, var(--bg-src-4) var(--alpha), transparent) !important;
+  --background-base-lower: color-mix(in srgb, var(--bg-src-4) var(--alpha), transparent) !important;
+  --background-base-low: color-mix(in srgb, var(--bg-src-3) var(--alpha), transparent) !important;
+
+  --background-surface-high: color-mix(in srgb, var(--bg-src-2) var(--alpha), transparent) !important;
+  --background-surface-higher: color-mix(in srgb, var(--bg-src-2) var(--alpha), transparent) !important;
+  --background-surface-highest: color-mix(in srgb, var(--bg-src-1) var(--alpha), transparent) !important;
+}
+
+html,
+body {
+  background: transparent !important;
+}

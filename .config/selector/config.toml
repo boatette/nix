@@ -1,0 +1,4 @@
+blur = true
+colors = "noctalia.toml"
+corner_radius = 0
+fade_out = 100

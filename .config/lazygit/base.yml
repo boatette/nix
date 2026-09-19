@@ -1,0 +1,12 @@
+%YAML 1.1
+---
+git:
+  diffRenderers:
+  - colorArg: always
+    command: delta --paging=never
+  overrideGpg: true
+gui:
+  border: rounded
+  nerdFontsVersion: '3'
+  showFileTree: true
+  showRandomTip: false

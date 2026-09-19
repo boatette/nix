@@ -1,0 +1,39 @@
+[[mgr.prepend_keymap]]
+desc = "Enter the child directory, or open the file"
+on = "l"
+run = "plugin smart-enter"
+
+[[mgr.prepend_keymap]]
+desc = "Paste into the hovered directory, or the CWD"
+on = "p"
+run = "plugin smart-paste"
+
+[[mgr.prepend_keymap]]
+desc = "Jump to char"
+on = "f"
+run = "plugin jump-to-char"
+
+[[mgr.prepend_keymap]]
+desc = "Smart filter"
+on = "F"
+run = "plugin smart-filter"
+
+[[mgr.prepend_keymap]]
+desc = "Show or hide the preview pane"
+on = "T"
+run = "plugin toggle-pane min-preview"
+
+[[mgr.prepend_keymap]]
+desc = "Mount manager"
+on = "M"
+run = "plugin mount"
+
+[[mgr.prepend_keymap]]
+desc = "Chmod on selected files"
+on = ["c", "m"]
+run = "plugin chmod"
+
+[[mgr.prepend_keymap]]
+desc = "Show Git file changes"
+on = ["g", "m"]
+run = "plugin vcs-files"

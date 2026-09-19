@@ -1,0 +1,66 @@
+[branch]
+	sort = "-committerdate"
+
+[column]
+	ui = "auto"
+
+[commit]
+	gpgSign = true
+
+[delta]
+	hyperlinks = true
+	line-numbers = true
+	navigate = true
+
+[diff]
+	algorithm = "histogram"
+	colorMoved = "default"
+
+[fetch]
+	prune = true
+	pruneTags = true
+
+[gpg]
+	format = "ssh"
+
+[gpg "ssh"]
+	allowedSignersFile = "~/.config/git/allowed_signers"
+	program = "ssh-keygen"
+
+[init]
+	defaultBranch = "master"
+
+[interactive]
+	diffFilter = "delta --color-only"
+
+[merge]
+	conflictStyle = "zdiff3"
+
+[pager]
+	blame = "delta"
+	diff = "delta"
+	log = "delta"
+	show = "delta"
+
+[pull]
+	rebase = true
+
+[push]
+	autoSetupRemote = true
+	followTags = true
+
+[rebase]
+	autoStash = true
+	updateRefs = true
+
+[rerere]
+	enabled = true
+
+[tag]
+	gpgSign = true
+	sort = "-version:refname"
+
+[user]
+	email = "boatette@gmail.com"
+	name = "boatette"
+	signingKey = "~/.ssh/id_ed25519.pub"

@@ -1,0 +1,8 @@
+add_newline = false
+format = """
+$directory$git_branch$git_commit$git_state$git_status$package$character
+"""
+right_format = "$cmd_duration$jobs$sudo"
+
+[character]
+vimcmd_symbol = "[](bold green)"

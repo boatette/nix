@@ -1,0 +1,19 @@
+[flavor]
+dark = "noctalia"
+light = "noctalia"
+
+[indicator.padding]
+close = "█"
+open = "█"
+
+[status.sep_left]
+close = ""
+open = ""
+
+[status.sep_right]
+close = ""
+open = ""
+
+[tabs.sep_inner]
+close = ""
+open = ""
