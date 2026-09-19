@@ -20,10 +20,6 @@
         ];
 
         plugins = {
-          full-border = {
-            package = plugin "full-border";
-            setup = true;
-          };
           git = {
             package = plugin "git";
             setup = true;
