@@ -1,0 +1,13 @@
+[dock]
+background_opacity = 0.8
+border_width = 1.0
+enabled = true
+icon_size = 40
+launcher_position = "start"
+margin_edge = 10
+pinned = ["foot", "org.qutebrowser.qutebrowser", "vesktop", "steam", "org.prismlauncher.PrismLauncher", "com.stremio.Stremio", "org.kde.dolphin"]
+radius = 0
+reserve_space = false
+show_dots = true
+show_instance_count = false
+smart_auto_hide = true

@@ -1,0 +1,34 @@
+[plugin_settings."boatette/auto-theme"]
+default_dynamic_scheme = "m3-content"
+
+[plugin_settings."dotnetrob/cat"]
+panel_placement = "floating"
+
+[plugin_settings."noctalia/umbriel-companion"]
+panel_placement = "floating"
+
+[plugin_settings."noctalia/wallhaven"]
+browser_placement = "floating"
+browser_position = "top_center"
+download_dir = "~/Pictures/Wallpapers/Dynamic"
+
+[plugins]
+enabled = ["dotnetrob/cat", "noctalia/wallhaven", "noctalia/umbriel-companion", "boatette/auto-theme"]
+
+[[plugins.source]]
+enabled = true
+kind = "git"
+location = "https://github.com/noctalia-dev/official-plugins"
+name = "official"
+
+[[plugins.source]]
+enabled = true
+kind = "git"
+location = "https://github.com/noctalia-dev/community-plugins"
+name = "community"
+
+[[plugins.source]]
+enabled = true
+kind = "path"
+location = "~/Projects/noctalia-plugins"
+name = "Personal"

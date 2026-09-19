@@ -1,0 +1,32 @@
+[widget.battery]
+hide_when_full = true
+hide_when_plugged = true
+
+[widget.bluetooth]
+hide_when_no_connected_device = true
+
+[widget.cat]
+type = "dotnetrob/cat:cat"
+
+[widget.launcher]
+custom_image_colorize = true
+
+[widget.media]
+hide_when_no_media = true
+title_scroll = "always"
+
+[widget.network]
+show_label = false
+
+[widget.tray]
+detached_panel = true
+drawer = true
+
+[widget.umbriel-companion]
+type = "noctalia/umbriel-companion:bar"
+
+[widget.volume]
+show_label = false
+
+[widget.workspaces]
+style = "regular"

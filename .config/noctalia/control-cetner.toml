@@ -1,0 +1,8 @@
+[control_center]
+show_shortcut_labels = false
+sidebar = "full"
+sidebar_section = "none"
+width = 800
+
+[control_center.calendar]
+show_week_numbers = true

@@ -1,0 +1,85 @@
+[shell]
+app_icon_color = "primary"
+app_icon_colorize = false
+button_borders = true
+card_borders = true
+corner_radius_scale = 0.0
+input_borders = true
+launch_apps_as_systemd_services = true
+password_style = "random"
+polkit_agent = true
+popup_borders = true
+popup_shadows = false
+screen_time_enabled = true
+settings_window_translucent = true
+
+[shell.greeter_sync]
+auto_sync = true
+privilege_command = "pkexec"
+
+[shell.launcher]
+app_grid = true
+show_app_actions = true
+
+[shell.launcher.providers.calculator]
+prefix = "="
+
+[shell.launcher.providers.emoji]
+prefix = ":"
+
+[shell.launcher.providers.wallpaper]
+prefix = ""
+
+[shell.launcher.providers.windows]
+prefix = "@"
+
+[shell.panel]
+borders = true
+clipboard_placement = "floating"
+clipboard_position = "auto"
+control_center_placement = "floating"
+launcher_placement = "floating"
+list_item_background = true
+open_near_click_clipboard = true
+open_near_click_control_center = true
+session_placement = "floating"
+session_position = "top_center"
+transparency_mode = "soft"
+wallpaper_placement = "floating"
+wallpaper_position = "top_center"
+
+[shell.screen_corners]
+size = 36
+
+[shell.screenshot]
+confirm_region = true
+directory = "~/Pictures/Screenshots"
+filename_pattern = "Screenshot from %Y-%m-%d %H-%M-%S"
+remember_last_region = true
+
+[shell.session]
+grid = true
+
+[[shell.session.actions]]
+action = "lock"
+shortcut = "l"
+
+[[shell.session.actions]]
+action = "lock_and_suspend"
+shortcut = "u"
+
+[[shell.session.actions]]
+action = "logout"
+shortcut = "e"
+
+[[shell.session.actions]]
+action = "reboot"
+shortcut = "r"
+
+[[shell.session.actions]]
+action = "shutdown"
+shortcut = "s"
+variant = "destructive"
+
+[shell.shadow]
+alpha = 0.0

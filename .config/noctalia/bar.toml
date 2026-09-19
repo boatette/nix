@@ -1,0 +1,20 @@
+[bar.default]
+background_opacity = 0.8
+border_width = 1.0
+capsule_radius = 0.0
+capsule_thickness = 1.0
+center = ["clock"]
+end = ["tray", "network", "bluetooth", "volume", "notifications", "battery", "clipboard", "cat"]
+font_family = "JetBrainsMono Nerd Font"
+margin_edge = 10
+margin_ends = 10
+padding = 10
+position = "left"
+radius = 0
+start = ["umbriel-companion", "workspaces", "media", "audio_visualizer"]
+thickness = 32
+widget_spacing = 12
+
+[bar.default.dead_zone.actions]
+scroll_down = "workspace-switch next"
+scroll_up = "workspace-switch prev"
