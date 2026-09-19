@@ -1,0 +1,14 @@
+[Unit]
+Description=A desktop selection box for Wayland compositors
+Documentation=https://github.com/boatette/selector
+After=graphical-session.target
+PartOf=graphical-session.target
+ConditionEnvironment=WAYLAND_DISPLAY
+
+[Service]
+ExecStart=selector
+Restart=always
+RestartSec=1
+
+[Install]
+WantedBy=graphical-session.target

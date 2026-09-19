@@ -1,0 +1,13 @@
+[Unit]
+Description=Restore home from the SSD
+ConditionPathExists=!%S/ssd-restore.stamp
+
+[Service]
+Type=oneshot
+Environment=SSD_NOTIFY=1
+ExecStart=%h/.local/bin/ssd restore
+IOSchedulingClass=idle
+Nice=10
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,10 @@
+[Unit]
+Description=SSH authentication agent
+Documentation=man:ssh-agent(1)
+
+[Service]
+ExecStart=ssh-agent -D -a %t/ssh-agent
+SuccessExitStatus=2
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,9 @@
+[Unit]
+Description=Mirror home to the SSD
+
+[Service]
+Type=oneshot
+Environment=SSD_NOTIFY=1
+ExecStart=%h/.local/bin/ssd backup
+IOSchedulingClass=idle
+Nice=10
