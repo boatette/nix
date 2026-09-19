@@ -2,6 +2,10 @@
 
 NixOS configuration for umbriel + noctalia.
 
+> [!NOTE]
+>
+> `dotfiles` branch contains raw configurations for inferior systems without nix
+
 ## Layout
 
 ```
