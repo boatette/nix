@@ -52,6 +52,8 @@ as_root() {
 # name              | probe                 | arch        | debian          | fedora                   | opensuse              | void        | source
 dep_table() {
     cat <<'TABLE'
+rustup              | cargo                 | .           | .               | .                        | .                     | .           | src:rustup
+
 zsh                 | zsh                   | .           | .               | .                        | .                     | .           | -
 starship            | starship              | .           | .               | .                        | .                     | .           | crate:starship
 zoxide              | zoxide                | .           | .               | .                        | .                     | .           | crate:zoxide
@@ -67,8 +69,10 @@ fastfetch           | fastfetch             | .           | .               | . 
 
 neovim              | nvim                  | .           | .               | .                        | .                     | .           | -
 git                 | git                   | .           | .               | .                        | .                     | .           | -
+gh                  | gh                    | github-cli  | gh              | gh                       | gh                    | github-cli  | -
 curl                | curl                  | .           | .               | .                        | .                     | .           | -
 cc                  | cc gcc clang          | gcc         | build-essential | gcc-c++                  | gcc-c++               | gcc         | -
+unzip               | unzip                 | .           | .               | .                        | .                     | .           | -
 
 foot                | foot                  | .           | .               | .                        | .                     | .           | -
 zellij              | zellij                | .           | .               | .                        | .                     | .           | crate:zellij
@@ -319,11 +323,76 @@ fetch_src() {
     fi
 }
 
-cargo_install() {
-    if ! have cargo; then
-        warn "cargo not found, skipping $*"
+rust_path() {
+    local bin=${CARGO_HOME:-$HOME/.cargo}/bin
+    if [[ -d $bin && :$PATH: != *:$bin:* ]]; then
+        PATH=$bin:$PATH
+        export PATH
+        hash -r 2>/dev/null || true
+    fi
+}
+
+rust_ready() {
+    have cargo && cargo --version >/dev/null 2>&1
+}
+
+ensure_rust() {
+    rust_path
+
+    if rust_ready; then
+        return 0
+    fi
+
+    if ! have rustup; then
+        warn "no rust toolchain and no rustup to install one with"
         return 1
     fi
+
+    say "initialising the rust toolchain with rustup"
+    rustup default stable || {
+        warn "rustup default stable failed"
+        return 1
+    }
+
+    rust_path
+    rust_ready || {
+        warn "rustup ran but cargo still does not work"
+        return 1
+    }
+}
+
+install_rustup() {
+    rust_path
+
+    if have rustup; then
+        ensure_rust
+        return
+    fi
+
+    if ! have curl; then
+        warn "curl not found, cannot install rustup"
+        return 1
+    fi
+
+    say "installing rustup from rustup.rs"
+    curl --proto '=https' --tlsv1.2 -fsSL https://sh.rustup.rs |
+        sh -s -- -y --no-modify-path --default-toolchain stable || {
+        warn "the rustup installer failed"
+        return 1
+    }
+
+    rust_path
+    rust_ready || {
+        warn "rustup installed but cargo still does not run"
+        return 1
+    }
+}
+
+cargo_install() {
+    ensure_rust || {
+        warn "skipping $*"
+        return 1
+    }
 
     local crate
     for crate in "$@"; do
@@ -490,10 +559,10 @@ check_wlroots() {
 }
 
 build_selector() {
-    if ! have cargo; then
-        warn "cargo not found, cannot build selector"
+    ensure_rust || {
+        warn "cannot build selector without cargo"
         return 1
-    fi
+    }
 
     say "building selector from source"
     fetch_src selector https://github.com/boatette/selector || return 1
@@ -565,6 +634,7 @@ from_source() {
         local pattern=${rest#*:}
         install_release "${rest%%:*}" "${pattern%:*}" "${rest##*:}"
         ;;
+    src:rustup) install_rustup ;;
     src:selector) build_selector ;;
     src:umbriel) build_umbriel ;;
     src:portal) build_portal ;;

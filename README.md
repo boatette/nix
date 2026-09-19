@@ -56,7 +56,7 @@ Building umbriel from source needs **wlroots 0.20.1 or newer and below 0.21**, a
 
 - `zsh`
 - `starship`
-- `zoxide`, `fzf`, `fd`, `ripgrep
+- `zoxide`, `fzf`, `fd`, `ripgrep`
 - `eza`, `bat`, `dust`
 - `direnv`
 - `ouch`
@@ -66,6 +66,8 @@ Building umbriel from source needs **wlroots 0.20.1 or newer and below 0.21**, a
 
 - `neovim` 0.12 or newer
 - `git`, `curl`
+- `gh`, the GitHub CLI, `github-cli` on Arch and Void
+- `unzip`, mason unpacks several of the language servers from zip archives
 - a C compiler for the treesitter parsers, `gcc`, `build-essential` or `gcc-c++` depending on the distribution
 
 Everything else, the language servers, linters and formatters, is installed by mason on first launch. Open nvim once afterwards to let `vim.pack` fetch the plugins.
