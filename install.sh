@@ -63,7 +63,7 @@ bat                 | bat                   | .           | .               | . 
 dust                | dust                  | .           | du-dust         | .                        | .                     | .           | crate:du-dust
 direnv              | direnv                | .           | .               | .                        | .                     | .           | -
 ouch                | ouch                  | .           | .               | .                        | .                     | .           | crate:ouch
-microfetch          | microfetch            | .           | .               | .                        | .                     | .           | crate:microfetch
+fastfetch           | fastfetch             | .           | .               | .                        | .                     | .           | -
 
 neovim              | nvim                  | .           | .               | .                        | .                     | .           | -
 git                 | git                   | .           | .               | .                        | .                     | .           | -
@@ -153,7 +153,7 @@ pick_helper() {
         done
         helper=pacman
         warn "neither yay nor paru found, using pacman. AUR packages will fall back to a source build"
-        warn "install yay first for umbriel, the portal, microfetch and the rest of the AUR set"
+        warn "install yay first for umbriel, the portal and the rest of the AUR set"
         ;;
     debian) helper=apt-get ;;
     fedora) helper=dnf ;;
