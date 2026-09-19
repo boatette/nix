@@ -35,7 +35,7 @@
             {
               name = "Personal";
               kind = "path";
-              location = "~/Projects/noctalia-plugins";
+              location = "https://github.com/boatette/noctalia-plugins";
               enabled = true;
             }
           ];
