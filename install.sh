@@ -117,15 +117,15 @@ detect() {
         return
     fi
 
-    local info id_like
+    local id_like
+    local -a fields=()
     # shellcheck disable=SC1091
-    info=$(. /etc/os-release && printf '%s\n%s\n%s\n' \
-        "${ID:-}" "${ID_LIKE:-}" "${VERSION_CODENAME:-}")
-    {
-        read -r distro
-        read -r id_like
-        read -r codename
-    } <<<"$info"
+    mapfile -t fields < <(. /etc/os-release &&
+        printf '%s\n%s\n%s\n' "${ID:-}" "${ID_LIKE:-}" "${VERSION_CODENAME:-}")
+
+    distro=${fields[0]:-}
+    id_like=${fields[1]:-}
+    codename=${fields[2]:-}
 
     local candidate
     for candidate in "$distro" $id_like; do
@@ -841,7 +841,8 @@ zsh_plugins() {
         if [[ -d $dir/$name/.git ]]; then
             git -C "$dir/$name" pull --quiet --ff-only || warn "could not update $name"
         else
-            git clone --quiet --depth 1 "https://github.com/$repo" "$dir/$name"
+            git clone --quiet --depth 1 "https://github.com/$repo" "$dir/$name" ||
+                warn "could not clone $name"
         fi
     done
 }
@@ -898,7 +899,7 @@ units() {
     fi
 
     say "enabling user units"
-    systemctl --user daemon-reload
+    systemctl --user daemon-reload || warn "systemctl --user daemon-reload failed"
 
     local unit
     for unit in noctalia.service selector.service ssh-agent.service ssd-backup.timer; do
