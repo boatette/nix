@@ -1,3 +1,24 @@
-nvim-pack-lock.json
+.config/bat/config
+.config/bat/themes/
+.config/btop/themes/
+.config/foot/themes/
+.config/fzf/themes/
+.config/gtk-3.0/noctalia.css
+.config/gtk-4.0/noctalia.css
+.config/lazygit/config.yml
+.config/lazygit/themes/
+.config/nvim/noctalia.lua
+.config/qutebrowser/noctalia/
+.config/selector/noctalia.toml
+.config/umbriel/noctalia.toml
+.config/yazi/flavors/
+.config/zellij/themes/
+.local/share/color-schemes/
+.local/share/konsole/Noctalia.colorscheme
 
-noctalia-palette.lua
+.config/nvim/nvim-pack-lock.json
+.config/yazi/package.toml
+.config/yazi/plugins/
+.config/zellij/plugins/
+
+__pycache__/
