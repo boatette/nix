@@ -30,5 +30,5 @@ name = "community"
 [[plugins.source]]
 enabled = true
 kind = "path"
-location = "~/Projects/noctalia-plugins"
+location = "https://github.com/boatette/noctalia-plugins"
 name = "Personal"
