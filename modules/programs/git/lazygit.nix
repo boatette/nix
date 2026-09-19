@@ -36,7 +36,7 @@
         gui = {
           nerdFontsVersion = "3";
           showRandomTip = false;
-          border = "rounded";
+          border = "single";
           showFileTree = true;
         };
 
