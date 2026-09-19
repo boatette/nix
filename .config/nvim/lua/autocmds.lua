@@ -1,26 +1,77 @@
-local autocmd = vim.api.nvim_create_autocmd
-local augroup = vim.api.nvim_create_augroup
+local function augroup(name)
+    return vim.api.nvim_create_augroup(name, { clear = true })
+end
 
-autocmd("BufReadPre", {
-    group = augroup("LargeFile", { clear = true }),
-    callback = function()
-        local ok, stats = pcall(vim.uv.fs_stat, vim.api.nvim_buf_get_name(0))
-        if ok and stats and stats.size > 1024 * 1024 then
-            vim.b.large_file = true
-            vim.cmd("syntax clear")
-            vim.opt_local.foldmethod = "manual"
-            vim.opt_local.spell = false
-            vim.opt_local.swapfile = false
-            vim.opt_local.undofile = false
-            vim.opt_local.signcolumn = "no"
-            vim.opt_local.statuscolumn = ""
-        end
+local ftplugin = augroup("Ftplugin")
+
+vim.api.nvim_create_autocmd("FileType", {
+    group = ftplugin,
+    pattern = { "checkhealth", "help", "lazygit", "lspinfo", "man", "notify", "qf", "query" },
+    desc = "Utility window: unlisted, q to close",
+    callback = function(ev)
+        vim.bo[ev.buf].buflisted = false
+        vim.keymap.set("n", "q", "<cmd>close<cr>", { buffer = ev.buf, silent = true, desc = "Close" })
     end,
-    desc = "Disable expensive features for files over 1 MB",
 })
 
-autocmd("BufReadPost", {
-    group = augroup("RestoreCursor", { clear = true }),
+vim.api.nvim_create_autocmd("FileType", {
+    group = ftplugin,
+    pattern = { "gitcommit", "markdown", "text" },
+    desc = "Prose: wrap, linebreak, spell",
+    callback = function()
+        vim.opt_local.wrap = true
+        vim.opt_local.linebreak = true
+        vim.opt_local.spell = true
+    end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+    group = ftplugin,
+    pattern = { "dart", "json", "json5", "jsonc", "nix" },
+    desc = "Two-space indent",
+    callback = function()
+        vim.opt_local.shiftwidth = 2
+        vim.opt_local.tabstop = 2
+        vim.opt_local.softtabstop = 2
+    end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+    group = ftplugin,
+    pattern = { "json", "json5", "jsonc" },
+    desc = "Show quotes in JSON",
+    callback = function()
+        vim.opt_local.conceallevel = 0
+    end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+    group = ftplugin,
+    pattern = "help",
+    desc = "Open :help in a vertical split",
+    callback = function(ev)
+        local function vertical()
+            if vim.bo.buftype == "help" and vim.api.nvim_win_get_config(0).relative == "" then
+                vim.cmd("wincmd L")
+            end
+        end
+
+        local group = vim.api.nvim_create_augroup("HelpVertical", { clear = false })
+        vim.api.nvim_clear_autocmds({ group = group, buffer = ev.buf })
+        vim.api.nvim_create_autocmd("BufWinEnter", {
+            group = group,
+            buffer = ev.buf,
+            callback = vertical,
+            desc = "Open :help in a vertical split",
+        })
+
+        vertical()
+    end,
+})
+
+vim.api.nvim_create_autocmd("BufReadPost", {
+    group = augroup("RestoreCursor"),
+    desc = "Restore cursor to last known position",
     callback = function(ev)
         local buf = ev.buf
         if vim.tbl_contains({ "gitcommit", "gitrebase" }, vim.bo[buf].filetype) or vim.b[buf].restore_cursor then
@@ -33,11 +84,11 @@ autocmd("BufReadPost", {
             pcall(vim.api.nvim_win_set_cursor, 0, mark)
         end
     end,
-    desc = "Restore cursor to last known position",
 })
 
-autocmd("BufWritePre", {
-    group = augroup("AutoMkdir", { clear = true }),
+vim.api.nvim_create_autocmd("BufWritePre", {
+    group = augroup("AutoMkdir"),
+    desc = "Create missing parent directories on write",
     callback = function(ev)
         if ev.match:match("^%w%w+://") then
             return
@@ -45,141 +96,66 @@ autocmd("BufWritePre", {
         local file = vim.uv.fs_realpath(ev.match) or ev.match
         vim.fn.mkdir(vim.fn.fnamemodify(file, ":p:h"), "p")
     end,
-    desc = "Create missing parent directories on write",
 })
 
-autocmd("BufEnter", {
-    group = augroup("NoAutoComment", { clear = true }),
-    callback = function()
-        vim.opt.formatoptions:remove({ "c", "r", "o" })
-    end,
+vim.api.nvim_create_autocmd("FileType", {
+    group = augroup("NoAutoComment"),
+    pattern = "*",
     desc = "Prevent auto-comment on new lines",
-})
-
-local ft_group = augroup("FiletypeOverrides", { clear = true })
-
-autocmd("FileType", {
-    group = ft_group,
-    pattern = { "gitcommit", "markdown", "text" },
     callback = function()
-        vim.opt_local.wrap = true
-        vim.opt_local.spell = true
+        vim.opt_local.formatoptions:remove({ "c", "r", "o" })
     end,
-    desc = "Wrap + spellcheck in prose filetypes",
 })
 
-autocmd("FileType", {
-    group = ft_group,
-    pattern = { "json", "jsonc", "json5" },
-    callback = function()
-        vim.opt_local.conceallevel = 0
-    end,
-    desc = "Disable concealing in JSON",
-})
+local cursorline = augroup("CursorLine")
 
-autocmd("FileType", {
-    group = ft_group,
-    pattern = "dart",
-    callback = function()
-        vim.opt_local.shiftwidth = 2
-        vim.opt_local.tabstop = 2
-    end,
-    desc = "2-space indentation for Dart",
-})
-
-autocmd("BufWinEnter", {
-    group = ft_group,
-    pattern = "*.txt",
-    callback = function()
-        if vim.bo.buftype == "help" then
-            vim.cmd("wincmd L")
-        end
-    end,
-    desc = "Open :help in a vertical split",
-})
-
-autocmd("FileType", {
-    group = ft_group,
-    pattern = { "help", "lspinfo", "man", "notify", "qf", "query", "checkhealth", "lazygit" },
-    callback = function(ev)
-        vim.bo[ev.buf].buflisted = false
-        vim.keymap.set("n", "q", "<cmd>close<cr>", { buffer = ev.buf, silent = true, desc = "Close" })
-    end,
-    desc = "Close utility windows with q",
-})
-
-autocmd("FileType", {
-    group = ft_group,
-    pattern = "oil",
-    callback = function()
-        vim.opt_local.colorcolumn = ""
-    end,
-    desc = "Hide colorcolumn in oil",
-})
-
-autocmd({ "BufNewFile", "BufRead" }, {
-    group = augroup("GlslFiletype", { clear = true }),
-    pattern = { "*.vert", "*.frag", "*.geom", "*.tesc", "*.tese", "*.comp", "*.glsl" },
-    callback = function()
-        vim.bo.filetype = "glsl"
-    end,
-    desc = "Detect GLSL shader filetypes",
-})
-
-local cur_group = augroup("CursorLine", { clear = true })
-autocmd({ "WinEnter", "BufEnter" }, {
-    group = cur_group,
-    callback = function()
-        if not vim.b.large_file then
-            vim.opt_local.cursorline = true
-        end
-    end,
+vim.api.nvim_create_autocmd({ "WinEnter", "BufEnter" }, {
+    group = cursorline,
     desc = "Cursor line in active window",
+    callback = function()
+        vim.opt_local.cursorline = true
+    end,
 })
-autocmd({ "WinLeave", "BufLeave" }, {
-    group = cur_group,
+
+vim.api.nvim_create_autocmd({ "WinLeave", "BufLeave" }, {
+    group = cursorline,
+    desc = "No cursor line in inactive window",
     callback = function()
         vim.opt_local.cursorline = false
     end,
-    desc = "No cursor line in inactive window",
 })
 
-local rnu_group = augroup("RelativeNumbers", { clear = true })
-autocmd("InsertEnter", {
-    group = rnu_group,
-    callback = function()
-        vim.opt.relativenumber = false
-    end,
+local relativenumbers = augroup("RelativeNumbers")
+
+vim.api.nvim_create_autocmd("InsertEnter", {
+    group = relativenumbers,
     desc = "Disable relative numbers in insert mode",
-})
-autocmd("InsertLeave", {
-    group = rnu_group,
     callback = function()
-        vim.opt.relativenumber = true
+        vim.opt_local.relativenumber = false
     end,
+})
+
+vim.api.nvim_create_autocmd("InsertLeave", {
+    group = relativenumbers,
     desc = "Enable relative numbers in normal mode",
+    callback = function()
+        vim.opt_local.relativenumber = true
+    end,
 })
 
-autocmd("TextYankPost", {
-    callback = function()
-        vim.hl.hl_op({ timeout = 150 })
-    end,
+vim.api.nvim_create_autocmd("TextYankPost", {
     desc = "Flash yanked region",
-})
-
-autocmd("TextPutPost", {
     callback = function()
-        vim.hl.hl_op({ timeout = 150 })
+        vim.hl.on_yank({ timeout = 150 })
     end,
-    desc = "Flash pasted region",
 })
 
-autocmd("VimResized", {
-    group = augroup("ResizeSplits", { clear = true }),
+vim.api.nvim_create_autocmd("VimResized", {
+    group = augroup("ResizeSplits"),
+    desc = "Equalise window sizes on terminal resize",
     callback = function()
         local tab = vim.fn.tabpagenr()
         vim.cmd("tabdo wincmd =")
         vim.cmd("tabnext " .. tab)
     end,
-    desc = "Equalise window sizes on terminal resize",
 })

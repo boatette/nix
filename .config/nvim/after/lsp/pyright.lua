@@ -1,3 +1,7 @@
 return {
-    settings = { python = { pythonPath = vim.fn.exepath("python3") } },
+    settings = {
+        python = {
+            pythonPath = vim.fn.exepath("python3"),
+        },
+    },
 }

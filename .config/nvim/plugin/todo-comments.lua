@@ -1,17 +1,20 @@
-vim.pack.add({
-    "https://github.com/nvim-lua/plenary.nvim",
-    "https://github.com/folke/todo-comments.nvim",
+vim.pack.add({ "https://github.com/folke/todo-comments.nvim" })
+
+require("todo-comments").setup({
+    highlight = { pattern = [[.*<(KEYWORDS)(\([^\)]*\))?:]] },
+    search = {
+        command = "rg",
+        args = { "--color=never", "--no-heading", "--with-filename", "--line-number", "--column" },
+        pattern = [[\b(KEYWORDS)(\([^\)]*\))?:]],
+    },
 })
 
-require("todo-comments").setup()
-
-local map = vim.keymap.set
-map("n", "]t", function()
-    require("todo-comments").jump_next()
-end, { desc = "Next todo" })
-map("n", "[t", function()
-    require("todo-comments").jump_prev()
-end, { desc = "Prev todo" })
-map("n", "<leader>st", function()
+vim.keymap.set("n", "<leader>st", function()
     require("snacks").picker.todo_comments()
 end, { desc = "Todo" })
+vim.keymap.set("n", "]t", function()
+    require("todo-comments").jump_next()
+end, { desc = "Next todo" })
+vim.keymap.set("n", "[t", function()
+    require("todo-comments").jump_prev()
+end, { desc = "Prev todo" })

@@ -1,10 +1,10 @@
 vim.pack.add({ "https://github.com/folke/snacks.nvim" })
 
 require("snacks").setup({
-    bigfile = {},
+    bigfile = { size = 1048576 },
     bufdelete = {},
     indent = { animate = { enabled = false } },
-    lazygit = {},
+    lazygit = { win = { position = "float", style = "float" } },
     notifier = {
         style = function(buf, notif, ctx)
             ctx.opts.border = "top"
@@ -20,142 +20,107 @@ require("snacks").setup({
         layouts = {
             custom = {
                 layout = {
-                    box = "vertical",
                     backdrop = true,
-                    row = 1000,
-                    width = 0,
-                    height = 0.4,
                     border = "top",
+                    box = "vertical",
+                    height = 0.4,
+                    row = 1000,
                     title = " {title} {live} {flags}",
                     title_pos = "left",
+                    width = 0,
                     {
                         box = "horizontal",
                         { win = "list", border = "none" },
-                        { win = "preview", title = "{preview}", width = 0.6, border = "left" },
+                        { win = "preview", title = "{preview}", border = "left", width = 0.6 },
                     },
                     { win = "input", height = 1 },
                 },
             },
         },
-        sources = {
-            files = { hidden = true, follow = true },
-        },
+        sources = { files = { follow = true, hidden = true } },
     },
     quickfile = {},
-
-    animate = { enabled = false },
-    dashboard = { enabled = false },
-    debug = { enabled = false },
-    dim = { enabled = false },
-    explorer = { enabled = false },
-    gh = { enabled = false },
-    git = { enabled = false },
-    gitbrowse = { enabled = false },
-    health = { enabled = false },
-    image = { enabled = false },
-    input = { enabled = false },
-    keymap = { enabled = false },
-    profiler = { enabled = false },
-    rename = { enabled = false },
-    scope = { enabled = false },
-    scratch = { enabled = false },
-    scroll = { enabled = false },
-    statuscolumn = { enabled = false },
-    terminal = { enabled = false },
-    toggle = { enabled = false },
-    util = { enabled = false },
-    win = { enabled = false },
-    words = { enabled = false },
-    zen = { enabled = false },
+    terminal = { win = { position = "bottom" } },
 })
 
--- INFO: Removes undefined global warning
-local Snacks = require("snacks")
-
-local map = vim.keymap.set
-
-map("n", "<leader><space>", function()
-    Snacks.picker.smart()
+vim.keymap.set("n", "<leader><space>", function()
+    require("snacks").picker.smart()
 end, { desc = "Smart find (files/recent)" })
-map("n", "<leader>ff", function()
-    Snacks.picker.files()
+vim.keymap.set("n", "<leader>ff", function()
+    require("snacks").picker.files()
 end, { desc = "Find files" })
-map("n", "<leader>fr", function()
-    Snacks.picker.recent()
+vim.keymap.set("n", "<leader>fr", function()
+    require("snacks").picker.recent()
 end, { desc = "Recent files" })
-map("n", "<leader>fR", function()
-    Snacks.picker.recent({ filter = { cwd = true } })
+vim.keymap.set("n", "<leader>fR", function()
+    require("snacks").picker.recent({ filter = { cwd = true } })
 end, { desc = "Recent files (cwd)" })
-map("n", "<leader>sg", function()
-    Snacks.picker.grep()
+vim.keymap.set("n", "<leader>sg", function()
+    require("snacks").picker.grep()
 end, { desc = "Live grep" })
-map({ "n", "x" }, "<leader>sw", function()
-    Snacks.picker.grep_word()
+vim.keymap.set({ "n", "x" }, "<leader>sw", function()
+    require("snacks").picker.grep_word()
 end, { desc = "Grep word under cursor" })
-map("n", "<leader>fb", function()
-    Snacks.picker.buffers()
+vim.keymap.set("n", "<leader>fb", function()
+    require("snacks").picker.buffers()
 end, { desc = "Buffers" })
-map("n", "<leader>sh", function()
-    Snacks.picker.help()
+vim.keymap.set("n", "<leader>sh", function()
+    require("snacks").picker.help()
 end, { desc = "Help tags" })
-map("n", "<leader>sk", function()
-    Snacks.picker.keymaps()
+vim.keymap.set("n", "<leader>sk", function()
+    require("snacks").picker.keymaps()
 end, { desc = "Keymaps" })
-map("n", "<leader>fc", function()
-    Snacks.picker.files({ cwd = vim.fn.stdpath("config") })
+vim.keymap.set("n", "<leader>fc", function()
+    require("snacks").picker.files({ cwd = vim.fn.stdpath("config") })
 end, { desc = "Config files" })
-map("n", "<leader>uc", function()
-    Snacks.picker.colorschemes()
+vim.keymap.set("n", "<leader>uc", function()
+    require("snacks").picker.colorschemes()
 end, { desc = "Colorschemes" })
-map("n", "<leader>sm", function()
-    Snacks.picker.marks()
+vim.keymap.set("n", "<leader>sm", function()
+    require("snacks").picker.marks()
 end, { desc = "Marks" })
-map("n", "<leader>sj", function()
-    Snacks.picker.jumps()
+vim.keymap.set("n", "<leader>sj", function()
+    require("snacks").picker.jumps()
 end, { desc = "Jump list" })
-map("n", "<leader>s'", function()
-    Snacks.picker.registers()
+vim.keymap.set("n", "<leader>s'", function()
+    require("snacks").picker.registers()
 end, { desc = "Registers" })
-map("n", "<leader>fs", function()
-    Snacks.picker.lsp_symbols()
+vim.keymap.set("n", "<leader>fs", function()
+    require("snacks").picker.lsp_symbols()
 end, { desc = "LSP document symbols" })
-map("n", "<leader>fS", function()
-    Snacks.picker.lsp_workspace_symbols()
+vim.keymap.set("n", "<leader>fS", function()
+    require("snacks").picker.lsp_workspace_symbols()
 end, { desc = "LSP workspace symbols" })
-
-map("n", "<leader>gc", function()
-    Snacks.picker.git_log()
+vim.keymap.set("n", "<leader>gc", function()
+    require("snacks").picker.git_log()
 end, { desc = "Git log" })
-map("n", "<leader>gF", function()
-    Snacks.picker.git_status()
+vim.keymap.set("n", "<leader>gF", function()
+    require("snacks").picker.git_status()
 end, { desc = "Git status" })
-map("n", "<leader>go", function()
-    Snacks.gitbrowse()
+vim.keymap.set("n", "<leader>go", function()
+    require("snacks").gitbrowse()
 end, { desc = "Git browse (open in browser)" })
-map("n", "<leader>gg", function()
-    Snacks.lazygit()
+vim.keymap.set("n", "<leader>gg", function()
+    require("snacks").lazygit()
 end, { desc = "Lazygit" })
-map("n", "<leader>gl", function()
-    Snacks.lazygit.log()
+vim.keymap.set("n", "<leader>gl", function()
+    require("snacks").lazygit.log()
 end, { desc = "Lazygit log" })
-
-map({ "n", "t" }, "<C-`>", function()
-    Snacks.terminal()
+vim.keymap.set({ "n", "t" }, "<C-`>", function()
+    require("snacks").terminal()
 end, { desc = "Toggle terminal" })
-map("n", "<leader>ot", function()
-    Snacks.terminal()
+vim.keymap.set("n", "<leader>ot", function()
+    require("snacks").terminal()
 end, { desc = "Toggle terminal" })
-
-map("n", "<leader>un", function()
-    Snacks.notifier.hide()
+vim.keymap.set("n", "<leader>un", function()
+    require("snacks").notifier.hide()
 end, { desc = "Dismiss notifications" })
-map("n", "<leader>uN", function()
-    Snacks.picker.notifications()
+vim.keymap.set("n", "<leader>uN", function()
+    require("snacks").picker.notifications()
 end, { desc = "Browse notifications" })
-
-map("n", "<leader>bd", function()
-    Snacks.bufdelete()
+vim.keymap.set("n", "<leader>bd", function()
+    require("snacks").bufdelete()
 end, { desc = "Delete buffer" })
-map("n", "<leader>bD", function()
-    Snacks.bufdelete({ force = true })
+vim.keymap.set("n", "<leader>bD", function()
+    require("snacks").bufdelete({ force = true })
 end, { desc = "Delete buffer (force)" })

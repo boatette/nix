@@ -1,3 +1,4 @@
+local palettes = require("colourscheme.palette")
 local schemes = require("colourscheme.schemes")
 
 local M = {}
@@ -11,6 +12,7 @@ local function noctalia_dir(override, xdg_var, xdg_fallback)
     if dir and dir ~= "" then
         return dir
     end
+
     local base = vim.env[xdg_var]
     if not base or base == "" then
         base = vim.env.HOME .. xdg_fallback
@@ -21,6 +23,7 @@ end
 local function settings_files()
     local config = noctalia_dir("NOCTALIA_CONFIG_HOME", "XDG_CONFIG_HOME", "/.config")
     local state = noctalia_dir("NOCTALIA_STATE_HOME", "XDG_STATE_HOME", "/.local/state")
+
     local files = vim.fn.glob(config .. "/*.toml", true, true)
     table.insert(files, state .. "/settings.toml")
     return files
@@ -28,6 +31,7 @@ end
 
 local function read_theme()
     local theme = {}
+
     for _, path in ipairs(settings_files()) do
         local file = io.open(path, "r")
         if file then
@@ -46,6 +50,7 @@ local function read_theme()
             file:close()
         end
     end
+
     return theme
 end
 
@@ -65,6 +70,7 @@ local function generated_palette()
     if not chunk then
         return nil
     end
+
     local ok, palette = pcall(chunk)
     if ok and type(palette) == "table" then
         return palette
@@ -84,36 +90,69 @@ local TRANSPARENT_GROUPS = {
     "NormalFloat",
     "FloatBorder",
     "FloatShadow",
+    "FloatTitle",
     "WinSeparator",
+    "TabLine",
+    "TabLineFill",
+    "TabLineSel",
 }
 
-local function apply_generated(palette)
+local MUTED_GROUPS = {
+    "Delimiter",
+    "@punctuation.bracket",
+    "@punctuation.delimiter",
+}
+
+local function apply_generated(palette, is_light)
     if not palette then
         return false
     end
+
+    palette = palettes.normalise(palette, is_light)
+
     local ok = pcall(function()
         require("mini.base16").setup({ palette = palette })
     end)
+
     if ok then
-        for _, group in ipairs(TRANSPARENT_GROUPS) do
-            vim.api.nvim_set_hl(0, group, { bg = "none" })
+        for _, group in ipairs(MUTED_GROUPS) do
+            vim.api.nvim_set_hl(0, group, { fg = palette.base04 })
         end
     end
+
     return ok
 end
 
+local function clear_backgrounds()
+    for _, group in ipairs(TRANSPARENT_GROUPS) do
+        local hl = vim.api.nvim_get_hl(0, { name = group, link = false })
+        hl.bg, hl.ctermbg = nil, nil
+        pcall(vim.api.nvim_set_hl, 0, group, hl)
+    end
+end
+
+local function apply_scheme(entry)
+    if not (entry and entry.scheme) then
+        return false
+    end
+
+    if entry.provider then
+        local configured = PROVIDERS[entry.provider]
+        if not (configured and pcall(configured)) then
+            return false
+        end
+    end
+
+    if not pcall(vim.cmd.colorscheme, entry.scheme) then
+        return false
+    end
+
+    return true
+end
+
 local function is_light_mode(theme, palette)
-    if theme.mode == "light" then
-        return true
-    elseif theme.mode == "dark" then
-        return false
-    end
-    local r, g, b = tostring(palette and palette.base00 or ""):match("^#(%x%x)(%x%x)(%x%x)$")
-    if not r then
-        return false
-    end
-    local luma = (0.299 * tonumber(r, 16) + 0.587 * tonumber(g, 16) + 0.114 * tonumber(b, 16)) / 255
-    return luma > 0.5
+    local mode = (palette and palette.mode) or theme.mode
+    return mode == "light"
 end
 
 function M.apply()
@@ -123,13 +162,13 @@ function M.apply()
 
     vim.o.background = is_light and "light" or "dark"
 
-    local provider, scheme = schemes.resolve(palette_name(theme), is_light)
-    local setup = PROVIDERS[provider]
-    if scheme and setup and pcall(setup) and pcall(vim.cmd.colorscheme, scheme) then
-        return
+    if not apply_scheme(schemes.resolve(palette_name(theme), is_light)) then
+        apply_generated(palette, is_light)
     end
 
-    apply_generated(palette)
+    clear_backgrounds()
+
+    vim.api.nvim_exec_autocmds("User", { pattern = "ColourschemeApplied", modeline = false })
 end
 
 function M.setup(providers)
@@ -139,10 +178,6 @@ function M.setup(providers)
     if signal then
         signal:start("sigusr1", vim.schedule_wrap(M.apply))
     end
-
-    vim.api.nvim_create_user_command("ThemeReload", M.apply, {
-        desc = "Re-apply the colorscheme from noctalia's current palette",
-    })
 
     M.apply()
 end

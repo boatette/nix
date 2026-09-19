@@ -44,7 +44,6 @@ local SCHEMES = {
     tokyonightday = { provider = "tokyonight", scheme = "tokyonight-day" },
 
     everforest = { provider = "everforest", scheme = "everforest" },
-    everforestalt = { provider = "everforest", scheme = "everforest" },
 
     kanagawa = { provider = "kanagawa", dark = "kanagawa-wave", light = "kanagawa-lotus" },
     kanagawawave = { provider = "kanagawa", scheme = "kanagawa-wave" },
@@ -53,11 +52,7 @@ local SCHEMES = {
 
     nord = { provider = "nord", scheme = "nord" },
 
-    monochrome = {
-        provider = "github-monochrome",
-        dark = "github-monochrome-zenbones",
-        light = "github-monochrome-light",
-    },
+    monochrome = { provider = "zenwritten", scheme = "zenwritten" },
 }
 
 function M.resolve(name, is_light)
@@ -65,7 +60,10 @@ function M.resolve(name, is_light)
     if not entry then
         return nil
     end
-    return entry.provider, entry.scheme or (is_light and entry.light or entry.dark)
+    return {
+        provider = entry.provider,
+        scheme = entry.scheme or (is_light and entry.light or entry.dark),
+    }
 end
 
 return M

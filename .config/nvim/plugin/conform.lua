@@ -1,32 +1,28 @@
 vim.pack.add({ "https://github.com/stevearc/conform.nvim" })
 
 require("conform").setup({
+    default_format_opts = { lsp_format = "fallback" },
+    format_on_save = { lsp_format = "fallback" },
+    formatters = {},
     formatters_by_ft = {
         bash = { "shfmt" },
         c = { "clang_format" },
         cpp = { "clang_format" },
         glsl = { "clang_format" },
-        java = { "google-java-format" },
+        go = { "goimports", "gofumpt" },
         javascript = { "prettierd" },
         javascriptreact = { "prettierd" },
         json = { "prettierd" },
         jsonc = { "prettierd" },
-        kotlin = { "ktlint" },
-        rust = { "rustfmt" },
         lua = { "stylua" },
         markdown = { "prettierd" },
         nix = { "nixfmt" },
         python = { "ruff_format", "ruff_organize_imports" },
+        rust = { "rustfmt" },
         sh = { "shfmt" },
         typescript = { "prettierd" },
         typescriptreact = { "prettierd" },
-        zig = { "zigfmt" },
     },
-    formatters = {
-        ["google-java-format"] = { prepend_args = { "--aosp" } },
-        nixfmt = { prepend_args = { "--indent", "4" } },
-    },
-    format_on_save = { lsp_format = "fallback" },
 })
 
 vim.keymap.set("n", "<leader>cf", function()

@@ -1,0 +1,67 @@
+{
+  "Script header": {
+    "prefix": "sh",
+    "description": "shebang and strict mode",
+    "body": ["#!/usr/bin/env bash", "set -euo pipefail", "", "$0"]
+  },
+  "Function": {
+    "prefix": "fn",
+    "description": "shell function",
+    "body": ["${1:name}() {", "    $0", "}"]
+  },
+  "if": {
+    "prefix": "if",
+    "description": "if block",
+    "body": ["if ${1:condition}; then", "    $0", "fi"]
+  },
+  "for": {
+    "prefix": "for",
+    "description": "loop over words",
+    "body": ["for ${1:item} in ${2:items}; do", "    $0", "done"]
+  },
+  "while read": {
+    "prefix": "wread",
+    "description": "read a file line by line",
+    "body": [
+      "while IFS= read -r ${1:line}; do",
+      "    $0",
+      "done < \"${2:file}\""
+    ]
+  },
+  "case": {
+    "prefix": "case",
+    "description": "case statement",
+    "body": [
+      "case \"\\$${1:1}\" in",
+      "${2:pattern})",
+      "    $0",
+      "    ;;",
+      "*)",
+      "    ;;",
+      "esac"
+    ]
+  },
+  "die": {
+    "prefix": "die",
+    "description": "print to stderr and exit",
+    "body": ["die() {", "    printf '%s\\n' \"\\$*\" >&2", "    exit 1", "}"]
+  },
+  "usage": {
+    "prefix": "usage",
+    "description": "usage heredoc",
+    "body": [
+      "usage() {",
+      "    cat <<EOF",
+      "Usage: ${1:$TM_FILENAME_BASE} [options]",
+      "",
+      "    -h, --help    show this message",
+      "EOF",
+      "}"
+    ]
+  },
+  "main": {
+    "prefix": "main",
+    "description": "main function and call",
+    "body": ["main() {", "    $0", "}", "", "main \"\\$@\""]
+  }
+}

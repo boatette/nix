@@ -1,9 +1,5 @@
-if vim.uv.fs_stat("/etc/NIXOS") then
-    return
-end
-
--- If not all tools are installed run the following command:
--- :MasonInstall bash-language-server clangd eslint-lsp fish-lsp glsl_analyzer gradle-language-server jdtls json-lsp lua-language-server ols pyright ruff rust-analyzer typescript-language-server zls codelldb dart-debug-adapter debugpy js-debug-adapter kotlin-debug-adapter cpplint ktlint markdownlint markdownlint-cli2 clang-format google-java-format prettierd shfmt stylua
+-- Installs the language servers, linters and formatters this config expects
+-- into ~/.local/share/nvim/mason, skipping anything already on PATH.
 
 vim.pack.add({ "https://github.com/mason-org/mason.nvim" })
 
@@ -14,33 +10,29 @@ local ensure_installed = {
     "bash-language-server",
     "clangd",
     "eslint-lsp",
-    "fish-lsp",
     "glsl_analyzer",
-    "gradle-language-server",
-    "jdtls",
+    "gopls",
     "json-lsp",
     "lua-language-server",
-    "ols",
+    "nixd",
     "pyright",
     "ruff",
     "rust-analyzer",
     "typescript-language-server",
     "zls",
-    -- DAP
-    "codelldb",
-    "dart-debug-adapter",
-    "debugpy",
-    "js-debug-adapter",
-    "kotlin-debug-adapter",
     -- Linters
     "cpplint",
+    "deadnix",
     "eslint_d",
-    "ktlint",
-    "markdownlint",
+    "golangci-lint",
     "markdownlint-cli2",
+    "shellcheck",
+    "statix",
     -- Formatters
     "clang-format",
-    "google-java-format",
+    "gofumpt",
+    "goimports",
+    "nixfmt",
     "prettierd",
     "shfmt",
     "stylua",
@@ -51,9 +43,8 @@ require("mason-registry").refresh(function()
         local name, version = tool:match("^([^@]+)@?(.*)$")
         version = version ~= "" and version or nil
 
-        local package = require("mason-registry").get_package(name)
-        local is_globally_installed = vim.fn.executable(name) == 1
-        if not is_globally_installed and not package:is_installed() then
+        local ok, package = pcall(require("mason-registry").get_package, name)
+        if ok and vim.fn.executable(name) ~= 1 and not package:is_installed() then
             package:install({ version = version })
         end
     end

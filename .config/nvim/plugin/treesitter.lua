@@ -16,21 +16,46 @@ vim.pack.add({
     "https://github.com/nvim-treesitter/nvim-treesitter-context",
 })
 
+local group = vim.api.nvim_create_augroup("Treesitter", { clear = true })
+
 vim.api.nvim_create_autocmd("FileType", {
-    callback = function(ev)
-        local lang = vim.treesitter.language.get_lang(ev.match)
-        local available_langs = require("nvim-treesitter").get_available()
-        local is_available = vim.tbl_contains(available_langs, lang)
-        if is_available then
-            local installed_langs = require("nvim-treesitter").get_installed()
-            local installed = vim.tbl_contains(installed_langs, lang)
-            if not installed then
-                require("nvim-treesitter").install(lang):wait()
-            end
-            vim.treesitter.start()
-            require("nvim-treesitter").indentexpr()
-        end
+    group = group,
+    pattern = "*",
+    desc = "Treesitter highlighting, indent and folding",
+    callback = function()
+        pcall(vim.treesitter.start)
+        vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+        vim.wo[0][0].foldmethod = "expr"
+        vim.wo[0][0].foldexpr = "v:lua.vim.treesitter.foldexpr()"
     end,
 })
 
-require("treesitter-context").setup({ max_lines = 3 })
+require("treesitter-context").setup({
+    line_numbers = true,
+    max_lines = 3,
+    min_window_height = 0,
+    mode = "cursor",
+    multiline_threshold = 20,
+    trim_scope = "outer",
+    zindex = 20,
+})
+
+do
+    local underline_group = vim.api.nvim_create_augroup("TreesitterContextUnderline", { clear = true })
+
+    local function underline()
+        local sp = vim.api.nvim_get_hl(0, { name = "Comment", link = false }).fg
+        for _, name in ipairs({ "TreesitterContextBottom", "TreesitterContextLineNumberBottom" }) do
+            vim.api.nvim_set_hl(0, name, { underline = true, sp = sp })
+        end
+    end
+
+    vim.api.nvim_create_autocmd("User", {
+        pattern = "ColourschemeApplied",
+        group = underline_group,
+        desc = "Underline the context after a theme change",
+        callback = underline,
+    })
+
+    underline()
+end

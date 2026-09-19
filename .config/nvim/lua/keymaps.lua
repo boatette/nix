@@ -1,82 +1,61 @@
-local map = vim.keymap.set
+-- Core editor mappings. Plugin mappings live next to their setup in plugin/.
 
-map("n", "<Esc>", "<cmd>nohlsearch<cr>", { desc = "Clear search highlight" })
-map("n", "<leader>v", "ggVG", { desc = "Select whole buffer" })
-map("v", "p", '"_dP`[v`]=', { desc = "Paste without yank" })
-map({ "v", "n" }, "<leader>m", "<cmd>vert Man<CR>", { desc = "Open man page (vsplit)" })
-map("n", "J", "mzJ`z", { desc = "Better join" })
--- map("n", "Q", "<nop>")
-map("n", "<leader>R", function()
-    local session = vim.fn.stdpath("state") .. "/restart_session.vim"
-    vim.cmd("mksession! " .. vim.fn.fnameescape(session))
-    vim.cmd("restart source " .. vim.fn.fnameescape(session))
-end, { desc = "Restart Neovim" })
-
-map("n", "i", function()
+vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<cr>", { desc = "Clear search highlight" })
+vim.keymap.set("n", "<leader>v", "ggVG", { desc = "Select whole buffer" })
+vim.keymap.set("v", "p", '"_dP`[v`]=', { desc = "Paste without yank" })
+vim.keymap.set("n", "J", "mzJ`z", { desc = "Better join" })
+vim.keymap.set("n", "i", function()
     return vim.fn.getline("."):len() == 0 and '"_cc' or "i"
-end, { expr = true, desc = "Auto-indent on empty line" })
-
-map("n", "j", "gj", { desc = "Navigate wrapped lines" })
-map("n", "k", "gk", { desc = "Navigate wrapped lines" })
-
-map("v", "<", "<gv", { desc = "Indent left" })
-map("v", ">", ">gv", { desc = "Indent right" })
-
-map("v", "J", ":m '>+1<cr>gv=gv", { silent = true, desc = "Move lines down" })
-map("v", "K", ":m '<-2<cr>gv=gv", { silent = true, desc = "Move lines up" })
-
--- map("n", "<S-h>", "<cmd>bprev<cr>", { desc = "Previous buffer" })
--- map("n", "<S-l>", "<cmd>bnext<cr>", { desc = "Next buffer" })
--- map("n", "<leader>bd", "<cmd>bd<cr>", { desc = "Delete buffer" })
--- map("n", "<leader>bD", "<cmd>bd!<cr>", { desc = "Delete buffer (force)" })
-
-map("n", "<C-d>", "<C-d>zz", { desc = "Half page down (centred)" })
-map("n", "<C-u>", "<C-u>zz", { desc = "Half page up (centred)" })
-map("n", "n", "nzzzv", { desc = "Next search result (centred)" })
-map("n", "N", "Nzzzv", { desc = "Prev search result (centred)" })
-
-map("n", "<C-h>", "<C-w>h", { desc = "Focus left window" })
-map("n", "<C-j>", "<C-w>j", { desc = "Focus lower window" })
-map("n", "<C-k>", "<C-w>k", { desc = "Focus upper window" })
-map("n", "<C-l>", "<C-w>l", { desc = "Focus right window" })
-
-map("n", "<C-Up>", "<cmd>resize +2<cr>", { desc = "Increase height" })
-map("n", "<C-Down>", "<cmd>resize -2<cr>", { desc = "Decrease height" })
-map("n", "<C-Left>", "<cmd>vertical resize -2<cr>", { desc = "Decrease width" })
-map("n", "<C-Right>", "<cmd>vertical resize +2<cr>", { desc = "Increase width" })
-
-map("n", "<leader>wd", "<C-W>c", { desc = "Delete window" })
-map("n", "<leader>w-", "<C-W>s", { desc = "Split below" })
-map("n", "<leader>w|", "<C-W>v", { desc = "Split right" })
-map("n", "<leader>w=", "<C-w>=", { desc = "Equalise windows" })
-
-map("n", "<leader>fn", "<cmd>enew<cr>", { desc = "New file" })
-
-map("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code action" })
-map("n", "<leader>cr", vim.lsp.buf.rename, { desc = "Rename symbol" })
-map("n", "<leader>co", function()
+end, { desc = "Auto-indent on empty line", expr = true })
+vim.keymap.set("n", "j", "gj", { desc = "Navigate wrapped lines" })
+vim.keymap.set("n", "k", "gk", { desc = "Navigate wrapped lines" })
+vim.keymap.set("v", "<", "<gv", { desc = "Indent left" })
+vim.keymap.set("v", ">", ">gv", { desc = "Indent right" })
+vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Half page down (centred)" })
+vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Half page up (centred)" })
+vim.keymap.set("n", "n", "nzzzv", { desc = "Next search result (centred)" })
+vim.keymap.set("n", "N", "Nzzzv", { desc = "Prev search result (centred)" })
+vim.keymap.set("n", "<C-h>", "<C-w>h", { desc = "Focus left window" })
+vim.keymap.set("n", "<C-j>", "<C-w>j", { desc = "Focus lower window" })
+vim.keymap.set("n", "<C-k>", "<C-w>k", { desc = "Focus upper window" })
+vim.keymap.set("n", "<C-l>", "<C-w>l", { desc = "Focus right window" })
+vim.keymap.set("n", "<C-Up>", "<cmd>resize +2<cr>", { desc = "Increase height" })
+vim.keymap.set("n", "<C-Down>", "<cmd>resize -2<cr>", { desc = "Decrease height" })
+vim.keymap.set("n", "<C-Left>", "<cmd>vertical resize -2<cr>", { desc = "Decrease width" })
+vim.keymap.set("n", "<C-Right>", "<cmd>vertical resize +2<cr>", { desc = "Increase width" })
+vim.keymap.set("n", "<leader>wd", "<C-W>c", { desc = "Delete window" })
+vim.keymap.set("n", "<leader>w-", "<C-W>s", { desc = "Split below" })
+vim.keymap.set("n", "<leader>w|", "<C-W>v", { desc = "Split right" })
+vim.keymap.set("n", "<leader>w=", "<C-w>=", { desc = "Equalise windows" })
+vim.keymap.set("n", "<leader>fn", "<cmd>enew<cr>", { desc = "New file" })
+vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code action" })
+vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename, { desc = "Rename symbol" })
+vim.keymap.set("n", "<leader>co", function()
     vim.lsp.buf.code_action({
         context = { only = { "source.organizeImports" }, diagnostics = {} },
         apply = true,
     })
 end, { desc = "Organise imports" })
-map("n", "<leader>cq", function()
+vim.keymap.set("n", "<leader>cq", function()
     vim.lsp.buf.code_action({
         context = { only = { "quickfix" }, diagnostics = {} },
         apply = true,
     })
 end, { desc = "Quick fix" })
-map("n", "<leader>cl", vim.lsp.codelens.run, { desc = "Run code lens" })
-map("i", "<C-k>", vim.lsp.buf.signature_help, { desc = "Signature help" })
-
-map("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line diagnostics" })
-map("n", "[d", function()
+vim.keymap.set("n", "<leader>cl", vim.lsp.codelens.run, { desc = "Run code lens" })
+vim.keymap.set("i", "<C-k>", vim.lsp.buf.signature_help, { desc = "Signature help" })
+vim.keymap.set("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line diagnostics" })
+vim.keymap.set("n", "[d", function()
     vim.diagnostic.jump({ count = -1, float = true })
 end, { desc = "Prev diagnostic" })
-map("n", "]d", function()
+vim.keymap.set("n", "]d", function()
     vim.diagnostic.jump({ count = 1, float = true })
 end, { desc = "Next diagnostic" })
-map("n", "[q", "<cmd>cprev<cr>", { desc = "Prev quickfix" })
-map("n", "]q", "<cmd>cnext<cr>", { desc = "next quickfix" })
+vim.keymap.set("n", "[q", "<cmd>cprev<cr>", { desc = "Prev quickfix" })
+vim.keymap.set("n", "]q", "<cmd>cnext<cr>", { desc = "Next quickfix" })
+vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
 
-map("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
+vim.keymap.set("n", "<leader>uh", function()
+    local buf = vim.api.nvim_get_current_buf()
+    vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = buf }), { bufnr = buf })
+end, { desc = "Toggle inlay hints" })
