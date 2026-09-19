@@ -1,0 +1,439 @@
+[animation]
+curve = "cinematic"
+duration_ms = 195
+enabled = true
+
+[animation.beziers]
+cinematic = [0.16, 0.84, 0.24, 1.0]
+window_flow = [0.25, 0.46, 0.35, 1.0]
+workspace_flow = [0.38, 0.0, 0.22, 1.0]
+
+[animation.border]
+enabled = false
+
+[animation.layers]
+curve = "easeoutcubic"
+duration_ms = 175
+enabled = true
+
+[animation.overview]
+curve = "cinematic"
+duration_ms = 280
+enabled = true
+
+[animation.scratchpad]
+blur = false
+curve = "easeinoutcubic"
+dim = 0.42
+duration_ms = 215
+enabled = true
+fullscreen = false
+maximize = false
+scale = 0.0
+
+[animation.springs.apparition]
+damping = 0.7
+stiffness = 240
+
+[animation.windows_in]
+curve = "apparition"
+duration_ms = 205
+enabled = true
+scale = 0.72
+style = "popin"
+
+[animation.windows_move]
+curve = "window_flow"
+duration_ms = 195
+enabled = true
+
+[animation.windows_out]
+curve = "easeoutcubic"
+duration_ms = 165
+enabled = true
+style = "fade"
+
+[animation.workspaces]
+curve = "workspace_flow"
+duration_ms = 225
+enabled = true
+
+[appearance]
+border_width = 1
+corner_radius = 0
+outer_border_width = 0
+
+[appearance.blur]
+brightness = 0.9
+contrast = 0.9
+enabled = true
+noise = 0.02
+optimized = true
+passes = 4
+radius = 4
+saturation = 1.1
+
+[appearance.shadow]
+enabled = false
+
+[events]
+lid_close = "noctalia msg session lock-and-suspend"
+
+[general]
+focus_on_activate = true
+show_cheatsheet = false
+
+[include.optional]
+files = ["noctalia.toml"]
+
+[input.cursor]
+theme = "capitaine-cursors"
+
+[input.keyboard]
+layout = "us,us"
+options = "caps:super,grp:win_space_toggle"
+repeat_delay = 200
+repeat_rate = 35
+variant = ",dvp"
+
+[input.touchpad]
+natural_scroll = true
+
+[keybinds]
+"Alt+Tab" = "spawn:noctalia msg window-switcher"
+"Ctrl+Shift+Escape" = "spawn:foot -e btop"
+"Mod+0" = "workspace-switch:10"
+"Mod+1" = "workspace-switch:1"
+"Mod+2" = "workspace-switch:2"
+"Mod+3" = "workspace-switch:3"
+"Mod+4" = "workspace-switch:4"
+"Mod+5" = "workspace-switch:5"
+"Mod+6" = "workspace-switch:6"
+"Mod+7" = "workspace-switch:7"
+"Mod+8" = "workspace-switch:8"
+"Mod+9" = "workspace-switch:9"
+"Mod+Alt+E" = 'spawn:foot zsh -ic "y; exec zsh"'
+"Mod+Alt+Q" = """spawn:app_id=$(umbriel windows --json | jq -r 'first(.[] | select(.active) | .app_id) // empty'); [ -n "$app_id" ] && { pkill -9 -x "$app_id" || pkill -9 -f "$app_id"; }"""
+"Mod+Alt+R" = "window-cycle-secondary-extent"
+"Mod+Alt+Shift+R" = "window-cycle-secondary-extent-back"
+"Mod+Alt+Y" = "spawn:noctalia msg panel-toggle noctalia/wallhaven:browser"
+"Mod+BracketLeft" = "window-consume-or-expel-left"
+"Mod+BracketRight" = "window-consume-or-expel-right"
+"Mod+C" = "column-center"
+"Mod+Comma" = "spawn:noctalia msg settings-toggle"
+"Mod+Ctrl+Down" = "output-focus-down"
+"Mod+Ctrl+F" = "window-toggle-maximize-to-edges"
+"Mod+Ctrl+H" = "output-focus-left"
+"Mod+Ctrl+J" = "output-focus-down"
+"Mod+Ctrl+K" = "output-focus-up"
+"Mod+Ctrl+L" = "output-focus-right"
+"Mod+Ctrl+Left" = "output-focus-left"
+"Mod+Ctrl+Right" = "output-focus-right"
+"Mod+Ctrl+U" = "window-restore-from-scratchpad"
+"Mod+Ctrl+Up" = "output-focus-up"
+"Mod+Ctrl+WheelLeft" = "column-move-left"
+"Mod+Ctrl+WheelRight" = "column-move-right"
+"Mod+D" = "spawn:noctalia msg panel-toggle launcher"
+"Mod+Down" = "window-focus-down"
+"Mod+E" = "spawn:dolphin"
+"Mod+End" = "column-focus-last"
+"Mod+Equal" = "window-modify-primary-extent:0.1"
+"Mod+F" = "window-toggle-maximize"
+"Mod+G" = "overview-toggle"
+"Mod+H" = "window-focus-left"
+"Mod+Home" = "column-focus-first"
+"Mod+I" = "spawn:noctalia msg caffeine-toggle"
+"Mod+J" = "window-focus-down"
+"Mod+K" = "window-focus-up"
+"Mod+L" = "window-focus-right"
+"Mod+Left" = "window-focus-left"
+"Mod+Minus" = "window-modify-primary-extent:-0.1"
+"Mod+MouseMiddle" = "layout-scroll-drag"
+"Mod+N" = "spawn:noctalia msg panel-toggle control-center"
+"Mod+O" = "workspace-set-layout:toggle"
+"Mod+P" = "window-toggle-pinned"
+"Mod+Q" = "window-close"
+"Mod+R" = "window-cycle-primary-extent"
+"Mod+Return" = 'spawn:pkill -fx "qimgv $HOME/Pictures/dvp.webp" || qimgv $HOME/Pictures/dvp.webp'
+"Mod+Right" = "window-focus-right"
+"Mod+Shift+0" = "window-move-to-workspace:10"
+"Mod+Shift+1" = "window-move-to-workspace:1"
+"Mod+Shift+2" = "window-move-to-workspace:2"
+"Mod+Shift+3" = "window-move-to-workspace:3"
+"Mod+Shift+4" = "window-move-to-workspace:4"
+"Mod+Shift+5" = "window-move-to-workspace:5"
+"Mod+Shift+6" = "window-move-to-workspace:6"
+"Mod+Shift+7" = "window-move-to-workspace:7"
+"Mod+Shift+8" = "window-move-to-workspace:8"
+"Mod+Shift+9" = "window-move-to-workspace:9"
+"Mod+Shift+Comma" = "config-reload"
+"Mod+Shift+Ctrl+Down" = "column-move-to-output-down"
+"Mod+Shift+Ctrl+H" = "column-move-to-output-left"
+"Mod+Shift+Ctrl+J" = "column-move-to-output-down"
+"Mod+Shift+Ctrl+K" = "column-move-to-output-up"
+"Mod+Shift+Ctrl+L" = "column-move-to-output-right"
+"Mod+Shift+Ctrl+Left" = "column-move-to-output-left"
+"Mod+Shift+Ctrl+Right" = "column-move-to-output-right"
+"Mod+Shift+Ctrl+Up" = "column-move-to-output-up"
+"Mod+Shift+Down" = "window-move-down"
+"Mod+Shift+End" = "column-move-to-last"
+"Mod+Shift+Equal" = "window-modify-secondary-extent:0.1"
+"Mod+Shift+F" = "window-toggle-fullscreen"
+"Mod+Shift+H" = "column-move-left"
+"Mod+Shift+Home" = "column-move-to-first"
+"Mod+Shift+J" = "window-move-down"
+"Mod+Shift+K" = "window-move-up"
+"Mod+Shift+L" = "column-move-right"
+"Mod+Shift+Left" = "column-move-left"
+"Mod+Shift+Minus" = "window-modify-secondary-extent:-0.1"
+"Mod+Shift+R" = "window-cycle-primary-extent-back"
+"Mod+Shift+Right" = "column-move-right"
+"Mod+Shift+S" = "spawn:noctalia msg screenshot-region"
+"Mod+Shift+U" = "window-move-to-scratchpad"
+"Mod+Shift+Up" = "window-move-up"
+"Mod+Shift+V" = "window-focus-switch-floating"
+"Mod+Shift+WheelDown" = "column-move-to-workspace-next"
+"Mod+Shift+WheelUp" = "column-move-to-workspace-previous"
+"Mod+Slash" = "cheatsheet-toggle"
+"Mod+T" = "spawn:foot"
+"Mod+Tab" = "scratchpad-focus-next"
+"Mod+U" = "scratchpad-toggle"
+"Mod+Up" = "window-focus-up"
+"Mod+V" = "window-toggle-floating"
+"Mod+W" = "spawn:qutebrowser"
+"Mod+WheelDown" = "workspace-next"
+"Mod+WheelLeft" = "window-focus-left"
+"Mod+WheelRight" = "window-focus-right"
+"Mod+WheelUp" = "workspace-previous"
+"Mod+X" = "spawn:noctalia msg panel-toggle session"
+"Mod+Y" = "spawn:noctalia msg panel-toggle wallpaper"
+Print = "spawn:noctalia msg screenshot-fullscreen"
+"submap[passthrough],Mod+Escape" = "submap:reset"
+
+[keybinds."Alt+XF86MonBrightnessDown"]
+action = "spawn:noctalia msg brightness-down 1"
+allow_when_locked = true
+
+[keybinds."Alt+XF86MonBrightnessUp"]
+action = "spawn:noctalia msg brightness-up 1"
+allow_when_locked = true
+
+[keybinds."Mod+Escape"]
+action = "submap:passthrough"
+repeat = false
+
+[keybinds.XF86AudioLowerVolume]
+action = "spawn:noctalia msg volume-down"
+allow_when_locked = true
+
+[keybinds.XF86AudioMicMute]
+action = "spawn:noctalia msg mic-mute"
+allow_when_locked = true
+
+[keybinds.XF86AudioMute]
+action = "spawn:noctalia msg volume-mute"
+allow_when_locked = true
+
+[keybinds.XF86AudioRaiseVolume]
+action = "spawn:noctalia msg volume-up"
+allow_when_locked = true
+
+[keybinds.XF86MonBrightnessDown]
+action = "spawn:noctalia msg brightness-down"
+allow_when_locked = true
+
+[keybinds.XF86MonBrightnessUp]
+action = "spawn:noctalia msg brightness-up"
+allow_when_locked = true
+
+[[layer_rule]]
+blur = false
+blur_ignore_alpha = 0.05
+blur_optimized = false
+
+[layer_rule.match]
+namespace = "^selector$"
+
+[[layer_rule]]
+blur = true
+blur_ignore_alpha = 0.05
+blur_popups = true
+
+[layer_rule.match]
+namespace = '^noctalia-(bar-[^"]+|notification|dock|panel|attached-panel|osd|desktop-widget-[^"]*)$'
+
+[[layer_rule]]
+blur = true
+blur_ignore_alpha = 0.05
+
+[layer_rule.match]
+namespace = "^noctalia-window-switcher$"
+
+[layout]
+gap = 10
+
+[layout.scrolling]
+default_extent_fraction = 0.5
+
+[layout.struts]
+left = 10
+right = 10
+
+[output.HDMI-A-1]
+min_workspaces = 5
+mode = "1920x1080@75.000"
+position = [-1080, -420]
+scale = 1.0
+transform = "90"
+workspace_axis = "horizontal"
+
+[output.eDP-1]
+min_workspaces = 5
+mode = "1920x1080@144"
+position = [0, 0]
+scale = 1.0
+transform = "normal"
+workspace_axis = "vertical"
+
+[[window_rule]]
+blur = true
+
+[[window_rule]]
+default_floating = true
+
+[window_rule.default_floating_size_px]
+height = 1000
+width = 800
+
+[window_rule.match]
+app_id = "^xdg-desktop-portal-gtk$"
+
+[[window_rule]]
+default_floating = true
+
+[window_rule.match]
+app_id = '^org\.gtk\.FileChooserDialog$'
+
+[[window_rule]]
+default_floating = true
+
+[window_rule.match]
+title = "Sign in - Google Accounts"
+
+[[window_rule]]
+default_floating = true
+
+[window_rule.match]
+app_id = '^(org\.kde\.dolphin|gimp|libreoffice|soffice)'
+title = '^(Open|Save|Select|Import|Export|Rename|Properties|Preferences|Settings)\b'
+
+[[window_rule]]
+default_floating = true
+
+[window_rule.match]
+title = "^Picture-in-Picture$"
+
+[[window_rule]]
+default_maximize = true
+
+[window_rule.match]
+title = '^QEMU \('
+
+[[window_rule]]
+default_floating = true
+default_pinned = true
+
+[window_rule.default_floating_size_px]
+height = 300
+width = 900
+
+[window_rule.default_position]
+anchor = "bottom_right"
+x = 0
+y = 0
+
+[window_rule.match]
+app_id = "^qimgv$"
+title = '\bdvp\.webp\b'
+
+[[window_rule]]
+default_maximize = true
+
+[window_rule.match]
+app_id = '^org\.qutebrowser\.qutebrowser$'
+
+[[window_rule]]
+default_floating = true
+
+[window_rule.default_floating_size_px]
+height = 920
+width = 1080
+
+[window_rule.match]
+app_id = '^dev\.noctalia\.Noctalia$'
+
+[[window_rule]]
+default_floating = true
+
+[window_rule.default_floating_size_px]
+height = 600
+width = 800
+
+[window_rule.match]
+app_id = '^dev\.noctalia\.UmbrielSharePicker$'
+
+[[window_rule]]
+default_floating = true
+
+[window_rule.match]
+app_id = "^steam(webhelper)?$"
+
+[[window_rule]]
+default_floating = false
+default_maximize = true
+
+[window_rule.match]
+app_id = "^steam$"
+title = "^Steam$"
+
+[[window_rule]]
+default_floating = false
+default_fullscreen = true
+
+[window_rule.match]
+app_id = "^steam$"
+title = "^Steam Big Picture Mode$"
+
+[[window_rule]]
+default_focused = false
+default_pinned = true
+
+[window_rule.default_position]
+anchor = "bottom_right"
+x = 10
+y = 10
+
+[window_rule.match]
+app_id = "^steam$"
+title = '^notificationtoasts_\d+_desktop$'
+
+[[window_rule]]
+default_maximize = true
+
+[window_rule.match]
+app_id = "vesktop|gimp|libreoffice"
+
+[[window_rule]]
+default_fullscreen = true
+
+[window_rule.match]
+app_id = "stremio"
+
+[[workspace]]
+name = "1"
+
+[[workspace]]
+name = "2"
+
+[[workspace]]
+name = "3"
