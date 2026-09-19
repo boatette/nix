@@ -230,7 +230,7 @@ alpha = 0.0
 
 [theme.templates]
 builtin_ids = ["btop", "foot", "gtk3", "gtk4", "kcolorscheme", "qt", "umbriel"]
-community_ids = ["claude-code", "discord", "gimp", "libreoffice", "prismlauncher", "steam", "zellij", "bat", "fzf", "lazygit", "yazi"]
+community_ids = ["claude-code", "discord", "gimp", "libreoffice", "papirus-icons", "prismlauncher", "steam", "zellij", "bat", "fzf", "lazygit", "yazi"]
 
 [theme.templates.user.konsole]
 input_path = "~/.config/noctalia/templates/konsole.colorscheme"
@@ -240,11 +240,6 @@ output_path = "~/.local/share/konsole/Noctalia.colorscheme"
 input_path = "~/.config/noctalia/templates/nvim.lua"
 output_path = "~/.config/nvim/noctalia.lua"
 post_hook = "pkill -SIGUSR1 nvim"
-
-[theme.templates.user.papirus-icons]
-input_path = "~/.config/noctalia/templates/papirus-icons.colors"
-output_path = "~/.cache/noctalia/papirus-colors"
-post_hook = "~/.local/bin/noctalia-papirus-folders"
 
 [theme.templates.user.qutebrowser]
 input_path = "~/.config/noctalia/templates/qutebrowser.py"
