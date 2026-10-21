@@ -22,7 +22,7 @@ const text = 0xe0def4ff;
 const love = 0xeb6f92ff;
 const rose = 0xebbcbaff;
 
-pub const sloppyfocus = true;
+pub const sloppyfocus = false;
 /// windows asking for attention get focused (switching tag if needed) instead of marked urgent
 pub const focus_on_activate = true;
 pub const borderpx = 1;
