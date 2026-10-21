@@ -23,6 +23,33 @@
   flake.modules.nvf.core =
     let
       inherit (inputs.self.lib.nvim) cmd lua;
+
+      # moves the split on the arrow's side of the window that way, or the opposite one at the screen edge
+      moveSplit =
+        key: dir: desc:
+        let
+          vertical = dir == "h" || dir == "l";
+          # a separator/statusline belongs to the window left of/above it
+          back = if vertical then "h" else "k";
+          fwd = if vertical then "l" else "j";
+          sign = if dir == back then "-" else "";
+        in
+        lua "n" key /* lua */ ''
+          function()
+              local cur = vim.fn.winnr()
+              local prev, next = vim.fn.winnr("${back}"), vim.fn.winnr("${fwd}")
+              local owner
+              if ${if dir == back then "prev ~= cur" else "next == cur"} then
+                  owner = prev
+              else
+                  owner = cur
+              end
+              if owner == cur and next == cur then
+                  return
+              end
+              vim.fn.${if vertical then "win_move_separator" else "win_move_statusline"}(owner, ${sign}2 * vim.v.count1)
+          end
+        '' desc;
     in
     {
       vim.keymaps = [
@@ -58,10 +85,10 @@
         (cmd "n" "<C-k>" "<C-w>k" "Focus upper window")
         (cmd "n" "<C-l>" "<C-w>l" "Focus right window")
 
-        (cmd "n" "<C-Up>" "<cmd>resize +2<cr>" "Increase height")
-        (cmd "n" "<C-Down>" "<cmd>resize -2<cr>" "Decrease height")
-        (cmd "n" "<C-Left>" "<cmd>vertical resize -2<cr>" "Decrease width")
-        (cmd "n" "<C-Right>" "<cmd>vertical resize +2<cr>" "Increase width")
+        (moveSplit "<C-Up>" "k" "Move split up")
+        (moveSplit "<C-Down>" "j" "Move split down")
+        (moveSplit "<C-Left>" "h" "Move split left")
+        (moveSplit "<C-Right>" "l" "Move split right")
 
         (cmd "n" "<leader>wd" "<C-W>c" "Delete window")
         (cmd "n" "<leader>w-" "<C-W>s" "Split below")
