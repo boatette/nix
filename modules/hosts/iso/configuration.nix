@@ -1,0 +1,38 @@
+{ inputs, ... }:
+{
+  flake.modules.nixos.iso =
+    { modulesPath, pkgs, ... }:
+    {
+      imports = [
+        (modulesPath + "/installer/cd-dvd/installation-cd-minimal.nix")
+      ]
+      ++ (with inputs.self.modules.nixos; [
+        locale
+        nix-settings
+        zram
+      ])
+      ++ [ inputs.self.modules.generic.constants ];
+
+      environment.systemPackages = [
+        pkgs.local.install-host
+        pkgs.local.nvim-minimal
+        inputs.disko.packages.${pkgs.stdenv.hostPlatform.system}.disko
+
+        pkgs.cryptsetup
+      ];
+
+      services.getty.helpLine = ''
+
+        To install a host from this flake, run `sudo install-host`.
+      '';
+
+      environment.etc."nixos-config".source = inputs.self;
+
+      isoImage = {
+        volumeID = "nixos-boatette";
+        squashfsCompression = "zstd -Xcompression-level 6";
+      };
+
+      networking.hostName = "iso";
+    };
+}

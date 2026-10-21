@@ -1,0 +1,121 @@
+{ inputs, ... }:
+{
+  flake.modules.homeManager.zsh =
+    { config, ... }:
+    let
+      inherit (config.constants) flakeDir;
+
+      rebuild = inputs.self.lib.rebuild flakeDir;
+    in
+    {
+      home = {
+        shellAliases = {
+          ls = "eza -al --color=always --group-directories-first --icons auto";
+          la = "eza -a --color=always --group-directories-first --icons auto";
+          ll = "eza -l --color=always --group-directories-first --icons auto";
+          lt = "eza -aT --color=always --group-directories-first --icons auto";
+          "l." = ''eza -a | grep -e "^\."'';
+
+          tarnow = "tar -acf";
+          untar = "tar -zxvf";
+          extract = "ouch decompress";
+          copy = "cp -r";
+          wget = "wget -c";
+          psmem = "ps auxf | sort -nr -k 4";
+          psmem10 = "ps auxf | sort -nr -k 4 | head -10";
+          psg = "ps aux | grep -v grep | grep -i --";
+
+          d = "dirs -v";
+          ".." = "cd ..";
+          "..." = "cd ../..";
+          "...." = "cd ../../..";
+          "....." = "cd ../../../..";
+          "......" = "cd ../../../../..";
+          cn = "cd ${flakeDir}";
+
+          nrs = rebuild.os "switch";
+          nrb = rebuild.os "boot";
+          nrt = rebuild.os "test";
+          nrd = rebuild.dryBuild;
+          nfu = rebuild.update;
+          nup = rebuild.upgrade;
+          ncl = rebuild.clean;
+          ngl = "nixos-rebuild list-generations";
+          ns = "nix search nixpkgs";
+          nb = "nix path-info -rSh /run/current-system | sort -hk2 | tail -30";
+          nrepl = "nix repl ${flakeDir}";
+          nt = "nix-tree";
+          nw = "nix why-depends";
+          nsz = "nix path-info -Sh";
+          nsd = "nix store diff-closures";
+          nloc = "nix-locate --whole-name";
+          nlog = "nix log";
+          ndev = "nix develop";
+          nfmt = "nix fmt";
+          nfc = "nix flake check";
+          nfs = "nix flake show";
+          nfm = "nix flake metadata";
+          nbi = "nix build ${flakeDir}#iso";
+
+          npl = "nix profile list";
+          npa = "nix profile add";
+          nph = "nix profile history";
+          npd = "nix profile diff-closures";
+          nprb = "nix profile rollback";
+          npwipe = "nix profile wipe-history";
+
+          please = "sudo";
+          jctl = "journalctl -p 3 -xb";
+          ff = "microfetch";
+          q = "exit";
+          ZQ = "exit";
+          history = "fc -li 1";
+          h = "history";
+          c = "clear";
+          cls = "clear";
+          vim = "nvim";
+          v = "nvim";
+          cat = "bat";
+          lg = "lazygit";
+          z = "zellij";
+          zd = "zellij --layout dev";
+
+          gs = "git status";
+          ga = "git add";
+          gaa = "git add -A";
+          gc = "git commit";
+          gcm = "git commit -m";
+          gca = "git commit --amend --no-edit";
+          gcl = "git clone";
+          gl = "git log --oneline";
+          glg = "git log --oneline --graph --decorate --all";
+          gd = "git diff";
+          gds = "git diff --staged";
+          gb = "git branch";
+          gsw = "git switch";
+          gswc = "git switch -c";
+          gf = "git fetch --all --prune";
+          gpush = "git push";
+          gpull = "git pull";
+          gst = "git stash";
+          gstp = "git stash pop";
+          gundo = "git reset --soft HEAD~1";
+
+          wifi = "nmtui";
+          shutdown = "systemctl poweroff";
+          reboot = "systemctl reboot";
+          du = "dust";
+          ports = "ss -tulpn";
+          paths = "tr ':' '\\n' <<< $PATH";
+          serve = "python3 -m http.server";
+          myip = "curl -s ifconfig.me";
+          temps = "sensors";
+          topcpu = "ps auxf | sort -nr -k 3 | head -10";
+
+          dc = "cd";
+          cealr = "clear";
+          celar = "clear";
+        };
+      };
+    };
+}

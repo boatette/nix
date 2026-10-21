@@ -1,0 +1,141 @@
+{
+  "require": {
+    "prefix": "req",
+    "description": "local require",
+    "body": "local ${1:name} = require(\"${2:module}\")"
+  },
+  "Module": {
+    "prefix": "mod",
+    "description": "lua module skeleton",
+    "body": [
+      "local M = {}",
+      "",
+      "function M.${1:setup}(${2:opts})",
+      "    $0",
+      "end",
+      "",
+      "return M"
+    ]
+  },
+  "Local function": {
+    "prefix": "fn",
+    "description": "local function",
+    "body": ["local function ${1:name}($2)", "    $0", "end"]
+  },
+  "Anonymous function": {
+    "prefix": "afn",
+    "description": "function expression",
+    "body": ["function($1)", "    $0", "end"]
+  },
+  "if": {
+    "prefix": "if",
+    "description": "if block",
+    "body": ["if ${1:condition} then", "    $0", "end"]
+  },
+  "for ipairs": {
+    "prefix": "fori",
+    "description": "iterate over an array",
+    "body": ["for ${1:_}, ${2:item} in ipairs(${3:list}) do", "    $0", "end"]
+  },
+  "for pairs": {
+    "prefix": "forp",
+    "description": "iterate over a table",
+    "body": ["for ${1:key}, ${2:value} in pairs(${3:tbl}) do", "    $0", "end"]
+  },
+  "Augroup": {
+    "prefix": "aug",
+    "description": "autocommand group",
+    "body": "local group = vim.api.nvim_create_augroup(\"${1:Name}\", { clear = true })"
+  },
+  "Autocommand": {
+    "prefix": "au",
+    "description": "autocommand with a callback",
+    "body": [
+      "vim.api.nvim_create_autocmd(\"${1:BufWritePre}\", {",
+      "    group = ${2:group},",
+      "    desc = \"${3:description}\",",
+      "    callback = function(ev)",
+      "        $0",
+      "    end,",
+      "})"
+    ]
+  },
+  "Keymap": {
+    "prefix": "map",
+    "description": "buffer or global keymap",
+    "body": [
+      "vim.keymap.set(\"${1|n,i,v,x,t,c|}\", \"${2:<leader>}\", function()",
+      "    $0",
+      "end, { desc = \"${3:description}\" })"
+    ]
+  },
+  "User command": {
+    "prefix": "uc",
+    "description": "user command",
+    "body": [
+      "vim.api.nvim_create_user_command(\"${1:Name}\", function(opts)",
+      "    $0",
+      "end, { desc = \"${2:description}\" })"
+    ]
+  },
+  "Set highlight": {
+    "prefix": "hl",
+    "description": "define a highlight group",
+    "body": "vim.api.nvim_set_hl(0, \"${1:Group}\", { ${2:fg} = ${3:colour} })"
+  },
+  "Get highlight": {
+    "prefix": "gethl",
+    "description": "read a resolved highlight group",
+    "body": "local hl = vim.api.nvim_get_hl(0, { name = \"${1:Comment}\", link = false })"
+  },
+  "Notify": {
+    "prefix": "notify",
+    "description": "vim.notify with a level",
+    "body": "vim.notify(\"${1:message}\", vim.log.levels.${2|INFO,WARN,ERROR,DEBUG,TRACE|})"
+  },
+  "pcall": {
+    "prefix": "pc",
+    "description": "protected call",
+    "body": [
+      "local ok, ${1:result} = pcall(${2:fn})",
+      "if not ok then",
+      "    $0",
+      "end"
+    ]
+  },
+  "Schedule": {
+    "prefix": "sched",
+    "description": "run on the main loop",
+    "body": ["vim.schedule(function()", "    $0", "end)"]
+  },
+  "Defer": {
+    "prefix": "defer",
+    "description": "run after a delay",
+    "body": ["vim.defer_fn(function()", "    $0", "end, ${1:100})"]
+  },
+  "Extend table": {
+    "prefix": "ext",
+    "description": "deep merge tables",
+    "body": "vim.tbl_deep_extend(\"force\", ${1:base}, ${2:opts} or {})"
+  },
+  "Option": {
+    "prefix": "opt",
+    "description": "global option",
+    "body": "vim.opt.${1:number} = ${2:true}"
+  },
+  "Local option": {
+    "prefix": "optl",
+    "description": "window or buffer local option",
+    "body": "vim.opt_local.${1:number} = ${2:true}"
+  },
+  "Buffer name": {
+    "prefix": "bufname",
+    "description": "path of a buffer",
+    "body": "local name = vim.api.nvim_buf_get_name(${1:0})"
+  },
+  "Print": {
+    "prefix": "pp",
+    "description": "pretty print a value",
+    "body": "vim.print(${1:value})"
+  }
+}

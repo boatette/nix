@@ -1,0 +1,76 @@
+{ inputs, ... }:
+{
+  flake-file.inputs.disko = {
+    url = "github:nix-community/disko/latest";
+    inputs.nixpkgs.follows = "nixpkgs";
+  };
+
+  flake.modules.nixos.aspire = {
+    imports = [ inputs.disko.nixosModules.disko ];
+
+    disko.devices.disk.main = {
+      type = "disk";
+      device = "/dev/disk/by-id/nvme-WD_PC_SN740_SDDQNQD-512G-1014_2309F9403437";
+
+      content = {
+        type = "gpt";
+
+        partitions = {
+          ESP = {
+            size = "2G";
+            type = "EF00";
+            content = {
+              type = "filesystem";
+              format = "vfat";
+              mountpoint = "/boot";
+              mountOptions = [
+                "fmask=0077"
+                "dmask=0077"
+              ];
+            };
+          };
+
+          root = {
+            size = "100%";
+            content = {
+              type = "luks";
+              name = "cryptroot";
+
+              settings = {
+                allowDiscards = true;
+                crypttabExtraOpts = [ "tpm2-device=auto" ];
+              };
+
+              content = {
+                type = "btrfs";
+                extraArgs = [ "-f" ];
+
+                subvolumes =
+                  let
+                    subvol = mountpoint: {
+                      inherit mountpoint;
+                      mountOptions = [
+                        "compress=zstd"
+                        "noatime"
+                      ];
+                    };
+                  in
+                  {
+                    "root" = subvol "/";
+                    "home" = subvol "/home";
+                    "nix" = subvol "/nix";
+
+                    "swap" = {
+                      mountpoint = "/.swapvol";
+                      mountOptions = [ "noatime" ];
+                      swap.swapfile.size = "20G";
+                    };
+                  };
+              };
+            };
+          };
+        };
+      };
+    };
+  };
+}
