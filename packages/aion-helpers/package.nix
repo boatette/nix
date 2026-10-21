@@ -47,7 +47,7 @@ symlinkJoin {
       gawk
       glib
     ])
-    (script "aion-caffeine" "toggle swayidle" [
+    (script "aion-caffeine" "toggle hypridle" [
       systemd
       libnotify
     ])

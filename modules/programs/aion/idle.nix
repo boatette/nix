@@ -4,6 +4,7 @@
     let
       lock = "${config.programs.swaylock.package}/bin/swaylock -f";
       wlopm = "${pkgs.wlopm}/bin/wlopm";
+      loginctl = "${pkgs.systemd}/bin/loginctl";
     in
     {
       programs.swaylock = {
@@ -35,28 +36,30 @@
         };
       };
 
-      services.swayidle = {
+      services.hypridle = {
         enable = true;
 
-        timeouts = [
-          {
-            timeout = 600;
-            command = lock;
-          }
-          {
-            timeout = 660;
-            command = "${wlopm} --off '*'";
-            resumeCommand = "${wlopm} --on '*'";
-          }
-          {
-            timeout = 900;
-            command = "${pkgs.systemd}/bin/systemctl suspend";
-          }
-        ];
+        settings = {
+          general = {
+            lock_cmd = "${pkgs.procps}/bin/pidof swaylock || ${lock}";
+            before_sleep_cmd = "${loginctl} lock-session";
+          };
 
-        events = {
-          before-sleep = lock;
-          inherit lock;
+          listener = [
+            {
+              timeout = 600;
+              on-timeout = "${loginctl} lock-session";
+            }
+            {
+              timeout = 660;
+              on-timeout = "${wlopm} --off '*'";
+              on-resume = "${wlopm} --on '*'";
+            }
+            {
+              timeout = 900;
+              on-timeout = "${pkgs.systemd}/bin/systemctl suspend";
+            }
+          ];
         };
       };
     };
