@@ -77,6 +77,10 @@
       url = "github:aalbegr/qutebrowser-rose-pine";
       flake = false;
     };
+    rose-pine-rmpc = {
+      url = "github:rose-pine/rmpc";
+      flake = false;
+    };
     rose-pine-starship = {
       url = "github:rose-pine/starship";
       flake = false;

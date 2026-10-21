@@ -26,6 +26,7 @@
 
     apps
     media
+    rmpc
     prism
 
     foot

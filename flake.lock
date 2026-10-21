@@ -416,6 +416,7 @@
         "rose-pine-konsole": "rose-pine-konsole",
         "rose-pine-lazygit": "rose-pine-lazygit",
         "rose-pine-qutebrowser": "rose-pine-qutebrowser",
+        "rose-pine-rmpc": "rose-pine-rmpc",
         "rose-pine-starship": "rose-pine-starship",
         "rose-pine-tm-theme": "rose-pine-tm-theme",
         "rose-pine-yazi": "rose-pine-yazi",
@@ -564,6 +565,22 @@
       "original": {
         "owner": "aalbegr",
         "repo": "qutebrowser-rose-pine",
+        "type": "github"
+      }
+    },
+    "rose-pine-rmpc": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1776360279,
+        "narHash": "sha256-UVYW+IiyEFM2MDiqIBcsp0jCg2I8bQZOmfpGSQZnm5E=",
+        "owner": "rose-pine",
+        "repo": "rmpc",
+        "rev": "8eba018e887b05d219ac12d1a67a18daed48cd36",
+        "type": "github"
+      },
+      "original": {
+        "owner": "rose-pine",
+        "repo": "rmpc",
         "type": "github"
       }
     },
