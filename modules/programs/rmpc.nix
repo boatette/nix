@@ -6,7 +6,12 @@
   };
 
   flake.modules.homeManager.rmpc =
-    { config, pkgs, ... }:
+    {
+      config,
+      lib,
+      pkgs,
+      ...
+    }:
     let
       # replaces the previous notification instead of stacking one per track
       notify = pkgs.writeShellScript "rmpc-notify" ''
@@ -43,6 +48,15 @@
       };
 
       services.mpd-mpris.enable = true;
+
+      # mpd-mpris connects at login and would socket-start mpd, so only run it alongside mpd
+      systemd.user.services.mpd-mpris = {
+        Unit = {
+          BindsTo = [ "mpd.service" ];
+          After = [ "mpd.service" ];
+        };
+        Install.WantedBy = lib.mkForce [ "mpd.service" ];
+      };
 
       home.packages = [ pkgs.cava ];
 
