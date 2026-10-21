@@ -27,6 +27,8 @@
       services.mpd = {
         enable = true;
         musicDirectory = "${config.home.homeDirectory}/Music";
+        # inside ~/Music so the ssd backup picks them up
+        playlistDirectory = "${config.home.homeDirectory}/Music/Playlists";
         network.startWhenNeeded = true;
 
         extraConfig = ''
