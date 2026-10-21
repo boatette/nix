@@ -35,7 +35,7 @@ in
 {
   # a local checkout, so aion changes need no push before a rebuild
   flake-file.inputs.aion = {
-    url = "git+file:///home/boatette/Projects/aion";
+    url = "github:boatette/aion";
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
