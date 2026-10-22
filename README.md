@@ -62,7 +62,7 @@ NixOS configuration for a lightweight desktop on [aion](https://github.com/boate
    finish-install
    ```
 
-   It waits for the Secure Boot keys to be enrolled, which takes one more reboot, then binds the disk to the TPM and creates a recovery key. The repo is private, so it clones it to `~/nix` over SSH. It uses the restored `~/.ssh/id_ed25519` if there is one. Otherwise it creates a key and waits for you to add it to GitHub. Rerun it whenever it asks; `finish-install --check` shows what is left.
+   It waits for the Secure Boot keys to be enrolled, which takes one more reboot, then binds the disk to the TPM and creates a recovery key. It logs `gh` in to GitHub with a one-time code you enter in a browser on any device. The repo is private, so it clones it to `~/nix` over SSH. It uses the restored `~/.ssh/id_ed25519` if there is one. Otherwise it creates a key and `gh` adds it to GitHub; if that fails, it prints the key and waits for you to add it. Rerun it whenever it asks; `finish-install --check` shows what is left.
 
    **Write the recovery key down somewhere that is not this laptop.**
 

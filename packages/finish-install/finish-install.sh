@@ -17,9 +17,10 @@ usage() {
 usage: finish-install [--check | --reenroll-tpm]
 
 Finish what install-host started: wait for the Secure Boot keys to be
-enrolled, then bind the disk to the TPM and create a recovery key, and
-clone the flake over SSH with a new key added to GitHub. Run it again
-whenever it asks; steps already done are skipped.
+enrolled, then bind the disk to the TPM and create a recovery key, log
+gh in to GitHub, and clone the flake over SSH with a new key that gh
+adds to GitHub. Run it again whenever it asks; steps already done are
+skipped.
 
   --check         report what is left, change nothing
   --reenroll-tpm  replace the TPM binding, e.g. after a firmware update
@@ -178,6 +179,46 @@ github_auth() {
   grep -q "successfully authenticated" <<<"$reply"
 }
 
+gh_scopes() {
+  as_user gh auth status --hostname github.com 2>&1 | grep -i "token scopes"
+}
+
+gh_step() {
+  if as_user gh auth status --hostname github.com >/dev/null 2>&1; then
+    ok "gh is logged in to GitHub"
+    return 0
+  fi
+
+  if [[ "$mode" == check ]]; then
+    todo "gh is not logged in to GitHub yet"
+    return 1
+  fi
+
+  # root has no session bus to reach the keyring, so the token goes in ~/.config/gh/hosts.yml
+  log "logging gh in to GitHub, open the link and enter the code on any device"
+  if as_user gh auth login --hostname github.com --git-protocol ssh --skip-ssh-key \
+    --web --insecure-storage --scopes admin:public_key; then
+    ok "gh is logged in to GitHub"
+  else
+    todo "could not log gh in to GitHub"
+    return 1
+  fi
+}
+
+gh_add_key() {
+  local key=$1
+
+  as_user gh auth status --hostname github.com >/dev/null 2>&1 || return 1
+
+  if ! gh_scopes | grep -q admin:public_key; then
+    log "gh needs permission to add SSH keys, approve it in the browser"
+    as_user gh auth refresh --hostname github.com --scopes admin:public_key || return 1
+  fi
+
+  log "adding $key to GitHub with gh"
+  as_user gh ssh-key add "$key.pub" --title "$username@$host" --type authentication
+}
+
 repo_step() {
   local key="$home/.ssh/id_ed25519"
   local url="git@github.com:$repo.git"
@@ -206,6 +247,10 @@ repo_step() {
         todo "could not create $key"
         return 1
       }
+  fi
+
+  if ! github_auth && ! gh_add_key "$key"; then
+    todo "gh could not add $key to GitHub"
   fi
 
   until github_auth; do
@@ -245,6 +290,10 @@ if ((${#tpm[@]})); then
   fi
 elif [[ "$mode" == reenroll ]]; then
   die "$host has no disk that unlocks with the TPM"
+fi
+
+if [[ "$mode" != reenroll && -n "$username" ]] && ! gh_step; then
+  pending=1
 fi
 
 if [[ "$mode" != reenroll && -n "$username" && -n "$flake_dir" && -n "$repo" ]] && ! repo_step; then
