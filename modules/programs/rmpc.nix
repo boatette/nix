@@ -5,6 +5,8 @@
     flake = false;
   };
 
+  flake.modules.nixos.rmpc.networking.firewall.allowedTCPPorts = [ 6600 ];
+
   flake.modules.homeManager.rmpc =
     {
       config,
@@ -34,8 +36,14 @@
         musicDirectory = "${config.home.homeDirectory}/Music";
         # inside ~/Music so the ssd backup picks them up
         playlistDirectory = "${config.home.homeDirectory}/Music/Playlists";
-        network.startWhenNeeded = true;
+        network = {
+          startWhenNeeded = true;
+          # for an MPD app on the phone; the firewall port is opened by the nixos module above
+          listenAddress = "any";
+        };
 
+        # host_permissions can't name ::ffff:127.0.0.1, so local clients must arrive over plain IPv4.
+        # the password stays out of the repo, in a file like: password "secret@read,add,control"
         extraConfig = ''
           audio_output {
             type "pipewire"
@@ -44,7 +52,19 @@
 
           auto_update "yes"
           restore_paused "yes"
+
+          host_permissions "127.0.0.1 read,add,control,admin"
+          host_permissions "::1 read,add,control,admin"
+          local_permissions "read,add,control,admin"
+          default_permissions ""
+          include_optional "${config.xdg.stateHome}/mpd/remote.conf"
         '';
+      };
+
+      # split the dual-stack listener so IPv4 clients aren't seen as ::ffff:127.0.0.1
+      systemd.user.sockets.mpd.Socket = {
+        BindIPv6Only = "ipv6-only";
+        ListenStream = [ "0.0.0.0:6600" ];
       };
 
       services.mpd-mpris.enable = true;
