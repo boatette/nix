@@ -437,7 +437,8 @@
         "rose-pine-tm-theme": "rose-pine-tm-theme",
         "rose-pine-yazi": "rose-pine-yazi",
         "rose-pine-zellij": "rose-pine-zellij",
-        "steam-config-nix": "steam-config-nix"
+        "steam-config-nix": "steam-config-nix",
+        "system24": "system24"
       }
     },
     "rose-pine-btop": {
@@ -704,6 +705,22 @@
       "original": {
         "owner": "different-name",
         "repo": "steam-config-nix",
+        "type": "github"
+      }
+    },
+    "system24": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1791419061,
+        "narHash": "sha256-vJ71igAXWJRzZWdN7JOnjQOSIbqIBQcVrZ4hwNgneHo=",
+        "owner": "refact0r",
+        "repo": "system24",
+        "rev": "372df5a862287504659077d05c8aa8419e7dae4f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "refact0r",
+        "repo": "system24",
         "type": "github"
       }
     },

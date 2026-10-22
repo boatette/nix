@@ -33,6 +33,7 @@
     konsole
     dolphin
     qutebrowser
+    vesktop
     aion
   ];
 }

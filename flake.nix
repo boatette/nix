@@ -102,5 +102,9 @@
       url = "github:different-name/steam-config-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    system24 = {
+      url = "github:refact0r/system24";
+      flake = false;
+    };
   };
 }
