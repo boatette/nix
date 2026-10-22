@@ -12,6 +12,7 @@
     audio
     appimage
     localsend
+    rmpc
 
     dolphin
     aion

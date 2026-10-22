@@ -182,6 +182,12 @@ pub const keys = [_]a.Key{
     helper(0, K.XF86AudioLowerVolume, &.{ helpers ++ "aion-volume", "down" }),
     helper(0, K.XF86AudioMute, &.{ helpers ++ "aion-volume", "mute" }),
     helper(0, K.XF86AudioMicMute, &.{ helpers ++ "aion-volume", "mic-mute" }),
+    // no media keys on the aspire, so the numpad stands in; level 0 matches with numlock on or off
+    helper(MOD, K.KP_Left, &.{ helpers ++ "aion-media", "previous" }),
+    helper(MOD, K.KP_Begin, &.{ helpers ++ "aion-media", "play-pause" }),
+    helper(MOD, K.KP_Right, &.{ helpers ++ "aion-media", "next" }),
+    helper(MOD, K.KP_Up, &.{ helpers ++ "aion-volume", "up" }),
+    helper(MOD, K.KP_Down, &.{ helpers ++ "aion-volume", "down" }),
     helper(0, K.XF86MonBrightnessUp, &.{ helpers ++ "aion-brightness", "up" }),
     helper(0, K.XF86MonBrightnessDown, &.{ helpers ++ "aion-brightness", "down" }),
     helper(ALT, K.XF86MonBrightnessUp, &.{ helpers ++ "aion-brightness", "up", "1" }),

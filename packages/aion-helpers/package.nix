@@ -12,6 +12,7 @@
   systemd,
   swaylock,
   wireplumber,
+  playerctl,
   brightnessctl,
   grim,
   slurp,
@@ -57,6 +58,7 @@ symlinkJoin {
       wireplumber
       libnotify
     ])
+    (script "aion-media" "play, pause or skip the active MPRIS player" [ playerctl ])
     (script "aion-brightness" "change backlight brightness, with a notification" [
       coreutils
       brightnessctl
