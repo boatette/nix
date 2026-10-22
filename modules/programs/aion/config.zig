@@ -74,13 +74,16 @@ pub const rules = [_]a.Rule{
     .{ .app_id = "org.gtk.FileChooserDialog", .floating = true },
     .{ .title = "Sign in - Google Accounts", .floating = true },
     .{ .title = "Picture-in-Picture", .floating = true },
+  .{ .app_id = "steamwebhelper", .floating = true },
+
     .{ .app_id = "vesktop", .width = 1 },
     .{ .app_id = "gimp", .width = 1 },
     .{ .app_id = "libreoffice", .width = 1 },
     .{ .app_id = "org.qutebrowser.qutebrowser", .width = 1 },
     .{ .app_id = "steam", .title = "Steam", .width = 1 },
+    .{ .app_id = "rmpc", .width = 1},
+
     .{ .app_id = "stremio", .fullscreen = true },
-    .{ .app_id = "steamwebhelper", .floating = true },
     .{ .title = "Steam Big Picture Mode", .fullscreen = true },
 };
 
