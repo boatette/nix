@@ -17,7 +17,6 @@ readonly DIRS=(
   ".ssh:ssh"
   ".claude:claude"
   ".local/share/qutebrowser:qutebrowser-data"
-  ".local/share/qutebrowser-alt:qutebrowser-alt-data"
   ".config/qutebrowser/bookmarks:qutebrowser-bookmarks"
   ".config/chromium:chromium"
 )
