@@ -7,11 +7,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792602053,
-        "narHash": "sha256-g70A5sbxzVmST1YjGq+pOkm2J8wIxQJYRQ1dBjHa8Vo=",
+        "lastModified": 1792668463,
+        "narHash": "sha256-Me/dQ3QqlnIjrJZIUZOLsoNpOTIC52d6VnzC3qd2xuI=",
         "owner": "boatette",
         "repo": "aion",
-        "rev": "906e0845c2ccbaf66ce44a84b86a4b8eae5bb2db",
+        "rev": "0123c42afab4be8dc0d3c0f637ee69fce4b225d4",
         "type": "github"
       },
       "original": {
