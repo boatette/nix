@@ -81,7 +81,6 @@ pub const rules = [_]a.Rule{
     .{ .app_id = "libreoffice", .width = 1 },
     .{ .app_id = "org.qutebrowser.qutebrowser", .width = 1 },
     .{ .app_id = "steam", .title = "Steam", .width = 1 },
-    .{ .app_id = "rmpc", .width = 1},
 
     .{ .app_id = "stremio", .fullscreen = true },
     .{ .title = "Steam Big Picture Mode", .fullscreen = true },
