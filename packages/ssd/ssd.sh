@@ -14,10 +14,20 @@ readonly DIRS=(
   "Projects:Projects"
   "Videos:Videos"
   ".local/share/PrismLauncher:PrismLauncher"
+  ".ssh:ssh"
+  ".claude:claude"
+  ".local/share/qutebrowser:qutebrowser-data"
+  ".local/share/qutebrowser-alt:qutebrowser-alt-data"
+  ".config/qutebrowser/bookmarks:qutebrowser-bookmarks"
+  ".config/chromium:chromium"
 )
 
 readonly FILES=(
   ".face:.face"
+  ".claude.json:claude.json"
+  ".zsh_history:zsh_history"
+  ".config/qutebrowser/quickmarks:qutebrowser-quickmarks"
+  ".config/qutebrowser/autoconfig.yml:qutebrowser-autoconfig.yml"
 )
 
 log() { printf '%s: %s\n' "$APP" "$*"; }
