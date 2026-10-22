@@ -172,7 +172,10 @@ tpm_step() {
 as_user() { runuser -u "$username" -- "$@"; }
 
 github_auth() {
-  as_user ssh -T -o BatchMode=yes git@github.com 2>&1 | grep -q "successfully authenticated"
+  local reply
+  # github exits 1 even when the key is accepted, which pipefail would count as a failure
+  reply=$(as_user ssh -T -o BatchMode=yes git@github.com 2>&1) || true
+  grep -q "successfully authenticated" <<<"$reply"
 }
 
 repo_step() {
