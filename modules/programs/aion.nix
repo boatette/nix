@@ -33,7 +33,7 @@ let
     lib.concatStringsSep "\n" (lib.mapAttrsToList rule monitors);
 in
 {
-  # a local checkout, so aion changes need no push before a rebuild
+  # osDev builds against the local checkout instead, so unpushed aion changes still build
   flake-file.inputs.aion = {
     url = "github:boatette/aion";
     inputs.nixpkgs.follows = "nixpkgs";

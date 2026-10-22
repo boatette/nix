@@ -9,15 +9,15 @@
       "locked": {
         "lastModified": 1792602053,
         "narHash": "sha256-g70A5sbxzVmST1YjGq+pOkm2J8wIxQJYRQ1dBjHa8Vo=",
-        "ref": "refs/heads/master",
+        "owner": "boatette",
+        "repo": "aion",
         "rev": "906e0845c2ccbaf66ce44a84b86a4b8eae5bb2db",
-        "revCount": 62,
-        "type": "git",
-        "url": "file:///home/boatette/Projects/aion"
+        "type": "github"
       },
       "original": {
-        "type": "git",
-        "url": "file:///home/boatette/Projects/aion"
+        "owner": "boatette",
+        "repo": "aion",
+        "type": "github"
       }
     },
     "claude-code": {
@@ -392,6 +392,21 @@
         "type": "github"
       }
     },
+    "preservation": {
+      "locked": {
+        "lastModified": 1757436102,
+        "narHash": "sha256-mMI9IanU+Xw+pVogD2oT0I2kTmvz2Un/Apc5+CwUpEY=",
+        "owner": "nix-community",
+        "repo": "preservation",
+        "rev": "93416f4614ad2dfed5b0dcf12f27e57d27a5ab11",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "preservation",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "aion": "aion",
@@ -407,6 +422,7 @@
         "nixpkgs": "nixpkgs",
         "nvf": "nvf",
         "pkgs-by-name-for-flake-parts": "pkgs-by-name-for-flake-parts",
+        "preservation": "preservation",
         "rose-pine-btop": "rose-pine-btop",
         "rose-pine-delta": "rose-pine-delta",
         "rose-pine-eza": "rose-pine-eza",

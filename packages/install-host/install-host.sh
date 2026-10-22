@@ -42,6 +42,13 @@ ask() {
   printf '%s' "$reply"
 }
 
+ask_secret() {
+  local reply=
+  read -rsp "$1" reply || true
+  echo >&2
+  printf '%s' "$reply"
+}
+
 online() {
   curl -fs --max-time 5 -o /dev/null https://cache.nixos.org/nix-cache-info
 }
@@ -147,8 +154,10 @@ mapfile -t luks < <(field '.luks[]')
 mapfile -t tpm < <(field '.tpm[]')
 mapfile -t users < <(field '.users[]')
 mapfile -t notes < <(field '.notes[]')
+mapfile -t password_files < <(field '.passwordFiles // {} | to_entries[] | "\(.key)=\(.value)"')
 
 uefi=$(field .uefi)
+root_password=$(field '.rootPassword != false')
 secure_boot=$(field .secureBoot)
 substituters=$(field '.substituters | join(" ")')
 trusted_keys=$(field '.trustedPublicKeys | join(" ")')
@@ -234,9 +243,14 @@ if ((${#luks[@]})); then
     echo "    It is the only way into the disk."
   fi
 fi
-echo "  - nixos-install installs $host and asks for a root password."
-if ((${#users[@]})); then
-  echo "  - set passwords for: ${users[*]}"
+if [[ "$root_password" == true ]]; then
+  echo "  - nixos-install installs $host and asks for a root password."
+else
+  echo "  - nixos-install installs $host (root has no password)."
+fi
+password_users=("${users[@]}" "${password_files[@]%%=*}")
+if ((${#password_users[@]})); then
+  echo "  - set passwords for: ${password_users[*]}"
 fi
 print_notes
 
@@ -266,6 +280,10 @@ if [[ -n "$trusted_keys" ]]; then
   install_args+=(--option extra-trusted-public-keys "$trusted_keys")
 fi
 
+if [[ "$root_password" != true ]]; then
+  install_args+=(--no-root-passwd)
+fi
+
 if [[ "$(findmnt -no FSTYPE /)" == tmpfs ]]; then
   install_args+=(--option max-jobs 3 --option cores 4)
 fi
@@ -284,6 +302,30 @@ for user in "${users[@]}"; do
     fi
   done
 done
+
+for entry in "${password_files[@]}"; do
+  user=${entry%%=*}
+  file=$MNT${entry#*=}
+
+  bold "Password for $user"
+  for attempt in 1 2 3; do
+    first=$(ask_secret "New password: ")
+    second=$(ask_secret "Retype new password: ")
+
+    if [[ -n "$first" && "$first" == "$second" ]]; then
+      install -d -m 700 "$(dirname "$file")"
+      (umask 077 && mkpasswd -m yescrypt -s <<<"$first" >"$file")
+      break
+    fi
+
+    if ((attempt == 3)); then
+      warn "no password set for $user; write one with: mkpasswd | install -m 600 /dev/stdin $file"
+    else
+      warn "the passwords were empty or did not match"
+    fi
+  done
+done
+unset first second
 
 bold "$host is installed"
 echo "  1. Reboot and remove the install stick."

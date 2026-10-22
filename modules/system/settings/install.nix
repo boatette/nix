@@ -55,6 +55,11 @@
           users = lib.attrNames (
             lib.filterAttrs (_: user: user.isNormalUser && !hasPassword user) config.users.users
           );
+          # hashes install-host writes into the new system, for users whose password lives in a file
+          passwordFiles = lib.mapAttrs (_: user: user.hashedPasswordFile) (
+            lib.filterAttrs (_: user: user.isNormalUser && user.hashedPasswordFile != null) config.users.users
+          );
+          rootPassword = config.users.users.root.hashedPassword == null;
 
           inherit (config.constants) username flakeDir repo;
           home = config.users.users.${config.constants.username}.home;

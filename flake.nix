@@ -5,7 +5,7 @@
 
   inputs = {
     aion = {
-      url = "git+file:///home/boatette/Projects/aion";
+      url = "github:boatette/aion";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     claude-code = {
@@ -41,6 +41,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     pkgs-by-name-for-flake-parts.url = "github:drupol/pkgs-by-name-for-flake-parts";
+    preservation.url = "github:nix-community/preservation";
     rose-pine-btop = {
       url = "github:rose-pine/btop";
       flake = false;

@@ -5,6 +5,7 @@
   coreutils,
   curl,
   jq,
+  mkpasswd,
   nixos-install-tools,
   util-linux,
 }:
@@ -17,6 +18,7 @@ writeShellApplication {
     coreutils
     curl
     jq
+    mkpasswd
     nixos-install-tools
     util-linux
   ];

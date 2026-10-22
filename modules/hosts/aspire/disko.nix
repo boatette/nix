@@ -59,6 +59,8 @@
                     "root" = subvol "/";
                     "home" = subvol "/home";
                     "nix" = subvol "/nix";
+                    "persist" = subvol "/persist";
+                    "log" = subvol "/var/log";
 
                     "swap" = {
                       mountpoint = "/.swapvol";

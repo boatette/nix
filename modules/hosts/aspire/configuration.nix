@@ -8,6 +8,7 @@
 
         backup
         gaming
+        impermanence
         secure-boot
 
         boatette
