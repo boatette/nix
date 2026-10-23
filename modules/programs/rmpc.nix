@@ -50,6 +50,14 @@
             name "PipeWire"
           }
 
+          # cava reads this instead of pipewire, which may have no sink yet when rmpc starts
+          audio_output {
+            type "fifo"
+            name "Visualiser"
+            path "/tmp/mpd.fifo"
+            format "44100:16:2"
+          }
+
           auto_update "yes"
           restore_paused "yes"
 
@@ -95,7 +103,13 @@
               on_song_change: ["${notify}"],
               album_art: (method: Sixel),
               cava: (
-                  input: (method: Pipewire, source: "auto"),
+                  input: (
+                      method: Fifo,
+                      source: "/tmp/mpd.fifo",
+                      sample_rate: 44100,
+                      channels: 2,
+                      sample_bits: 16,
+                  ),
               ),
               tabs: [
                   (
