@@ -9,6 +9,7 @@
 
       i18n = {
         defaultLocale = locale;
+        supportedLocales = [ "${locale}/UTF-8" ];
         extraLocaleSettings = lib.genAttrs [
           "LC_ADDRESS"
           "LC_IDENTIFICATION"

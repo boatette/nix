@@ -10,16 +10,24 @@
     let
       offload = osConfig.hardware.nvidia.prime.offload.enable or false;
 
+      # default bundles jdk8/17/21/25; 21 covers 1.20.5+, 25 covers 26.x
+      prism = pkgs.prismlauncher.override {
+        jdks = [
+          pkgs.jdk25
+          pkgs.jdk21
+        ];
+      };
+
       prismlauncher =
         if offload then
           pkgs.symlinkJoin {
-            inherit (pkgs.prismlauncher)
+            inherit (prism)
               name
               pname
               version
               meta
               ;
-            paths = [ pkgs.prismlauncher ];
+            paths = [ prism ];
             nativeBuildInputs = [ pkgs.makeWrapper ];
             postBuild = ''
               wrapProgram $out/bin/prismlauncher ${
@@ -30,7 +38,7 @@
             '';
           }
         else
-          pkgs.prismlauncher;
+          prism;
     in
     {
       home.packages = [ prismlauncher ];

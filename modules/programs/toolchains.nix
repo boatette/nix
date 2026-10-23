@@ -1,26 +1,10 @@
 {
+  # compilers come from per-project devshells; this only sets where their installs land
   flake.modules.homeManager.toolchains =
-    { pkgs, config, ... }:
+    { config, ... }:
     {
       home = {
-        packages = with pkgs; [
-          cargo
-          clippy
-          gcc
-          gnumake
-          go
-          nodejs
-          python3
-          rustc
-          rustfmt
-          tree-sitter
-          zig
-        ];
-
-        sessionVariables = {
-          GOPATH = "${config.xdg.dataHome}/go";
-          RUST_SRC_PATH = "${pkgs.rustPlatform.rustLibSrc}";
-        };
+        sessionVariables.GOPATH = "${config.xdg.dataHome}/go";
 
         sessionPath = [
           "${config.home.sessionVariables.GOPATH}/bin"

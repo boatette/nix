@@ -7,7 +7,51 @@
           enable = true;
           fold = true;
 
-          grammars = pkgs.vimPlugins.nvim-treesitter.allGrammars;
+          # allGrammars is ~250M; enabled nvf languages add their own on top
+          grammars = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
+            bash
+            c
+            comment
+            cpp
+            css
+            dart
+            diff
+            git_config
+            git_rebase
+            gitcommit
+            gitignore
+            glsl
+            go
+            gomod
+            gosum
+            html
+            java
+            javascript
+            jsdoc
+            json
+            kdl
+            kotlin
+            lua
+            luadoc
+            make
+            markdown
+            markdown_inline
+            nix
+            odin
+            printf
+            python
+            qmljs
+            query
+            regex
+            rust
+            toml
+            tsx
+            typescript
+            vim
+            vimdoc
+            yaml
+            zig
+          ];
 
           highlight.enable = true;
           indent.enable = true;

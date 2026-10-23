@@ -7,7 +7,8 @@
         extraPackages = with pkgs; [
           clang-tools
           gofumpt
-          gotools
+          # only goimports; the full gotools set is ~250M
+          (gotools.overrideAttrs { subPackages = [ "cmd/goimports" ]; })
           nixfmt
           prettierd
           ruff
