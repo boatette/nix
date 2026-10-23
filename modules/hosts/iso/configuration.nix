@@ -7,6 +7,7 @@
         (modulesPath + "/installer/cd-dvd/installation-cd-minimal.nix")
       ]
       ++ (with inputs.self.modules.nixos; [
+        console
         locale
         nix-settings
         zram

@@ -5,6 +5,7 @@
 
     session
     login
+    console
     plymouth
     fonts
     graphics
