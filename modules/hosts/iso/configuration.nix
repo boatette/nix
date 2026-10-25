@@ -1,7 +1,12 @@
 { inputs, ... }:
 {
   flake.modules.nixos.iso =
-    { modulesPath, pkgs, ... }:
+    {
+      lib,
+      modulesPath,
+      pkgs,
+      ...
+    }:
     {
       imports = [
         (modulesPath + "/installer/cd-dvd/installation-cd-minimal.nix")
@@ -22,9 +27,27 @@
         pkgs.cryptsetup
       ];
 
-      services.getty.helpLine = ''
+      # replaces the installer profile's text; \e{...} is agetty's issue-file colour escape
+      services.getty.helpLine = lib.mkForce ''
 
-        To install a host from this flake, run `sudo install-host`.
+        \e{bold}Install\e{reset}
+          sudo install-host              pick a host, erase its disks, install it
+          install-host --dry-run HOST    show the plan and disko script, change nothing
+          finish-install                 run on the new system after its first boot
+
+        \e{bold}Network\e{reset}
+          nmtui                          join wifi (install-host opens it when offline)
+          ip -br addr                    show this machine's addresses
+          passwd                         set a password, then ssh nixos@ADDRESS
+
+        \e{bold}Disks\e{reset}
+          lsblk -o NAME,SIZE,MODEL       list disks
+          ls -l /dev/disk/by-id          stable names, for a host's disko.nix
+
+        \e{bold}Editing the flake\e{reset}
+          /etc/nixos-config is read-only; copy it, edit with nvim, install the copy:
+            cp -r --no-preserve=mode /etc/nixos-config /tmp/nix
+            sudo install-host --flake /tmp/nix HOST
       '';
 
       environment.etc."nixos-config".source = inputs.self;
