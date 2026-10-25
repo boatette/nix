@@ -5,7 +5,7 @@
 
   inputs = {
     aion = {
-      url = "github:boatette/aion";
+      url = "git+file:///home/boatette/Projects/aion";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     claude-code = {

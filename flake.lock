@@ -9,15 +9,15 @@
       "locked": {
         "lastModified": 1792668463,
         "narHash": "sha256-Me/dQ3QqlnIjrJZIUZOLsoNpOTIC52d6VnzC3qd2xuI=",
-        "owner": "boatette",
-        "repo": "aion",
+        "ref": "refs/heads/master",
         "rev": "0123c42afab4be8dc0d3c0f637ee69fce4b225d4",
-        "type": "github"
+        "revCount": 63,
+        "type": "git",
+        "url": "file:///home/boatette/Projects/aion"
       },
       "original": {
-        "owner": "boatette",
-        "repo": "aion",
-        "type": "github"
+        "type": "git",
+        "url": "file:///home/boatette/Projects/aion"
       }
     },
     "claude-code": {
