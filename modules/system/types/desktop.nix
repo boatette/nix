@@ -27,6 +27,7 @@
     mime
 
     apps
+    vm
     media
     rmpc
     prism
