@@ -1,22 +1,81 @@
 { lib, ... }:
-{
-  options.flake.monitors = lib.mkOption {
-    type = lib.types.attrsOf (lib.types.attrsOf lib.types.unspecified);
-    default = { };
-    description = "Connected outputs per host, keyed by hostname then connector name";
-    example = {
-      aspire = {
-        "eDP-1" = {
-          mode = "1920x1080@144";
-          scale = 1.0;
-          transform = 0;
-          position = {
-            x = 1920;
-            y = 0;
-          };
-          primary = true;
+let
+  inherit (lib) mkOption types;
+
+  monitor = types.submodule {
+    options = {
+      mode = mkOption {
+        type = types.nullOr (types.strMatching "[0-9]+x[0-9]+(@[0-9.]+)?");
+        default = null;
+        example = "1920x1080@144";
+        description = "Resolution and optional refresh rate as WIDTHxHEIGHT[@HZ]; null keeps the preferred mode";
+      };
+
+      scale = mkOption {
+        type = types.number;
+        default = 1;
+        description = "Output scale";
+      };
+
+      transform = mkOption {
+        type = types.enum [
+          0
+          90
+          180
+          270
+          "flipped"
+          "flipped-90"
+          "flipped-180"
+          "flipped-270"
+        ];
+        default = 0;
+        description = "Rotation in degrees, optionally flipped";
+      };
+
+      position = {
+        x = mkOption {
+          type = types.int;
+          default = 0;
+          description = "Left edge in the output layout";
         };
+
+        y = mkOption {
+          type = types.int;
+          default = 0;
+          description = "Top edge in the output layout";
+        };
+      };
+
+      primary = mkOption {
+        type = types.bool;
+        default = false;
+        description = "Whether games size themselves to this output";
       };
     };
   };
+in
+{
+  options.flake.monitors = mkOption {
+    type = types.attrsOf (types.attrsOf monitor);
+    default = { };
+    description = "Connected outputs per host, keyed by hostname then connector name";
+    example = {
+      aspire."eDP-1" = {
+        mode = "1920x1080@144";
+        primary = true;
+      };
+    };
+  };
+
+  # "1920x1080@75.000" -> { width = "1920"; height = "1080"; refresh = "75.000"; }, with a null refresh when it has none
+  config.flake.lib.parseMode =
+    mode:
+    let
+      parts = builtins.match "([0-9]+)x([0-9]+)(@([0-9.]+))?" mode;
+    in
+    {
+      width = lib.elemAt parts 0;
+      height = lib.elemAt parts 1;
+      refresh = lib.elemAt parts 3;
+    };
 }

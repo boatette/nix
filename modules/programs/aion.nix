@@ -1,8 +1,8 @@
 { inputs, lib, ... }:
 let
+  # flake.monitors transforms as wl_output.transform tags
   transforms = {
     "0" = "normal";
-    "normal" = "normal";
     "90" = ''@"90"'';
     "180" = ''@"180"'';
     "270" = ''@"270"'';
@@ -16,19 +16,14 @@ let
   monitorRules =
     monitors:
     let
-      xOf = m: m.position.x or 0;
-      yOf = m: m.position.y or 0;
-      minX = lib.foldl' lib.min 0 (map xOf (lib.attrValues monitors));
-      minY = lib.foldl' lib.min 0 (map yOf (lib.attrValues monitors));
+      minX = lib.foldl' lib.min 0 (lib.mapAttrsToList (_: m: m.position.x) monitors);
+      minY = lib.foldl' lib.min 0 (lib.mapAttrsToList (_: m: m.position.y) monitors);
 
       rule =
         name: m:
-        let
-          transform = transforms.${toString (m.transform or "normal")};
-        in
-        "    .{ .name = \"${name}\", .scale = ${
-              toString ((m.scale or 1) * 1.0)
-            }, .transform = .${transform}, .x = ${toString (xOf m - minX)}, .y = ${toString (yOf m - minY)} },";
+        "    .{ .name = \"${name}\", .scale = ${toString (m.scale * 1.0)}, .transform = .${
+              transforms.${toString m.transform}
+            }, .x = ${toString (m.position.x - minX)}, .y = ${toString (m.position.y - minY)} },";
     in
     lib.concatStringsSep "\n" (lib.mapAttrsToList rule monitors);
 in

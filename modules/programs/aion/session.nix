@@ -7,7 +7,7 @@
 
       modes = lib.concatStringsSep " " (
         lib.mapAttrsToList (name: m: "--output ${name} --mode ${m.mode}") (
-          lib.filterAttrs (_: m: m.mode or null != null) monitors
+          lib.filterAttrs (_: m: m.mode != null) monitors
         )
       );
 

@@ -8,8 +8,8 @@
   flake.modules.homeManager.steam =
     {
       lib,
-      pkgs,
       osConfig,
+      pkgs,
       ...
     }:
     let
@@ -17,35 +17,27 @@
       monitors = inputs.self.monitors.${host} or { };
       offload = osConfig.hardware.nvidia.prime.offload.enable or false;
 
-      primary = lib.findFirst (m: m.primary or false) null (lib.attrValues monitors);
+      primary =
+        lib.findFirst (m: m.primary)
+          (throw "gaming/steam.nix: mark a monitor in flake.monitors.${host} primary")
+          (lib.attrValues monitors);
 
-      primaryMode =
-        lib.throwIf (primary == null)
-          "gaming/steam.nix: no monitor in flake.monitors.${host} is marked `primary = true`"
-          (primary.mode or null);
-
-      matched =
-        lib.throwIf (primaryMode == null)
-          "gaming/steam.nix: the primary monitor on ${host} has no `mode`; gamescope needs one"
-          (builtins.match "([0-9]+)x([0-9]+)@([0-9.]+)" primaryMode);
-
-      parsed = lib.throwIf (
-        matched == null
-      ) "gaming/steam.nix: monitor mode must be WxH@R, got: ${primaryMode}" matched;
-
-      width = builtins.elemAt parsed 0;
-      height = builtins.elemAt parsed 1;
-      refresh = toString (builtins.floor (builtins.fromJSON (builtins.elemAt parsed 2)));
+      # gamescope runs games at the primary monitor's mode
+      mode =
+        if primary.mode != null && lib.hasInfix "@" primary.mode then
+          inputs.self.lib.parseMode primary.mode
+        else
+          throw "gaming/steam.nix: the primary monitor on ${host} needs a mode with a refresh rate, like 1920x1080@144";
 
       wrappers = [
         (lib.getExe pkgs.gamemode)
         (lib.getExe pkgs.gamescope)
         "-W"
-        width
+        mode.width
         "-H"
-        height
+        mode.height
         "-r"
-        refresh
+        (toString (builtins.floor (builtins.fromJSON mode.refresh)))
         "--"
       ]
       ++ lib.optionals offload (
