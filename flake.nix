@@ -106,5 +106,9 @@
       url = "github:refact0r/system24";
       flake = false;
     };
+    toothless = {
+      url = "git+file:///home/boatette/Projects/toothless";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 }

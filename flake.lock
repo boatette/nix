@@ -438,7 +438,8 @@
         "rose-pine-yazi": "rose-pine-yazi",
         "rose-pine-zellij": "rose-pine-zellij",
         "steam-config-nix": "steam-config-nix",
-        "system24": "system24"
+        "system24": "system24",
+        "toothless": "toothless"
       }
     },
     "rose-pine-btop": {
@@ -752,6 +753,26 @@
         "owner": "nix-systems",
         "repo": "x86_64-linux",
         "type": "github"
+      }
+    },
+    "toothless": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1793009937,
+        "narHash": "sha256-Ak18bSi4JqapnkO9sdBRMNc2T7IEPPvml8+FxwsFy2Q=",
+        "ref": "refs/heads/master",
+        "rev": "2cc5cd350581f457ce1e9d95a0af373f54331af0",
+        "revCount": 1,
+        "type": "git",
+        "url": "file:///home/boatette/Projects/toothless"
+      },
+      "original": {
+        "type": "git",
+        "url": "file:///home/boatette/Projects/toothless"
       }
     }
   },

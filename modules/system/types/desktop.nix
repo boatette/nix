@@ -38,5 +38,6 @@
     qutebrowser
     vesktop
     aion
+    toothless
   ];
 }
