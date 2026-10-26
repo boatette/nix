@@ -29,13 +29,15 @@
         });
 
         settings = {
-          fonts.default_family = mono.name;
-          fonts.default_size = "${toString mono.size}pt";
-          fonts.web.family = {
-            standard = mono.name;
-            fixed = mono.name;
-            sans_serif = mono.name;
-            serif = mono.name;
+          fonts = {
+            default_family = mono.name;
+            default_size = "${toString mono.size}pt";
+            web.family = {
+              standard = mono.name;
+              fixed = mono.name;
+              sans_serif = mono.name;
+              serif = mono.name;
+            };
           };
           colors.webpage.darkmode.enabled = true;
           tabs.show = "multiple";
