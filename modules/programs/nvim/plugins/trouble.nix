@@ -1,13 +1,10 @@
+{ inputs, ... }:
 {
   flake.modules.nvf.nvim =
     let
-      trouble = key: panel: desc: {
-        mode = "n";
-        inherit key;
-        action = "<cmd>Trouble ${panel}<cr>";
-        desc = "${desc} (Trouble)";
-        silent = false;
-      };
+      trouble =
+        key: panel: desc:
+        inputs.self.lib.nvim.cmd "n" key "<cmd>Trouble ${panel}<cr>" "${desc} (Trouble)";
     in
     {
       vim = {

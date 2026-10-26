@@ -26,7 +26,6 @@
               end)
             '';
           };
-
         };
 
       nvim.imports = [ inputs.self.modules.nvf.core ];

@@ -1,3 +1,4 @@
+{ inputs, ... }:
 {
   flake.modules.nvf.nvim =
     { lib, ... }:
@@ -16,19 +17,12 @@
         };
 
         keymaps = [
-          {
-            mode = "n";
-            key = "<leader>uh";
-            action = ''
-              function()
-                  local buf = vim.api.nvim_get_current_buf()
-                  vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = buf }), { bufnr = buf })
-              end
-            '';
-            lua = true;
-            desc = "Toggle inlay hints";
-            silent = false;
-          }
+          (inputs.self.lib.nvim.lua "n" "<leader>uh" /* lua */ ''
+            function()
+                local buf = vim.api.nvim_get_current_buf()
+                vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = buf }), { bufnr = buf })
+            end
+          '' "Toggle inlay hints")
         ];
 
         augroups = [ { name = "nvim_lsp_attach"; } ];
