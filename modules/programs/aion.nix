@@ -66,8 +66,6 @@ in
         };
       };
 
-      xdg.portal.enable = true;
-
       xdg.terminal-exec = {
         enable = true;
         settings.default = [ "foot.desktop" ];
@@ -104,10 +102,9 @@ in
         };
       };
 
-      # tty1 login starts aion; stop the stale graphical-session.target first or swaybg won't restart
+      # tty1 login starts aion; aion-session restarts the session's services and stops them on exit
       programs.zsh.profileExtra = ''
         if [ -z "$WAYLAND_DISPLAY" ] && [ "$XDG_VTNR" = 1 ]; then
-          systemctl --user stop graphical-session.target
           exec aion-session
         fi
       '';
