@@ -12,7 +12,10 @@
     programs.toothless = {
       enable = true;
 
-      settings.corner = "bottom-left";
+      settings = {
+        corner = "bottom-left";
+        margin_y = 0;
+      };
     };
   };
 }
