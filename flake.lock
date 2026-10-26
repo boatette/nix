@@ -783,11 +783,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1793010074,
-        "narHash": "sha256-Ak18bSi4JqapnkO9sdBRMNc2T7IEPPvml8+FxwsFy2Q=",
+        "lastModified": 1793011247,
+        "narHash": "sha256-mwTQWDY7E4nxgT4s8G6MvOPyHx/5I6H6X3DfBPz4edY=",
         "ref": "refs/heads/master",
-        "rev": "d3b17a1b06cc56078927752f5d77d20ed660a60c",
-        "revCount": 1,
+        "rev": "f21b4d152d08689936b9f3db42d45be2b53d5e9b",
+        "revCount": 2,
         "type": "git",
         "url": "file:///home/boatette/Projects/toothless"
       },
