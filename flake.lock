@@ -7,11 +7,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792992635,
-        "narHash": "sha256-wyeP+uJS6ybZxXjlJA5LuD96Azem9xTb4/5Hqa9qgFs=",
-        "ref": "refs/heads/master",
-        "rev": "735b66fd73f2ff940ea7be06a12ab676ee8c8dd3",
-        "revCount": 88,
+        "lastModified": 1793009589,
+        "narHash": "sha256-yPQMy+0lQas0I7eBUflN1EEqMqSUy+e/BZwPjXXWTKM=",
+        "ref": "refs/heads/monitor-autorotate",
+        "rev": "5793e7d02168c75c7f409d1f7dff1e734ab73e59",
+        "revCount": 89,
         "type": "git",
         "url": "file:///home/boatette/Projects/aion"
       },

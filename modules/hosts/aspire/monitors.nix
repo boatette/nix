@@ -7,15 +7,20 @@
 
     "HDMI-A-1" = {
       mode = "1920x1080@75.000";
-      # landscape
-      # position.x = -1920;
+      position.x = -1920;
 
-      # portrait
-      transform = 90;
+      # on a rotating arm; monitor-autorotate switches between these as it turns
+      profiles = {
+        landscape = { };
 
-      position = {
-        x = -1080;
-        y = -420;
+        portrait = {
+          transform = 90;
+
+          position = {
+            x = -1080;
+            y = -420;
+          };
+        };
       };
     };
   };

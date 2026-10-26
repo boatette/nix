@@ -62,7 +62,7 @@ pub const width_presets = [_]f32{ 1.0 / 3.0, 0.5, 2.0 / 3.0 };
 
 pub const tags = [_][]const u8{ "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" };
 
-/// from flake.monitors, shifted so no position is negative
+/// from flake.monitors, a set per profile, each shifted so no position is negative
 pub const monrules = [_]a.MonitorRule{
 @monitorRules@
     .{},
