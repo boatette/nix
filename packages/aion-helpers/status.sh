@@ -1,6 +1,9 @@
 # feeds the aion bar one line at a time, using only builtins in the loop apart from sleep
+batteries=(/sys/class/power_supply/BAT*)
+bat=${batteries[0]}
+
 battery() {
-  local bat=/sys/class/power_supply/BAT1 capacity status sign=""
+  local capacity status sign=""
   battery_text=""
   [[ -r $bat/capacity ]] || return 0
 

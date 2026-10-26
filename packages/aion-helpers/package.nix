@@ -37,8 +37,7 @@ symlinkJoin {
       coreutils
       git
     ])
-    (script "aion-power" "lock, suspend, log out, reboot or shut down, given as the argument" [
-      coreutils
+    (script "aion-power" "lock, suspend, reboot or shut down, given as the argument" [
       systemd
       swaylock
     ])
