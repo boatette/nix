@@ -13,6 +13,8 @@
         settings = {
           font = "${sans.name} ${toString sans.size}";
 
+          # aion stacks fullscreen clients above the top layer
+          layer = "overlay";
           anchor = "top-right";
           margin = "10";
           width = 320;
