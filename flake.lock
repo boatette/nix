@@ -7,11 +7,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1793009589,
+        "lastModified": 1793010184,
         "narHash": "sha256-yPQMy+0lQas0I7eBUflN1EEqMqSUy+e/BZwPjXXWTKM=",
-        "ref": "refs/heads/monitor-autorotate",
-        "rev": "5793e7d02168c75c7f409d1f7dff1e734ab73e59",
-        "revCount": 89,
+        "ref": "refs/heads/master",
+        "rev": "6f640353211dc0ca61626c4e950e2685df1cc3f6",
+        "revCount": 90,
         "type": "git",
         "url": "file:///home/boatette/Projects/aion"
       },
@@ -111,11 +111,11 @@
     },
     "flake-file": {
       "locked": {
-        "lastModified": 1791955343,
-        "narHash": "sha256-yquDmN2vKAtSfwJLXcEwpq9z+4txQLtlPd+Hmxss+nM=",
+        "lastModified": 1792905615,
+        "narHash": "sha256-KdGEzlRQPHBbNPD+AChjry8eWEx0TCrGKy1Hkacj+bA=",
         "owner": "denful",
         "repo": "flake-file",
-        "rev": "1281456a5218ac60ada6fcb40a8f894684940199",
+        "rev": "7b08dbc223bb1a758a515aad9653a6bf196bc772",
         "type": "github"
       },
       "original": {
@@ -192,11 +192,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792818371,
-        "narHash": "sha256-yhEZAzZRNvzYpoAlyFY3wM75V9BmkIXJIueof8S5gOg=",
+        "lastModified": 1792896866,
+        "narHash": "sha256-/0tELNnhdSnP+bHSdWiEe6KpfSwi6WrTnT9cm/jNkjA=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "2cd3234928f60bbff695a7ee56115ef7799c47cd",
+        "rev": "c216bf5a1f173b0481bd5c8c489ebe5595ecc68c",
         "type": "github"
       },
       "original": {
@@ -267,11 +267,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1793009604,
+        "lastModified": 1793009972,
         "narHash": "sha256-+a+1atCnnfW+S6V5cN9JNZcMTFuAgNCrcYCe8AFH+pQ=",
-        "ref": "refs/heads/monitor-autorotate",
-        "rev": "80982649d3bca7b071ed7d469bfafd4bae59f47a",
-        "revCount": 6,
+        "ref": "refs/heads/master",
+        "rev": "fab9e1d1a8c79d941211a1396172358105fdedc5",
+        "revCount": 7,
         "type": "git",
         "url": "file:///home/boatette/Projects/monitor-autorotate"
       },
@@ -287,11 +287,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792309949,
-        "narHash": "sha256-2DAEMk8YkV8OF6N2uw9jQ016cYoNkcgnq50AShwWxNw=",
+        "lastModified": 1792915725,
+        "narHash": "sha256-v75hPw5NJ+mRRcwUzKi2OQtVSVv1hgq6ceAlPQB2kEE=",
         "owner": "nix-community",
         "repo": "nix-index-database",
-        "rev": "1b4d1758fa6053c5d6284254a793134fa602fbff",
+        "rev": "93696586f3463024cceb089353539be95a38ae2b",
         "type": "github"
       },
       "original": {
@@ -361,11 +361,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792856627,
-        "narHash": "sha256-7C4CBDNq8kefclkY40xGR+ZKMo+xDBV1gTmzKiK5qOA=",
+        "lastModified": 1792889789,
+        "narHash": "sha256-xpH3z+T5NELixXRjxGJ3mx30kz63Xt2B0ZfPWl7hcUg=",
         "owner": "notashelf",
         "repo": "nvf",
-        "rev": "5a8e7e16b8c6869ff3ab112a8e121edd07d63b7f",
+        "rev": "557d2eb05a76e5939e6a75351343cae5731a71f8",
         "type": "github"
       },
       "original": {
@@ -414,11 +414,11 @@
     },
     "preservation": {
       "locked": {
-        "lastModified": 1757436102,
-        "narHash": "sha256-mMI9IanU+Xw+pVogD2oT0I2kTmvz2Un/Apc5+CwUpEY=",
+        "lastModified": 1792953443,
+        "narHash": "sha256-s/A2rSO2Ndf8Y5yiouesnI/3Zkn9pmVGF2NxFxOUvx8=",
         "owner": "nix-community",
         "repo": "preservation",
-        "rev": "93416f4614ad2dfed5b0dcf12f27e57d27a5ab11",
+        "rev": "00be7f7dd1a11ae0605386f2272288de7cf33abe",
         "type": "github"
       },
       "original": {
@@ -783,10 +783,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1793009937,
+        "lastModified": 1793010074,
         "narHash": "sha256-Ak18bSi4JqapnkO9sdBRMNc2T7IEPPvml8+FxwsFy2Q=",
         "ref": "refs/heads/master",
-        "rev": "2cc5cd350581f457ce1e9d95a0af373f54331af0",
+        "rev": "d3b17a1b06cc56078927752f5d77d20ed660a60c",
         "revCount": 1,
         "type": "git",
         "url": "file:///home/boatette/Projects/toothless"
