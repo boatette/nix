@@ -56,6 +56,15 @@ in
         enable = true;
         package = inputs.aion.packages.${pkgs.stdenv.hostPlatform.system}.default.override {
           configFile = pkgs.replaceVars ./aion/config.zig {
+            inherit (config.constants.palette)
+              base
+              overlay
+              muted
+              subtle
+              text
+              love
+              rose
+              ;
             font = "${fonts.mono.name}:size=${toString fonts.mono.size}";
             xkbLayout = keyboard.layout;
             xkbOptions = keyboard.options;

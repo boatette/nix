@@ -5,6 +5,8 @@
       lock = "${config.programs.swaylock.package}/bin/swaylock -f";
       wlopm = "${pkgs.wlopm}/bin/wlopm";
       loginctl = "${pkgs.systemd}/bin/loginctl";
+
+      inherit (config.constants) palette;
     in
     {
       programs.swaylock = {
@@ -16,23 +18,23 @@
           show-failed-attempts = true;
           indicator-caps-lock = true;
 
-          color = "191724";
-          inside-color = "191724";
-          inside-clear-color = "191724";
-          inside-ver-color = "191724";
-          inside-wrong-color = "191724";
-          ring-color = "26233a";
-          ring-clear-color = "9ccfd8";
-          ring-ver-color = "c4a7e7";
-          ring-wrong-color = "eb6f92";
-          key-hl-color = "ebbcba";
-          bs-hl-color = "eb6f92";
+          color = palette.base;
+          inside-color = palette.base;
+          inside-clear-color = palette.base;
+          inside-ver-color = palette.base;
+          inside-wrong-color = palette.base;
+          ring-color = palette.overlay;
+          ring-clear-color = palette.foam;
+          ring-ver-color = palette.iris;
+          ring-wrong-color = palette.love;
+          key-hl-color = palette.rose;
+          bs-hl-color = palette.love;
           line-color = "00000000";
           separator-color = "00000000";
-          text-color = "e0def4";
-          text-clear-color = "e0def4";
-          text-ver-color = "e0def4";
-          text-wrong-color = "eb6f92";
+          text-color = palette.text;
+          text-clear-color = palette.text;
+          text-ver-color = palette.text;
+          text-wrong-color = palette.love;
         };
       };
 

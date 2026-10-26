@@ -2,6 +2,7 @@
   flake.modules.homeManager.aion =
     { config, ... }:
     let
+      inherit (config.constants) palette;
       inherit (config.constants.fonts) sans;
     in
     {
@@ -20,13 +21,13 @@
           border-radius = 0;
           default-timeout = 5000;
 
-          background-color = "#191724";
-          text-color = "#e0def4";
-          border-color = "#ebbcba";
-          progress-color = "over #26233a";
+          background-color = "#${palette.base}";
+          text-color = "#${palette.text}";
+          border-color = "#${palette.rose}";
+          progress-color = "over #${palette.overlay}";
 
           "urgency=high" = {
-            border-color = "#eb6f92";
+            border-color = "#${palette.love}";
             default-timeout = 0;
           };
         };

@@ -11,14 +11,14 @@ const SHIFT = a.SHIFT;
 const CTRL = a.CTRL;
 const ALT = a.ALT;
 
-// rosé pine
-const base = 0x191724ff;
-const overlay = 0x26233aff;
-const muted = 0x6e6a86ff;
-const subtle = 0x908caaff;
-const text = 0xe0def4ff;
-const love = 0xeb6f92ff;
-const rose = 0xebbcbaff;
+// rosé pine, from constants.palette
+const base = 0x@base@ff;
+const overlay = 0x@overlay@ff;
+const muted = 0x@muted@ff;
+const subtle = 0x@subtle@ff;
+const text = 0x@text@ff;
+const love = 0x@love@ff;
+const rose = 0x@rose@ff;
 
 const helpers = "@helpers@/bin/";
 const power = helpers ++ "aion-power";
