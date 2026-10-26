@@ -47,7 +47,9 @@
               if owner == cur and next == cur then
                   return
               end
-              vim.fn.${if vertical then "win_move_separator" else "win_move_statusline"}(owner, ${sign}2 * vim.v.count1)
+              vim.fn.${
+                if vertical then "win_move_separator" else "win_move_statusline"
+              }(owner, ${sign}2 * vim.v.count1)
           end
         '' desc;
     in
