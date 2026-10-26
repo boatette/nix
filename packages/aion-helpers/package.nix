@@ -48,7 +48,8 @@ symlinkJoin {
       gawk
       glib
     ])
-    (script "aion-caffeine" "toggle hypridle" [
+    (script "aion-caffeine" "keep the screen awake, or let it idle again" [
+      coreutils
       systemd
       libnotify
     ])
