@@ -1,45 +1,20 @@
-{ inputs, lib, ... }:
 {
   flake.modules.homeManager.aion =
-    { osConfig, pkgs, ... }:
-    let
-      monitors = inputs.self.monitors.${osConfig.networking.hostName} or { };
+    { pkgs, ... }:
+    {
+      services.polkit-gnome.enable = true;
 
-      modes = lib.concatStringsSep " " (
-        lib.mapAttrsToList (name: m: "--output ${name} --mode ${m.mode}") (
-          lib.filterAttrs (_: m: m.mode != null) monitors
-        )
-      );
-
-      sessionService = description: exec: {
+      systemd.user.services.swaybg = {
         Unit = {
-          Description = description;
+          Description = "Wallpaper";
           PartOf = [ "graphical-session.target" ];
           After = [ "graphical-session.target" ];
         };
         Service = {
-          ExecStart = exec;
+          ExecStart = "${pkgs.swaybg}/bin/swaybg -m fill -i ${../../../assets/wallpaper.png}";
           Restart = "on-failure";
         };
         Install.WantedBy = [ "graphical-session.target" ];
-      };
-    in
-    {
-      services.polkit-gnome.enable = true;
-
-      systemd.user.services = {
-        swaybg = sessionService "Wallpaper" "${pkgs.swaybg}/bin/swaybg -m fill -i ${../../../assets/wallpaper.png}";
-
-        output-modes = lib.mkIf (modes != "") (
-          lib.recursiveUpdate
-            (sessionService "Output modes from flake.monitors" "${pkgs.wlr-randr}/bin/wlr-randr ${modes}")
-            {
-              Service = {
-                Type = "oneshot";
-                Restart = "no";
-              };
-            }
-        );
       };
     };
 }

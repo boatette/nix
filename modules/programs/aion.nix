@@ -19,9 +19,17 @@ let
       minX = lib.foldl' lib.min 0 (lib.mapAttrsToList (_: m: m.position.x) monitors);
       minY = lib.foldl' lib.min 0 (lib.mapAttrsToList (_: m: m.position.y) monitors);
 
+      mode =
+        m:
+        let
+          p = inputs.self.lib.parseMode m.mode;
+        in
+        lib.optionalString (m.mode != null)
+          " .mode = .{ .width = ${p.width}, .height = ${p.height}, .refresh = ${lib.defaultTo "0" p.refresh} },";
+
       rule =
         name: m:
-        "    .{ .name = \"${name}\", .scale = ${toString (m.scale * 1.0)}, .transform = .${
+        "    .{ .name = \"${name}\",${mode m} .scale = ${toString (m.scale * 1.0)}, .transform = .${
               transforms.${toString m.transform}
             }, .x = ${toString (m.position.x - minX)}, .y = ${toString (m.position.y - minY)} },";
     in
