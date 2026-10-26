@@ -102,12 +102,12 @@ in
         };
 
         timers.aion-updates = {
-          Install.WantedBy = [ "timers.target" ];
           Unit.Description = "Hourly nixpkgs update check";
           Timer = {
             OnStartupSec = "2m";
             OnUnitActiveSec = "1h";
           };
+          Install.WantedBy = [ "timers.target" ];
         };
       };
 

@@ -5,7 +5,7 @@
   ];
 
   flake.modules.homeManager.backup =
-    { pkgs, config, ... }:
+    { config, pkgs, ... }:
     let
       environment = [
         "SSD_NOTIFY=1"
@@ -37,7 +37,6 @@
           };
 
           ssd-restore = {
-            Install.WantedBy = [ "default.target" ];
             Unit = {
               Description = "Restore home from the SSD";
               ConditionPathExists = "!${config.xdg.stateHome}/ssd-restore.stamp";
@@ -49,17 +48,18 @@
               IOSchedulingClass = "idle";
               Nice = 10;
             };
+            Install.WantedBy = [ "default.target" ];
           };
         };
 
         timers.ssd-backup = {
-          Install.WantedBy = [ "timers.target" ];
           Unit.Description = "Daily SSD mirror";
           Timer = {
             OnCalendar = "daily";
             Persistent = true;
             RandomizedDelaySec = "30m";
           };
+          Install.WantedBy = [ "timers.target" ];
         };
       };
     };

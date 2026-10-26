@@ -1,9 +1,9 @@
 {
   flake.modules.homeManager.zsh =
     {
+      config,
       lib,
       pkgs,
-      config,
       ...
     }:
     let

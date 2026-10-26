@@ -1,9 +1,9 @@
 {
   flake.modules.homeManager.kde =
     {
-      pkgs,
-      lib,
       config,
+      lib,
+      pkgs,
       ...
     }:
     let

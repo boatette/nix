@@ -1,7 +1,7 @@
 { inputs, ... }:
 {
   flake.modules.homeManager.mime =
-    { pkgs, lib, ... }:
+    { lib, pkgs, ... }:
     let
       archives = [
         "application/zip"

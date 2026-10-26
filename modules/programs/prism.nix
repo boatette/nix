@@ -3,8 +3,8 @@
   flake.modules.homeManager.prism =
     {
       lib,
-      pkgs,
       osConfig,
+      pkgs,
       ...
     }:
     let
