@@ -9,6 +9,10 @@
   flake.modules.homeManager.toothless = {
     imports = [ inputs.toothless.homeModules.default ];
 
-    programs.toothless.enable = true;
+    programs.toothless = {
+      enable = true;
+
+      settings.corner = "bottom-left";
+    };
   };
 }
