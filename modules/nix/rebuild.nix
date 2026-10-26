@@ -1,3 +1,4 @@
+{ config, lib, ... }:
 {
   flake.lib.rebuild =
     flakeDir:
@@ -6,8 +7,16 @@
 
       os = mode: "nh os ${mode} ${flakeDir}";
 
-      # builds aion's uncommitted changes without a lock update; new files need git add
-      osDev = mode: "${os mode} --override-input aion git+file://${dirOf flakeDir}/Projects/aion";
+      # builds the uncommitted changes of every git+file input without a lock update; new files need git add
+      devOverrides = lib.concatStrings (
+        lib.mapAttrsToList (name: input: " --override-input ${name} ${input.url}") (
+          lib.filterAttrs (
+            _: input: lib.hasPrefix "git+file://" (toString (input.url or ""))
+          ) config.flake-file.inputs
+        )
+      );
+
+      osDev = mode: "${os mode}${devOverrides}";
 
       cleanArgs = "--keep 5 --keep-since 7d";
 

@@ -35,8 +35,8 @@
 
           nrs = rebuild.os "switch";
           nrb = rebuild.os "boot";
-          nrsa = rebuild.osDev "switch";
-          nrba = rebuild.osDev "boot";
+          nrsd = rebuild.osDev "switch";
+          nrbd = rebuild.osDev "boot";
           nrt = rebuild.os "test";
           nrd = rebuild.dryBuild;
           nfu = rebuild.update;
