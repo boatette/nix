@@ -2,6 +2,48 @@
 let
   inherit (lib) mkOption types;
 
+  transform = types.enum [
+    0
+    90
+    180
+    270
+    "flipped"
+    "flipped-90"
+    "flipped-180"
+    "flipped-270"
+  ];
+
+  position = {
+    x = mkOption {
+      type = types.int;
+      default = 0;
+      description = "Left edge in the output layout";
+    };
+
+    y = mkOption {
+      type = types.int;
+      default = 0;
+      description = "Top edge in the output layout";
+    };
+  };
+
+  # what a profile changes about a monitor; null keeps the monitor's own setting
+  profile = types.submodule {
+    options = {
+      transform = mkOption {
+        type = types.nullOr transform;
+        default = null;
+        description = "Rotation in this profile";
+      };
+
+      position = mkOption {
+        type = types.nullOr (types.submodule { options = position; });
+        default = null;
+        description = "Position in this profile";
+      };
+    };
+  };
+
   monitor = types.submodule {
     options = {
       mode = mkOption {
@@ -18,32 +60,27 @@ let
       };
 
       transform = mkOption {
-        type = types.enum [
-          0
-          90
-          180
-          270
-          "flipped"
-          "flipped-90"
-          "flipped-180"
-          "flipped-270"
-        ];
+        type = transform;
         default = 0;
         description = "Rotation in degrees, optionally flipped";
       };
 
-      position = {
-        x = mkOption {
-          type = types.int;
-          default = 0;
-          description = "Left edge in the output layout";
-        };
+      inherit position;
 
-        y = mkOption {
-          type = types.int;
-          default = 0;
-          description = "Top edge in the output layout";
+      profiles = mkOption {
+        type = types.attrsOf profile;
+        default = { };
+        example = {
+          landscape = { };
+          portrait = {
+            transform = 90;
+            position = {
+              x = -1080;
+              y = -420;
+            };
+          };
         };
+        description = "Variations aion switches every monitor between with `aion msg profile`, starting in the first by name";
       };
 
       primary = mkOption {

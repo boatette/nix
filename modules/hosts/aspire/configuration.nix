@@ -9,6 +9,7 @@
         backup
         gaming
         impermanence
+        monitor-autorotate
         secure-boot
 
         boatette

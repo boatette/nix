@@ -12,12 +12,16 @@ let
     "flipped-270" = "flipped_270";
   };
 
-  # xwayland misplaces clients at negative positions, so shift all monitors until none is negative
+  # a set of rules per profile, or one set without a profile when no monitor has any
   monitorRules =
     monitors:
     let
-      minX = lib.foldl' lib.min 0 (lib.mapAttrsToList (_: m: m.position.x) monitors);
-      minY = lib.foldl' lib.min 0 (lib.mapAttrsToList (_: m: m.position.y) monitors);
+      profiles = lib.sort lib.lessThan (
+        lib.unique (lib.concatMap (m: lib.attrNames m.profiles) (lib.attrValues monitors))
+      );
+
+      # a monitor with a profile's changes applied
+      inProfile = profile: m: m // lib.filterAttrs (_: v: v != null) (m.profiles.${profile} or { });
 
       mode =
         m:
@@ -27,13 +31,28 @@ let
         lib.optionalString (m.mode != null)
           " .mode = .{ .width = ${p.width}, .height = ${p.height}, .refresh = ${lib.defaultTo "0" p.refresh} },";
 
-      rule =
-        name: m:
-        "    .{ .name = \"${name}\",${mode m} .scale = ${toString (m.scale * 1.0)}, .transform = .${
-              transforms.${toString m.transform}
-            }, .x = ${toString (m.position.x - minX)}, .y = ${toString (m.position.y - minY)} },";
+      # xwayland misplaces clients at negative positions, so shift all monitors until none is negative
+      rules =
+        profile: ms:
+        let
+          minX = lib.foldl' lib.min 0 (lib.mapAttrsToList (_: m: m.position.x) ms);
+          minY = lib.foldl' lib.min 0 (lib.mapAttrsToList (_: m: m.position.y) ms);
+          profileField = lib.optionalString (profile != null) " .profile = \"${profile}\",";
+
+          rule =
+            name: m:
+            "    .{ .name = \"${name}\",${profileField}${mode m} .scale = ${toString (m.scale * 1.0)}, .transform = .${
+                  transforms.${toString m.transform}
+                }, .x = ${toString (m.position.x - minX)}, .y = ${toString (m.position.y - minY)} },";
+        in
+        lib.mapAttrsToList rule ms;
     in
-    lib.concatStringsSep "\n" (lib.mapAttrsToList rule monitors);
+    lib.concatStringsSep "\n" (
+      if profiles == [ ] then
+        rules null monitors
+      else
+        lib.concatMap (p: rules p (lib.mapAttrs (_: inProfile p) monitors)) profiles
+    );
 in
 {
   flake-file.inputs.aion = {
