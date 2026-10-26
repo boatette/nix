@@ -1,6 +1,5 @@
-//! aion config, with the @...@ values filled in by replaceVars in modules/programs/aion.nix
+//! aion config, laid out like aion's src/config.zig, with the @...@ values filled in by replaceVars in modules/programs/aion.nix
 
-const wlr = @import("wlroots");
 const xkb = @import("xkbcommon");
 const c = @import("c");
 const a = @import("actions.zig");
@@ -20,6 +19,9 @@ const subtle = 0x908caaff;
 const text = 0xe0def4ff;
 const love = 0xeb6f92ff;
 const rose = 0xebbcbaff;
+
+const helpers = "@helpers@/bin/";
+const power = helpers ++ "aion-power";
 
 pub const sloppyfocus = false;
 /// windows asking for attention get focused (switching tag if needed) instead of marked urgent
@@ -42,13 +44,11 @@ pub const status_cmd: ?a.Arg = a.cmd(&.{helpers ++ "aion-status"});
 pub const apps_cmd = a.cmd(&.{helpers ++ "aion-apps"});
 pub const launch_cmd = [_][:0]const u8{ helpers ++ "aion-apps", "launch" };
 
-const helpers = "@helpers@/bin/";
-const power = helpers ++ "aion-power";
 /// mod+x then one of these keys; any other key leaves the mode
 pub const session_keys = [_]a.Key{
     .{ .mod = 0, .sym = K.l, .func = a.spawn, .arg = a.cmd(&.{ power, "lock" }) },
     .{ .mod = 0, .sym = K.u, .func = a.spawn, .arg = a.cmd(&.{ power, "suspend" }) },
-    .{ .mod = 0, .sym = K.e, .func = a.spawn, .arg = a.cmd(&.{ power, "logout" }) },
+    .{ .mod = 0, .sym = K.e, .func = a.quit },
     .{ .mod = 0, .sym = K.r, .func = a.spawn, .arg = a.cmd(&.{ power, "reboot" }) },
     .{ .mod = 0, .sym = K.b, .func = a.spawn, .arg = a.cmd(&.{ "foot", "--hold", "sh", "-c", "@rebuildBoot@ && systemctl reboot" }) },
     .{ .mod = 0, .sym = K.s, .func = a.spawn, .arg = a.cmd(&.{ power, "shutdown" }) },
@@ -74,7 +74,7 @@ pub const rules = [_]a.Rule{
     .{ .app_id = "org.gtk.FileChooserDialog", .floating = true },
     .{ .title = "Sign in - Google Accounts", .floating = true },
     .{ .title = "Picture-in-Picture", .floating = true },
-  .{ .app_id = "steamwebhelper", .floating = true },
+    .{ .app_id = "steamwebhelper", .floating = true },
 
     .{ .app_id = "vesktop", .width = 1 },
     .{ .app_id = "gimp", .width = 1 },
@@ -110,20 +110,6 @@ pub const accel_profile = c.LIBINPUT_CONFIG_ACCEL_PROFILE_ADAPTIVE;
 pub const accel_speed = 0.0;
 pub const button_map = c.LIBINPUT_CONFIG_TAP_MAP_LRM;
 
-const LEFT = @intFromEnum(wlr.OutputLayout.Direction.left);
-const RIGHT = @intFromEnum(wlr.OutputLayout.Direction.right);
-const UP = @intFromEnum(wlr.OutputLayout.Direction.up);
-const DOWN = @intFromEnum(wlr.OutputLayout.Direction.down);
-
-/// mod+n views tag n, +shift moves the window there and follows, +ctrl moves it quietly
-fn tagkeys(comptime sym: xkb.Keysym, comptime i: u5) [3]a.Key {
-    return .{
-        .{ .mod = MOD, .sym = sym, .func = a.view, .arg = .{ .ui = 1 << i } },
-        .{ .mod = MOD | SHIFT, .sym = sym, .func = a.tagfollow, .arg = .{ .ui = 1 << i } },
-        .{ .mod = MOD | CTRL, .sym = sym, .func = a.tag, .arg = .{ .ui = 1 << i } },
-    };
-}
-
 /// the same action on a vim key and its arrow
 fn both(comptime mod: u32, comptime vim: xkb.Keysym, comptime arrow: xkb.Keysym, comptime func: a.Func, comptime arg: a.Arg) [2]a.Key {
     return .{
@@ -132,12 +118,33 @@ fn both(comptime mod: u32, comptime vim: xkb.Keysym, comptime arrow: xkb.Keysym,
     };
 }
 
+/// a command that also runs while the session is locked
 fn helper(comptime mod: u32, comptime sym: xkb.Keysym, comptime argv: []const [:0]const u8) a.Key {
     return .{ .mod = mod, .sym = sym, .func = a.spawn, .arg = a.cmd(argv), .locked = true };
 }
 
-fn chvt(comptime n: u32) a.Key {
-    return .{ .mod = CTRL | ALT, .sym = @enumFromInt(@intFromEnum(K.F1) + n - 1), .func = a.chvt, .arg = .{ .ui = n }, .locked = true };
+/// mod+1..0 views a tag, +shift moves the window there and follows, +ctrl moves it quietly
+fn tagKeys() [3 * tags.len]a.Key {
+    var out: [3 * tags.len]a.Key = undefined;
+    for (0..tags.len) |i| {
+        const sym: K = @fromBackingInt(@backingInt(K.@"0") + @as(u32, @intCast((i + 1) % 10)));
+        const arg: a.Arg = .{ .ui = @as(u32, 1) << @intCast(i) };
+        out[3 * i ..][0..3].* = .{
+            .{ .mod = MOD, .sym = sym, .func = a.view, .arg = arg },
+            .{ .mod = MOD | SHIFT, .sym = sym, .func = a.tagfollow, .arg = arg },
+            .{ .mod = MOD | CTRL, .sym = sym, .func = a.tag, .arg = arg },
+        };
+    }
+    return out;
+}
+
+/// ctrl+alt+f1..f12 switches vt, also while locked
+fn vtKeys() [12]a.Key {
+    var out: [12]a.Key = undefined;
+    for (&out, 1..) |*k, n| {
+        k.* = .{ .mod = CTRL | ALT, .sym = @fromBackingInt(@backingInt(K.F1) + @as(u32, @intCast(n - 1))), .func = a.chvt, .arg = .{ .ui = @intCast(n) }, .locked = true };
+    }
+    return out;
 }
 
 pub const keys = [_]a.Key{
@@ -152,12 +159,12 @@ pub const keys = [_]a.Key{
     .{ .mod = ALT, .sym = K.Tab, .func = a.focusstack, .arg = .{ .i = 1 } },
     .{ .mod = ALT | SHIFT, .sym = K.Tab, .func = a.focusstack, .arg = .{ .i = -1 } },
 
-    .{ .mod = MOD, .sym = K.g, .func = a.view, .arg = .{ .ui = ~@as(u32, 0) } },
+    .{ .mod = MOD, .sym = K.g, .func = a.toggleoverview },
     .{ .mod = MOD, .sym = K.q, .func = a.killclient },
     .{ .mod = MOD, .sym = K.b, .func = a.togglebar },
     .{ .mod = MOD | ALT, .sym = K.q, .func = a.forcekill },
     .{ .mod = MOD, .sym = K.v, .func = a.togglefloating },
-    .{ .mod = MOD, .sym = K.p, .func = a.tag, .arg = .{ .ui = ~@as(u32, 0) } },
+    .{ .mod = MOD, .sym = K.p, .func = a.togglepin },
 
     .{ .mod = MOD, .sym = K.c, .func = a.centercolumn },
     .{ .mod = MOD, .sym = K.f, .func = a.togglefullwidth },
@@ -199,25 +206,23 @@ pub const keys = [_]a.Key{
     .{ .mod = MOD | SHIFT, .sym = K.s, .func = a.spawn, .arg = a.cmd(&.{ helpers ++ "aion-screenshot", "region" }) },
 
     .{ .mod = CTRL | ALT, .sym = K.BackSpace, .func = a.quit },
-} ++ both(MOD, K.h, K.Left, a.focusdir, .{ .ui = @intFromEnum(a.Dir.left) }) ++
-    both(MOD, K.l, K.Right, a.focusdir, .{ .ui = @intFromEnum(a.Dir.right) }) ++
-    both(MOD, K.k, K.Up, a.focusdir, .{ .ui = @intFromEnum(a.Dir.up) }) ++
-    both(MOD, K.j, K.Down, a.focusdir, .{ .ui = @intFromEnum(a.Dir.down) }) ++
+} ++ both(MOD, K.h, K.Left, a.focusdir, a.dir(.left)) ++
+    both(MOD, K.l, K.Right, a.focusdir, a.dir(.right)) ++
+    both(MOD, K.k, K.Up, a.focusdir, a.dir(.up)) ++
+    both(MOD, K.j, K.Down, a.focusdir, a.dir(.down)) ++
     both(MOD | SHIFT, K.h, K.Left, a.movecolumn, .{ .i = -1 }) ++
     both(MOD | SHIFT, K.l, K.Right, a.movecolumn, .{ .i = 1 }) ++
     both(MOD | SHIFT, K.k, K.Up, a.movewindow, .{ .i = -1 }) ++
     both(MOD | SHIFT, K.j, K.Down, a.movewindow, .{ .i = 1 }) ++
-    both(MOD | CTRL, K.h, K.Left, a.focusmon, .{ .i = LEFT }) ++
-    both(MOD | CTRL, K.l, K.Right, a.focusmon, .{ .i = RIGHT }) ++
-    both(MOD | CTRL, K.k, K.Up, a.focusmon, .{ .i = UP }) ++
-    both(MOD | CTRL, K.j, K.Down, a.focusmon, .{ .i = DOWN }) ++
-    both(MOD | SHIFT | CTRL, K.h, K.Left, a.tagmon, .{ .i = LEFT }) ++
-    both(MOD | SHIFT | CTRL, K.l, K.Right, a.tagmon, .{ .i = RIGHT }) ++
-    both(MOD | SHIFT | CTRL, K.k, K.Up, a.tagmon, .{ .i = UP }) ++
-    both(MOD | SHIFT | CTRL, K.j, K.Down, a.tagmon, .{ .i = DOWN }) ++
-    tagkeys(K.@"1", 0) ++ tagkeys(K.@"2", 1) ++ tagkeys(K.@"3", 2) ++ tagkeys(K.@"4", 3) ++ tagkeys(K.@"5", 4) ++
-    tagkeys(K.@"6", 5) ++ tagkeys(K.@"7", 6) ++ tagkeys(K.@"8", 7) ++ tagkeys(K.@"9", 8) ++ tagkeys(K.@"0", 9) ++
-    [_]a.Key{ chvt(1), chvt(2), chvt(3), chvt(4), chvt(5), chvt(6), chvt(7), chvt(8), chvt(9), chvt(10), chvt(11), chvt(12) };
+    both(MOD | CTRL, K.h, K.Left, a.focusmon, a.dir(.left)) ++
+    both(MOD | CTRL, K.l, K.Right, a.focusmon, a.dir(.right)) ++
+    both(MOD | CTRL, K.k, K.Up, a.focusmon, a.dir(.up)) ++
+    both(MOD | CTRL, K.j, K.Down, a.focusmon, a.dir(.down)) ++
+    both(MOD | SHIFT | CTRL, K.h, K.Left, a.tagmon, a.dir(.left)) ++
+    both(MOD | SHIFT | CTRL, K.l, K.Right, a.tagmon, a.dir(.right)) ++
+    both(MOD | SHIFT | CTRL, K.k, K.Up, a.tagmon, a.dir(.up)) ++
+    both(MOD | SHIFT | CTRL, K.j, K.Down, a.tagmon, a.dir(.down)) ++
+    tagKeys() ++ vtKeys();
 
 /// mod with a wheel: tags up and down, columns sideways; touchpads fire once per axis_step
 pub const axes = [_]a.Axis{
@@ -225,8 +230,8 @@ pub const axes = [_]a.Axis{
     .{ .mod = MOD, .dir = .down, .func = a.viewrel, .arg = .{ .i = 1 } },
     .{ .mod = MOD | SHIFT, .dir = .up, .func = a.tagrel, .arg = .{ .i = -1 } },
     .{ .mod = MOD | SHIFT, .dir = .down, .func = a.tagrel, .arg = .{ .i = 1 } },
-    .{ .mod = MOD, .dir = .left, .func = a.focusdir, .arg = .{ .ui = @intFromEnum(a.Dir.left) } },
-    .{ .mod = MOD, .dir = .right, .func = a.focusdir, .arg = .{ .ui = @intFromEnum(a.Dir.right) } },
+    .{ .mod = MOD, .dir = .left, .func = a.focusdir, .arg = a.dir(.left) },
+    .{ .mod = MOD, .dir = .right, .func = a.focusdir, .arg = a.dir(.right) },
     .{ .mod = MOD | CTRL, .dir = .left, .func = a.movecolumn, .arg = .{ .i = -1 } },
     .{ .mod = MOD | CTRL, .dir = .right, .func = a.movecolumn, .arg = .{ .i = 1 } },
 };
