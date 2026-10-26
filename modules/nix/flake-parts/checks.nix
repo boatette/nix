@@ -4,7 +4,8 @@ let
 
   root = ../../..;
 
-  uncheckedPackages = [
+  # packages and hosts left out of flake checks, as they are slow to build
+  unchecked = [
     "iso"
     "nvim-full"
   ];
@@ -49,7 +50,7 @@ in
     {
       checks =
         lib.mapAttrs' (name: lib.nameValuePair "package-${name}") (
-          lib.removeAttrs config.packages uncheckedPackages
+          lib.removeAttrs config.packages unchecked
         )
         // {
           deadnix = pkgs.runCommandLocal "check-deadnix" { } ''
@@ -72,7 +73,7 @@ in
   flake.checks = lib.foldlAttrs (
     acc: name: host:
     lib.recursiveUpdate acc (
-      lib.optionalAttrs (!lib.elem name uncheckedPackages) {
+      lib.optionalAttrs (!lib.elem name unchecked) {
         ${host.config.nixpkgs.hostPlatform.system}."host-${name}" = host.config.system.build.toplevel;
       }
     )
