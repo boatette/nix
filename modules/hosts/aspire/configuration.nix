@@ -10,6 +10,7 @@
         gaming
         impermanence
         monitor-autorotate
+        petal
         secure-boot
         tailscale
 

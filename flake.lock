@@ -374,6 +374,26 @@
         "type": "github"
       }
     },
+    "petal": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1793114224,
+        "narHash": "sha256-ra9vgvYbML9scUjLkRZauf/EFVuckt23slGfg+T9pbs=",
+        "ref": "refs/heads/master",
+        "rev": "bb1854cdf1508113ef72e21635d11a163d6bd751",
+        "revCount": 3,
+        "type": "git",
+        "url": "file:///home/boatette/Projects/petal"
+      },
+      "original": {
+        "type": "git",
+        "url": "file:///home/boatette/Projects/petal"
+      }
+    },
     "pkgs-by-name-for-flake-parts": {
       "locked": {
         "lastModified": 1789628227,
@@ -442,6 +462,7 @@
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs",
         "nvf": "nvf",
+        "petal": "petal",
         "pkgs-by-name-for-flake-parts": "pkgs-by-name-for-flake-parts",
         "preservation": "preservation",
         "rose-pine-btop": "rose-pine-btop",
