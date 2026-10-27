@@ -160,7 +160,9 @@
               directory = "/var/lib/fwupd";
               user = "fwupd-refresh";
               group = "fwupd-refresh";
-            };
+            }
+            # the tailnet login, so it survives a reboot
+            ++ lib.optional config.services.tailscale.enable "/var/lib/tailscale";
           };
         };
 

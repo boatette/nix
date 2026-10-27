@@ -11,6 +11,7 @@
         impermanence
         monitor-autorotate
         secure-boot
+        tailscale
 
         boatette
       ];
