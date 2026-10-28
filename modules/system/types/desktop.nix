@@ -31,6 +31,7 @@
     media
     rmpc
     prism
+    bedrock
 
     foot
     konsole
