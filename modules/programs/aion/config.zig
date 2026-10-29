@@ -60,6 +60,8 @@ pub const default_width: f32 = 0.5;
 pub const float_size = [2]f32{ 0.6, 0.6 };
 pub const width_presets = [_]f32{ 1.0 / 3.0, 0.5, 2.0 / 3.0 };
 pub const struts: a.Struts = .{ .left = 20, .right = 20 };
+/// space between columns, between windows in a column, and around them inside the struts
+pub const gappx = 8;
 
 pub const tags = [_][]const u8{ "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" };
 
