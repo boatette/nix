@@ -30,7 +30,8 @@
           urgent-color = "#${palette.love}";
         };
 
-        background-color = "#${palette.base}";
+        # the wallpaper sits in the backdrop, so workspaces must be see-through to show it
+        background-color = "transparent";
       };
     };
 }
