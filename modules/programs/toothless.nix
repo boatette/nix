@@ -10,7 +10,7 @@
     imports = [ inputs.toothless.homeModules.default ];
 
     programs.toothless = {
-      enable = true;
+      enable = false;
 
       settings = {
         corner = "bottom-left";
