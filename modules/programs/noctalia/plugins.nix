@@ -13,10 +13,6 @@
           enabled = [
             "dotnetrob/cat"
             "avivbintangaringga/nix-monitor"
-            "rylos/tailnet"
-            "noctalia/screen_recorder"
-
-            "noctalia/umbriel-companion"
           ];
 
           source = [
@@ -51,9 +47,7 @@
             hide_optimize_button = true;
           };
           "dotnetrob/cat".panel_placement = "floating";
-          "rylos/tailnet".panel_placement = "floating";
 
-          "noctalia/umbriel-companion".panel_placement = "floating";
         };
       };
     };

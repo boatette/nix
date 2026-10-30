@@ -9,7 +9,7 @@
     in
     {
       programs.noctalia.settings.shell = {
-        animation.enabled = false;
+        animation.enabled = true;
 
         app_icon_color = "primary";
         app_icon_colorize = false;
