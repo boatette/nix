@@ -14,14 +14,14 @@
         app_icon_color = "primary";
         app_icon_colorize = false;
 
-        corner_radius_scale = 0.0;
-
         button_borders = true;
         card_borders = true;
         input_borders = true;
         popup_borders = true;
 
         popup_shadows = false;
+
+        settings_window_translucent = true;
 
         polkit_agent = true;
         password_style = "random";
@@ -51,16 +51,16 @@
         panel = {
           borders = true;
           list_item_background = true;
+          transparency_mode = "glass";
 
-          clipboard_placement = "floating";
-          control_center_placement = "floating";
-          launcher_placement = "floating";
-          session_placement = "floating";
-          wallpaper_placement = "floating";
+          clipboard_placement = "attached";
+          control_center_placement = "attached";
+          launcher_placement = "attached";
+          session_placement = "attached";
+          wallpaper_placement = "attached";
 
           clipboard_position = "auto";
           control_center_position = "top_center";
-          launcher_position = "bottom_center";
           session_position = "top_center";
           wallpaper_position = "top_center";
 

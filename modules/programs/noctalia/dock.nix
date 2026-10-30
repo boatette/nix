@@ -5,14 +5,14 @@
     reserve_space = false;
     smart_auto_hide = true;
 
-    background_opacity = 1.0;
+    background_opacity = 0.8;
 
     icon_size = 40;
 
-    border_width = 1.0;
-    margin_edge = 10;
+    border_width = 0.0;
+    margin_edge = 0;
 
-    radius = 0;
+    radius = 12;
 
     show_dots = true;
     show_instance_count = false;

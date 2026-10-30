@@ -2,13 +2,14 @@
   flake.modules.homeManager.noctalia.programs.noctalia.settings.bar.default = {
     thickness = 25;
 
-    radius = 0;
-    capsule_radius = 0;
+    background_opacity = 0.8;
+
+    radius = 12;
     capsule_thickness = 1;
-    concave_edge_corners = false;
+    concave_edge_corners = true;
     shadow = false;
 
-    margin_ends = 0;
+    margin_ends = 260;
     widget_spacing = 10;
 
     start = [
