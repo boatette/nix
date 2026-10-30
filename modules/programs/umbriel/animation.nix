@@ -34,9 +34,8 @@
       scale = 0.8;
     };
 
+    # nixpkgs' umbriel resizes under windows_move too; newer ones split out windows_resize
     windows_move.curve = "movement";
-    # nixpkgs' umbriel resizes under windows_move and ignores this; newer ones split it out
-    windows_resize.curve = "movement";
 
     workspaces = {
       style = "slide";
