@@ -15,7 +15,7 @@
 
       settings = {
         blur = true;
-        corner_radius = 0;
+        corner_radius = inputs.self.constants.glass.radius;
 
         fade_out = 100;
       };

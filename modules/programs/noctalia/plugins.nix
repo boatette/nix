@@ -40,14 +40,13 @@
         plugin_settings = {
           "avivbintangaringga/nix-monitor" = {
             branch = "nixos-unstable";
-            panel_placement = "floating";
+            panel_placement = "attached";
             show_update_available_notification = false;
             update_command = rebuild.upgrade;
             clean_command = rebuild.clean;
             hide_optimize_button = true;
           };
-          "dotnetrob/cat".panel_placement = "floating";
-
+          "dotnetrob/cat".panel_placement = "attached";
         };
       };
     };

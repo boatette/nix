@@ -39,6 +39,13 @@
         };
       };
 
+      # the look of everything translucent; noctalia hardcodes these same values for what it
+      # doesn't expose, a 12 radius on its panels and toasts and 0.8 on its settings window
+      glass = {
+        radius = 12;
+        opacity = 0.8;
+      };
+
       # rosé pine main, as rrggbb, for whatever has no rosé pine port
       palette = {
         base = "191724";

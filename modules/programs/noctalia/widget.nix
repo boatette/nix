@@ -1,5 +1,10 @@
 {
   flake.modules.homeManager.noctalia.programs.noctalia.settings.widget = {
+    active_window = {
+      show_empty_label = true;
+      title_scroll = "on_hover";
+    };
+
     battery = {
       hide_when_full = true;
       hide_when_plugged = true;
@@ -21,7 +26,7 @@
     workspaces.style = "minimal";
 
     tray = {
-      detached_panel = true;
+      detached_panel = false;
       drawer = true;
     };
 

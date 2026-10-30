@@ -23,7 +23,7 @@
           gui = {
             nerdFontsVersion = "3";
             showRandomTip = false;
-            border = "single";
+            border = "rounded";
             showFileTree = true;
           };
 

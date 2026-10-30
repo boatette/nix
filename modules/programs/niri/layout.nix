@@ -2,7 +2,7 @@
   flake.modules.homeManager.niri =
     { config, ... }:
     let
-      inherit (config.constants) palette;
+      inherit (config.constants) glass palette;
 
       proportion = p: { proportion = p; };
     in
@@ -29,6 +29,8 @@
           inactive-color = "#${palette.muted}";
           urgent-color = "#${palette.love}";
         };
+
+        tab-indicator.corner-radius = glass.radius;
 
         shadow = {
           on = { };

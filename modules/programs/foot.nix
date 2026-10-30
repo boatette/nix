@@ -16,7 +16,7 @@
           };
 
           # the rose-pine include sets [colors-dark], so the alpha goes there too
-          colors-dark.alpha = 0.82;
+          colors-dark.alpha = config.constants.glass.opacity;
 
           csd.preferred = "none";
         };

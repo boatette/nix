@@ -51,7 +51,8 @@
         panel = {
           borders = true;
           list_item_background = true;
-          transparency_mode = "glass";
+          # floating panels at the same 0.8 as attached ones; "glass" hardcodes them to 0.55
+          transparency_mode = "soft";
 
           clipboard_placement = "attached";
           control_center_placement = "attached";
