@@ -1,6 +1,6 @@
 # NixOS Config
 
-NixOS configuration for a lightweight desktop on [aion](https://github.com/boatette/aion), a scrolling dwl-like compositor. Log in on tty1 to start it.
+NixOS configuration for a desktop on [niri](https://github.com/niri-wm/niri), a scrollable-tiling Wayland compositor, with [noctalia](https://github.com/noctalia-dev/noctalia-shell) as its shell. Log in at noctalia-greeter to start it.
 
 ## Layout
 
