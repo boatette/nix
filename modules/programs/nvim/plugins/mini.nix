@@ -62,6 +62,49 @@
     { lib, ... }:
     {
       vim = {
+        # blink's auto_brackets adds the () itself; typing ) after it just steps over
+        mini.pairs = {
+          enable = true;
+          setupOpts.mappings =
+            let
+              # don't open a pair right before a word, a quote or another opener
+              open = pair: {
+                action = "open";
+                inherit pair;
+                neigh_pattern = "^[^\\][^%w%%%'%[%\"%.%`%$]";
+              };
+              # nor a quote pair right after or before a word
+              quote = pair: prev: {
+                action = "closeopen";
+                inherit pair;
+                neigh_pattern = "^[^\\${prev}][^%w]";
+                register.cr = false;
+              };
+            in
+            {
+              "(" = open "()";
+              "[" = open "[]";
+              "{" = open "{}";
+              "\"" = quote "\"\"" "%w";
+              "'" = quote "''" "%a";
+              "`" = quote "``" "%w";
+            };
+        };
+
+        augroups = [ { name = "MiniPairsDisable"; } ];
+        autocmds = [
+          {
+            event = [ "FileType" ];
+            pattern = [
+              "snacks_picker_input"
+              "snacks_input"
+            ];
+            group = "MiniPairsDisable";
+            desc = "No auto-pairs in prompts";
+            command = "let b:minipairs_disable = v:true";
+          }
+        ];
+
         mini.snippets = {
           enable = true;
           setupOpts.snippets = lib.generators.mkLuaInline ''
