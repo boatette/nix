@@ -169,6 +169,18 @@
         "Alt+XF86MonBrightnessUp" = locked "spawn:noctalia msg brightness-up 1";
         "Alt+XF86MonBrightnessDown" = locked "spawn:noctalia msg brightness-down 1";
 
+        # with NumLock off and on
+        "Mod+KP_Left" = locked "spawn:noctalia msg media previous";
+        "Mod+KP_4" = locked "spawn:noctalia msg media previous";
+        "Mod+KP_Begin" = locked "spawn:noctalia msg media toggle";
+        "Mod+KP_5" = locked "spawn:noctalia msg media toggle";
+        "Mod+KP_Right" = locked "spawn:noctalia msg media next";
+        "Mod+KP_6" = locked "spawn:noctalia msg media next";
+        "Mod+KP_Up" = locked "spawn:noctalia msg volume-up";
+        "Mod+KP_8" = locked "spawn:noctalia msg volume-up";
+        "Mod+KP_Down" = locked "spawn:noctalia msg volume-down";
+        "Mod+KP_2" = locked "spawn:noctalia msg volume-down";
+
         "Print" = "spawn:noctalia msg screenshot-fullscreen";
         "Mod+Shift+S" = "spawn:noctalia msg screenshot-region";
       };
