@@ -33,7 +33,7 @@
 
           splitright = true;
           splitbelow = true;
-          winborder = "single";
+          winborder = "rounded";
 
           updatetime = 250;
           timeoutlen = 500;

@@ -15,6 +15,9 @@
             pad = "14x14";
           };
 
+          # the rose-pine include sets [colors-dark], so the alpha goes there too
+          colors-dark.alpha = 0.82;
+
           csd.preferred = "none";
         };
       };

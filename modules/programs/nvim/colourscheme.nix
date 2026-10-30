@@ -5,6 +5,7 @@
       vim.lazy.plugins.rose-pine = {
         package = pkgs.vimPlugins.rose-pine;
         setupModule = "rose-pine";
+        setupOpts.styles.transparency = true;
 
         lazy = false;
         priority = 1000;
