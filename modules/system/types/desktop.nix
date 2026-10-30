@@ -4,7 +4,7 @@
     base
 
     session
-    login
+    greeter
     console
     plymouth
     fonts
@@ -16,7 +16,7 @@
     rmpc
 
     dolphin
-    aion
+    niri
   ];
 
   flake.modules.homeManager.desktop.imports = with inputs.self.modules.homeManager; [
@@ -38,7 +38,9 @@
     dolphin
     qutebrowser
     vesktop
-    aion
+    niri
+    noctalia
+    selector
     toothless
   ];
 }

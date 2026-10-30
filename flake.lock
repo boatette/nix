@@ -1,25 +1,5 @@
 {
   "nodes": {
-    "aion": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1793242505,
-        "narHash": "sha256-MvS8jyrBZOzPYNEnXBF1uHm6Ipp6Qdy/fxwyR86BrvY=",
-        "ref": "refs/heads/master",
-        "rev": "77adc04b9da11181991594dcf6439d3b385637f4",
-        "revCount": 92,
-        "type": "git",
-        "url": "file:///home/boatette/Projects/aion"
-      },
-      "original": {
-        "type": "git",
-        "url": "file:///home/boatette/Projects/aion"
-      }
-    },
     "claude-code": {
       "inputs": {
         "nixpkgs": [
@@ -450,7 +430,6 @@
     },
     "root": {
       "inputs": {
-        "aion": "aion",
         "claude-code": "claude-code",
         "disko": "disko",
         "flake-file": "flake-file",
