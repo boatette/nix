@@ -5,7 +5,8 @@
     mode = "dark";
 
     templates = {
-      builtin_ids = [ "umbriel" ];
+      # umbriel is themed by the user template in umbriel/template.nix
+      builtin_ids = [ ];
 
       community_ids = [
         "claude-code"
