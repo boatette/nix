@@ -106,6 +106,10 @@
       url = "github:rose-pine/zellij";
       flake = false;
     };
+    selector = {
+      url = "git+file:///home/boatette/Projects/selector?ref=niri";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     steam-config-nix = {
       url = "github:different-name/steam-config-nix";
       inputs.nixpkgs.follows = "nixpkgs";

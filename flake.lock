@@ -479,6 +479,7 @@
         "rose-pine-tm-theme": "rose-pine-tm-theme",
         "rose-pine-yazi": "rose-pine-yazi",
         "rose-pine-zellij": "rose-pine-zellij",
+        "selector": "selector",
         "steam-config-nix": "steam-config-nix",
         "system24": "system24",
         "toothless": "toothless"
@@ -727,6 +728,27 @@
         "owner": "oxalica",
         "repo": "rust-overlay",
         "type": "github"
+      }
+    },
+    "selector": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1793340664,
+        "narHash": "sha256-ujg/s6czGWLmRHJ0VNMI1NArDm8augJQRwNATsRJMeg=",
+        "ref": "niri",
+        "rev": "320cdf8f89766e670b206e7c18a97cf438753976",
+        "revCount": 37,
+        "type": "git",
+        "url": "file:///home/boatette/Projects/selector"
+      },
+      "original": {
+        "ref": "niri",
+        "type": "git",
+        "url": "file:///home/boatette/Projects/selector"
       }
     },
     "steam-config-nix": {
