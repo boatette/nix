@@ -1,0 +1,31 @@
+{
+  flake.modules.homeManager.noctalia.programs.noctalia.settings.dock = {
+    enabled = true;
+
+    reserve_space = false;
+    smart_auto_hide = true;
+
+    background_opacity = 1.0;
+
+    icon_size = 40;
+
+    border_width = 1.0;
+    margin_edge = 10;
+
+    radius = 0;
+
+    show_dots = true;
+    show_instance_count = false;
+
+    launcher_position = "start";
+    pinned = [
+      "foot"
+      "org.qutebrowser.qutebrowser"
+      "vesktop"
+      "steam"
+      "org.prismlauncher.PrismLauncher"
+      "com.stremio.Stremio"
+      "org.kde.dolphin"
+    ];
+  };
+}
