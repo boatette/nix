@@ -13,19 +13,20 @@
         inputs.self.monitors.${config.networking.hostName} or { }
       );
 
-      # wlr-randr turns an output until umbriel restarts, which starts it in the first profile again
+      # niri msg output turns an output until niri restarts, which starts it in the first profile again
       apply =
         name: m:
         let
           transform = if m.transform == 0 then "normal" else toString m.transform;
         in
         ''
-          wlr-randr --output ${name} --transform ${transform} --pos ${toString m.position.x},${toString m.position.y}
+          niri msg output ${name} transform ${transform}
+          niri msg output ${name} position set ${toString m.position.x} ${toString m.position.y}
         '';
 
       rotate = pkgs.writeShellApplication {
-        name = "umbriel-monitor-profile";
-        runtimeInputs = [ pkgs.wlr-randr ];
+        name = "niri-monitor-profile";
+        runtimeInputs = [ config.programs.niri.package ];
         text = ''
           case $1 in
           ${lib.concatStrings (

@@ -261,6 +261,26 @@
         "url": "file:///home/boatette/Projects/monitor-autorotate"
       }
     },
+    "niri": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1793340996,
+        "narHash": "sha256-Vf+Ea6sgZ2fn+NU1m0wtIl6MJIOyXZ2BBlwd/HDYKio=",
+        "owner": "niri-wm",
+        "repo": "niri",
+        "rev": "b22eb842ca9506d4e2ff997b116031cdb3f650f8",
+        "type": "github"
+      },
+      "original": {
+        "owner": "niri-wm",
+        "repo": "niri",
+        "type": "github"
+      }
+    },
     "nix-index-database": {
       "inputs": {
         "nixpkgs": [
@@ -438,6 +458,7 @@
         "import-tree": "import-tree",
         "lanzaboote": "lanzaboote",
         "monitor-autorotate": "monitor-autorotate",
+        "niri": "niri",
         "nix-index-database": "nix-index-database",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs",
@@ -462,8 +483,7 @@
         "selector": "selector",
         "steam-config-nix": "steam-config-nix",
         "system24": "system24",
-        "toothless": "toothless",
-        "umbriel": "umbriel"
+        "toothless": "toothless"
       }
     },
     "rose-pine-btop": {
@@ -818,48 +838,6 @@
       "original": {
         "type": "git",
         "url": "file:///home/boatette/Projects/toothless"
-      }
-    },
-    "umbriel": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ],
-        "xdg-desktop-portal-umbriel": "xdg-desktop-portal-umbriel"
-      },
-      "locked": {
-        "lastModified": 1793336202,
-        "narHash": "sha256-bD7JjYwYKOj9Z/kEAA7aSq9ufkbKMvsxz3MEhKmjyeQ=",
-        "owner": "noctalia-dev",
-        "repo": "umbriel",
-        "rev": "d1db16a5abc10763b19eb4535047f5be75ca6064",
-        "type": "github"
-      },
-      "original": {
-        "owner": "noctalia-dev",
-        "repo": "umbriel",
-        "type": "github"
-      }
-    },
-    "xdg-desktop-portal-umbriel": {
-      "inputs": {
-        "nixpkgs": [
-          "umbriel",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1793112889,
-        "narHash": "sha256-tgUPyqAXDz3vjN3DuUgEbyhj3URNcYNijB2b9kUb4G4=",
-        "owner": "noctalia-dev",
-        "repo": "xdg-desktop-portal-umbriel",
-        "rev": "e24762d9c75e294f89dbe7a0e3fd55c5cdc3ff0a",
-        "type": "github"
-      },
-      "original": {
-        "owner": "noctalia-dev",
-        "repo": "xdg-desktop-portal-umbriel",
-        "type": "github"
       }
     }
   },
