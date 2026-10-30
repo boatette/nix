@@ -28,7 +28,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     monitor-autorotate = {
-      url = "git+file:///home/boatette/Projects/monitor-autorotate";
+      url = "git+file:///home/boatette/Projects/monitor-autorotate?ref=niri";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nix-index-database = {

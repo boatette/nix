@@ -267,15 +267,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1793009972,
-        "narHash": "sha256-+a+1atCnnfW+S6V5cN9JNZcMTFuAgNCrcYCe8AFH+pQ=",
-        "ref": "refs/heads/master",
-        "rev": "fab9e1d1a8c79d941211a1396172358105fdedc5",
-        "revCount": 7,
+        "lastModified": 1793340518,
+        "narHash": "sha256-a5t+XG/6RoOPG1zGoeipZ3xrfiKNUmwPBqpqFGkW/Uo=",
+        "ref": "niri",
+        "rev": "6df338b700512f9959f8b098f6cf0235c66d3085",
+        "revCount": 8,
         "type": "git",
         "url": "file:///home/boatette/Projects/monitor-autorotate"
       },
       "original": {
+        "ref": "niri",
         "type": "git",
         "url": "file:///home/boatette/Projects/monitor-autorotate"
       }
