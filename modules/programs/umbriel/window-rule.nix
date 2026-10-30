@@ -7,12 +7,18 @@
 
     {
       match.is_focused = true;
-      opacity = 1.0;
+      opacity = 0.92;
     }
 
     {
       match.is_focused = false;
       opacity = 0.8;
+    }
+
+    # these draw their own translucent background; window opacity would fade the text too
+    {
+      match.app_id = "^(foot|org\\.kde\\.konsole)$";
+      opacity = 1.0;
     }
 
     {
