@@ -16,12 +16,7 @@ let
   monitorRules =
     monitors:
     let
-      profiles = lib.sort lib.lessThan (
-        lib.unique (lib.concatMap (m: lib.attrNames m.profiles) (lib.attrValues monitors))
-      );
-
-      # a monitor with a profile's changes applied
-      inProfile = profile: m: m // lib.filterAttrs (_: v: v != null) (m.profiles.${profile} or { });
+      hasProfiles = lib.any (m: m.profiles != { }) (lib.attrValues monitors);
 
       mode =
         m:
@@ -31,27 +26,21 @@ let
         lib.optionalString (m.mode != null)
           " .mode = .{ .width = ${p.width}, .height = ${p.height}, .refresh = ${lib.defaultTo "0" p.refresh} },";
 
-      # xwayland misplaces clients at negative positions, so shift all monitors until none is negative
       rules =
         profile: ms:
         let
-          minX = lib.foldl' lib.min 0 (lib.mapAttrsToList (_: m: m.position.x) ms);
-          minY = lib.foldl' lib.min 0 (lib.mapAttrsToList (_: m: m.position.y) ms);
-          profileField = lib.optionalString (profile != null) " .profile = \"${profile}\",";
+          profileField = lib.optionalString hasProfiles " .profile = \"${profile}\",";
 
           rule =
             name: m:
             "    .{ .name = \"${name}\",${profileField}${mode m} .scale = ${toString (m.scale * 1.0)}, .transform = .${
                   transforms.${toString m.transform}
-                }, .x = ${toString (m.position.x - minX)}, .y = ${toString (m.position.y - minY)} },";
+                }, .x = ${toString m.position.x}, .y = ${toString m.position.y} },";
         in
         lib.mapAttrsToList rule ms;
     in
     lib.concatStringsSep "\n" (
-      if profiles == [ ] then
-        rules null monitors
-      else
-        lib.concatMap (p: rules p (lib.mapAttrs (_: inProfile p) monitors)) profiles
+      lib.concatLists (lib.mapAttrsToList rules (inputs.self.lib.monitorProfiles monitors))
     );
 in
 {
