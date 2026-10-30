@@ -462,7 +462,8 @@
         "selector": "selector",
         "steam-config-nix": "steam-config-nix",
         "system24": "system24",
-        "toothless": "toothless"
+        "toothless": "toothless",
+        "umbriel": "umbriel"
       }
     },
     "rose-pine-btop": {
@@ -817,6 +818,48 @@
       "original": {
         "type": "git",
         "url": "file:///home/boatette/Projects/toothless"
+      }
+    },
+    "umbriel": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "xdg-desktop-portal-umbriel": "xdg-desktop-portal-umbriel"
+      },
+      "locked": {
+        "lastModified": 1793336202,
+        "narHash": "sha256-bD7JjYwYKOj9Z/kEAA7aSq9ufkbKMvsxz3MEhKmjyeQ=",
+        "owner": "noctalia-dev",
+        "repo": "umbriel",
+        "rev": "d1db16a5abc10763b19eb4535047f5be75ca6064",
+        "type": "github"
+      },
+      "original": {
+        "owner": "noctalia-dev",
+        "repo": "umbriel",
+        "type": "github"
+      }
+    },
+    "xdg-desktop-portal-umbriel": {
+      "inputs": {
+        "nixpkgs": [
+          "umbriel",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1793112889,
+        "narHash": "sha256-tgUPyqAXDz3vjN3DuUgEbyhj3URNcYNijB2b9kUb4G4=",
+        "owner": "noctalia-dev",
+        "repo": "xdg-desktop-portal-umbriel",
+        "rev": "e24762d9c75e294f89dbe7a0e3fd55c5cdc3ff0a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "noctalia-dev",
+        "repo": "xdg-desktop-portal-umbriel",
+        "type": "github"
       }
     }
   },

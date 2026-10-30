@@ -38,6 +38,8 @@
 
     recorder.type = "noctalia/screen_recorder:recorder";
 
+    umbriel-companion.type = "noctalia/umbriel-companion:bar";
+
     # Mimic dwl-style tags: square full-height cells, the focused one on overlay
     # (surface_container) with text, the rest on base (surface).
     workspaces = {

@@ -40,6 +40,7 @@
 
         start = [
           "workspaces"
+          "umbriel-companion"
           "audio_visualizer"
           "audio_visualizer"
         ];

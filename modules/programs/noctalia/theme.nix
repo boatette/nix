@@ -5,6 +5,8 @@
     mode = "dark";
 
     templates = {
+      builtin_ids = [ "umbriel" ];
+
       community_ids = [
         "claude-code"
         "discord"

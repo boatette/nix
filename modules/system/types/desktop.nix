@@ -16,7 +16,7 @@
     rmpc
 
     dolphin
-    niri
+    umbriel
   ];
 
   flake.modules.homeManager.desktop.imports = with inputs.self.modules.homeManager; [
@@ -38,7 +38,7 @@
     dolphin
     qutebrowser
     vesktop
-    niri
+    umbriel
     noctalia
     selector
     toothless
