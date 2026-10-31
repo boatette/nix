@@ -23,7 +23,10 @@
 
     network.show_label = false;
     volume.show_label = false;
-    workspaces.style = "minimal";
+    workspaces = {
+      show_tooltip = false;
+      style = "minimal";
+    };
 
     tray = {
       detached_panel = false;
