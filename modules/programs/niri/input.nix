@@ -5,9 +5,7 @@
       wayland.windowManager.niri.settings = {
         input = {
           keyboard = {
-            xkb = {
-              inherit (config.constants.keyboard) layout options;
-            };
+            xkb = config.constants.keyboard;
             repeat-delay = 200;
             repeat-rate = 35;
           };
@@ -17,8 +15,6 @@
             drag-lock = { };
             dwt = { };
             natural-scroll = { };
-            scroll-method = "two-finger";
-            click-method = "button-areas";
           };
         };
 

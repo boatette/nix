@@ -6,25 +6,19 @@ let
   floating = match: rule match { open-floating = true; };
 in
 {
-  # first, so the app rules from other modules can override them
   flake.modules.homeManager.niri.wayland.windowManager.niri.settings._children = lib.mkBefore [
     {
       window-rule = {
         geometry-corner-radius = glass.radius;
         clip-to-geometry = true;
-        # otherwise translucent windows with their own decorations show solid border colour
         draw-border-with-background = false;
         background-effect.blur = true;
       };
     }
 
     (rule { is-focused = true; } { opacity = 0.92; })
-    (rule { is-focused = false; } { opacity = glass.opacity; })
-
-    # xray would show the wallpaper through whatever a floating window sits on
+    (rule { is-focused = false; } { inherit (glass) opacity; })
     (rule { is-floating = true; } { background-effect.xray = false; })
-
-    # these draw their own translucent background; window opacity would fade the text too
     (rule { app-id = "^(foot|org\\.kde\\.konsole)$"; } { opacity = 1.0; })
 
     (rule { app-id = "^xdg-desktop-portal-gtk$"; } {
