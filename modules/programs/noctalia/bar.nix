@@ -13,7 +13,9 @@
         inherit radius;
         capsule_thickness = 1;
         concave_edge_corners = true;
-        shadow = false;
+
+        shadow = true;
+        contact_shadow = true;
 
         margin_ends = 260;
         widget_spacing = 10;
