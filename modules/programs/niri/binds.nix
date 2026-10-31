@@ -35,6 +35,7 @@ in
       "Mod+D" = noctalia "panel-toggle launcher";
       "Mod+X" = noctalia "panel-toggle session";
       "Mod+N" = noctalia "panel-toggle control-center";
+      "Mod+Alt+V" = noctalia "panel-toggle clipboard";
       "Mod+Comma" = noctalia "settings-toggle";
       "Mod+I" = noctalia "caffeine-toggle";
       "Mod+B" = noctalia "bar-toggle";
