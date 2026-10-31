@@ -29,12 +29,6 @@
               location = "https://github.com/noctalia-dev/community-plugins";
               enabled = true;
             }
-            {
-              name = "Personal";
-              kind = "git";
-              location = "https://github.com/boatette/noctalia-plugins";
-              enabled = true;
-            }
           ];
         };
 
