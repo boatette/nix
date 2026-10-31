@@ -21,6 +21,8 @@
       title_scroll = "always";
     };
 
+    screen_toolkit.type = "alexander/screen-toolkit:widget";
+
     network.show_label = false;
     volume.show_label = false;
     workspaces = {

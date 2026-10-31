@@ -33,6 +33,7 @@
           "tray"
           "cat"
           "nix_monitor"
+          "screen_toolkit"
           "network"
           "bluetooth"
           "volume"

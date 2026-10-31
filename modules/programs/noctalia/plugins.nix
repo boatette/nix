@@ -13,6 +13,7 @@
           enabled = [
             "dotnetrob/cat"
             "avivbintangaringga/nix-monitor"
+            "alexander/screen-toolkit"
           ];
 
           source = [
@@ -47,6 +48,13 @@
             hide_optimize_button = true;
           };
           "dotnetrob/cat".panel_placement = "attached";
+          "alexander/screen-toolkit" = {
+            panel_placement = "attached";
+            panel_position = "top_center";
+            panel_open_near_click = true;
+            result_placement = "attached";
+            result_position = "top_center";
+          };
         };
       };
     };

@@ -36,6 +36,7 @@ in
       "Mod+X" = noctalia "panel-toggle session";
       "Mod+N" = noctalia "panel-toggle control-center";
       "Mod+Alt+V" = noctalia "panel-toggle clipboard";
+      "Mod+S" = noctalia "plugin alexander/screen-toolkit:service all toggle";
       "Mod+Comma" = noctalia "settings-toggle";
       "Mod+I" = noctalia "caffeine-toggle";
       "Mod+B" = noctalia "bar-toggle";

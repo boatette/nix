@@ -1,4 +1,6 @@
 {
+  flake.modules.nixos.noctalia.programs.gpu-screen-recorder.enable = true;
+
   flake.modules.homeManager.noctalia =
     { pkgs, ... }:
     {
@@ -10,8 +12,16 @@
       home.packages = with pkgs; [
         imagemagick
         glib
-        gpu-screen-recorder
         zip
+
+        hyprpicker
+        pulseaudio
+        qrencode
+        slurp
+        (tesseract.override { enableLanguages = [ "eng" ]; })
+        translate-shell
+        wl-screenrec
+        zbar
       ];
     };
 }
