@@ -41,7 +41,6 @@
           "volume"
           "notifications"
           "battery"
-          "date"
         ];
       };
     };

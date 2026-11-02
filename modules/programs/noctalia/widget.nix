@@ -14,6 +14,8 @@
 
     cat.type = "dotnetrob/cat:cat";
 
+    clock.tooltip_format = "{:%a %d %b}";
+
     launcher.custom_image_colorize = true;
 
     media = {
