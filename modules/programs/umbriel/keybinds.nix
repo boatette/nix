@@ -22,6 +22,7 @@
         "Mod+T" = "spawn:foot";
         "Mod+W" = "spawn:qutebrowser";
         "Mod+E" = "spawn:dolphin";
+        "Mod+M" = "spawn:foot --app-id=rmpc rmpc";
 
         "Mod+Alt+E" = ''spawn:foot zsh -ic "y; exec zsh"'';
 
