@@ -16,7 +16,7 @@ in
       };
     }
 
-    (rule { is-focused = true; } { opacity = 0.92; })
+    (rule { is-focused = true; } { opacity = 1.0; })
     (rule { is-focused = false; } { inherit (glass) opacity; })
     (rule { is-floating = true; } { background-effect.xray = false; })
     (rule { app-id = "^(foot|org\\.kde\\.konsole)$"; } { opacity = 1.0; })
