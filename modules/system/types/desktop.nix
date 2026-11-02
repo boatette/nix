@@ -17,6 +17,7 @@
 
     dolphin
     niri
+    umbriel
     noctalia
   ];
 
@@ -40,6 +41,7 @@
     qutebrowser
     vesktop
     niri
+    umbriel
     noctalia
     selector
     toothless

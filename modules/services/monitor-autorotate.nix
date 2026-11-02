@@ -13,28 +13,38 @@
         inputs.self.monitors.${config.networking.hostName} or { }
       );
 
-      # niri msg output turns an output until niri restarts, which starts it in the first profile again
-      apply =
-        name: m:
-        let
-          transform = if m.transform == 0 then "normal" else toString m.transform;
-        in
-        ''
-          niri msg output ${name} transform ${transform}
-          niri msg output ${name} position set ${toString m.position.x} ${toString m.position.y}
-        '';
+      transform = m: if m.transform == 0 then "normal" else toString m.transform;
+
+      # both turn an output until the compositor restarts, which starts it in the first profile again
+      niri = name: m: ''
+        niri msg output ${name} transform ${transform m}
+        niri msg output ${name} position set ${toString m.position.x} ${toString m.position.y}
+      '';
+
+      wlr = name: m: ''
+        wlr-randr --output ${name} --transform ${transform m} --pos ${toString m.position.x},${toString m.position.y}
+      '';
+
+      cases =
+        desktop: apply:
+        lib.concatStrings (
+          lib.mapAttrsToList (profile: monitors: ''
+            ${desktop}:${profile})
+            ${lib.concatStrings (lib.mapAttrsToList apply monitors)};;
+          '') profiles
+        );
 
       rotate = pkgs.writeShellApplication {
-        name = "niri-monitor-profile";
-        runtimeInputs = [ config.programs.niri.package ];
+        name = "monitor-profile";
+        runtimeInputs = [
+          config.programs.niri.package
+          pkgs.wlr-randr
+        ];
+        # each session overwrites XDG_CURRENT_DESKTOP, where NIRI_SOCKET could be left behind
         text = ''
-          case $1 in
-          ${lib.concatStrings (
-            lib.mapAttrsToList (profile: monitors: ''
-              ${profile})
-              ${lib.concatStrings (lib.mapAttrsToList apply monitors)};;
-            '') profiles
-          )}
+          case ''${XDG_CURRENT_DESKTOP:-}:$1 in
+          ${cases "niri" niri}
+          ${cases "*" wlr}
           *)
             echo "no monitor profile $1" >&2
             exit 1

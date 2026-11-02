@@ -13,11 +13,6 @@
         package = inputs.niri.packages.${pkgs.stdenv.hostPlatform.system}.default;
         useNautilus = false;
       };
-
-      xdg.terminal-exec = {
-        enable = true;
-        settings.default = [ "foot.desktop" ];
-      };
     };
 
   flake.modules.homeManager.niri =

@@ -20,6 +20,11 @@
         };
       };
 
+      xdg.terminal-exec = {
+        enable = true;
+        settings.default = [ "foot.desktop" ];
+      };
+
       services = {
         gnome.gnome-keyring.enable = true;
         # home-manager's ssh-agent is the one SSH_AUTH_SOCK points at
