@@ -4,13 +4,6 @@
     builtin = "Rosé Pine";
     mode = "dark";
 
-    templates = {
-      community_ids = [
-        "discord"
-        "libreoffice"
-        "prismlauncher"
-        "steam"
-      ];
-    };
+    enable_communtiy_templates = false;
   };
 }
