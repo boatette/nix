@@ -161,6 +161,13 @@
               user = "fwupd-refresh";
               group = "fwupd-refresh";
             }
+            # what noctalia's greeter sync copies over: wallpaper, colours and monitor layout
+            ++ lib.optional config.services.displayManager.noctalia-greeter.enable {
+              directory = "/var/lib/noctalia-greeter";
+              user = config.services.greetd.settings.default_session.user;
+              group = config.services.greetd.settings.default_session.user;
+              mode = "0750";
+            }
             # the tailnet login, so it survives a reboot
             ++ lib.optional config.services.tailscale.enable "/var/lib/tailscale";
           };

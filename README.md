@@ -1,6 +1,6 @@
 # NixOS Config
 
-NixOS configuration for a lightweight desktop on [aion](https://github.com/boatette/aion), a scrolling dwl-like compositor. Log in on tty1 to start it.
+NixOS configuration for a desktop on [niri](https://github.com/niri-wm/niri) or [umbriel](https://github.com/noctalia-dev/umbriel), both scrolling Wayland compositors, with [noctalia](https://github.com/noctalia-dev/noctalia-shell) as their shell. Pick one from noctalia-greeter's session menu when logging in.
 
 ## Layout
 
@@ -29,7 +29,7 @@ NixOS configuration for a lightweight desktop on [aion](https://github.com/boate
 
 `iso` is a minimal installer that carries the flake at `/etc/nixos-config`, this config's substituters and `install-host`, so the install pulls from the caches rather than building. Build it from the revision you intend to install.
 
-1. When reinstalling, back up first. The `backup` module mirrors home's data, `~/.ssh`, `~/.claude` and the browser profiles to `/mnt/storage/bak` daily, but run it once more with the browsers closed. Anything not listed in `packages/ssd/ssd.sh` is lost with the disk:
+1. When reinstalling, back up first. The `backup` module mirrors home's data, `~/.ssh` and the browser profiles to `/mnt/storage/bak` daily, but run it once more with the browsers closed. Anything not listed in `packages/ssd/ssd.sh` is lost with the disk:
 
    ```bash
    baknow       # or, before the running system has the current script:

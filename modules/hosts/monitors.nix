@@ -80,7 +80,7 @@ let
             };
           };
         };
-        description = "Variations aion switches every monitor between with `aion msg profile`, starting in the first by name";
+        description = "Variations monitor-autorotate switches every monitor between, starting in the first by name";
       };
 
       primary = mkOption {
@@ -115,4 +115,38 @@ in
       height = lib.elemAt parts 1;
       refresh = lib.elemAt parts 3;
     };
+
+  # each profile's layout, from the first by name, or one `default` layout when no monitor has any;
+  # positions are shifted until none is negative, as xwayland misplaces clients there
+  config.flake.lib.monitorProfiles =
+    monitors:
+    let
+      profiles = lib.sort lib.lessThan (
+        lib.unique (lib.concatMap (m: lib.attrNames m.profiles) (lib.attrValues monitors))
+      );
+
+      # a monitor with a profile's changes applied
+      inProfile = profile: m: m // lib.filterAttrs (_: v: v != null) (m.profiles.${profile} or { });
+
+      shifted =
+        ms:
+        let
+          minX = lib.foldl' lib.min 0 (lib.mapAttrsToList (_: m: m.position.x) ms);
+          minY = lib.foldl' lib.min 0 (lib.mapAttrsToList (_: m: m.position.y) ms);
+        in
+        lib.mapAttrs (
+          _: m:
+          m
+          // {
+            position = {
+              x = m.position.x - minX;
+              y = m.position.y - minY;
+            };
+          }
+        ) ms;
+    in
+    if profiles == [ ] then
+      { default = shifted monitors; }
+    else
+      lib.genAttrs profiles (p: shifted (lib.mapAttrs (_: inProfile p) monitors));
 }

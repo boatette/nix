@@ -4,14 +4,6 @@
   outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./modules);
 
   inputs = {
-    aion = {
-      url = "git+file:///home/boatette/Projects/aion";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    claude-code = {
-      url = "github:sadjow/claude-code-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     disko = {
       url = "github:nix-community/disko/latest";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -28,7 +20,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     monitor-autorotate = {
-      url = "git+file:///home/boatette/Projects/monitor-autorotate";
+      url = "git+file:///home/boatette/Projects/monitor-autorotate?ref=niri";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    niri = {
+      url = "github:niri-wm/niri";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nix-index-database = {
@@ -106,6 +102,10 @@
       url = "github:rose-pine/zellij";
       flake = false;
     };
+    selector = {
+      url = "git+file:///home/boatette/Projects/selector?ref=niri";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     steam-config-nix = {
       url = "github:different-name/steam-config-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -116,6 +116,10 @@
     };
     toothless = {
       url = "git+file:///home/boatette/Projects/toothless";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    umbriel = {
+      url = "github:noctalia-dev/umbriel";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
