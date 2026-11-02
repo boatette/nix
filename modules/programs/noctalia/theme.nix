@@ -6,7 +6,6 @@
 
     templates = {
       community_ids = [
-        "claude-code"
         "discord"
         "libreoffice"
         "prismlauncher"

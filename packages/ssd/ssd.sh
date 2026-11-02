@@ -15,7 +15,6 @@ readonly DIRS=(
   "Videos:Videos"
   ".local/share/PrismLauncher:PrismLauncher"
   ".ssh:ssh"
-  ".claude:claude"
   ".local/share/qutebrowser:qutebrowser-data"
   ".config/qutebrowser/bookmarks:qutebrowser-bookmarks"
   ".config/chromium:chromium"
@@ -23,7 +22,6 @@ readonly DIRS=(
 
 readonly FILES=(
   ".face:.face"
-  ".claude.json:claude.json"
   ".zsh_history:zsh_history"
   ".config/qutebrowser/quickmarks:qutebrowser-quickmarks"
   ".config/qutebrowser/autoconfig.yml:qutebrowser-autoconfig.yml"
