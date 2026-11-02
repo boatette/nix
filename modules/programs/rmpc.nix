@@ -88,8 +88,12 @@
 
       home.packages = [ pkgs.cava ];
 
-      xdg.configFile."rmpc/themes/rosepine-main.ron".source =
-        "${inputs.rose-pine-rmpc}/rosepine-main/rmpc_default_no_border/themes/rosepine-main.ron";
+      # the port fills every cell with base, which the terminal's alpha doesn't apply to
+      xdg.configFile."rmpc/themes/rosepine-main.ron".source = pkgs.runCommand "rosepine-main.ron" { } ''
+        sed 's/^    background_color: .*/    background_color: None,/' \
+          ${inputs.rose-pine-rmpc}/rosepine-main/rmpc_default_no_border/themes/rosepine-main.ron > $out
+        grep -q '^    background_color: None,$' $out
+      '';
 
       # the port's rmpc_default_no_border config.ron, plus a visualiser under the queue
       programs.rmpc = {
