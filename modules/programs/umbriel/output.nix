@@ -31,7 +31,8 @@
             m.position.y
           ];
 
-          min_workspaces = 10;
+          workspaces = "dynamic";
+          min_workspaces = 5;
 
           workspace_axis = if isPortrait m then "horizontal" else "vertical";
         }
