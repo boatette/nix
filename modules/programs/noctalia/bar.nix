@@ -22,13 +22,12 @@
 
         start = [
           "workspaces"
+          "audio_visualizer"
           "active_window"
         ];
 
         center = [
-          "media"
           "clock"
-          "audio_visualizer"
         ];
 
         end = [
