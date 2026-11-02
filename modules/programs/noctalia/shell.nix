@@ -3,13 +3,15 @@
   flake.modules.homeManager.noctalia =
     { config, ... }:
     let
-      inherit (config.constants) flakeDir;
+      inherit (config.constants) flakeDir fonts;
 
       rebuild = inputs.self.lib.rebuild flakeDir;
     in
     {
       programs.noctalia.settings.shell = {
         animation.enabled = true;
+
+        font_family = fonts.mono.name;
 
         app_icon_color = "primary";
         app_icon_colorize = false;
