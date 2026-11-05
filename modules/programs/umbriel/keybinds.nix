@@ -9,7 +9,7 @@
 
       focusTabOr =
         name: tab: row:
-        "spawn:${pkgs.writeShellScript name ''
+        "spawn ${pkgs.writeShellScript name ''
           if umbriel windows --json | ${pkgs.jq}/bin/jq -e 'any(.[]; .active and .tabbed)' >/dev/null; then
             exec umbriel msg ${tab}
           else
@@ -19,23 +19,23 @@
     in
     {
       programs.umbriel.settings.keybinds = {
-        "Mod+T" = "spawn:foot";
-        "Mod+W" = "spawn:qutebrowser";
-        "Mod+E" = "spawn:dolphin";
-        "Mod+M" = "spawn:foot --app-id=rmpc rmpc";
+        "Mod+T" = "spawn foot";
+        "Mod+W" = "spawn qutebrowser";
+        "Mod+E" = "spawn dolphin";
+        "Mod+M" = "spawn foot --app-id=rmpc rmpc";
 
-        "Mod+Alt+E" = ''spawn:foot zsh -ic "y; exec zsh"'';
+        "Mod+Alt+E" = ''spawn foot zsh -ic "y; exec zsh"'';
 
-        "Ctrl+Shift+Escape" = "spawn:foot -e btop";
+        "Ctrl+Shift+Escape" = "spawn foot -e btop";
 
-        "Mod+D" = "spawn:noctalia msg panel-toggle launcher";
-        "Mod+X" = "spawn:noctalia msg panel-toggle session";
-        "Mod+N" = "spawn:noctalia msg panel-toggle control-center";
-        "Mod+Alt+V" = "spawn:noctalia msg panel-toggle clipboard";
-        "Mod+S" = "spawn:noctalia msg plugin alexander/screen-toolkit:service all toggle";
-        "Mod+Comma" = "spawn:noctalia msg settings-toggle";
-        "Mod+I" = "spawn:noctalia msg caffeine-toggle";
-        "Alt+Tab" = "spawn:noctalia msg window-switcher";
+        "Mod+D" = "spawn noctalia msg panel-toggle launcher";
+        "Mod+X" = "spawn noctalia msg panel-toggle session";
+        "Mod+N" = "spawn noctalia msg panel-toggle control-center";
+        "Mod+Alt+V" = "spawn noctalia msg panel-toggle clipboard";
+        "Mod+S" = "spawn noctalia msg plugin alexander/screen-toolkit:service all toggle";
+        "Mod+Comma" = "spawn noctalia msg settings-toggle";
+        "Mod+I" = "spawn noctalia msg caffeine-toggle";
+        "Alt+Tab" = "spawn noctalia msg window-switcher";
 
         "Mod+G" = "overview-toggle";
         "Mod+Slash" = "cheatsheet-toggle";
@@ -43,7 +43,7 @@
 
         "Mod+Q" = "window-close";
         "Mod+Alt+Q" =
-          ''spawn:app_id=$(umbriel windows --json | jq -r 'first(.[] | select(.active) | .app_id) // empty'); [ -n "$app_id" ] && { pkill -9 -x "$app_id" || pkill -9 -f "$app_id"; }'';
+          ''spawn app_id=$(umbriel windows --json | jq -r 'first(.[] | select(.active) | .app_id) // empty'); [ -n "$app_id" ] && { pkill -9 -x "$app_id" || pkill -9 -f "$app_id"; }'';
 
         "Mod+C" = "column-center";
         "Mod+V" = "window-toggle-floating";
@@ -59,7 +59,7 @@
         "Mod+Alt+Shift+R" = "window-cycle-secondary-extent-back";
 
         "Mod+A" = "column-toggle-tabbed";
-        "Mod+O" = "workspace-set-layout:toggle";
+        "Mod+O" = "workspace-set-layout toggle";
 
         "Mod+U" = "scratchpad-toggle";
         "Mod+Shift+U" = "window-move-to-scratchpad";
@@ -107,48 +107,48 @@
         "Mod+Shift+Ctrl+L" = "column-move-to-output-right";
         "Mod+Shift+Ctrl+Right" = "column-move-to-output-right";
 
-        "Mod+1" = "workspace-switch:1";
-        "Mod+2" = "workspace-switch:2";
-        "Mod+3" = "workspace-switch:3";
-        "Mod+4" = "workspace-switch:4";
-        "Mod+5" = "workspace-switch:5";
-        "Mod+6" = "workspace-switch:6";
-        "Mod+7" = "workspace-switch:7";
-        "Mod+8" = "workspace-switch:8";
-        "Mod+9" = "workspace-switch:9";
-        "Mod+0" = "workspace-switch:10";
+        "Mod+1" = "workspace-switch 1";
+        "Mod+2" = "workspace-switch 2";
+        "Mod+3" = "workspace-switch 3";
+        "Mod+4" = "workspace-switch 4";
+        "Mod+5" = "workspace-switch 5";
+        "Mod+6" = "workspace-switch 6";
+        "Mod+7" = "workspace-switch 7";
+        "Mod+8" = "workspace-switch 8";
+        "Mod+9" = "workspace-switch 9";
+        "Mod+0" = "workspace-switch 10";
 
-        "Mod+Shift+1" = "window-move-to-workspace:1";
-        "Mod+Shift+2" = "window-move-to-workspace:2";
-        "Mod+Shift+3" = "window-move-to-workspace:3";
-        "Mod+Shift+4" = "window-move-to-workspace:4";
-        "Mod+Shift+5" = "window-move-to-workspace:5";
-        "Mod+Shift+6" = "window-move-to-workspace:6";
-        "Mod+Shift+7" = "window-move-to-workspace:7";
-        "Mod+Shift+8" = "window-move-to-workspace:8";
-        "Mod+Shift+9" = "window-move-to-workspace:9";
-        "Mod+Shift+0" = "window-move-to-workspace:10";
+        "Mod+Shift+1" = "window-move-to-workspace 1";
+        "Mod+Shift+2" = "window-move-to-workspace 2";
+        "Mod+Shift+3" = "window-move-to-workspace 3";
+        "Mod+Shift+4" = "window-move-to-workspace 4";
+        "Mod+Shift+5" = "window-move-to-workspace 5";
+        "Mod+Shift+6" = "window-move-to-workspace 6";
+        "Mod+Shift+7" = "window-move-to-workspace 7";
+        "Mod+Shift+8" = "window-move-to-workspace 8";
+        "Mod+Shift+9" = "window-move-to-workspace 9";
+        "Mod+Shift+0" = "window-move-to-workspace 10";
 
-        "Mod+Ctrl+1" = "window-move-to-workspace-silent:1";
-        "Mod+Ctrl+2" = "window-move-to-workspace-silent:2";
-        "Mod+Ctrl+3" = "window-move-to-workspace-silent:3";
-        "Mod+Ctrl+4" = "window-move-to-workspace-silent:4";
-        "Mod+Ctrl+5" = "window-move-to-workspace-silent:5";
-        "Mod+Ctrl+6" = "window-move-to-workspace-silent:6";
-        "Mod+Ctrl+7" = "window-move-to-workspace-silent:7";
-        "Mod+Ctrl+8" = "window-move-to-workspace-silent:8";
-        "Mod+Ctrl+9" = "window-move-to-workspace-silent:9";
-        "Mod+Ctrl+0" = "window-move-to-workspace-silent:10";
+        "Mod+Ctrl+1" = "window-move-to-workspace-silent 1";
+        "Mod+Ctrl+2" = "window-move-to-workspace-silent 2";
+        "Mod+Ctrl+3" = "window-move-to-workspace-silent 3";
+        "Mod+Ctrl+4" = "window-move-to-workspace-silent 4";
+        "Mod+Ctrl+5" = "window-move-to-workspace-silent 5";
+        "Mod+Ctrl+6" = "window-move-to-workspace-silent 6";
+        "Mod+Ctrl+7" = "window-move-to-workspace-silent 7";
+        "Mod+Ctrl+8" = "window-move-to-workspace-silent 8";
+        "Mod+Ctrl+9" = "window-move-to-workspace-silent 9";
+        "Mod+Ctrl+0" = "window-move-to-workspace-silent 10";
 
         "Mod+BracketLeft" = "window-consume-or-expel-left";
         "Mod+BracketRight" = "window-consume-or-expel-right";
         # TODO: "Mod+Period" = "window-expel";
 
-        "Mod+Minus" = "window-modify-primary-extent:-0.1";
-        "Mod+Equal" = "window-modify-primary-extent:0.1";
+        "Mod+Minus" = "window-modify-primary-extent -0.1";
+        "Mod+Equal" = "window-modify-primary-extent 0.1";
 
-        "Mod+Shift+Minus" = "window-modify-secondary-extent:-0.1";
-        "Mod+Shift+Equal" = "window-modify-secondary-extent:0.1";
+        "Mod+Shift+Minus" = "window-modify-secondary-extent -0.1";
+        "Mod+Shift+Equal" = "window-modify-secondary-extent 0.1";
 
         "Mod+MouseMiddle" = "layout-scroll-drag";
 
@@ -161,31 +161,31 @@
         "Mod+Ctrl+WheelLeft" = "column-move-left";
         "Mod+Ctrl+WheelRight" = "column-move-right";
 
-        "XF86AudioRaiseVolume" = locked "spawn:noctalia msg volume-up";
-        "XF86AudioLowerVolume" = locked "spawn:noctalia msg volume-down";
-        "XF86AudioMute" = locked "spawn:noctalia msg volume-mute";
-        "XF86AudioMicMute" = locked "spawn:noctalia msg mic-mute";
+        "XF86AudioRaiseVolume" = locked "spawn noctalia msg volume-up";
+        "XF86AudioLowerVolume" = locked "spawn noctalia msg volume-down";
+        "XF86AudioMute" = locked "spawn noctalia msg volume-mute";
+        "XF86AudioMicMute" = locked "spawn noctalia msg mic-mute";
 
-        "XF86MonBrightnessUp" = locked "spawn:noctalia msg brightness-up";
-        "XF86MonBrightnessDown" = locked "spawn:noctalia msg brightness-down";
+        "XF86MonBrightnessUp" = locked "spawn noctalia msg brightness-up";
+        "XF86MonBrightnessDown" = locked "spawn noctalia msg brightness-down";
 
-        "Alt+XF86MonBrightnessUp" = locked "spawn:noctalia msg brightness-up 1";
-        "Alt+XF86MonBrightnessDown" = locked "spawn:noctalia msg brightness-down 1";
+        "Alt+XF86MonBrightnessUp" = locked "spawn noctalia msg brightness-up 1";
+        "Alt+XF86MonBrightnessDown" = locked "spawn noctalia msg brightness-down 1";
 
         # with NumLock off and on
-        "Mod+KP_Left" = locked "spawn:noctalia msg media previous";
-        "Mod+KP_4" = locked "spawn:noctalia msg media previous";
-        "Mod+KP_Begin" = locked "spawn:noctalia msg media toggle";
-        "Mod+KP_5" = locked "spawn:noctalia msg media toggle";
-        "Mod+KP_Right" = locked "spawn:noctalia msg media next";
-        "Mod+KP_6" = locked "spawn:noctalia msg media next";
-        "Mod+KP_Up" = locked "spawn:noctalia msg volume-up";
-        "Mod+KP_8" = locked "spawn:noctalia msg volume-up";
-        "Mod+KP_Down" = locked "spawn:noctalia msg volume-down";
-        "Mod+KP_2" = locked "spawn:noctalia msg volume-down";
+        "Mod+KP_Left" = locked "spawn noctalia msg media previous";
+        "Mod+KP_4" = locked "spawn noctalia msg media previous";
+        "Mod+KP_Begin" = locked "spawn noctalia msg media toggle";
+        "Mod+KP_5" = locked "spawn noctalia msg media toggle";
+        "Mod+KP_Right" = locked "spawn noctalia msg media next";
+        "Mod+KP_6" = locked "spawn noctalia msg media next";
+        "Mod+KP_Up" = locked "spawn noctalia msg volume-up";
+        "Mod+KP_8" = locked "spawn noctalia msg volume-up";
+        "Mod+KP_Down" = locked "spawn noctalia msg volume-down";
+        "Mod+KP_2" = locked "spawn noctalia msg volume-down";
 
-        "Print" = "spawn:noctalia msg screenshot-fullscreen";
-        "Mod+Shift+S" = "spawn:noctalia msg screenshot-region";
+        "Print" = "spawn noctalia msg screenshot-fullscreen";
+        "Mod+Shift+S" = "spawn noctalia msg screenshot-region";
       };
     };
 }
