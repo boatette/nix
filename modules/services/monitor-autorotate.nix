@@ -1,7 +1,7 @@
 { inputs, lib, ... }:
 {
   flake-file.inputs.monitor-autorotate = {
-    url = "git+file:///home/boatette/Projects/monitor-autorotate?ref=niri";
+    url = "git+file:///home/boatette/Projects/monitor-autorotate";
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
