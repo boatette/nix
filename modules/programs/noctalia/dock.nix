@@ -21,7 +21,7 @@
         inherit radius;
 
         show_dots = true;
-        show_instance_count = false;
+        show_instance_count = true;
 
         launcher_position = "start";
         pinned = [
