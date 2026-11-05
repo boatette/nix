@@ -1,21 +1,18 @@
 { inputs, ... }:
 {
   flake-file.inputs.umbriel = {
-    url = "github:noctalia-dev/umbriel";
-    inputs.nixpkgs.follows = "nixpkgs";
+    url = "github:noctalia-dev/umbriel/cachix";
   };
 
   flake.modules.nixos.umbriel.programs.umbriel.enable = true;
 
   flake.modules.homeManager.umbriel =
-    { osConfig, pkgs, ... }:
+    { pkgs, ... }:
     {
       imports = [ inputs.umbriel.homeModules.default ];
 
       programs.umbriel = {
         enable = true;
-        # the umbriel the session runs, not the flake's newer one, so the config and `umbriel msg` match it
-        package = osConfig.programs.umbriel.package;
       };
 
       home.packages = with pkgs; [
