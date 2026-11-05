@@ -3,7 +3,7 @@
     {
       match.app_id = "^rmpc$";
       default_floating = true;
-      default_scratchpad = "default";
+      default_scratchpad = "rmpc";
       default_focused = true;
       opacity = 1.0;
       default_floating_size_px = {

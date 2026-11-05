@@ -22,7 +22,6 @@
         "Mod+T" = "spawn foot";
         "Mod+W" = "spawn qutebrowser";
         "Mod+E" = "spawn dolphin";
-        "Mod+M" = "spawn foot --app-id=rmpc rmpc";
 
         "Mod+Alt+E" = ''spawn foot zsh -ic "y; exec zsh"'';
 
@@ -61,10 +60,11 @@
         "Mod+A" = "column-toggle-tabbed";
         "Mod+O" = "workspace-set-layout toggle";
 
-        "Mod+U" = "scratchpad-toggle";
-        "Mod+Shift+U" = "window-move-to-scratchpad";
-        "Mod+Ctrl+U" = "window-restore-from-scratchpad";
-        "Mod+Tab" = "scratchpad-focus-next";
+        "Mod+U" = "scratchpad-toggle main";
+        "Mod+Shift+U" = "window-move-to-scratchpad main";
+        "Mod+Ctrl+U" = "window-restore-from-scratchpad main";
+        "Mod+Tab" = "scratchpad-focus-next main";
+        "Mod+M" = "scratchpad-toggle rmpc";
 
         "Mod+H" = "window-focus-left";
         "Mod+Left" = "window-focus-left";
