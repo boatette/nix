@@ -22,7 +22,6 @@
         ripgrep
         microfetch
         tldr
-        opencode
       ];
 
       xdg.configFile."eza/theme.yml".source = "${inputs.rose-pine-eza}/dist/rose-pine.yml";
