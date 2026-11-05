@@ -22,5 +22,11 @@
       offset_y = 4;
       softness = 20;
     };
+
+    tab_bar = {
+      height = 8;
+      style = "indicator";
+      position = "left";
+    };
   };
 }
