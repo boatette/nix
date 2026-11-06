@@ -5,12 +5,11 @@
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  # a Night Fury in a corner of the desktop that wakes up and gets excited as the cpu gets busy
   flake.modules.homeManager.toothless = {
     imports = [ inputs.toothless.homeModules.default ];
 
     programs.toothless = {
-      enable = false;
+      enable = true;
 
       settings = {
         corner = "bottom-left";
