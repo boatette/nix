@@ -35,7 +35,7 @@
 
           plugins.autolock = {
             is_enabled = true;
-            triggers = "nvim|vim|fzf|yazi|lazygit|git|less|bat";
+            triggers = "nvim|vim|fzf|yazi|lazygit|git|less|bat|claude";
             reaction_seconds = "0.3";
             print_to_log = false;
           };
@@ -87,6 +87,9 @@
               }
 
               tab name="code" focus=true
+              tab name="claude" {
+                  pane command="claude"
+              }
               tab name="git" {
                   pane command="lazygit"
               }

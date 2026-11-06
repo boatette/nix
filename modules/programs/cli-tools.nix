@@ -6,6 +6,11 @@
       flake = false;
     };
 
+    claude-code = {
+      url = "github:sadjow/claude-code-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     grok-build-nix = {
       url = "github:AodhanHayter/grok-build-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -32,7 +37,10 @@
           microfetch
           tldr
         ])
-        ++ [ inputs.grok-build-nix.packages.${system}.default ];
+        ++ [
+          inputs.claude-code.packages.${system}.default
+          inputs.grok-build-nix.packages.${system}.default
+        ];
 
       xdg.configFile."eza/theme.yml".source = "${inputs.rose-pine-eza}/dist/rose-pine.yml";
     };
