@@ -144,6 +144,26 @@
         "type": "github"
       }
     },
+    "grok-build-nix": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1793916093,
+        "narHash": "sha256-sMxFhJyhej1FtQ5rsAHukPXL+i6A8k28f3S22cqyGc4=",
+        "owner": "AodhanHayter",
+        "repo": "grok-build-nix",
+        "rev": "36da7c2c4a3979e6dabf96336fd157f1b4ab5f18",
+        "type": "github"
+      },
+      "original": {
+        "owner": "AodhanHayter",
+        "repo": "grok-build-nix",
+        "type": "github"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -424,6 +444,7 @@
         "disko": "disko",
         "flake-file": "flake-file",
         "flake-parts": "flake-parts",
+        "grok-build-nix": "grok-build-nix",
         "home-manager": "home-manager",
         "import-tree": "import-tree",
         "lanzaboote": "lanzaboote",
