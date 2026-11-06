@@ -1,11 +1,10 @@
 { inputs, ... }:
 {
   flake-file.inputs.selector = {
-    url = "git+file:///home/boatette/Projects/selector?ref=niri";
+    url = "git+file:///home/boatette/Projects/selector";
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  # a rubber-band selection box when dragging on the desktop
   flake.modules.homeManager.selector = {
     imports = [ inputs.selector.homeModules.selector ];
 

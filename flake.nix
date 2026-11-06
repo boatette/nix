@@ -103,7 +103,7 @@
       flake = false;
     };
     selector = {
-      url = "git+file:///home/boatette/Projects/selector?ref=niri";
+      url = "git+file:///home/boatette/Projects/selector";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     steam-config-nix = {
