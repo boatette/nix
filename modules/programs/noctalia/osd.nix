@@ -9,7 +9,7 @@
         position = "bottom_center";
         position_vertical = "center_left";
 
-        # clears the dock, which is 68 tall, by niri's gaps
+        # clears the dock, which is 68 tall, by umbriel's gaps
         offset_y = 76;
       };
     };

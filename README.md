@@ -1,6 +1,6 @@
 # NixOS Config
 
-NixOS configuration for a desktop on [niri](https://github.com/niri-wm/niri) or [umbriel](https://github.com/noctalia-dev/umbriel), both scrolling Wayland compositors, with [noctalia](https://github.com/noctalia-dev/noctalia-shell) as their shell. Pick one from noctalia-greeter's session menu when logging in.
+NixOS configuration for a desktop on [umbriel](https://github.com/noctalia-dev/umbriel), a scrolling Wayland compositor, with [noctalia](https://github.com/noctalia-dev/noctalia-shell) as its shell.
 
 ## Layout
 
