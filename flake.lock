@@ -246,11 +246,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1793622497,
-        "narHash": "sha256-a5t+XG/6RoOPG1zGoeipZ3xrfiKNUmwPBqpqFGkW/Uo=",
+        "lastModified": 1793943306,
+        "narHash": "sha256-y12lOueO6BUndYMqRnELdJNfEJtlJEwziNZIcarXuNs=",
         "ref": "refs/heads/master",
-        "rev": "9016e2839fa37225a61c767b78732321998e98f8",
-        "revCount": 9,
+        "rev": "a47d1bc2811e8ce217a3e1842b2fdabd919e0e05",
+        "revCount": 10,
         "type": "git",
         "url": "file:///home/boatette/Projects/monitor-autorotate"
       },
@@ -286,11 +286,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1793355509,
-        "narHash": "sha256-/Zs18x+IW4LuVH0rKxra0WPRgsk0DQsi0Bwkf8sOC5c=",
+        "lastModified": 1793871777,
+        "narHash": "sha256-DbFyxXHjP4SJDWVVIILkgrUZxj29cDusi8ULXoQGuZ8=",
         "owner": "NixOS",
         "repo": "nixos-hardware",
-        "rev": "04c6b94fa104bc23650983a4513aea196794d321",
+        "rev": "d645c71a58dbae3eb17ff551a07aea13a541cb1a",
         "type": "github"
       },
       "original": {
@@ -729,16 +729,15 @@
         ]
       },
       "locked": {
-        "lastModified": 1793340664,
+        "lastModified": 1793943233,
         "narHash": "sha256-ujg/s6czGWLmRHJ0VNMI1NArDm8augJQRwNATsRJMeg=",
-        "ref": "niri",
-        "rev": "320cdf8f89766e670b206e7c18a97cf438753976",
-        "revCount": 37,
+        "ref": "refs/heads/master",
+        "rev": "b022490c07279bb75f6cefaa6ae1ac0a602fb6f1",
+        "revCount": 38,
         "type": "git",
         "url": "file:///home/boatette/Projects/selector"
       },
       "original": {
-        "ref": "niri",
         "type": "git",
         "url": "file:///home/boatette/Projects/selector"
       }
