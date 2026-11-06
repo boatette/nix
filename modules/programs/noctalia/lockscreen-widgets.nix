@@ -89,44 +89,62 @@
           settings = loginSettings;
         };
 
-      # one counter id, the form noctalia assigns itself
+      # counter ids, the form noctalia assigns itself
       clockId = "lockscreen-widget-0000000000000001";
+      dateId = "lockscreen-widget-0000000000000002";
 
+      # a clock fills its box. the time box is unchanged; the date is a shorter
+      # strip above it, so "{:%A, %B %d}" stays smaller. 560 wide lets the height
+      # set that size even for "Wednesday, September 30"
       clock =
         let
           m = monitors.${primary};
           size = logicalSize m;
-        in
-        {
-          ${clockId} = {
-            output = primary;
-            type = "clock";
 
-            placement_width = size.width;
-            placement_height = size.height;
+          widget =
+            id: box: settings:
+            {
+              ${id} = {
+                output = primary;
+                type = "clock";
 
-            box_width = x m 368.0;
-            box_height = y m 208.0;
-            rotation = 0.0;
+                placement_width = size.width;
+                placement_height = size.height;
 
-            cx = x m 960.0;
-            cy = y m 292.0;
+                box_width = x m box.width;
+                box_height = y m box.height;
+                rotation = 0.0;
 
-            settings = {
-              background = false;
-              center_text = true;
-              clock_style = "digital";
-              shadow = false;
+                cx = x m box.cx;
+                cy = y m box.cy;
+
+                inherit settings;
+              };
             };
-          };
+        in
+        widget clockId { width = 368.0; height = 208.0; cx = 960.0; cy = 292.0; } {
+          background = false;
+          center_text = true;
+          clock_style = "digital";
+          shadow = false;
+        }
+        // widget dateId { width = 560.0; height = 50.0; cx = 960.0; cy = 161.0; } {
+          background = false;
+          center_text = true;
+          clock_style = "digital";
+          format = "{:%A, %B %d}";
+          shadow = false;
         };
 
-      # primary first, then the rest by name, then the clock
+      # primary first, then the rest by name, then the clock and the date
       widgetOrder =
         let
           others = lib.sort lib.lessThan (lib.filter (name: name != primary) (lib.attrNames monitors));
         in
-        (map (output: "lockscreen-login-box@${output}") ([ primary ] ++ others)) ++ [ clockId ];
+        (map (output: "lockscreen-login-box@${output}") ([ primary ] ++ others)) ++ [
+          clockId
+          dateId
+        ];
     in
     lib.throwIf (primary == null)
       "noctalia/lockscreen-widgets.nix: no monitor in flake.monitors.${host} is marked `primary = true`"
