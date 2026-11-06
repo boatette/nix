@@ -23,10 +23,6 @@
       url = "git+file:///home/boatette/Projects/monitor-autorotate";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    niri = {
-      url = "github:niri-wm/niri";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     nix-index-database = {
       url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -118,9 +114,6 @@
       url = "git+file:///home/boatette/Projects/toothless";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    umbriel = {
-      url = "github:noctalia-dev/umbriel";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    umbriel.url = "github:noctalia-dev/umbriel/cachix";
   };
 }

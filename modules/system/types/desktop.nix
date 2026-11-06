@@ -16,7 +16,6 @@
     rmpc
 
     dolphin
-    niri
     umbriel
     noctalia
   ];
@@ -40,7 +39,6 @@
     dolphin
     qutebrowser
     vesktop
-    niri
     umbriel
     noctalia
     selector

@@ -239,26 +239,6 @@
         "url": "file:///home/boatette/Projects/monitor-autorotate"
       }
     },
-    "niri": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1793475822,
-        "narHash": "sha256-AtuZOzsb9p+TTzkgaPjvl+5YRsgKc+RlIQMyozOmY5A=",
-        "owner": "niri-wm",
-        "repo": "niri",
-        "rev": "a8562a1126922ed4c1c94d34c1dbb26633491d05",
-        "type": "github"
-      },
-      "original": {
-        "owner": "niri-wm",
-        "repo": "niri",
-        "type": "github"
-      }
-    },
     "nix-index-database": {
       "inputs": {
         "nixpkgs": [
@@ -329,6 +309,19 @@
         "owner": "nix-community",
         "repo": "nixpkgs.lib",
         "type": "github"
+      }
+    },
+    "nixpkgs_2": {
+      "locked": {
+        "lastModified": 1793341285,
+        "narHash": "sha256-LOv16TsMYV2/8BUYnhSxHkOASe7es2ORbqMeLlZJ8Hc=",
+        "rev": "1c89083e451e891152365b799595cf7790a43325",
+        "type": "tarball",
+        "url": "https://releases.nixos.org/nixos/unstable/nixos-26.11pre1105037.1c89083e451e/nixexprs.tar.xz"
+      },
+      "original": {
+        "type": "tarball",
+        "url": "https://channels.nixos.org/nixos-unstable/nixexprs.tar.xz"
       }
     },
     "nvf": {
@@ -435,7 +428,6 @@
         "import-tree": "import-tree",
         "lanzaboote": "lanzaboote",
         "monitor-autorotate": "monitor-autorotate",
-        "niri": "niri",
         "nix-index-database": "nix-index-database",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs",
@@ -805,21 +797,20 @@
     },
     "umbriel": {
       "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ],
+        "nixpkgs": "nixpkgs_2",
         "xdg-desktop-portal-umbriel": "xdg-desktop-portal-umbriel"
       },
       "locked": {
-        "lastModified": 1793803681,
-        "narHash": "sha256-t808/TFpLfuI+11D8m4wB+4Rl+BUVC7NHxvAkx7bThc=",
+        "lastModified": 1793925144,
+        "narHash": "sha256-WkWcYDUiSHxshD9Y3FIn6kJovKp/bMy14mQLU1vy6Hw=",
         "owner": "noctalia-dev",
         "repo": "umbriel",
-        "rev": "b6c4b7ddfb03e6bacf4fd0c76a13dca3a29f172f",
+        "rev": "aa3b6b3e7b33cd40f33f83b6db2d5a7ef50096d6",
         "type": "github"
       },
       "original": {
         "owner": "noctalia-dev",
+        "ref": "cachix",
         "repo": "umbriel",
         "type": "github"
       }
