@@ -38,7 +38,7 @@
         };
 
         launcher = {
-          app_grid = true;
+          app_grid = false;
 
           providers = {
             calculator.prefix = "=";
@@ -53,17 +53,17 @@
         panel = {
           borders = true;
           list_item_background = true;
-          # floating panels at the same 0.8 as attached ones; "glass" hardcodes them to 0.55
           transparency_mode = "soft";
 
-          clipboard_placement = "attached";
-          control_center_placement = "attached";
-          launcher_placement = "attached";
-          session_placement = "attached";
-          wallpaper_placement = "attached";
+          clipboard_placement = "floating";
+          control_center_placement = "floating";
+          launcher_placement = "floating";
+          session_placement = "floating";
+          wallpaper_placement = "floating";
 
-          clipboard_position = "auto";
+          clipboard_position = "center";
           control_center_position = "top_center";
+          launcher_position = "center";
           session_position = "top_center";
           wallpaper_position = "top_center";
 

@@ -6,40 +6,40 @@
     in
     {
       programs.noctalia.settings.bar.default = {
-        thickness = 25;
+        thickness = 32;
 
         background_opacity = opacity;
 
         inherit radius;
-        capsule_thickness = 1;
+        capsule_thickness = 0.75;
         concave_edge_corners = true;
 
         shadow = true;
         contact_shadow = true;
 
-        margin_ends = 260;
+        margin_ends = 600;
         widget_spacing = 10;
 
         start = [
           "workspaces"
-          "audio_visualizer"
-          "active_window"
+          "umbriel_companion"
         ];
 
         center = [
           "clock"
+          "audio_visualizer"
+          "weather"
         ];
 
         end = [
-          "tray"
-          "cat"
           "nix_monitor"
-          "screen_toolkit"
           "network"
           "bluetooth"
+          "battery"
+          "screen_toolkit"
           "volume"
           "notifications"
-          "battery"
+          "tray"
         ];
       };
     };

@@ -5,14 +5,14 @@
       title_scroll = "on_hover";
     };
 
+    audio_visualizer.actions.left = "panel-toggle control-center media";
+
     battery = {
       hide_when_full = true;
       hide_when_plugged = true;
     };
 
     bluetooth.hide_when_no_connected_device = true;
-
-    cat.type = "dotnetrob/cat:cat";
 
     clock.tooltip_format = "{:%a %d %b}";
 
@@ -23,19 +23,22 @@
       title_scroll = "always";
     };
 
-    screen_toolkit.type = "alexander/screen-toolkit:widget";
+    tray = {
+      detached_panel = false;
+      drawer = true;
+    };
 
     network.show_label = false;
-    volume.show_label = false;
+    volume.show_label = true;
+
+    weather.show_condition = false;
+
     workspaces = {
       show_tooltip = false;
       style = "minimal";
     };
 
-    tray = {
-      detached_panel = false;
-      drawer = true;
-    };
+    umbriel_companion.type = "noctalia/umbriel-companion:bar";
 
     nix_monitor = {
       update_available_color = "error";
