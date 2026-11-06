@@ -15,7 +15,11 @@
       inherit (inputs.self.constants.glass) opacity;
     }
 
-    # these draw their own translucent background; window opacity would fade the text too
+    {
+      match.is_floating = true;
+      title_bar = "forced";
+    }
+
     {
       match.app_id = "^(foot|org\\.kde\\.konsole)$";
       opacity = 1.0;

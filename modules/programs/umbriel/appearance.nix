@@ -5,6 +5,9 @@
     outer_border_width = 0;
     corner_radius = inputs.self.constants.glass.radius;
 
+    prefer_no_csd = true;
+    title_bar.mode = "off";
+
     blur = {
       enabled = true;
       optimized = true;
