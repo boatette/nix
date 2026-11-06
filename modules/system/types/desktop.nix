@@ -17,7 +17,6 @@
 
     dolphin
     umbriel
-    noctalia
   ];
 
   flake.modules.homeManager.desktop.imports = with inputs.self.modules.homeManager; [
