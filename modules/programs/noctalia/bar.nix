@@ -36,7 +36,6 @@
           "network"
           "bluetooth"
           "battery"
-          "screen_toolkit"
           "volume"
           "notifications"
           "tray"
