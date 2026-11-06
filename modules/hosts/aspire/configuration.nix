@@ -13,6 +13,7 @@
         petal
         secure-boot
         tailscale
+        printing
 
         boatette
       ];
