@@ -13,38 +13,27 @@
         inputs.self.monitors.${config.networking.hostName} or { }
       );
 
-      transform = m: if m.transform == 0 then "normal" else toString m.transform;
-
-      # both turn an output until the compositor restarts, which starts it in the first profile again
-      niri = name: m: ''
-        niri msg output ${name} transform ${transform m}
-        niri msg output ${name} position set ${toString m.position.x} ${toString m.position.y}
-      '';
-
-      wlr = name: m: ''
-        wlr-randr --output ${name} --transform ${transform m} --pos ${toString m.position.x},${toString m.position.y}
-      '';
-
-      cases =
-        desktop: apply:
-        lib.concatStrings (
-          lib.mapAttrsToList (profile: monitors: ''
-            ${desktop}:${profile})
-            ${lib.concatStrings (lib.mapAttrsToList apply monitors)};;
-          '') profiles
-        );
+      # wlr-randr turns an output until umbriel restarts, which starts it in the first profile again
+      apply =
+        name: m:
+        let
+          transform = if m.transform == 0 then "normal" else toString m.transform;
+        in
+        ''
+          wlr-randr --output ${name} --transform ${transform} --pos ${toString m.position.x},${toString m.position.y}
+        '';
 
       rotate = pkgs.writeShellApplication {
-        name = "monitor-profile";
-        runtimeInputs = [
-          config.programs.niri.package
-          pkgs.wlr-randr
-        ];
-        # each session overwrites XDG_CURRENT_DESKTOP, where NIRI_SOCKET could be left behind
+        name = "umbriel-monitor-profile";
+        runtimeInputs = [ pkgs.wlr-randr ];
         text = ''
-          case ''${XDG_CURRENT_DESKTOP:-}:$1 in
-          ${cases "niri" niri}
-          ${cases "*" wlr}
+          case $1 in
+          ${lib.concatStrings (
+            lib.mapAttrsToList (profile: monitors: ''
+              ${profile})
+              ${lib.concatStrings (lib.mapAttrsToList apply monitors)};;
+            '') profiles
+          )}
           *)
             echo "no monitor profile $1" >&2
             exit 1
