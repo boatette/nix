@@ -19,13 +19,6 @@
               --set QTWEBENGINE_LOCALES_PATH ${pkgs.qt6Packages.qtwebengine}/qtwebengine_locales
             )
           '';
-
-          postPatch = (prev.postPatch or "") + ''
-            substituteInPlace qutebrowser/app.py \
-              --replace-fail \
-                "command_target = config.val.new_instance_open_target" \
-                "command_target = 'tab-silent'"
-          '';
         });
 
         settings = {
