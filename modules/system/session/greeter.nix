@@ -5,12 +5,17 @@
     let
       host = config.networking.hostName;
       monitors = inputs.self.monitors.${host} or { };
+      cursor = config.home-manager.users.${config.constants.username}.home.pointerCursor;
 
       primary = lib.findFirst (name: monitors.${name}.primary or false) null (lib.attrNames monitors);
     in
     {
       services.displayManager.noctalia-greeter = {
         enable = true;
+
+        cursorTheme = {
+          inherit (cursor) name package;
+        };
 
         settings = {
           appearance = {
