@@ -174,7 +174,7 @@ as_user() { runuser -u "$username" -- "$@"; }
 
 github_auth() {
   local reply
-  # github exits 1 even when the key is accepted, which pipefail would count as a failure
+  # github exits 1 even when the key is accepted, which errexit would stop on
   reply=$(as_user ssh -T -o BatchMode=yes git@github.com 2>&1) || true
   grep -q "successfully authenticated" <<<"$reply"
 }

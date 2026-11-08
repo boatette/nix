@@ -59,7 +59,7 @@
           passwordFiles = lib.mapAttrs (_: user: user.hashedPasswordFile) (
             lib.filterAttrs (_: user: user.isNormalUser && user.hashedPasswordFile != null) config.users.users
           );
-          rootPassword = config.users.users.root.hashedPassword == null;
+          rootPassword = !hasPassword config.users.users.root;
 
           inherit (config.constants) username flakeDir repo;
           home = config.users.users.${config.constants.username}.home;
