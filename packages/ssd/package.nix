@@ -18,6 +18,9 @@ writeShellApplication {
     libnotify
   ];
 
-  bashOptions = [ ];
+  bashOptions = [
+    "nounset"
+    "pipefail"
+  ];
   text = builtins.readFile ./ssd.sh;
 }

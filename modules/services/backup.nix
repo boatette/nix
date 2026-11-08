@@ -5,8 +5,15 @@
   ];
 
   flake.modules.homeManager.backup =
-    { config, pkgs, ... }:
+    {
+      config,
+      lib,
+      pkgs,
+      ...
+    }:
     let
+      ssd = lib.getExe pkgs.local.ssd;
+
       environment = [
         "SSD_NOTIFY=1"
         "XDG_STATE_HOME=${config.xdg.stateHome}"
@@ -26,9 +33,12 @@
       systemd.user = {
         services = {
           ssd-backup = {
-            Unit.Description = "Mirror home to the SSD";
+            Unit = {
+              Description = "Mirror home to the SSD";
+              After = [ "ssd-restore.service" ];
+            };
             Service = {
-              ExecStart = "${pkgs.local.ssd}/bin/ssd backup";
+              ExecStart = "${ssd} backup";
               Type = "oneshot";
               Environment = environment;
               IOSchedulingClass = "idle";
@@ -42,7 +52,7 @@
               ConditionPathExists = "!${config.xdg.stateHome}/ssd-restore.stamp";
             };
             Service = {
-              ExecStart = "${pkgs.local.ssd}/bin/ssd restore";
+              ExecStart = "${ssd} restore";
               Type = "oneshot";
               Environment = environment;
               IOSchedulingClass = "idle";
