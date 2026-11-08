@@ -8,8 +8,6 @@
     {
       vim = {
         lsp = {
-          inlayHints.enable = true;
-
           mappings = {
             goToDeclaration = "gD";
             hover = "K";
@@ -33,6 +31,12 @@
             group = "nvim_lsp_attach";
             desc = "LSP on-attach configuration";
             callback = mkLuaInline ''require("config.attach").on_attach'';
+          }
+          {
+            event = [ "LspDetach" ];
+            group = "nvim_lsp_attach";
+            desc = "LSP on-detach cleanup";
+            callback = mkLuaInline ''require("config.attach").on_detach'';
           }
         ];
       };

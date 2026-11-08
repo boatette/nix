@@ -93,7 +93,7 @@
                       body: (indented_string_expression
                         (string_fragment) @injection.content))
                   ])
-                  (#any-of? @_path "luaConfigRC" "luaConfigPre" "luaConfigPost" "setup" "action")
+                  (#any-of? @_path "luaConfigRC" "luaConfigPre" "luaConfigPost" "after" "action")
                   (#set! injection.language "lua")
                   (#set! injection.combined))
               '';

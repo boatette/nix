@@ -21,7 +21,8 @@ vim.api.nvim_create_autocmd("LspProgress", {
     desc = "Retry code lens once the server finishes background work",
     callback = function(ev)
         local value = ev.data and ev.data.params and ev.data.params.value
-        if value and value.kind == "end" then
+        local client = vim.lsp.get_client_by_id(ev.data.client_id)
+        if value and value.kind == "end" and client and client:supports_method("textDocument/codeLens") then
             refresh_codelens(ev.data.client_id)
         end
     end,
@@ -36,6 +37,10 @@ function M.on_attach(ev)
 
     if client:supports_method("textDocument/codeLens") then
         vim.lsp.codelens.enable(true, { bufnr = buf })
+    end
+
+    if client:supports_method("textDocument/inlayHint") then
+        vim.lsp.inlay_hint.enable(true, { bufnr = buf })
     end
 
     if client:supports_method("textDocument/documentHighlight") then
@@ -53,6 +58,18 @@ function M.on_attach(ev)
             desc = "Clear highlight on cursor move",
         })
     end
+end
+
+-- drops the symbol highlight once no client left on the buffer can provide it
+function M.on_detach(ev)
+    local buf = ev.buf
+    for _, client in ipairs(vim.lsp.get_clients({ bufnr = buf })) do
+        if client.id ~= ev.data.client_id and client:supports_method("textDocument/documentHighlight") then
+            return
+        end
+    end
+    pcall(vim.api.nvim_del_augroup_by_name, "nvim_doc_hl_" .. buf)
+    vim.lsp.util.buf_clear_references(buf)
 end
 
 return M

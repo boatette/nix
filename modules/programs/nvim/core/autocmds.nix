@@ -106,7 +106,9 @@
             desc = "Enable relative numbers in normal mode";
             callback = mkLuaInline ''
               function()
-                  vim.opt_local.relativenumber = true
+                  if vim.wo.number then
+                      vim.opt_local.relativenumber = true
+                  end
               end
             '';
           }

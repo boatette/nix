@@ -16,7 +16,7 @@
             documentDiagnostics = "<leader>xX";
             quickfix = "<leader>xq";
             locList = "<leader>xl";
-            lspReferences = "gr";
+            lspReferences = "grr";
           };
         };
 

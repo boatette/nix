@@ -59,10 +59,7 @@ local function andOr()
 end
 
 local function hexcolors()
-    return {
-        augend.hexcolor.new({ case = "lower" }),
-        augend.hexcolor.new({ case = "upper" }),
-    }
+    return { augend.hexcolor.new({ case = "prefer_lower" }) }
 end
 
 require("dial.config").augends:register_group({ default = defaults })

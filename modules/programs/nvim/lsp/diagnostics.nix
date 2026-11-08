@@ -13,6 +13,13 @@
           update_in_insert = false;
           severity_sort = true;
 
+          # [d and ]d open the float on the diagnostic they land on
+          jump.on_jump = mkLuaInline ''
+            function(_, bufnr)
+                vim.diagnostic.open_float({ bufnr = bufnr, scope = "cursor", focus = false })
+            end
+          '';
+
           virtual_text.prefix = mkLuaInline ''
             function(diag)
                 local icons = { ERROR = " 󰅚 ", WARN = " 󰀪 ", INFO = " 󰋽 ", HINT = " 󰌶 " }

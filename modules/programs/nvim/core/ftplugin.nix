@@ -38,12 +38,7 @@
 
         autocmds = [
           (mkFt [
-            "checkhealth"
             "help"
-            "lazygit"
-            "lspinfo"
-            "man"
-            "notify"
             "qf"
             "query"
           ] "Utility window: unlisted, q to close" utilityWindow)

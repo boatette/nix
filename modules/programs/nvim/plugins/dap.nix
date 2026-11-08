@@ -105,11 +105,6 @@
               args = [ "debug-adapter" ];
             };
 
-            kotlin = {
-              type = "executable";
-              command = "kotlin-debug-adapter";
-            };
-
             python = {
               type = "executable";
               command = "python3";
@@ -159,16 +154,6 @@
               }
             ];
 
-            kotlin = [
-              {
-                name = "Launch Kotlin Program";
-                type = "kotlin";
-                request = "launch";
-                projectRoot = "\${workspaceFolder}";
-                mainClass = "MainKt";
-              }
-            ];
-
             python = [
               {
                 name = "Launch file";
@@ -177,7 +162,8 @@
                 program = "\${file}";
                 pythonPath = mkLuaInline ''
                   function()
-                      return vim.fn.exepath("python3") or "python"
+                      local python = vim.fn.exepath("python3")
+                      return python ~= "" and python or "python"
                   end
                 '';
               }

@@ -16,6 +16,7 @@
             "json"
             "lua"
             "nix"
+            "tsx"
             "typescript"
             "zig"
           ]
@@ -59,29 +60,6 @@
         };
 
         lsp.servers = {
-          eslint = {
-            enable = true;
-            cmd = [
-              "${pkgs.vscode-langservers-extracted}/bin/vscode-eslint-language-server"
-              "--stdio"
-            ];
-            filetypes = [
-              "javascript"
-              "javascriptreact"
-              "typescript"
-              "typescriptreact"
-            ];
-            root_markers = [
-              ".eslintrc"
-              ".eslintrc.js"
-              ".eslintrc.json"
-              "eslint.config.js"
-              "eslint.config.mjs"
-              "package.json"
-              ".git"
-            ];
-          };
-
           clangd = {
             cmd = lib.mkForce [
               "${pkgs.clang-tools}/bin/clangd"
@@ -105,19 +83,6 @@
               "CMakeLists.txt"
               "Makefile"
             ];
-
-            on_init = mkLuaInline ''
-              function(client)
-                  client.server_capabilities.offsetEncoding = "utf-8"
-              end
-            '';
-
-            settings.clangd.InlayHints = {
-              Designators = true;
-              Enabled = true;
-              ParameterNames = true;
-              DeducedTypes = true;
-            };
           };
 
           lua-language-server.on_init = mkLuaInline ''require("config.luals").on_init'';

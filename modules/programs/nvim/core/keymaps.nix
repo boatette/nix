@@ -57,7 +57,7 @@
       vim.keymaps = [
         (cmd "n" "<Esc>" "<cmd>nohlsearch<cr>" "Clear search highlight")
         (cmd "n" "<leader>v" "ggVG" "Select whole buffer")
-        (cmd "v" "p" "\"_dP`[v`]=" "Paste without yank")
+        (cmd "x" "p" "\"_dP`[v`]=" "Paste without yank")
         (cmd "n" "J" "mzJ`z" "Better join")
 
         (
@@ -71,11 +71,12 @@
           }
         )
 
-        (cmd "n" "j" "gj" "Navigate wrapped lines")
-        (cmd "n" "k" "gk" "Navigate wrapped lines")
+        # by display line, unless given a count, which relativenumber counts in real lines
+        ((cmd "n" "j" "v:count == 0 ? 'gj' : 'j'" "Navigate wrapped lines") // { expr = true; })
+        ((cmd "n" "k" "v:count == 0 ? 'gk' : 'k'" "Navigate wrapped lines") // { expr = true; })
 
-        (cmd "v" "<" "<gv" "Indent left")
-        (cmd "v" ">" ">gv" "Indent right")
+        (cmd "x" "<" "<gv" "Indent left")
+        (cmd "x" ">" ">gv" "Indent right")
 
         (cmd "n" "<C-d>" "<C-d>zz" "Half page down (centred)")
         (cmd "n" "<C-u>" "<C-u>zz" "Half page up (centred)")
@@ -118,23 +119,8 @@
           end
         '' "Quick fix")
         (lua "n" "<leader>cl" "vim.lsp.codelens.run" "Run code lens")
-        (lua "i" "<C-k>" "vim.lsp.buf.signature_help" "Signature help")
 
         (lua "n" "<leader>cd" "vim.diagnostic.open_float" "Line diagnostics")
-        (lua "n" "[d" /* lua */ ''
-          function()
-              vim.diagnostic.jump({ count = -1, float = true })
-          end
-        '' "Prev diagnostic")
-        (lua "n" "]d" /* lua */ ''
-          function()
-              vim.diagnostic.jump({ count = 1, float = true })
-          end
-        '' "Next diagnostic")
-
-        (cmd "n" "[q" "<cmd>cprev<cr>" "Prev quickfix")
-        (cmd "n" "]q" "<cmd>cnext<cr>" "Next quickfix")
-
         (cmd "t" "<Esc><Esc>" "<C-\\><C-n>" "Exit terminal mode")
       ];
     };

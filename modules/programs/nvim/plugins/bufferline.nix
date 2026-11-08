@@ -36,8 +36,8 @@
             inherit (inputs.self.lib.nvim) cmd;
           in
           [
-            (cmd "n" "<S-h>" "<cmd>BufferLineCyclePrev<CR>" "Prev tab")
-            (cmd "n" "<S-l>" "<cmd>BufferLineCycleNext<CR>" "Next tab")
+            (cmd "n" "<S-h>" "<cmd>BufferLineCyclePrev<CR>" "Prev buffer")
+            (cmd "n" "<S-l>" "<cmd>BufferLineCycleNext<CR>" "Next buffer")
           ];
       };
     };
