@@ -46,7 +46,7 @@
 
     {
       match = {
-        app_id = "^(org\\.kde\\.dolphin|gimp|libreoffice|soffice)";
+        app_id = "^(org\\.kde\\.dolphin|com\\.github\\.PintaProject\\.Pinta|libreoffice|soffice)";
         title = "^(Open|Save|Select|Import|Export|Rename|Properties|Preferences|Settings)\\b";
       };
       default_floating = true;

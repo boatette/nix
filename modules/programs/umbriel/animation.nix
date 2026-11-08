@@ -1,56 +1,23 @@
 {
-  flake.modules.homeManager.umbrielprograms.umbriel.settings = {
-    animation = {
-      enabled = true;
-      duration_ms = 250;
-      curve = "easeout";
+  flake.modules.homeManager.umbriel.programs.umbriel.settings.animation = {
+    windows_in = {
+      scale = 0.93;
+      curve = "spring:0.92,900";
+    };
 
-      # Window opening
-      windows_in = {
-        enabled = true;
-        effect = "";
-        style = "popin";
-        scale = 0.93;
-        curve = "spring:0.92,900";
-        duration_ms = 190;
-      };
+    windows_out = {
+      scale = 0.96;
+      curve = "spring:1,1200";
+    };
 
-      # Window closing
-      windows_out = {
-        enabled = true;
-        effect = "";
-        style = "popin";
-        scale = 0.96;
-        duration_ms = 150;
-        curve = "spring:1,1200";
-      };
+    windows_move.curve = "spring:0.85,1000";
+    windows_resize.curve = "spring:0.85,1000";
 
-      # Window movement and resizing
-      windows_move = {
-        enabled = true;
-        effect = "";
-        curve = "spring:0.85,1000";
-      };
+    workspaces.curve = "spring:0.92,900";
 
-      # Workspace switching
-      workspaces = {
-        enabled = true;
-        style = "slide";
-        curve = "spring:0.92,900";
-      };
-
-      # Overview animation
-      overview = {
-        enabled = true;
-        curve = "spring:0.95,850";
-        workspace_curve = "spring:0.95,1000";
-      };
-
-      # Focus border animation
-      border = {
-        enabled = true;
-        curve = "spring:1,900";
-      };
+    overview = {
+      curve = "spring:0.95,850";
+      workspace_curve = "spring:0.95,1000";
     };
   };
 }

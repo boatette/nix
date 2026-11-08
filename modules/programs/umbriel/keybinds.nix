@@ -1,7 +1,9 @@
 {
   flake.modules.homeManager.umbriel =
-    { pkgs, ... }:
+    { lib, pkgs, ... }:
     let
+      jq = lib.getExe pkgs.jq;
+
       locked = action: {
         inherit action;
         allow_when_locked = true;
@@ -10,7 +12,7 @@
       focusTabOr =
         name: tab: row:
         "spawn ${pkgs.writeShellScript name ''
-          if umbriel windows --json | ${pkgs.jq}/bin/jq -e 'any(.[]; .active and .tabbed)' >/dev/null; then
+          if umbriel windows --json | ${jq} -e 'any(.[]; .active and .tabbed)' >/dev/null; then
             exec umbriel msg ${tab}
           else
             exec umbriel msg ${row}
@@ -40,8 +42,7 @@
         "Mod+Shift+Comma" = "config-reload";
 
         "Mod+Q" = "window-close";
-        "Mod+Alt+Q" =
-          ''spawn app_id=$(umbriel windows --json | jq -r 'first(.[] | select(.active) | .app_id) // empty'); [ -n "$app_id" ] && { pkill -9 -x "$app_id" || pkill -9 -f "$app_id"; }'';
+        "Mod+Alt+Q" = "spawn kill -9 $(umbriel windows --json | ${jq} 'first(.[] | select(.active) | .pid)')";
 
         "Mod+C" = "column-center";
         "Mod+V" = "window-toggle-floating";
