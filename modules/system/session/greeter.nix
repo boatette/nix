@@ -1,16 +1,14 @@
 { inputs, ... }:
 {
   flake.modules.nixos.greeter =
-    { config, ... }:
-    let
-      cursor = config.home-manager.users.${config.constants.username}.home.pointerCursor;
-    in
+    { config, pkgs, ... }:
     {
       services.displayManager.noctalia-greeter = {
         enable = true;
 
         cursorTheme = {
-          inherit (cursor) name package;
+          inherit (config.constants.cursor) name;
+          package = pkgs.rose-pine-cursor;
         };
 
         settings = {

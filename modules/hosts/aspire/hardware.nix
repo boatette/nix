@@ -41,6 +41,11 @@
       services = {
         power-profiles-daemon.enable = true;
         xserver.videoDrivers = [ "nvidia" ];
+
+        smartd = {
+          autodetect = false;
+          devices = [ { device = "/dev/nvme0"; } ];
+        };
       };
 
       hardware.graphics.extraPackages = [ pkgs.libvdpau-va-gl ];

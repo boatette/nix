@@ -39,9 +39,8 @@
       home = {
         pointerCursor = {
           enable = true;
+          inherit (config.constants.cursor) name size;
           package = pkgs.rose-pine-cursor;
-          name = "BreezeX-RosePine-Linux";
-          size = 24;
           x11.enable = true;
           gtk.enable = true;
         };

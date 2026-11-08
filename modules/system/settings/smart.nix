@@ -1,8 +1,3 @@
 {
-  flake.modules.nixos.smart.services.smartd = {
-    enable = true;
-
-    autodetect = false;
-    devices = [ { device = "/dev/nvme0"; } ];
-  };
+  flake.modules.nixos.smart.services.smartd.enable = true;
 }
