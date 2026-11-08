@@ -23,6 +23,11 @@ appimageTools.wrapType2 {
     pkgs.glib-networking
   ];
 
+  # without it, every start shows a dialog saying which distro ca bundle it found
+  extraBwrapArgs = [
+    "--setenv SSL_CERT_FILE /etc/ssl/certs/ca-certificates.crt"
+  ];
+
   extraInstallCommands = ''
     install -Dm444 ${contents}/BambuStudio.desktop $out/share/applications/bambu-studio.desktop
     install -Dm444 ${contents}/BambuStudio.png $out/share/pixmaps/BambuStudio.png
