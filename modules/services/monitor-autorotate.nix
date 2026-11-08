@@ -9,19 +9,14 @@
   flake.modules.nixos.monitor-autorotate =
     { config, pkgs, ... }:
     let
-      profiles = inputs.self.lib.monitorProfiles (
-        inputs.self.monitors.${config.networking.hostName} or { }
-      );
+      inherit (inputs.self.lib) monitorProfiles transformName;
+
+      profiles = monitorProfiles (inputs.self.monitors.${config.networking.hostName} or { });
 
       # wlr-randr turns an output until umbriel restarts, which starts it in the first profile again
-      apply =
-        name: m:
-        let
-          transform = if m.transform == 0 then "normal" else toString m.transform;
-        in
-        ''
-          wlr-randr --output ${name} --transform ${transform} --pos ${toString m.position.x},${toString m.position.y}
-        '';
+      apply = name: m: ''
+        wlr-randr --output ${name} --transform ${transformName m} --pos ${toString m.position.x},${toString m.position.y}
+      '';
 
       rotate = pkgs.writeShellApplication {
         name = "umbriel-monitor-profile";
