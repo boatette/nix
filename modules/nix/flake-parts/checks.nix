@@ -15,33 +15,10 @@ let
     fileset = lib.fileset.fileFilter (file: file.hasExt "nix") root;
   };
 
+  # treefmt skips what no formatter claims, so the formatting check can take the whole tree
   treeFiles = lib.fileset.toSource {
     inherit root;
-    fileset = lib.fileset.unions [
-      (lib.fileset.fileFilter (
-        file:
-        lib.any file.hasExt [
-          "nix"
-          "lua"
-          "md"
-          "html"
-          "css"
-          "js"
-          "mjs"
-          "ts"
-          "json"
-          "jsonc"
-          "yaml"
-          "yml"
-          "sh"
-          "bash"
-          "py"
-          "toml"
-        ]
-      ) root)
-      (root + "/flake.nix")
-      (root + "/.editorconfig")
-    ];
+    fileset = root;
   };
 in
 {
@@ -53,6 +30,11 @@ in
           lib.removeAttrs config.packages unchecked
         )
         // {
+          # nothing builds nvim-full, so at least make sure it still evaluates
+          eval-nvim-full = pkgs.writeText "nvim-full.drv-path" (
+            builtins.unsafeDiscardOutputDependency config.packages.nvim-full.drvPath
+          );
+
           deadnix = pkgs.runCommandLocal "check-deadnix" { } ''
             ${lib.getExe pkgs.deadnix} --fail ${nixFiles} && touch $out
           '';

@@ -21,13 +21,9 @@
           enable = true;
 
           linters_by_ft = {
-            bash = [ "shellcheck" ];
-            sh = [ "shellcheck" ];
-
             cpp = [ "cpplint" ];
             go = [ "golangcilint" ];
             markdown = [ "markdownlint-cli2" ];
-            python = [ "ruff" ];
 
             javascript = [ "eslint_d" ];
             javascriptreact = [ "eslint_d" ];
@@ -43,7 +39,7 @@
           lint_after_save = false;
         };
 
-        augroups = [ { name = "nvim_lint"; } ];
+        augroups = [ { name = "Lint"; } ];
 
         autocmds = [
           {
@@ -51,10 +47,14 @@
               "BufWritePost"
               "BufReadPost"
             ];
-            group = "nvim_lint";
+            group = "Lint";
             desc = "Auto-lint on read and save";
+            # golangci-lint checks the whole package, too slow to run on every open
             callback = mkLuaInline ''
               function(args)
+                  if args.event == "BufReadPost" and vim.bo[args.buf].filetype == "go" then
+                      return
+                  end
                   nvf_lint(args.buf)
               end
             '';

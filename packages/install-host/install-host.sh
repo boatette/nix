@@ -14,9 +14,8 @@ usage() {
   cat <<EOF
 usage: install-host [options] [host] [-- nixos-install options]
 
-Erase the disks a host's disko config names, install the host, set its
-user passwords and clone the flake into its home. Without a host, pick
-one from a menu.
+Erase the disks a host's disko config names, install the host and set
+its user passwords. Without a host, pick one from a menu.
 
 Options:
   --flake REF  flake to install from (default: /etc/nixos-config on the
@@ -246,7 +245,7 @@ fi
 if [[ "$root_password" == true ]]; then
   echo "  - nixos-install installs $host and asks for a root password."
 else
-  echo "  - nixos-install installs $host (root has no password)."
+  echo "  - nixos-install installs $host (root's password comes from its config)."
 fi
 password_users=("${users[@]}" "${password_files[@]%%=*}")
 if ((${#password_users[@]})); then

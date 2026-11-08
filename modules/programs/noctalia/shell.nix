@@ -9,17 +9,7 @@
     in
     {
       programs.noctalia.settings.shell = {
-        animation.enabled = true;
-
         font_family = fonts.mono.name;
-
-        app_icon_color = "primary";
-        app_icon_colorize = false;
-
-        button_borders = true;
-        card_borders = true;
-        input_borders = true;
-        popup_borders = true;
 
         popup_shadows = false;
 
@@ -38,8 +28,6 @@
         };
 
         launcher = {
-          app_grid = false;
-
           providers = {
             calculator.prefix = "=";
             emoji.prefix = ":";
@@ -51,19 +39,14 @@
         };
 
         panel = {
-          borders = true;
           list_item_background = true;
           transparency_mode = "soft";
 
-          clipboard_placement = "floating";
           control_center_placement = "floating";
-          launcher_placement = "floating";
           session_placement = "floating";
           wallpaper_placement = "floating";
 
-          clipboard_position = "center";
           control_center_position = "top_center";
-          launcher_position = "center";
           session_position = "top_center";
           wallpaper_position = "top_center";
 
@@ -71,13 +54,10 @@
           open_near_click_control_center = true;
         };
 
-        screen_corners.size = 36;
-
         screenshot = {
           directory = "~/Pictures/Screenshots";
           filename_pattern = "Screenshot from %Y-%m-%d %H-%M-%S";
           confirm_region = true;
-          remember_last_region = false;
         };
 
         session = {
@@ -99,7 +79,7 @@
                 (action "command" "b")
                 // {
                   command = ''foot sh -c "${rebuild.os "boot"} && systemctl reboot"'';
-                  label = "Rebuild & Reboot";
+                  label = "Rebuild-boot";
                 }
               )
               ((action "shutdown" "s") // { variant = "destructive"; })

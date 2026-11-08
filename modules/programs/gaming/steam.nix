@@ -14,13 +14,9 @@
     }:
     let
       host = osConfig.networking.hostName;
-      monitors = inputs.self.monitors.${host} or { };
       offload = osConfig.hardware.nvidia.prime.offload.enable or false;
 
-      primary =
-        lib.findFirst (m: m.primary)
-          (throw "gaming/steam.nix: mark a monitor in flake.monitors.${host} primary")
-          (lib.attrValues monitors);
+      primary = inputs.self.monitors.${host}.${inputs.self.lib.primaryMonitor host};
 
       # gamescope runs games at the primary monitor's mode
       mode =
@@ -77,11 +73,7 @@
       };
     };
 
-  flake.modules.nixos.gaming =
-    { config, ... }:
-    {
-      home-manager.users.${config.constants.username}.imports = [
-        inputs.self.modules.homeManager.steam
-      ];
-    };
+  flake.modules.nixos.gaming.home-manager.sharedModules = [
+    inputs.self.modules.homeManager.steam
+  ];
 }

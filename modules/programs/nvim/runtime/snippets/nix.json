@@ -225,17 +225,11 @@
     "prefix": "keymap",
     "description": "entry for the vim.keymaps list",
     "body": [
-      "{",
-      "  mode = \"${1|n,i,v,x,t,c|}\";",
-      "  key = \"${2:<leader>}\";",
-      "  action = ''",
-      "    function()",
-      "        $0",
-      "    end",
-      "  '';",
-      "  lua = true;",
-      "  desc = \"${3:description}\";",
-      "}"
+      "(lua \"${1|n,i,v,x,t,c|}\" \"${2:<leader>}\" /* lua */ ''",
+      "  function()",
+      "      $0",
+      "  end",
+      "'' \"${3:description}\")"
     ]
   },
   "nvf autocmd": {

@@ -3,165 +3,85 @@
   flake.modules.homeManager.noctalia =
     { config, osConfig, ... }:
     let
-      inherit (inputs.self.lib) monitorProfiles parseMode;
-      inherit (config.constants.glass) radius;
+      inherit (inputs.self.lib) noctaliaWidget primaryMonitor startLayout;
 
       host = osConfig.networking.hostName;
-      profiles = monitorProfiles (inputs.self.monitors.${host} or { });
-      # the compositor starts in the first profile; monitor-autorotate turns away from there
-      monitors = lib.filterAttrs (_: m: m.mode != null) profiles.${lib.head (lib.attrNames profiles)};
+      primary = primaryMonitor host;
+      widget = noctaliaWidget host;
 
-      primary = lib.findFirst (name: monitors.${name}.primary or false) null (lib.attrNames monitors);
+      # every output gets a login box, or noctalia makes its own and copies this whole section into
+      # its state file. enabled = false still counts, which is how all but the primary stay empty
+      outputs = lib.attrNames (lib.filterAttrs (_: m: m.mode != null) (startLayout host));
 
-      isPortrait =
-        m:
-        lib.elem m.transform [
-          90
-          270
-          "flipped-90"
-          "flipped-270"
-        ];
-
-      # noctalia copies this whole section into its state file, shadowing this one, when an output
-      # has no login box or the box wasn't placed for that output's logical size. enabled = false
-      # still counts, which is how every output but the primary stays empty
-      logicalSize =
-        m:
-        let
-          mode = parseMode m.mode;
-          portrait = isPortrait m;
-          physicalWidth = lib.toInt mode.width * 1.0;
-          physicalHeight = lib.toInt mode.height * 1.0;
-        in
-        {
-          width = (if portrait then physicalHeight else physicalWidth) / m.scale;
-          height = (if portrait then physicalWidth else physicalHeight) / m.scale;
-        };
-
-      # laid out on a 1920x1080 screen, then scaled onto the output
-      x = m: n: n * (logicalSize m).width / 1920.0;
-      y = m: n: n * (logicalSize m).height / 1080.0;
-
-      # noctalia's compact login box: 400 wide, and 38 plus 16 of padding on each side tall.
-      # its panel opacity is 0.88, not the shared glass opacity
-      loginSettings = {
-        background_color = "surface_container";
-        background_opacity = 0.88;
-        background_radius = radius * 1.0;
-
-        layout = "compact";
-
-        center_password_text = false;
-        input_opacity = 1.0;
-        input_radius = 6.0;
-
-        show_caps_lock = true;
-        show_keyboard_layout = true;
-        show_login_button = true;
-        show_password_reveal = true;
-
-        show_media = false;
-        show_session_buttons = false;
-        show_unlock_hint = false;
-        show_weather = false;
-      };
-
+      # noctalia's compact login box: 400 wide, and 38 plus 16 of padding on each side tall
       loginBox =
-        output: m:
-        let
-          size = logicalSize m;
-        in
-        lib.nameValuePair "lockscreen-login-box@${output}" {
-          inherit output;
-          enabled = output == primary;
-          type = "login_box";
+        output:
+        lib.nameValuePair "lockscreen-login-box@${output}" (
+          widget output {
+            enabled = output == primary;
+            type = "login_box";
 
-          placement_width = size.width;
-          placement_height = size.height;
+            box_width = 400.0;
+            box_height = 70.0;
 
-          box_width = 400.0;
-          box_height = 70.0;
-          rotation = 0.0;
+            box = {
+              cx = 960.0;
+              cy = 940.0;
+            };
 
-          cx = x m 960.0;
-          cy = y m 940.0;
-
-          settings = loginSettings;
-        };
+            settings = {
+              layout = "compact";
+              background_radius = config.constants.glass.radius * 1.0;
+              show_unlock_hint = false;
+            };
+          }
+        );
 
       # counter ids, the form noctalia assigns itself
       clockId = "lockscreen-widget-0000000000000001";
       dateId = "lockscreen-widget-0000000000000002";
 
-      # a clock fills its box. the time box is unchanged; the date is a shorter
-      # strip above it, so "{:%A, %B %d}" stays smaller. 560 wide lets the height
-      # set that size even for "Wednesday, September 30"
-      clock =
-        let
-          m = monitors.${primary};
-          size = logicalSize m;
+      # a clock's text fills its box, so the date's shorter box above the time keeps it smaller;
+      # 560 wide lets the height set that size even for "Wednesday, September 30"
+      clock = id: box: settings: {
+        ${id} = widget primary {
+          type = "clock";
+          inherit box;
 
-          widget =
-            id: box: settings:
-            {
-              ${id} = {
-                output = primary;
-                type = "clock";
-
-                placement_width = size.width;
-                placement_height = size.height;
-
-                box_width = x m box.width;
-                box_height = y m box.height;
-                rotation = 0.0;
-
-                cx = x m box.cx;
-                cy = y m box.cy;
-
-                inherit settings;
-              };
-            };
-        in
-        widget clockId { width = 368.0; height = 208.0; cx = 960.0; cy = 292.0; } {
-          background = false;
-          center_text = true;
-          clock_style = "digital";
-          shadow = false;
-        }
-        // widget dateId { width = 560.0; height = 50.0; cx = 960.0; cy = 161.0; } {
-          background = false;
-          center_text = true;
-          clock_style = "digital";
-          format = "{:%A, %B %d}";
-          shadow = false;
-        };
-
-      # primary first, then the rest by name, then the clock and the date
-      widgetOrder =
-        let
-          others = lib.sort lib.lessThan (lib.filter (name: name != primary) (lib.attrNames monitors));
-        in
-        (map (output: "lockscreen-login-box@${output}") ([ primary ] ++ others)) ++ [
-          clockId
-          dateId
-        ];
-    in
-    lib.throwIf (primary == null)
-      "noctalia/lockscreen-widgets.nix: no monitor in flake.monitors.${host} is marked `primary = true`"
-      {
-        programs.noctalia.settings.lockscreen_widgets = {
-          enabled = true;
-          schema_version = 2;
-
-          widget_order = widgetOrder;
-
-          grid = {
-            cell_size = 16;
-            major_interval = 4;
-            visible = true;
-          };
-
-          widget = lib.mapAttrs' loginBox monitors // clock;
+          settings = {
+            background = false;
+            center_text = true;
+            shadow = false;
+          }
+          // settings;
         };
       };
+    in
+    {
+      programs.noctalia.settings.lockscreen_widgets = {
+        enabled = true;
+        # primary first, then the rest by name, then the clock and the date
+        widget_order =
+          map (output: "lockscreen-login-box@${output}") ([ primary ] ++ lib.remove primary outputs)
+          ++ [
+            clockId
+            dateId
+          ];
+
+        widget =
+          lib.listToAttrs (map loginBox outputs)
+          // clock clockId {
+            width = 368.0;
+            height = 208.0;
+            cx = 960.0;
+            cy = 292.0;
+          } { }
+          // clock dateId {
+            width = 560.0;
+            height = 50.0;
+            cx = 960.0;
+            cy = 161.0;
+          } { format = "{:%A, %B %d}"; };
+      };
+    };
 }

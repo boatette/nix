@@ -4,14 +4,7 @@
 
     setupOpts = {
       completion = {
-        accept.auto_brackets.enabled = true;
-        documentation.auto_show = true;
         ghost_text.enabled = true;
-
-        list.selection = {
-          preselect = true;
-          auto_insert = true;
-        };
 
         menu.draw.columns = [
           [ "source_name" ]

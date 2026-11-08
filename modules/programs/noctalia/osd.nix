@@ -3,14 +3,11 @@
     { config, ... }:
     {
       programs.noctalia.settings.osd = {
-        border = true;
-
         background_opacity = config.constants.glass.opacity;
         position = "bottom_center";
-        position_vertical = "center_left";
 
-        # clears the dock, which is 68 tall, by umbriel's gaps
-        offset_y = 76;
+        # clears the dock, which is 68 tall, by umbriel's gap
+        offset_y = 68 + config.programs.umbriel.settings.layout.gap;
       };
     };
 }

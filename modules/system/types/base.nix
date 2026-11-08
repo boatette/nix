@@ -12,6 +12,7 @@
         locale
         networking
         nix-settings
+        packages
         smart
         users
         zram
@@ -20,15 +21,11 @@
         nh
         nix-index
         zsh
-
-        packages
       ])
       ++ [ inputs.self.modules.generic.constants ];
   };
 
   flake.modules.homeManager.base = {
-    home.sessionPath = [ "$HOME/.local/bin" ];
-
     imports =
       (with inputs.self.modules.homeManager; [
         zsh
@@ -44,11 +41,13 @@
         git
         nix-index
         nix-your-shell
-        ssh
         nvim
+        ssh
         yazi
         zellij
       ])
       ++ [ inputs.self.modules.generic.constants ];
+
+    home.sessionPath = [ "$HOME/.local/bin" ];
   };
 }

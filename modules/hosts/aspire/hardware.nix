@@ -1,11 +1,6 @@
 {
   flake.modules.nixos.aspire =
-    {
-      config,
-      modulesPath,
-      pkgs,
-      ...
-    }:
+    { modulesPath, ... }:
     {
       imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
@@ -19,8 +14,6 @@
 
       hardware.nvidia = {
         open = true;
-        modesetting.enable = true;
-        package = config.boot.kernelPackages.nvidiaPackages.stable;
 
         powerManagement = {
           enable = true;
@@ -41,13 +34,11 @@
       services = {
         power-profiles-daemon.enable = true;
         xserver.videoDrivers = [ "nvidia" ];
-      };
 
-      hardware.graphics.extraPackages = [ pkgs.libvdpau-va-gl ];
-
-      environment.sessionVariables = {
-        LIBVA_DRIVER_NAME = "iHD";
-        VDPAU_DRIVER = "va_gl";
+        smartd = {
+          autodetect = false;
+          devices = [ { device = "/dev/nvme0"; } ];
+        };
       };
     };
 }

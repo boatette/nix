@@ -11,9 +11,9 @@
         impermanence
         monitor-autorotate
         petal
+        printing
         secure-boot
         tailscale
-        printing
 
         boatette
       ];

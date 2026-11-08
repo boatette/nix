@@ -12,6 +12,7 @@
           "NoAutoComment"
           "CursorLine"
           "RelativeNumbers"
+          "YankHighlight"
           "ResizeSplits"
         ];
 
@@ -106,13 +107,16 @@
             desc = "Enable relative numbers in normal mode";
             callback = mkLuaInline ''
               function()
-                  vim.opt_local.relativenumber = true
+                  if vim.wo.number then
+                      vim.opt_local.relativenumber = true
+                  end
               end
             '';
           }
 
           {
             event = [ "TextYankPost" ];
+            group = "YankHighlight";
             desc = "Flash yanked region";
             callback = mkLuaInline ''
               function()

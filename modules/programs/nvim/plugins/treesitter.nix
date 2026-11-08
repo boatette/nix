@@ -7,10 +7,9 @@
           enable = true;
           fold = true;
 
-          # allGrammars is ~250M; enabled nvf languages add their own on top
+          # allGrammars is ~250M; nvf adds c, lua, query, vim and vimdoc itself
           grammars = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
             bash
-            c
             comment
             cpp
             css
@@ -25,36 +24,25 @@
             gomod
             gosum
             html
-            java
             javascript
             jsdoc
             json
             kdl
-            kotlin
-            lua
             luadoc
             make
             markdown
             markdown_inline
             nix
-            odin
             printf
             python
-            qmljs
-            query
             regex
             rust
             toml
             tsx
             typescript
-            vim
-            vimdoc
             yaml
             zig
           ];
-
-          highlight.enable = true;
-          indent.enable = true;
 
           context = {
             enable = true;
@@ -93,7 +81,7 @@
                       body: (indented_string_expression
                         (string_fragment) @injection.content))
                   ])
-                  (#any-of? @_path "luaConfigRC" "luaConfigPre" "luaConfigPost" "setup" "action")
+                  (#any-of? @_path "luaConfigRC" "luaConfigPre" "luaConfigPost" "after" "action")
                   (#set! injection.language "lua")
                   (#set! injection.combined))
               '';
@@ -101,5 +89,17 @@
           ];
         };
       };
+    };
+
+  # only nvim-full has java, kotlin, odin and qml support
+  flake.modules.nvf.nvim-full =
+    { pkgs, ... }:
+    {
+      vim.treesitter.grammars = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
+        java
+        kotlin
+        odin
+        qmljs
+      ];
     };
 }

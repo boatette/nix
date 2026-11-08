@@ -1,4 +1,4 @@
-{ inputs, ... }:
+{ inputs, lib, ... }:
 {
   flake-file.inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
@@ -9,7 +9,7 @@
         inherit system;
         config = {
           allowUnfree = true;
-          allowInsecurePredicate = pkg: inputs.nixpkgs.lib.getName pkg == "ventoy";
+          allowInsecurePredicate = pkg: lib.getName pkg == "ventoy";
         };
         overlays = [ inputs.self.overlays.default ];
       };

@@ -39,6 +39,11 @@
         };
       };
 
+      cursor = {
+        name = "BreezeX-RosePine-Linux";
+        size = 24;
+      };
+
       # the look of everything translucent; noctalia hardcodes these same values for what it
       # doesn't expose, a 12 radius on its panels and toasts and 0.8 on its settings window
       glass = {

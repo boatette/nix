@@ -4,6 +4,7 @@
     { lib, ... }:
     let
       inherit (lib.generators) mkLuaInline;
+      inherit (inputs.self.lib.nvim) cmd;
     in
     {
       vim = {
@@ -12,11 +13,8 @@
 
           setupOpts = {
             options = {
-              always_show_bufferline = true;
               numbers = "none";
               sort_by = "id";
-              diagnostics = "nvim_lsp";
-              diagnostics_update_in_insert = false;
             };
 
             highlights = mkLuaInline ''
@@ -31,14 +29,10 @@
           };
         };
 
-        keymaps =
-          let
-            inherit (inputs.self.lib.nvim) cmd;
-          in
-          [
-            (cmd "n" "<S-h>" "<cmd>BufferLineCyclePrev<CR>" "Prev tab")
-            (cmd "n" "<S-l>" "<cmd>BufferLineCycleNext<CR>" "Next tab")
-          ];
+        keymaps = [
+          (cmd "n" "<S-h>" "<cmd>BufferLineCyclePrev<CR>" "Prev buffer")
+          (cmd "n" "<S-l>" "<cmd>BufferLineCycleNext<CR>" "Next buffer")
+        ];
       };
     };
 }

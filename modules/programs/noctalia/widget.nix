@@ -1,10 +1,5 @@
 {
   flake.modules.homeManager.noctalia.programs.noctalia.settings.widget = {
-    active_window = {
-      show_empty_label = true;
-      title_scroll = "on_hover";
-    };
-
     audio_visualizer.actions.left = "panel-toggle control-center media";
 
     battery = {
@@ -15,13 +10,6 @@
     bluetooth.hide_when_no_connected_device = true;
 
     clock.tooltip_format = "{:%a %d %b}";
-
-    launcher.custom_image_colorize = true;
-
-    media = {
-      hide_when_no_media = true;
-      title_scroll = "always";
-    };
 
     tray = {
       detached_panel = true;

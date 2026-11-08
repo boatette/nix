@@ -19,27 +19,7 @@
       rootUnit = "${utils.escapeSystemdPath root}.device";
     in
     {
-      # FIX: drop this once nix-community/preservation#36 lands
-      # preservation still asserts on boot.initrd.systemd.enable
-      imports = [
-        (
-          args:
-          import inputs.preservation.nixosModules.default (
-            args
-            // {
-              config = lib.recursiveUpdateUntil (
-                path: _: _:
-                path == [
-                  "boot"
-                  "initrd"
-                  "systemd"
-                  "enable"
-                ]
-              ) args.config { boot.initrd.systemd.enable = true; };
-            }
-          )
-        )
-      ];
+      imports = [ inputs.preservation.nixosModules.default ];
 
       options.impermanence.wipe = lib.mkOption {
         type = lib.types.bool;

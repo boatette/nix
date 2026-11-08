@@ -3,6 +3,8 @@
   flake.modules.nvf.nvim =
     { lib, pkgs, ... }:
     let
+      inherit (lib.generators) mkLuaInline;
+
       neotest = key: expr: inputs.self.lib.nvim.mod "n" key "neotest" expr;
 
       keys = [
@@ -30,7 +32,7 @@
           load = "";
           setupModule = "neotest";
 
-          setupOpts = lib.generators.mkLuaInline ''
+          setupOpts = mkLuaInline ''
             {
                 adapters = {
                     require("neotest-golang"),
@@ -39,7 +41,7 @@
                     require("neotest-dart")({ runner = "flutter" }),
                 },
                 output = { open_on_run = true },
-                status = { virtual_text = true, signs = true },
+                status = { virtual_text = true },
             }
           '';
 

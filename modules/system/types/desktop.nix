@@ -12,10 +12,10 @@
     bluetooth
     audio
     appimage
-    localsend
-    rmpc
 
     dolphin
+    localsend
+    rmpc
     umbriel
   ];
 

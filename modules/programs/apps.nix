@@ -10,7 +10,7 @@
         proton-pass
         proton-vpn
         ventoy
-        # bambu-studio
+        local.bambu-studio
 
         libreoffice-qt
         hunspellDicts.en_AU

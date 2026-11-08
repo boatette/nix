@@ -1,20 +1,14 @@
 { inputs, ... }:
 {
   flake.modules.nixos.greeter =
-    { config, lib, ... }:
-    let
-      host = config.networking.hostName;
-      monitors = inputs.self.monitors.${host} or { };
-      cursor = config.home-manager.users.${config.constants.username}.home.pointerCursor;
-
-      primary = lib.findFirst (name: monitors.${name}.primary or false) null (lib.attrNames monitors);
-    in
+    { config, pkgs, ... }:
     {
       services.displayManager.noctalia-greeter = {
         enable = true;
 
         cursorTheme = {
-          inherit (cursor) name package;
+          inherit (config.constants.cursor) name;
+          package = pkgs.rose-pine-cursor;
         };
 
         settings = {
@@ -25,9 +19,7 @@
           };
           inherit (config.constants) keyboard;
 
-          output.name = lib.throwIf (
-            primary == null
-          ) "session/greeter.nix: no monitor in flake.monitors.${host} is marked `primary = true`" primary;
+          output.name = inputs.self.lib.primaryMonitor config.networking.hostName;
         };
 
         passwordlessSyncUsers = [ config.constants.username ];

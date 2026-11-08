@@ -38,12 +38,7 @@
 
         autocmds = [
           (mkFt [
-            "checkhealth"
             "help"
-            "lazygit"
-            "lspinfo"
-            "man"
-            "notify"
             "qf"
             "query"
           ] "Utility window: unlisted, q to close" utilityWindow)
@@ -61,18 +56,6 @@
             "jsonc"
             "nix"
           ] "Two-space indent" twoSpace)
-
-          (mkFt
-            [
-              "json"
-              "json5"
-              "jsonc"
-            ]
-            "Show quotes in JSON"
-            /* lua */ ''
-              vim.opt_local.conceallevel = 0
-            ''
-          )
 
           (mkFt [ "help" ] "Open :help in a vertical split" /* lua */ ''
             local function vertical()

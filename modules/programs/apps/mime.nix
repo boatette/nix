@@ -1,11 +1,7 @@
 { inputs, ... }:
 {
   flake.modules.homeManager.mime = inputs.self.lib.mimeHandlers {
-    "gimp.desktop" = [
-      "image/openraster"
-      "image/x-psd"
-      "image/x-xcf"
-    ];
+    "com.github.PintaProject.Pinta.desktop" = [ "image/openraster" ];
 
     "writer.desktop" = [
       "application/msword"
@@ -26,7 +22,5 @@
       "application/vnd.oasis.opendocument.presentation"
       "application/vnd.openxmlformats-officedocument.presentationml.presentation"
     ];
-
-    "vesktop.desktop" = [ "x-scheme-handler/discord" ];
   };
 }

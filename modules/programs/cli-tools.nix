@@ -1,11 +1,6 @@
 { inputs, ... }:
 {
   flake-file.inputs = {
-    rose-pine-eza = {
-      url = "github:rose-pine/eza";
-      flake = false;
-    };
-
     claude-code = {
       url = "github:sadjow/claude-code-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -14,6 +9,11 @@
     grok-build-nix = {
       url = "github:AodhanHayter/grok-build-nix";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    rose-pine-eza = {
+      url = "github:rose-pine/eza";
+      flake = false;
     };
   };
 

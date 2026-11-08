@@ -1,5 +1,3 @@
-set -uo pipefail
-
 SSD_ROOT="${SSD_ROOT:-/mnt/storage}"
 BAK_ROOT="${BAK_ROOT:-$SSD_ROOT/bak}"
 STATE="${XDG_STATE_HOME:-$HOME/.local/state}"
@@ -18,7 +16,6 @@ readonly DIRS=(
   ".claude:claude"
   ".local/share/qutebrowser:qutebrowser-data"
   ".config/qutebrowser/bookmarks:qutebrowser-bookmarks"
-  ".config/chromium:chromium"
 )
 
 readonly FILES=(
@@ -72,6 +69,13 @@ cmd_backup() {
   if ! ssd_present; then
     log "$SSD_ROOT is not mounted, nothing to do"
     return 0
+  fi
+
+  # a fresh install mirrored over the backup before it was restored would wipe it
+  if [[ -d "$BAK_ROOT" ]] && [[ ! -f "$STATE/ssd-restore.stamp" ]]; then
+    err "$BAK_ROOT has not been restored yet, run ssd restore first"
+    notify critical "SSD backup refused" "Restore $BAK_ROOT before backing up over it"
+    return 1
   fi
 
   mkdir -p "$BAK_ROOT" || {

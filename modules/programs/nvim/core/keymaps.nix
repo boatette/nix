@@ -1,25 +1,5 @@
 { inputs, ... }:
 {
-  flake.modules.nvf.nvim =
-    let
-      inherit (inputs.self.constants) flakeDir;
-      inherit (inputs.self.lib.nvim) mod;
-
-      rebuild = inputs.self.lib.rebuild flakeDir;
-
-      nixosRebuild =
-        key: cmd: desc:
-        mod "n" key "snacks" ''terminal("${cmd}", { interactive = true })'' desc;
-    in
-    {
-      vim.keymaps = [
-        (nixosRebuild "<leader>ns" (rebuild.os "switch") "Rebuild switch")
-        (nixosRebuild "<leader>nt" (rebuild.os "test") "Rebuild test")
-        (nixosRebuild "<leader>nb" (rebuild.os "boot") "Rebuild boot")
-        (nixosRebuild "<leader>nd" rebuild.dryBuild "Rebuild dry-build")
-      ];
-    };
-
   flake.modules.nvf.core =
     let
       inherit (inputs.self.lib.nvim) cmd lua;
@@ -57,7 +37,7 @@
       vim.keymaps = [
         (cmd "n" "<Esc>" "<cmd>nohlsearch<cr>" "Clear search highlight")
         (cmd "n" "<leader>v" "ggVG" "Select whole buffer")
-        (cmd "v" "p" "\"_dP`[v`]=" "Paste without yank")
+        (cmd "x" "p" "\"_dP`[v`]=" "Paste without yank")
         (cmd "n" "J" "mzJ`z" "Better join")
 
         (
@@ -71,11 +51,12 @@
           }
         )
 
-        (cmd "n" "j" "gj" "Navigate wrapped lines")
-        (cmd "n" "k" "gk" "Navigate wrapped lines")
+        # by display line, unless given a count, which relativenumber counts in real lines
+        ((cmd "n" "j" "v:count == 0 ? 'gj' : 'j'" "Navigate wrapped lines") // { expr = true; })
+        ((cmd "n" "k" "v:count == 0 ? 'gk' : 'k'" "Navigate wrapped lines") // { expr = true; })
 
-        (cmd "v" "<" "<gv" "Indent left")
-        (cmd "v" ">" ">gv" "Indent right")
+        (cmd "x" "<" "<gv" "Indent left")
+        (cmd "x" ">" ">gv" "Indent right")
 
         (cmd "n" "<C-d>" "<C-d>zz" "Half page down (centred)")
         (cmd "n" "<C-u>" "<C-u>zz" "Half page up (centred)")
@@ -98,42 +79,6 @@
         (cmd "n" "<leader>w=" "<C-w>=" "Equalise windows")
 
         (cmd "n" "<leader>fn" "<cmd>enew<cr>" "New file")
-
-        (lua "n" "<leader>ca" "vim.lsp.buf.code_action" "Code action")
-        (lua "n" "<leader>cr" "vim.lsp.buf.rename" "Rename symbol")
-        (lua "n" "<leader>co" /* lua */ ''
-          function()
-              vim.lsp.buf.code_action({
-                  context = { only = { "source.organizeImports" }, diagnostics = {} },
-                  apply = true,
-              })
-          end
-        '' "Organise imports")
-        (lua "n" "<leader>cq" /* lua */ ''
-          function()
-              vim.lsp.buf.code_action({
-                  context = { only = { "quickfix" }, diagnostics = {} },
-                  apply = true,
-              })
-          end
-        '' "Quick fix")
-        (lua "n" "<leader>cl" "vim.lsp.codelens.run" "Run code lens")
-        (lua "i" "<C-k>" "vim.lsp.buf.signature_help" "Signature help")
-
-        (lua "n" "<leader>cd" "vim.diagnostic.open_float" "Line diagnostics")
-        (lua "n" "[d" /* lua */ ''
-          function()
-              vim.diagnostic.jump({ count = -1, float = true })
-          end
-        '' "Prev diagnostic")
-        (lua "n" "]d" /* lua */ ''
-          function()
-              vim.diagnostic.jump({ count = 1, float = true })
-          end
-        '' "Next diagnostic")
-
-        (cmd "n" "[q" "<cmd>cprev<cr>" "Prev quickfix")
-        (cmd "n" "]q" "<cmd>cnext<cr>" "Next quickfix")
 
         (cmd "t" "<Esc><Esc>" "<C-\\><C-n>" "Exit terminal mode")
       ];

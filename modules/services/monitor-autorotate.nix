@@ -9,33 +9,35 @@
   flake.modules.nixos.monitor-autorotate =
     { config, pkgs, ... }:
     let
-      profiles = inputs.self.lib.monitorProfiles (
-        inputs.self.monitors.${config.networking.hostName} or { }
-      );
+      inherit (inputs.self.lib) monitorProfiles transformName;
 
-      # wlr-randr turns an output until umbriel restarts, which starts it in the first profile again
+      profiles = monitorProfiles (inputs.self.monitors.${config.networking.hostName} or { });
+
+      # one wlr-randr call, so the outputs turn together or not at all. they stay turned until
+      # umbriel restarts, which starts them in the first profile again
       apply =
-        name: m:
-        let
-          transform = if m.transform == 0 then "normal" else toString m.transform;
-        in
-        ''
-          wlr-randr --output ${name} --transform ${transform} --pos ${toString m.position.x},${toString m.position.y}
-        '';
+        monitors:
+        lib.concatStringsSep " " (
+          [ "wlr-randr" ]
+          ++ lib.mapAttrsToList (
+            name: m:
+            "--output ${name} --transform ${transformName m} --pos ${toString m.position.x},${toString m.position.y}"
+          ) monitors
+        );
 
       rotate = pkgs.writeShellApplication {
         name = "umbriel-monitor-profile";
         runtimeInputs = [ pkgs.wlr-randr ];
         text = ''
-          case $1 in
+          case "''${1-}" in
           ${lib.concatStrings (
             lib.mapAttrsToList (profile: monitors: ''
               ${profile})
-              ${lib.concatStrings (lib.mapAttrsToList apply monitors)};;
+              ${apply monitors};;
             '') profiles
           )}
           *)
-            echo "no monitor profile $1" >&2
+            echo "no monitor profile ''${1-}" >&2
             exit 1
             ;;
           esac
