@@ -22,7 +22,6 @@
       environment.systemPackages = [
         pkgs.local.install-host
         pkgs.local.nvim-minimal
-        inputs.disko.packages.${pkgs.stdenv.hostPlatform.system}.disko
 
         pkgs.cryptsetup
       ];

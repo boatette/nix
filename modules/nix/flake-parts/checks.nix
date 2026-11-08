@@ -15,33 +15,10 @@ let
     fileset = lib.fileset.fileFilter (file: file.hasExt "nix") root;
   };
 
+  # treefmt skips what no formatter claims, so the formatting check can take the whole tree
   treeFiles = lib.fileset.toSource {
     inherit root;
-    fileset = lib.fileset.unions [
-      (lib.fileset.fileFilter (
-        file:
-        lib.any file.hasExt [
-          "nix"
-          "lua"
-          "md"
-          "html"
-          "css"
-          "js"
-          "mjs"
-          "ts"
-          "json"
-          "jsonc"
-          "yaml"
-          "yml"
-          "sh"
-          "bash"
-          "py"
-          "toml"
-        ]
-      ) root)
-      (root + "/flake.nix")
-      (root + "/.editorconfig")
-    ];
+    fileset = root;
   };
 in
 {

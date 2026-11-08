@@ -1,11 +1,6 @@
 {
   flake.modules.nixos.aspire =
-    {
-      config,
-      modulesPath,
-      pkgs,
-      ...
-    }:
+    { modulesPath, pkgs, ... }:
     {
       imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
@@ -19,8 +14,6 @@
 
       hardware.nvidia = {
         open = true;
-        modesetting.enable = true;
-        package = config.boot.kernelPackages.nvidiaPackages.stable;
 
         powerManagement = {
           enable = true;
