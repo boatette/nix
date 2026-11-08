@@ -4,6 +4,7 @@
     { lib, ... }:
     let
       inherit (lib.generators) mkLuaInline;
+      inherit (lib.nvim.dag) entryAfter;
       inherit (inputs.self.lib.nvim) cmd;
 
       preset = path: mkLuaInline ''require("markview.presets").${path}'';
@@ -51,7 +52,7 @@
         globals.mkdp_theme = "dark";
 
         # :Checkbox, :Heading and :Editor commands register on require
-        luaConfigRC.markview-extras = lib.nvim.dag.entryAfter [ "pluginConfigs" ] ''
+        luaConfigRC.markview-extras = entryAfter [ "pluginConfigs" ] ''
           require("markview.extras.checkboxes").setup()
           require("markview.extras.headings").setup()
           require("markview.extras.editor").setup()

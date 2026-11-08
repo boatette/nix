@@ -17,7 +17,7 @@ local function refresh_codelens(client_id)
 end
 
 vim.api.nvim_create_autocmd("LspProgress", {
-    group = vim.api.nvim_create_augroup("nvim_codelens_retry", { clear = true }),
+    group = vim.api.nvim_create_augroup("CodelensRetry", { clear = true }),
     desc = "Retry code lens once the server finishes background work",
     callback = function(ev)
         local value = ev.data and ev.data.params and ev.data.params.value
@@ -44,7 +44,7 @@ function M.on_attach(ev)
     end
 
     if client:supports_method("textDocument/documentHighlight") then
-        local group = vim.api.nvim_create_augroup("nvim_doc_hl_" .. buf, { clear = true })
+        local group = vim.api.nvim_create_augroup("DocumentHighlight" .. buf, { clear = true })
         vim.api.nvim_create_autocmd("CursorHold", {
             buffer = buf,
             group = group,
@@ -68,7 +68,7 @@ function M.on_detach(ev)
             return
         end
     end
-    pcall(vim.api.nvim_del_augroup_by_name, "nvim_doc_hl_" .. buf)
+    pcall(vim.api.nvim_del_augroup_by_name, "DocumentHighlight" .. buf)
     vim.lsp.util.buf_clear_references(buf)
 end
 

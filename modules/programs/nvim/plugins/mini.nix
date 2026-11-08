@@ -60,6 +60,9 @@
 
   flake.modules.nvf.nvim =
     { lib, ... }:
+    let
+      inherit (lib.generators) mkLuaInline;
+    in
     {
       vim = {
         # blink's auto_brackets adds the () itself; typing ) after it just steps over
@@ -107,7 +110,7 @@
 
         mini.snippets = {
           enable = true;
-          setupOpts.snippets = lib.generators.mkLuaInline ''
+          setupOpts.snippets = mkLuaInline ''
             {
                 require("mini.snippets").gen_loader.from_runtime("global.json"),
                 require("mini.snippets").gen_loader.from_lang(),

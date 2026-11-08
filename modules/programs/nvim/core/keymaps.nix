@@ -1,25 +1,5 @@
 { inputs, ... }:
 {
-  flake.modules.nvf.nvim =
-    let
-      inherit (inputs.self.constants) flakeDir;
-      inherit (inputs.self.lib.nvim) mod;
-
-      rebuild = inputs.self.lib.rebuild flakeDir;
-
-      nixosRebuild =
-        key: cmd: desc:
-        mod "n" key "snacks" ''terminal("${cmd}", { interactive = true })'' desc;
-    in
-    {
-      vim.keymaps = [
-        (nixosRebuild "<leader>ns" (rebuild.os "switch") "Rebuild switch")
-        (nixosRebuild "<leader>nt" (rebuild.os "test") "Rebuild test")
-        (nixosRebuild "<leader>nb" (rebuild.os "boot") "Rebuild boot")
-        (nixosRebuild "<leader>nd" rebuild.dryBuild "Rebuild dry-build")
-      ];
-    };
-
   flake.modules.nvf.core =
     let
       inherit (inputs.self.lib.nvim) cmd lua;
@@ -100,27 +80,6 @@
 
         (cmd "n" "<leader>fn" "<cmd>enew<cr>" "New file")
 
-        (lua "n" "<leader>ca" "vim.lsp.buf.code_action" "Code action")
-        (lua "n" "<leader>cr" "vim.lsp.buf.rename" "Rename symbol")
-        (lua "n" "<leader>co" /* lua */ ''
-          function()
-              vim.lsp.buf.code_action({
-                  context = { only = { "source.organizeImports" }, diagnostics = {} },
-                  apply = true,
-              })
-          end
-        '' "Organise imports")
-        (lua "n" "<leader>cq" /* lua */ ''
-          function()
-              vim.lsp.buf.code_action({
-                  context = { only = { "quickfix" }, diagnostics = {} },
-                  apply = true,
-              })
-          end
-        '' "Quick fix")
-        (lua "n" "<leader>cl" "vim.lsp.codelens.run" "Run code lens")
-
-        (lua "n" "<leader>cd" "vim.diagnostic.open_float" "Line diagnostics")
         (cmd "t" "<Esc><Esc>" "<C-\\><C-n>" "Exit terminal mode")
       ];
     };

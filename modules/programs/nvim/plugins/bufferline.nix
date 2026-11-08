@@ -4,6 +4,7 @@
     { lib, ... }:
     let
       inherit (lib.generators) mkLuaInline;
+      inherit (inputs.self.lib.nvim) cmd;
     in
     {
       vim = {
@@ -28,14 +29,10 @@
           };
         };
 
-        keymaps =
-          let
-            inherit (inputs.self.lib.nvim) cmd;
-          in
-          [
-            (cmd "n" "<S-h>" "<cmd>BufferLineCyclePrev<CR>" "Prev buffer")
-            (cmd "n" "<S-l>" "<cmd>BufferLineCycleNext<CR>" "Next buffer")
-          ];
+        keymaps = [
+          (cmd "n" "<S-h>" "<cmd>BufferLineCyclePrev<CR>" "Prev buffer")
+          (cmd "n" "<S-l>" "<cmd>BufferLineCycleNext<CR>" "Next buffer")
+        ];
       };
     };
 }

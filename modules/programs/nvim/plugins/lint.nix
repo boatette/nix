@@ -39,7 +39,7 @@
           lint_after_save = false;
         };
 
-        augroups = [ { name = "nvim_lint"; } ];
+        augroups = [ { name = "Lint"; } ];
 
         autocmds = [
           {
@@ -47,7 +47,7 @@
               "BufWritePost"
               "BufReadPost"
             ];
-            group = "nvim_lint";
+            group = "Lint";
             desc = "Auto-lint on read and save";
             callback = mkLuaInline ''
               function(args)

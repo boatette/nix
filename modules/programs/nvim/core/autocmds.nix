@@ -12,6 +12,7 @@
           "NoAutoComment"
           "CursorLine"
           "RelativeNumbers"
+          "YankHighlight"
           "ResizeSplits"
         ];
 
@@ -115,6 +116,7 @@
 
           {
             event = [ "TextYankPost" ];
+            group = "YankHighlight";
             desc = "Flash yanked region";
             callback = mkLuaInline ''
               function()
