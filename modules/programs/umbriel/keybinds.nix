@@ -42,7 +42,8 @@
         "Mod+Shift+Comma" = "config-reload";
 
         "Mod+Q" = "window-close";
-        "Mod+Alt+Q" = "spawn kill -9 $(umbriel windows --json | ${jq} 'first(.[] | select(.active) | .pid)')";
+        "Mod+Alt+Q" =
+          "spawn kill -9 $(umbriel windows --json | ${jq} 'first(.[] | select(.active) | .pid)')";
 
         "Mod+C" = "column-center";
         "Mod+V" = "window-toggle-floating";
