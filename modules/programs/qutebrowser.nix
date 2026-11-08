@@ -11,15 +11,23 @@
       programs.qutebrowser = {
         enable = true;
 
-        package = pkgs.qutebrowser.overrideAttrs (prev: {
-          preFixup = (prev.preFixup or "") + ''
-            makeWrapperArgs+=(
-              --set QT_QPA_PLATFORMTHEME xdgdesktopportal
-              --set QTWEBENGINEPROCESS_PATH ${pkgs.qt6Packages.qtwebengine}/libexec/QtWebEngineProcess
+        # a wrapper rather than an override, so qutebrowser itself still comes from the cache
+        package = pkgs.symlinkJoin {
+          inherit (pkgs.qutebrowser)
+            name
+            pname
+            version
+            meta
+            ;
+          paths = [ pkgs.qutebrowser ];
+          nativeBuildInputs = [ pkgs.makeWrapper ];
+          postBuild = ''
+            wrapProgram $out/bin/qutebrowser \
+              --set QT_QPA_PLATFORMTHEME xdgdesktopportal \
+              --set QTWEBENGINEPROCESS_PATH ${pkgs.qt6Packages.qtwebengine}/libexec/QtWebEngineProcess \
               --set QTWEBENGINE_LOCALES_PATH ${pkgs.qt6Packages.qtwebengine}/qtwebengine_locales
-            )
           '';
-        });
+        };
 
         settings = {
           fonts = {
