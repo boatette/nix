@@ -1,11 +1,9 @@
-{ inputs, ... }:
+let
+  port = 6600;
+  fifo = "/tmp/mpd.fifo";
+in
 {
-  flake-file.inputs.rose-pine-rmpc = {
-    url = "github:rose-pine/rmpc";
-    flake = false;
-  };
-
-  flake.modules.nixos.rmpc.networking.firewall.allowedTCPPorts = [ 6600 ];
+  flake.modules.nixos.rmpc.networking.firewall.allowedTCPPorts = [ port ];
 
   flake.modules.homeManager.rmpc =
     {
@@ -38,7 +36,7 @@
           audio_output {
             type "fifo"
             name "Visualiser"
-            path "/tmp/mpd.fifo"
+            path "${fifo}"
             format "44100:16:2"
           }
 
@@ -56,7 +54,7 @@
       # split the dual-stack listener so IPv4 clients aren't seen as ::ffff:127.0.0.1
       systemd.user.sockets.mpd.Socket = {
         BindIPv6Only = "ipv6-only";
-        ListenStream = [ "0.0.0.0:6600" ];
+        ListenStream = [ "0.0.0.0:${toString port}" ];
       };
 
       services.mpd-mpris.enable = true;
@@ -72,13 +70,6 @@
 
       home.packages = [ pkgs.cava ];
 
-      # the port fills every cell with base, which the terminal's alpha doesn't apply to
-      xdg.configFile."rmpc/themes/rosepine-main.ron".source = pkgs.runCommand "rosepine-main.ron" { } ''
-        sed 's/^    background_color: .*/    background_color: None,/' \
-          ${inputs.rose-pine-rmpc}/rosepine-main/rmpc_default_no_border/themes/rosepine-main.ron > $out
-        grep -q '^    background_color: None,$' $out
-      '';
-
       # the port's rmpc_default_no_border config.ron, plus a visualiser under the queue
       programs.rmpc = {
         enable = true;
@@ -92,7 +83,7 @@
               cava: (
                   input: (
                       method: Fifo,
-                      source: "/tmp/mpd.fifo",
+                      source: "${fifo}",
                       sample_rate: 44100,
                       channels: 2,
                       sample_bits: 16,

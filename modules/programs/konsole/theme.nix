@@ -9,12 +9,14 @@
     { config, pkgs, ... }:
     let
       opacity = toString config.constants.glass.opacity;
-    in
-    {
+
       # the port is opaque; umbriel blurs behind it
-      xdg.dataFile."konsole/rose-pine.colorscheme".source = pkgs.runCommand "rose-pine.colorscheme" { } ''
+      colorscheme = pkgs.runCommandLocal "rose-pine.colorscheme" { } ''
         sed 's/^Opacity=.*/Opacity=${opacity}/' ${inputs.rose-pine-konsole}/dist/rose-pine.colorscheme > $out
         grep -q '^Opacity=${opacity}$' $out
       '';
+    in
+    {
+      xdg.dataFile."konsole/rose-pine.colorscheme".source = colorscheme;
     };
 }

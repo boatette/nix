@@ -73,11 +73,7 @@
       };
     };
 
-  flake.modules.nixos.gaming =
-    { config, ... }:
-    {
-      home-manager.users.${config.constants.username}.imports = [
-        inputs.self.modules.homeManager.steam
-      ];
-    };
+  flake.modules.nixos.gaming.home-manager.sharedModules = [
+    inputs.self.modules.homeManager.steam
+  ];
 }

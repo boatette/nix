@@ -22,7 +22,5 @@
       "application/vnd.oasis.opendocument.presentation"
       "application/vnd.openxmlformats-officedocument.presentationml.presentation"
     ];
-
-    "vesktop.desktop" = [ "x-scheme-handler/discord" ];
   };
 }

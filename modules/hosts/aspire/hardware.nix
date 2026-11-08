@@ -1,6 +1,6 @@
 {
   flake.modules.nixos.aspire =
-    { modulesPath, pkgs, ... }:
+    { modulesPath, ... }:
     {
       imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
@@ -39,13 +39,6 @@
           autodetect = false;
           devices = [ { device = "/dev/nvme0"; } ];
         };
-      };
-
-      hardware.graphics.extraPackages = [ pkgs.libvdpau-va-gl ];
-
-      environment.sessionVariables = {
-        LIBVA_DRIVER_NAME = "iHD";
-        VDPAU_DRIVER = "va_gl";
       };
     };
 }

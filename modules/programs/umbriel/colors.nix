@@ -64,6 +64,7 @@
           {
             match.is_scratchpad = true;
             border_color_focused = c "pine";
+            # pine at 30% over base
             border_color_unfocused = "#203244";
           }
         ];

@@ -24,8 +24,14 @@
         extraPackages = [
           pkgs.intel-media-driver
           pkgs.vpl-gpu-rt
+          pkgs.libvdpau-va-gl
         ];
         extraPackages32 = [ pkgs.driversi686Linux.intel-media-driver ];
+      };
+
+      environment.sessionVariables = {
+        LIBVA_DRIVER_NAME = "iHD";
+        VDPAU_DRIVER = "va_gl";
       };
     };
 }

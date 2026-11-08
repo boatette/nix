@@ -10,7 +10,6 @@
         "application/zstd"
         "application/vnd.rar"
         "application/x-7z-compressed"
-        "application/x-7z-compressed-tar"
         "application/x-bzip"
         "application/x-bzip-compressed-tar"
         "application/x-bzip2-compressed-tar"

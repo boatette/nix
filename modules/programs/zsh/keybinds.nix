@@ -16,14 +16,6 @@
           bindkey -M viins '^U' backward-kill-line
           bindkey -M viins '^F' autosuggest-accept
 
-          if (( $+widgets[fzf-history-widget] )); then
-            bindkey -M viins '^R' fzf-history-widget
-            bindkey -M vicmd '^R' fzf-history-widget
-          else
-            bindkey -M viins '^R' history-incremental-search-backward
-            bindkey -M vicmd '^R' history-incremental-search-backward
-          fi
-
           autoload -Uz edit-command-line
           zle -N edit-command-line
           bindkey -M viins '^X^E' edit-command-line
