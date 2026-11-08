@@ -7,8 +7,9 @@
     in
     {
       vim = {
+        searchCase = "smart";
+
         globals = {
-          mapleader = " ";
           maplocalleader = " ";
 
           loaded_netrw = 1;
@@ -19,10 +20,6 @@
         };
 
         options = {
-          number = true;
-          relativenumber = true;
-          signcolumn = "yes";
-          termguicolors = true;
           laststatus = 3;
 
           cursorline = true;
@@ -31,23 +28,16 @@
           sidescrolloff = 8;
           wrap = false;
 
-          splitright = true;
-          splitbelow = true;
           winborder = "rounded";
 
           updatetime = 250;
-          timeoutlen = 500;
 
-          expandtab = true;
           shiftwidth = 4;
           tabstop = 4;
           softtabstop = 4;
           smartindent = true;
-          autoindent = true;
           breakindent = true;
 
-          ignorecase = true;
-          smartcase = true;
           inccommand = "split";
 
           completeopt = [
@@ -56,16 +46,10 @@
             "noinsert"
           ];
           pumheight = 10;
-          pumblend = 0;
 
           undofile = true;
-          swapfile = false;
-          backup = false;
-          writebackup = false;
           confirm = true;
-          autoread = true;
 
-          foldenable = true;
           foldlevel = 99;
           foldlevelstart = 99;
 
@@ -86,7 +70,6 @@
           whichwrap = "b,s,<,>,[,],h,l";
 
           grepprg = mkLuaInline ''vim.fn.executable("rg") == 1 and "rg --vimgrep --smart-case --hidden" or vim.o.grepprg'';
-          grepformat = mkLuaInline ''vim.fn.executable("rg") == 1 and "%f:%l:%c:%m" or vim.o.grepformat'';
         };
 
         luaConfigRC.core-options = entryAfter [ "optionsScript" ] ''

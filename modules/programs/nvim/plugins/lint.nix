@@ -21,13 +21,9 @@
           enable = true;
 
           linters_by_ft = {
-            bash = [ "shellcheck" ];
-            sh = [ "shellcheck" ];
-
             cpp = [ "cpplint" ];
             go = [ "golangcilint" ];
             markdown = [ "markdownlint-cli2" ];
-            python = [ "ruff" ];
 
             javascript = [ "eslint_d" ];
             javascriptreact = [ "eslint_d" ];

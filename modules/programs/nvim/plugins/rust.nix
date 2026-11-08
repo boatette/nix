@@ -20,12 +20,6 @@
                 cargo.features = "all";
                 check.command = "clippy";
               };
-
-              dap.adapter = {
-                type = "executable";
-                command = "lldb-dap";
-                name = "lldb";
-              };
             };
           };
         };

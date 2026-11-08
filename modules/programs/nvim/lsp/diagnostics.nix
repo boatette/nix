@@ -9,8 +9,6 @@
         enable = true;
 
         config = {
-          underline = true;
-          update_in_insert = false;
           severity_sort = true;
 
           # [d and ]d open the float on the diagnostic they land on

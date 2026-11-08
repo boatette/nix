@@ -39,7 +39,7 @@
                     require("neotest-dart")({ runner = "flutter" }),
                 },
                 output = { open_on_run = true },
-                status = { virtual_text = true, signs = true },
+                status = { virtual_text = true },
             }
           '';
 

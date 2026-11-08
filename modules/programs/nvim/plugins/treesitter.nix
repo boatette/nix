@@ -7,10 +7,9 @@
           enable = true;
           fold = true;
 
-          # allGrammars is ~250M; enabled nvf languages add their own on top
+          # allGrammars is ~250M; nvf adds c, lua, query, vim and vimdoc itself
           grammars = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
             bash
-            c
             comment
             cpp
             css
@@ -31,7 +30,6 @@
             json
             kdl
             kotlin
-            lua
             luadoc
             make
             markdown
@@ -41,20 +39,14 @@
             printf
             python
             qmljs
-            query
             regex
             rust
             toml
             tsx
             typescript
-            vim
-            vimdoc
             yaml
             zig
           ];
-
-          highlight.enable = true;
-          indent.enable = true;
 
           context = {
             enable = true;

@@ -57,18 +57,6 @@
             "nix"
           ] "Two-space indent" twoSpace)
 
-          (mkFt
-            [
-              "json"
-              "json5"
-              "jsonc"
-            ]
-            "Show quotes in JSON"
-            /* lua */ ''
-              vim.opt_local.conceallevel = 0
-            ''
-          )
-
           (mkFt [ "help" ] "Open :help in a vertical split" /* lua */ ''
             local function vertical()
                 if vim.bo.buftype == "help" and vim.api.nvim_win_get_config(0).relative == "" then

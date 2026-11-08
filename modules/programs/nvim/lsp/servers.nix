@@ -45,7 +45,6 @@
 
         languages = lib.recursiveUpdate lspOnly {
           nix.lsp.servers = [ "nixd" ];
-          clang.lsp.servers = [ "clangd" ];
 
           python = {
             enable = true;

@@ -18,7 +18,6 @@
 
           setupOpts = {
             bigfile.size = 1024 * 1024;
-            bufdelete = { };
             quickfile = { };
 
             indent.animate.enabled = false;
