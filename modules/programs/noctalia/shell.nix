@@ -79,7 +79,7 @@
                 (action "command" "b")
                 // {
                   command = ''foot sh -c "${rebuild.os "boot"} && systemctl reboot"'';
-                  label = "Rebuild & Reboot";
+                  label = "Rebuild-boot";
                 }
               )
               ((action "shutdown" "s") // { variant = "destructive"; })
