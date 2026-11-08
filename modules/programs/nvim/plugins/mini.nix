@@ -65,6 +65,9 @@
     in
     {
       vim = {
+        # bufferline turns it on, but mini.icons stands in for it (see the core module above)
+        visuals.nvim-web-devicons.enable = lib.mkForce false;
+
         # blink's auto_brackets adds the () itself; typing ) after it just steps over
         mini.pairs = {
           enable = true;

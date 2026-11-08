@@ -24,21 +24,17 @@
             gomod
             gosum
             html
-            java
             javascript
             jsdoc
             json
             kdl
-            kotlin
             luadoc
             make
             markdown
             markdown_inline
             nix
-            odin
             printf
             python
-            qmljs
             regex
             rust
             toml
@@ -93,5 +89,17 @@
           ];
         };
       };
+    };
+
+  # only nvim-full has java, kotlin, odin and qml support
+  flake.modules.nvf.nvim-full =
+    { pkgs, ... }:
+    {
+      vim.treesitter.grammars = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
+        java
+        kotlin
+        odin
+        qmljs
+      ];
     };
 }

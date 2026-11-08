@@ -49,8 +49,12 @@
             ];
             group = "Lint";
             desc = "Auto-lint on read and save";
+            # golangci-lint checks the whole package, too slow to run on every open
             callback = mkLuaInline ''
               function(args)
+                  if args.event == "BufReadPost" and vim.bo[args.buf].filetype == "go" then
+                      return
+                  end
                   nvf_lint(args.buf)
               end
             '';
