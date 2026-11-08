@@ -12,20 +12,10 @@
     in
     {
       programs.noctalia.settings.desktop_widgets = {
-        enabled = true;
-        schema_version = 2;
-
         widget_order = [ mediaPlayer ];
-
-        grid = {
-          cell_size = 16;
-          major_interval = 4;
-          visible = true;
-        };
 
         widget.${mediaPlayer} = noctaliaWidget host (primaryMonitor host) {
           type = "media_player";
-          rotation = 0.0;
 
           box = {
             width = 384.0;
@@ -38,7 +28,6 @@
             album_art_background = true;
             audio_visualizer = true;
             hide_when_no_media = true;
-            layout = "horizontal";
             shadow = false;
           };
         };

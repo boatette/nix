@@ -15,13 +15,9 @@
 
         icon_size = 40;
 
-        border_width = 0.0;
-        margin_edge = 0;
-
         inherit radius;
 
         show_dots = true;
-        show_instance_count = true;
 
         launcher_position = "start";
         pinned = [

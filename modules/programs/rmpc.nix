@@ -14,22 +14,6 @@
       pkgs,
       ...
     }:
-    let
-      # replaces the previous notification instead of stacking one per track
-      notify = pkgs.writeShellScript "rmpc-notify" ''
-        state="$XDG_RUNTIME_DIR/rmpc-notify"
-        cover="$state.jpg"
-        id=$(cat "$state" 2>/dev/null || echo 0)
-
-        icon=()
-        if ${pkgs.rmpc}/bin/rmpc albumart --output "$cover" >/dev/null 2>&1; then
-          icon=(--icon "$cover")
-        fi
-
-        ${pkgs.libnotify}/bin/notify-send --app-name rmpc --print-id --replace-id "$id" \
-          "''${icon[@]}" "''${TITLE:-Unknown}" "''${ARTIST:-Unknown}" >"$state"
-      '';
-    in
     {
       services.mpd = {
         enable = true;
@@ -104,7 +88,6 @@
           #![enable(unwrap_variant_newtypes)]
           (
               theme: "rosepine-main",
-              on_song_change: ["${notify}"],
               album_art: (method: Sixel),
               cava: (
                   input: (
