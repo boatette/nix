@@ -11,6 +11,7 @@
         proton-vpn
         ventoy
         local.bambu-studio
+        local.spotbye
 
         libreoffice-qt
         hunspellDicts.en_AU
