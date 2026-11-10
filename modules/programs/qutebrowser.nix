@@ -1,8 +1,15 @@
 {
   flake.modules.homeManager.qutebrowser =
-    { config, pkgs, ... }:
+    {
+      config,
+      lib,
+      pkgs,
+      ...
+    }:
     let
       inherit (config.constants.fonts) mono;
+
+      editUrl = "spawn --userscript ${lib.getExe pkgs.local.qute-edit-url}";
 
       # startpage with saved settings in prfe
       startpage = "https://www.startpage.com/sp/search?query={}&prfe=f553b88948f2386e97944a17f918362dbaedfb6381ed1bcb684b1f32e856a0fbc55532682719dcb7ce08628290db7ab6f5fc795492b620e0fc5634f33adfb8e816eaf81977d31c2b9322224f1f2432f1";
@@ -105,6 +112,9 @@
           "K" = "back";
 
           ",v" = "fake-key <Ctrl-a>";
+
+          "go" = editUrl;
+          "gO" = "${editUrl} -t -r";
 
           ",M" = "spawn umpv {url}";
           ",m" = "hint links spawn umpv {hint-url}";
