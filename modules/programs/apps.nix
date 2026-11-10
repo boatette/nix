@@ -12,6 +12,7 @@
         ventoy
         local.bambu-studio
         local.spotbye
+        local.spotbye-bump
 
         libreoffice-qt
         hunspellDicts.en_AU
