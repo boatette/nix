@@ -12,6 +12,7 @@ readonly DIRS=(
   "Projects:Projects"
   "Videos:Videos"
   ".local/share/PrismLauncher:PrismLauncher"
+  ".local/share/spotbye:spotbye"
   ".ssh:ssh"
   ".claude:claude"
   ".local/share/qutebrowser:qutebrowser-data"
