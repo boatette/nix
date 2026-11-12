@@ -9,7 +9,14 @@
         inherit system;
         config = {
           allowUnfree = true;
-          allowInsecurePredicate = pkg: lib.getName pkg == "ventoy";
+          # FIX: revert on qtwebengine fix
+          # qtwebengine still trusts the revoked eMudhra intermediates (2026-11)
+          allowInsecurePredicate =
+            pkg:
+            builtins.elem (lib.getName pkg) [
+              "qutebrowser"
+              "ventoy"
+            ];
         };
         overlays = [ inputs.self.overlays.default ];
       };
