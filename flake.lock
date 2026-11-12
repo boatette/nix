@@ -381,11 +381,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794293275,
-        "narHash": "sha256-Zu/uksTb4V8zmQMfWqBGoLXTFtxovCz1ZXlq07mlHG4=",
-        "ref": "refs/heads/master",
-        "rev": "bb6414e700dfdb2ba65f43f34abe7f4d473093ce",
-        "revCount": 23,
+        "lastModified": 1794460776,
+        "narHash": "sha256-jzHUsyOkBzl46a2whq75SqVpz1zopDBlGDqSBn8q2nE=",
+        "ref": "refs/heads/guide-topics",
+        "rev": "2d8c8fa36df1c214ebcc894d09dff25a99c24124",
+        "revCount": 24,
         "type": "git",
         "url": "file:///home/boatette/Projects/petal"
       },
