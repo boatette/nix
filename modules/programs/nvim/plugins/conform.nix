@@ -76,19 +76,9 @@
     { pkgs, ... }:
     {
       vim = {
-        extraPackages = with pkgs; [
-          google-java-format
-          ktlint
-        ];
+        extraPackages = [ pkgs.ktlint ];
 
-        formatter.conform-nvim.setupOpts = {
-          formatters_by_ft = {
-            java = [ "google-java-format" ];
-            kotlin = [ "ktlint" ];
-          };
-
-          formatters."google-java-format".prepend_args = [ "--aosp" ];
-        };
+        formatter.conform-nvim.setupOpts.formatters_by_ft.kotlin = [ "ktlint" ];
       };
     };
 }

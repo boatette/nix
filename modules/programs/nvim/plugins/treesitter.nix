@@ -13,7 +13,6 @@
             comment
             cpp
             css
-            dart
             diff
             git_config
             git_rebase
@@ -91,15 +90,13 @@
       };
     };
 
-  # only nvim-full has java, kotlin, odin and qml support
+  # only nvim-full has kotlin and odin support
   flake.modules.nvf.nvim-full =
     { pkgs, ... }:
     {
       vim.treesitter.grammars = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
-        java
         kotlin
         odin
-        qmljs
       ];
     };
 }

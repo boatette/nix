@@ -24,7 +24,6 @@
           neotest-golang
           neotest-rust
           neotest-zig
-          neotest-dart
         ];
 
         lazy.plugins.neotest = {
@@ -38,7 +37,6 @@
                     require("neotest-golang"),
                     require("neotest-rust"),
                     require("neotest-zig"),
-                    require("neotest-dart")({ runner = "flutter" }),
                 },
                 output = { open_on_run = true },
                 status = { virtual_text = true },

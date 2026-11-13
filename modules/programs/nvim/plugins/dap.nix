@@ -93,18 +93,6 @@
               id = "lldb";
             };
 
-            dart = {
-              type = "executable";
-              command = "dart";
-              args = [ "debug_adapter" ];
-            };
-
-            flutter = {
-              type = "executable";
-              command = "flutter";
-              args = [ "debug-adapter" ];
-            };
-
             python = {
               type = "executable";
               command = "python3";
@@ -135,24 +123,6 @@
             typescript = jsLike;
             javascriptreact = jsLike;
             typescriptreact = jsLike;
-
-            dart = [
-              {
-                name = "Launch Dart";
-                type = "dart";
-                request = "launch";
-                program = "\${workspaceFolder}/lib/main.dart";
-                cwd = "\${workspaceFolder}";
-              }
-              {
-                name = "Launch Flutter";
-                type = "flutter";
-                request = "launch";
-                program = "\${workspaceFolder}/lib/main.dart";
-                cwd = "\${workspaceFolder}";
-                flutterMode = "debug";
-              }
-            ];
 
             python = [
               {

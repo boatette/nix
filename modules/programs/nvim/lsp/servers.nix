@@ -110,15 +110,9 @@
     { pkgs, ... }:
     {
       vim = {
-        extraPackages = [
-          pkgs.ols
-          pkgs.kdePackages.qtdeclarative
-        ];
+        extraPackages = [ pkgs.ols ];
 
-        languages = {
-          odin.enable = true;
-          qml.enable = true;
-        };
+        languages.odin.enable = true;
       };
     };
 }

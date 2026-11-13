@@ -50,7 +50,6 @@
           ] "Prose: wrap, linebreak, spell" prose)
 
           (mkFt [
-            "dart"
             "json"
             "json5"
             "jsonc"
