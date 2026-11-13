@@ -22,7 +22,6 @@
         startPlugins = with pkgs.vimPlugins; [
           nvim-nio
           neotest-golang
-          neotest-rust
           neotest-zig
         ];
 
@@ -35,7 +34,7 @@
             {
                 adapters = {
                     require("neotest-golang"),
-                    require("neotest-rust"),
+                    require("rustaceanvim.neotest"),
                     require("neotest-zig"),
                 },
                 output = { open_on_run = true },
