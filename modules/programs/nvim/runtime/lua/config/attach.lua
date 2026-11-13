@@ -39,6 +39,16 @@ function M.on_attach(ev)
         return
     end
 
+    -- nvf's clangd preset defines the command, per buffer
+    if client.name == "clangd" then
+        vim.keymap.set(
+            "n",
+            "<leader>ch",
+            "<cmd>ClangdSwitchSourceHeader<cr>",
+            { buffer = buf, desc = "Switch source/header" }
+        )
+    end
+
     if client:supports_method("textDocument/documentHighlight") then
         local group = vim.api.nvim_create_augroup("DocumentHighlight" .. buf, { clear = true })
         vim.api.nvim_create_autocmd("CursorHold", {

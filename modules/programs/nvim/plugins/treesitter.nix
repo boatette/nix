@@ -10,6 +10,7 @@
           # allGrammars is ~250M; nvf adds c, lua, query, vim and vimdoc itself
           grammars = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
             bash
+            cmake
             comment
             cpp
             css

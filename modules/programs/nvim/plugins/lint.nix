@@ -7,7 +7,6 @@
     {
       vim = {
         extraPackages = with pkgs; [
-          cpplint
           deadnix
           eslint_d
           golangci-lint
@@ -20,7 +19,6 @@
           enable = true;
 
           linters_by_ft = {
-            cpp = [ "cpplint" ];
             go = [ "golangcilint" ];
             kotlin = [ "ktlint" ];
             markdown = [ "markdownlint-cli2" ];

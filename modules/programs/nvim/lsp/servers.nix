@@ -17,6 +17,7 @@
               [
                 "bash"
                 "clang"
+                "cmake"
                 "glsl"
                 "go"
                 "json"

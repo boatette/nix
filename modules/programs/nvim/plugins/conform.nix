@@ -6,6 +6,7 @@
       vim = {
         extraPackages = with pkgs; [
           clang-tools
+          gersemi
           gofumpt
           # only goimports; the full gotools set is ~250M
           (gotools.overrideAttrs { subPackages = [ "cmd/goimports" ]; })
@@ -27,6 +28,7 @@
               sh = [ "shfmt" ];
 
               c = [ "clang_format" ];
+              cmake = [ "gersemi" ];
               cpp = [ "clang_format" ];
               glsl = [ "clang_format" ];
 
