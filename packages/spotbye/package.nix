@@ -4,7 +4,7 @@
 }:
 let
   pname = "spotbye";
-  version = "3.0.4";
+  version = "3.0.6";
 
   # releases are a proton drive link for patreon supporters, which nix can't fetch. to bump:
   # spotbye-bump SpotBye-<version>.AppImage, then rebuild. after a reinstall, ssd restores
@@ -12,7 +12,7 @@ let
   src = requireFile {
     name = "SpotBye-${version}.AppImage";
     url = "https://www.patreon.com/cw/spotbye";
-    hash = "sha256-Em9JrXVEpoiS/fA6Hskd/M/lO9iwzLAYbhf/aFH3QLs=";
+    hash = "sha256-lzzq9o9RcIrDAQf3Gqqu0HhyFuSN4t0LmS4E0mfsuUo=";
   };
 
   contents = appimageTools.extract { inherit pname version src; };
