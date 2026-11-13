@@ -40,4 +40,11 @@ if ! grep -qF "version = \"$version\";" "$PACKAGE" || ! grep -qF "hash = \"$hash
   exit 1
 fi
 
+# only the package file, so anything else staged in the flake stays out of the commit
+if git -C "$FLAKE" diff --quiet HEAD -- "$PACKAGE"; then
+  echo "spotbye was already $version, nothing to commit"
+else
+  git -C "$FLAKE" commit --quiet --message "feat(spotbye): $version" -- "$PACKAGE"
+fi
+
 echo "spotbye is now $version, rebuild to install it"
