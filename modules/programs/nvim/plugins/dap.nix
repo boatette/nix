@@ -6,35 +6,7 @@
       inherit (lib.generators) mkLuaInline;
       inherit (lib.nvim.dag) entryAfter;
 
-      promptProgram =
-        start:
-        mkLuaInline ''
-          function()
-              return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "${start}", "file")
-          end
-        '';
-
       pickProcess = mkLuaInline ''require("dap.utils").pick_process'';
-
-      lldbLaunch = start: {
-        name = "Launch";
-        type = "lldb";
-        request = "launch";
-        program = promptProgram start;
-        cwd = "\${workspaceFolder}";
-        stopOnEntry = false;
-      };
-
-      cLike = [
-        (lldbLaunch "/")
-        {
-          name = "Attach";
-          type = "lldb";
-          request = "attach";
-          pid = pickProcess;
-          cwd = "\${workspaceFolder}";
-        }
-      ];
 
       jsLike = [
         {
@@ -73,71 +45,67 @@
         }
       ];
 
+      cAttach = lib.mkAfter [
+        {
+          name = "Attach";
+          type = "lldb";
+          request = "attach";
+          pid = pickProcess;
+          cwd = "\${workspaceFolder}";
+        }
+      ];
+
       dapMap = key: expr: inputs.self.lib.nvim.mod "n" key "dap" expr;
     in
     {
       vim = {
-        extraPackages = with pkgs; [
-          lldb
-          vscode-js-debug
-          (python3.withPackages (ps: [ ps.debugpy ]))
-        ];
+        # lldb-dap for c, c++, odin and zig, debugpy for python, each by store path
+        languages = lib.genAttrs [ "clang" "odin" "python" "zig" ] (_: {
+          dap.enable = true;
+        });
 
         debugger.nvim-dap = {
           enable = true;
 
-          adapters = {
-            lldb = {
-              type = "executable";
-              command = "lldb-dap";
-              id = "lldb";
-            };
-
-            python = {
-              type = "executable";
-              command = "python3";
-              args = [
-                "-m"
-                "debugpy.adapter"
-              ];
-            };
-
-            "pwa-node" = {
-              type = "server";
-              host = "localhost";
-              port = "\${port}";
-              executable = {
-                command = "js-debug";
-                args = [ "\${port}" ];
-              };
+          adapters."pwa-node" = {
+            type = "server";
+            host = "localhost";
+            port = "\${port}";
+            executable = {
+              command = lib.getExe' pkgs.vscode-js-debug "js-debug";
+              args = [ "\${port}" ];
             };
           };
 
           configurations = {
-            c = cLike;
-            cpp = cLike;
-            odin = [ (lldbLaunch "/") ];
-            zig = [ (lldbLaunch "/zig-out/bin/") ];
+            c = cAttach;
+            cpp = cAttach;
+
+            # nvf's launch prompt starts at the project root, but zig build installs to zig-out/bin
+            zig = lib.mkForce [
+              {
+                name = "Launch";
+                type = "lldb";
+                request = "launch";
+                program = mkLuaInline ''
+                  function()
+                      return nvf_dap_cached_input(
+                          "zig_lldb_launch_exe",
+                          "Path to executable: ",
+                          vim.fn.getcwd() .. "/zig-out/bin/",
+                          "file"
+                      )
+                  end
+                '';
+                cwd = "\${workspaceFolder}";
+                stopOnEntry = false;
+              }
+            ];
 
             javascript = jsLike;
             typescript = jsLike;
             javascriptreact = jsLike;
             typescriptreact = jsLike;
-
-            python = [
-              {
-                name = "Launch file";
-                type = "python";
-                request = "launch";
-                program = "\${file}";
-                pythonPath = mkLuaInline ''
-                  function()
-                      local python = vim.fn.exepath("python3")
-                      return python ~= "" and python or "python"
-                  end
-                '';
-              }
-            ];
           };
         };
 
