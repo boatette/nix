@@ -25,16 +25,17 @@
             go = [ "golangcilint" ];
             markdown = [ "markdownlint-cli2" ];
 
-            javascript = [ "eslint_d" ];
-            javascriptreact = [ "eslint_d" ];
-            typescript = [ "eslint_d" ];
-            typescriptreact = [ "eslint_d" ];
-
             nix = [
               "statix"
               "deadnix"
             ];
-          };
+          }
+          // lib.genAttrs [
+            "javascript"
+            "javascriptreact"
+            "typescript"
+            "typescriptreact"
+          ] (_: [ "eslint_d" ]);
 
           lint_after_save = false;
         };

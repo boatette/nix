@@ -5,25 +5,6 @@
     let
       inherit (lib.generators) mkLuaInline;
       inherit (inputs.self.constants) flakeDir;
-
-      lspOnly =
-        lib.genAttrs
-          [
-            "bash"
-            "clang"
-            "glsl"
-            "go"
-            "json"
-            "lua"
-            "nix"
-            "tsx"
-            "typescript"
-            "zig"
-          ]
-          (_: {
-            enable = true;
-            lsp.enable = true;
-          });
     in
     {
       vim = {
@@ -43,25 +24,39 @@
           zls
         ];
 
-        languages = lib.recursiveUpdate lspOnly {
-          nix.lsp.servers = [ "nixd" ];
-
-          python = {
-            enable = true;
-            lsp = {
-              enable = true;
-              servers = [
+        # each language's lsp.enable follows vim.lsp.enable
+        languages =
+          lib.recursiveUpdate
+            (lib.genAttrs
+              [
+                "bash"
+                "clang"
+                "glsl"
+                "go"
+                "json"
+                "lua"
+                "nix"
+                "python"
+                "tsx"
+                "typescript"
+                "zig"
+              ]
+              (_: {
+                enable = true;
+              })
+            )
+            {
+              nix.lsp.servers = [ "nixd" ];
+              python.lsp.servers = [
                 "pyright"
                 "ruff"
               ];
             };
-          };
-        };
 
         lsp.servers = {
           clangd = {
             cmd = lib.mkForce [
-              "${pkgs.clang-tools}/bin/clangd"
+              (lib.getExe' pkgs.clang-tools "clangd")
               "--background-index"
               "--clang-tidy"
               "--header-insertion=never"
@@ -121,15 +116,8 @@
         ];
 
         languages = {
-          odin = {
-            enable = true;
-            lsp.enable = true;
-          };
-
-          qml = {
-            enable = true;
-            lsp.enable = true;
-          };
+          odin.enable = true;
+          qml.enable = true;
         };
       };
     };

@@ -174,7 +174,6 @@
         lazy.plugins.nvim-dap-view = {
           package = pkgs.vimPlugins.nvim-dap-view;
           setupModule = "dap-view";
-          setupOpts = { };
 
           keys = [ (inputs.self.lib.nvim.mod "n" "<leader>dv" "dap-view" "toggle()" "Toggle DAP view") ];
         };
