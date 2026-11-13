@@ -6,7 +6,6 @@
 
       mkFt = pattern: desc: body: {
         event = [ "FileType" ];
-        group = "Ftplugin";
         inherit pattern desc;
         callback = mkLuaInline ''
           function(ev)
@@ -33,49 +32,38 @@
       '';
     in
     {
-      vim = {
-        augroups = [ { name = "Ftplugin"; } ];
+      vim.autocmds = [
+        (mkFt [
+          "help"
+          "qf"
+          "query"
+        ] "Utility window: unlisted, q to close" utilityWindow)
 
-        autocmds = [
-          (mkFt [
-            "help"
-            "qf"
-            "query"
-          ] "Utility window: unlisted, q to close" utilityWindow)
+        (mkFt [
+          "gitcommit"
+          "markdown"
+          "text"
+        ] "Prose: wrap, linebreak, spell" prose)
 
-          (mkFt [
-            "gitcommit"
-            "markdown"
-            "text"
-          ] "Prose: wrap, linebreak, spell" prose)
+        (mkFt [
+          "json"
+          "json5"
+          "jsonc"
+          "nix"
+        ] "Two-space indent" twoSpace)
 
-          (mkFt [
-            "dart"
-            "json"
-            "json5"
-            "jsonc"
-            "nix"
-          ] "Two-space indent" twoSpace)
-
-          (mkFt [ "help" ] "Open :help in a vertical split" /* lua */ ''
-            local function vertical()
+        # BufWinEnter, not FileType, so a hidden help buffer shown again also moves
+        {
+          event = [ "BufWinEnter" ];
+          desc = "Open :help in a vertical split";
+          callback = mkLuaInline ''
+            function()
                 if vim.bo.buftype == "help" and vim.api.nvim_win_get_config(0).relative == "" then
                     vim.cmd("wincmd L")
                 end
             end
-
-            local group = vim.api.nvim_create_augroup("HelpVertical", { clear = false })
-            vim.api.nvim_clear_autocmds({ group = group, buffer = ev.buf })
-            vim.api.nvim_create_autocmd("BufWinEnter", {
-                group = group,
-                buffer = ev.buf,
-                callback = vertical,
-                desc = "Open :help in a vertical split",
-            })
-
-            vertical()
-          '')
-        ];
-      };
+          '';
+        }
+      ];
     };
 }

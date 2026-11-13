@@ -97,7 +97,6 @@
             };
         };
 
-        augroups = [ { name = "MiniPairsDisable"; } ];
         autocmds = [
           {
             event = [ "FileType" ];
@@ -105,7 +104,6 @@
               "snacks_picker_input"
               "snacks_input"
             ];
-            group = "MiniPairsDisable";
             desc = "No auto-pairs in prompts";
             command = "let b:minipairs_disable = v:true";
           }

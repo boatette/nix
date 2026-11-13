@@ -22,9 +22,7 @@
         startPlugins = with pkgs.vimPlugins; [
           nvim-nio
           neotest-golang
-          neotest-rust
           neotest-zig
-          neotest-dart
         ];
 
         lazy.plugins.neotest = {
@@ -36,9 +34,8 @@
             {
                 adapters = {
                     require("neotest-golang"),
-                    require("neotest-rust"),
+                    require("rustaceanvim.neotest"),
                     require("neotest-zig"),
-                    require("neotest-dart")({ runner = "flutter" }),
                 },
                 output = { open_on_run = true },
                 status = { virtual_text = true },

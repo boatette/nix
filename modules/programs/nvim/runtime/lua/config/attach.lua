@@ -1,5 +1,9 @@
 local M = {}
 
+-- global, so they reach every client that attaches later and supports them
+vim.lsp.codelens.enable(true)
+vim.lsp.inlay_hint.enable(true)
+
 local pending = {}
 
 local function refresh_codelens(client_id)
@@ -35,12 +39,14 @@ function M.on_attach(ev)
         return
     end
 
-    if client:supports_method("textDocument/codeLens") then
-        vim.lsp.codelens.enable(true, { bufnr = buf })
-    end
-
-    if client:supports_method("textDocument/inlayHint") then
-        vim.lsp.inlay_hint.enable(true, { bufnr = buf })
+    -- nvf's clangd preset defines the command, per buffer
+    if client.name == "clangd" then
+        vim.keymap.set(
+            "n",
+            "<leader>ch",
+            "<cmd>ClangdSwitchSourceHeader<cr>",
+            { buffer = buf, desc = "Switch source/header" }
+        )
     end
 
     if client:supports_method("textDocument/documentHighlight") then

@@ -190,7 +190,6 @@ neovim is built by nvf from `flake.modules.nvf.*` in `modules/programs/nvim/`:
 
 - `core`: shared by every build, and adds `modules/programs/nvim/runtime/` (Lua under `lua/config/`, snippets under `snippets/`) to the runtime path.
 - `nvim`: the daily editor, installed through `homeManager.nvim`.
-- `nvim-full`: `nvim` plus heavier languages. Nothing installs it, so the checks only evaluate it.
 - `minimal`: the editor for `iso` and `vi`.
 
 Each keymap lives in the file of the plugin it needs and is built with `inputs.self.lib.nvim.{cmd,lua,mod}`.
@@ -244,13 +243,13 @@ The git settings below come from `modules/programs/git.nix` and `modules/program
 
 ## Checking a change
 
-| Command                                                                      | What it does                                                                                                                         |
-| ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| `nix fmt`                                                                    | formats the tree with treefmt                                                                                                        |
-| `nix flake check`                                                            | builds every package and host except `iso` and `nvim-full`, evaluates `nvim-full`, and runs deadnix, statix and the formatting check |
-| `nix build .#checks.x86_64-linux.<name>`                                     | one check: `statix`, `deadnix`, `formatting`, `check-flake-file`, `eval-nvim-full`, `package-<name>`, `host-aspire`                  |
-| `nix eval .#nixosConfigurations.aspire.config.system.build.toplevel.drvPath` | evaluates aspire without building it                                                                                                 |
-| `nix build .#nixosConfigurations.aspire.config.system.build.toplevel`        | builds aspire without activating it                                                                                                  |
+| Command                                                                      | What it does                                                                                      |
+| ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| `nix fmt`                                                                    | formats the tree with treefmt                                                                     |
+| `nix flake check`                                                            | builds every package and host except `iso`, and runs deadnix, statix and the formatting check     |
+| `nix build .#checks.x86_64-linux.<name>`                                     | one check: `statix`, `deadnix`, `formatting`, `check-flake-file`, `package-<name>`, `host-aspire` |
+| `nix eval .#nixosConfigurations.aspire.config.system.build.toplevel.drvPath` | evaluates aspire without building it                                                              |
+| `nix build .#nixosConfigurations.aspire.config.system.build.toplevel`        | builds aspire without activating it                                                               |
 
 - `nix flake check` builds the full aspire system, so it is slow after an input update. Evaluate first.
 - `nix fmt -- --ci` is not read-only: it rewrites unformatted files, then fails.

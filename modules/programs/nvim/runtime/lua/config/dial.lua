@@ -46,33 +46,27 @@ local defaults = {
     augend.constant.new({ elements = { "&&", "||" }, word = false, cyclic = true }),
 }
 
+local let_const = augend.constant.new({ elements = { "let", "const" } })
+local and_or = augend.constant.new({ elements = { "and", "or" }, word = true, cyclic = true })
+local hex = augend.hexcolor.new({ case = "prefer_lower" })
+
 local function extend(extra)
     return vim.list_extend(vim.list_extend({}, defaults), extra)
 end
 
-local function letConst()
-    return augend.constant.new({ elements = { "let", "const" } })
-end
+local config = require("dial.config")
 
-local function andOr()
-    return augend.constant.new({ elements = { "and", "or" }, word = true, cyclic = true })
-end
+config.augends:register_group({ default = defaults })
 
-local function hexcolors()
-    return { augend.hexcolor.new({ case = "prefer_lower" }) }
-end
-
-require("dial.config").augends:register_group({ default = defaults })
-
-require("dial.config").augends:on_filetype({
-    vue = extend(vim.list_extend({ letConst() }, hexcolors())),
-    typescript = extend({ letConst() }),
-    css = extend(hexcolors()),
+config.augends:on_filetype({
+    vue = extend({ let_const, hex }),
+    typescript = extend({ let_const }),
+    css = extend({ hex }),
     markdown = extend({
         augend.constant.new({ elements = { "[ ]", "[x]" }, word = false, cyclic = true }),
         augend.misc.alias.markdown_header,
     }),
     json = extend({ augend.semver.alias.semver }),
-    lua = extend({ andOr() }),
-    python = extend({ andOr() }),
+    lua = extend({ and_or }),
+    python = extend({ and_or }),
 })

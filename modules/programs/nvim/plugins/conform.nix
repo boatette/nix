@@ -1,14 +1,16 @@
 { inputs, ... }:
 {
   flake.modules.nvf.nvim =
-    { pkgs, ... }:
+    { lib, pkgs, ... }:
     {
       vim = {
         extraPackages = with pkgs; [
           clang-tools
+          gersemi
           gofumpt
           # only goimports; the full gotools set is ~250M
           (gotools.overrideAttrs { subPackages = [ "cmd/goimports" ]; })
+          ktlint
           nixfmt
           prettierd
           ruff
@@ -26,6 +28,7 @@
               sh = [ "shfmt" ];
 
               c = [ "clang_format" ];
+              cmake = [ "gersemi" ];
               cpp = [ "clang_format" ];
               glsl = [ "clang_format" ];
 
@@ -34,6 +37,7 @@
                 "gofumpt"
               ];
 
+              kotlin = [ "ktlint" ];
               lua = [ "stylua" ];
               nix = [ "nixfmt" ];
               rust = [ "rustfmt" ];
@@ -43,18 +47,19 @@
                 "ruff_format"
                 "ruff_organize_imports"
               ];
-
-              javascript = [ "prettierd" ];
-              javascriptreact = [ "prettierd" ];
-              typescript = [ "prettierd" ];
-              typescriptreact = [ "prettierd" ];
-              json = [ "prettierd" ];
-              jsonc = [ "prettierd" ];
-              markdown = [ "prettierd" ];
-              yaml = [ "prettierd" ];
-              html = [ "prettierd" ];
-              css = [ "prettierd" ];
-            };
+            }
+            // lib.genAttrs [
+              "css"
+              "html"
+              "javascript"
+              "javascriptreact"
+              "json"
+              "jsonc"
+              "markdown"
+              "typescript"
+              "typescriptreact"
+              "yaml"
+            ] (_: [ "prettierd" ]);
 
             format_on_save.lsp_format = "fallback";
 
@@ -71,23 +76,4 @@
       };
     };
 
-  flake.modules.nvf.nvim-full =
-    { pkgs, ... }:
-    {
-      vim = {
-        extraPackages = with pkgs; [
-          google-java-format
-          ktlint
-        ];
-
-        formatter.conform-nvim.setupOpts = {
-          formatters_by_ft = {
-            java = [ "google-java-format" ];
-            kotlin = [ "ktlint" ];
-          };
-
-          formatters."google-java-format".prepend_args = [ "--aosp" ];
-        };
-      };
-    };
 }

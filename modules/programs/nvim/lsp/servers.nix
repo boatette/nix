@@ -5,63 +5,46 @@
     let
       inherit (lib.generators) mkLuaInline;
       inherit (inputs.self.constants) flakeDir;
-
-      lspOnly =
-        lib.genAttrs
-          [
-            "bash"
-            "clang"
-            "glsl"
-            "go"
-            "json"
-            "lua"
-            "nix"
-            "tsx"
-            "typescript"
-            "zig"
-          ]
-          (_: {
-            enable = true;
-            lsp.enable = true;
-          });
     in
     {
       vim = {
         lsp.enable = true;
 
-        extraPackages = with pkgs; [
-          bash-language-server
-          clang-tools
-          glsl_analyzer
-          gopls
-          lua-language-server
-          nixd
-          pyright
-          ruff
-          typescript-language-server
-          vscode-langservers-extracted
-          zls
-        ];
-
-        languages = lib.recursiveUpdate lspOnly {
-          nix.lsp.servers = [ "nixd" ];
-
-          python = {
-            enable = true;
-            lsp = {
-              enable = true;
-              servers = [
+        # each language's lsp follows vim.lsp.enable, and nvf starts its server by store path
+        languages =
+          lib.recursiveUpdate
+            (lib.genAttrs
+              [
+                "bash"
+                "clang"
+                "cmake"
+                "glsl"
+                "go"
+                "json"
+                "lua"
+                "nix"
+                "odin"
+                "python"
+                "tsx"
+                "typescript"
+                "zig"
+              ]
+              (_: {
+                enable = true;
+              })
+            )
+            {
+              nix.lsp.servers = [ "nixd" ];
+              python.lsp.servers = [
                 "pyright"
                 "ruff"
               ];
             };
-          };
-        };
 
         lsp.servers = {
           clangd = {
             cmd = lib.mkForce [
-              "${pkgs.clang-tools}/bin/clangd"
+              (lib.getExe' pkgs.clang-tools "clangd")
               "--background-index"
               "--clang-tidy"
               "--header-insertion=never"
@@ -111,26 +94,4 @@
       };
     };
 
-  flake.modules.nvf.nvim-full =
-    { pkgs, ... }:
-    {
-      vim = {
-        extraPackages = [
-          pkgs.ols
-          pkgs.kdePackages.qtdeclarative
-        ];
-
-        languages = {
-          odin = {
-            enable = true;
-            lsp.enable = true;
-          };
-
-          qml = {
-            enable = true;
-            lsp.enable = true;
-          };
-        };
-      };
-    };
 }

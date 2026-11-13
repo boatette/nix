@@ -40,18 +40,14 @@
           '' "Toggle inlay hints")
         ];
 
-        augroups = [ { name = "LspAttachConfig"; } ];
-
         autocmds = [
           {
             event = [ "LspAttach" ];
-            group = "LspAttachConfig";
             desc = "LSP on-attach configuration";
             callback = mkLuaInline ''require("config.attach").on_attach'';
           }
           {
             event = [ "LspDetach" ];
-            group = "LspAttachConfig";
             desc = "LSP on-detach cleanup";
             callback = mkLuaInline ''require("config.attach").on_detach'';
           }

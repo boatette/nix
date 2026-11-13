@@ -15,7 +15,6 @@
       vim.lazy.plugins.nvim-spider = {
         package = pkgs.vimPlugins.nvim-spider;
         setupModule = "spider";
-        setupOpts = { };
 
         keys = map spider [
           "w"

@@ -10,10 +10,10 @@
           # allGrammars is ~250M; nvf adds c, lua, query, vim and vimdoc itself
           grammars = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
             bash
+            cmake
             comment
             cpp
             css
-            dart
             diff
             git_config
             git_rebase
@@ -28,11 +28,13 @@
             jsdoc
             json
             kdl
+            kotlin
             luadoc
             make
             markdown
             markdown_inline
             nix
+            odin
             printf
             python
             regex
@@ -91,15 +93,4 @@
       };
     };
 
-  # only nvim-full has java, kotlin, odin and qml support
-  flake.modules.nvf.nvim-full =
-    { pkgs, ... }:
-    {
-      vim.treesitter.grammars = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
-        java
-        kotlin
-        odin
-        qmljs
-      ];
-    };
 }
