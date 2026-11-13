@@ -381,11 +381,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794461289,
-        "narHash": "sha256-jzHUsyOkBzl46a2whq75SqVpz1zopDBlGDqSBn8q2nE=",
+        "lastModified": 1794540177,
+        "narHash": "sha256-n4LKR4QukOpoqb+WCwMMw5RBTLRz+sd30YZ98X9QP3Q=",
         "ref": "refs/heads/master",
-        "rev": "9ada4b990156bf86c771f7e77e1486eef8543e72",
-        "revCount": 25,
+        "rev": "aee3dfa41a7dfcb56609857d90b95c070fc84129",
+        "revCount": 27,
         "type": "git",
         "url": "file:///home/boatette/Projects/petal"
       },
