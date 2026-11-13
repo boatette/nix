@@ -22,6 +22,8 @@
           "<leader>w" = "+Window";
           "<leader>x" = "+Trouble";
         };
+
+        setupOpts.preset = "helix";
       };
     };
 }
