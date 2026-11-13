@@ -1,5 +1,9 @@
 local M = {}
 
+-- global, so they reach every client that attaches later and supports them
+vim.lsp.codelens.enable(true)
+vim.lsp.inlay_hint.enable(true)
+
 local pending = {}
 
 local function refresh_codelens(client_id)
@@ -33,14 +37,6 @@ function M.on_attach(ev)
     local client = vim.lsp.get_client_by_id(ev.data.client_id)
     if not client then
         return
-    end
-
-    if client:supports_method("textDocument/codeLens") then
-        vim.lsp.codelens.enable(true, { bufnr = buf })
-    end
-
-    if client:supports_method("textDocument/inlayHint") then
-        vim.lsp.inlay_hint.enable(true, { bufnr = buf })
     end
 
     if client:supports_method("textDocument/documentHighlight") then
