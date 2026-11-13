@@ -13,8 +13,6 @@
           golangci-lint
           ktlint
           markdownlint-cli2
-          ruff
-          shellcheck
           statix
         ];
 

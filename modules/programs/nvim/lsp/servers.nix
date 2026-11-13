@@ -10,22 +10,7 @@
       vim = {
         lsp.enable = true;
 
-        extraPackages = with pkgs; [
-          bash-language-server
-          clang-tools
-          glsl_analyzer
-          gopls
-          lua-language-server
-          nixd
-          ols
-          pyright
-          ruff
-          typescript-language-server
-          vscode-langservers-extracted
-          zls
-        ];
-
-        # each language's lsp.enable follows vim.lsp.enable
+        # each language's lsp follows vim.lsp.enable, and nvf starts its server by store path
         languages =
           lib.recursiveUpdate
             (lib.genAttrs
