@@ -11,6 +11,7 @@
           deadnix
           eslint_d
           golangci-lint
+          ktlint
           markdownlint-cli2
           ruff
           shellcheck
@@ -23,6 +24,7 @@
           linters_by_ft = {
             cpp = [ "cpplint" ];
             go = [ "golangcilint" ];
+            kotlin = [ "ktlint" ];
             markdown = [ "markdownlint-cli2" ];
 
             nix = [
@@ -64,13 +66,4 @@
       };
     };
 
-  flake.modules.nvf.nvim-full =
-    { pkgs, ... }:
-    {
-      vim = {
-        extraPackages = [ pkgs.ktlint ];
-
-        diagnostics.nvim-lint.linters_by_ft.kotlin = [ "ktlint" ];
-      };
-    };
 }

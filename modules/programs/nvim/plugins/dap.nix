@@ -1,6 +1,6 @@
 { inputs, ... }:
 {
-  flake.modules.nvf.nvim-full =
+  flake.modules.nvf.nvim =
     { lib, pkgs, ... }:
     let
       inherit (lib.generators) mkLuaInline;

@@ -27,11 +27,13 @@
             jsdoc
             json
             kdl
+            kotlin
             luadoc
             make
             markdown
             markdown_inline
             nix
+            odin
             printf
             python
             regex
@@ -90,13 +92,4 @@
       };
     };
 
-  # only nvim-full has kotlin and odin support
-  flake.modules.nvf.nvim-full =
-    { pkgs, ... }:
-    {
-      vim.treesitter.grammars = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
-        kotlin
-        odin
-      ];
-    };
 }

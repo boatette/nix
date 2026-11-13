@@ -17,6 +17,7 @@
           gopls
           lua-language-server
           nixd
+          ols
           pyright
           ruff
           typescript-language-server
@@ -36,6 +37,7 @@
                 "json"
                 "lua"
                 "nix"
+                "odin"
                 "python"
                 "tsx"
                 "typescript"
@@ -106,13 +108,4 @@
       };
     };
 
-  flake.modules.nvf.nvim-full =
-    { pkgs, ... }:
-    {
-      vim = {
-        extraPackages = [ pkgs.ols ];
-
-        languages.odin.enable = true;
-      };
-    };
 }

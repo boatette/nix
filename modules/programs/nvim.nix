@@ -30,8 +30,6 @@
 
       nvim.imports = [ inputs.self.modules.nvf.core ];
 
-      nvim-full.imports = [ inputs.self.modules.nvf.nvim ];
-
       minimal = {
         imports = [ inputs.self.modules.nvf.core ];
 
@@ -71,7 +69,6 @@
     {
       packages = {
         nvim = mkNvf inputs.self.modules.nvf.nvim;
-        nvim-full = mkNvf inputs.self.modules.nvf.nvim-full;
         nvim-minimal = minimal;
 
         vi = pkgs.runCommandLocal "vi" { } ''

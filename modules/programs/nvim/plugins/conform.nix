@@ -9,6 +9,7 @@
           gofumpt
           # only goimports; the full gotools set is ~250M
           (gotools.overrideAttrs { subPackages = [ "cmd/goimports" ]; })
+          ktlint
           nixfmt
           prettierd
           ruff
@@ -34,6 +35,7 @@
                 "gofumpt"
               ];
 
+              kotlin = [ "ktlint" ];
               lua = [ "stylua" ];
               nix = [ "nixfmt" ];
               rust = [ "rustfmt" ];
@@ -72,13 +74,4 @@
       };
     };
 
-  flake.modules.nvf.nvim-full =
-    { pkgs, ... }:
-    {
-      vim = {
-        extraPackages = [ pkgs.ktlint ];
-
-        formatter.conform-nvim.setupOpts.formatters_by_ft.kotlin = [ "ktlint" ];
-      };
-    };
 }

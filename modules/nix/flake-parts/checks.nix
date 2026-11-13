@@ -5,10 +5,7 @@ let
   root = ../../..;
 
   # packages and hosts left out of flake checks, as they are slow to build
-  unchecked = [
-    "iso"
-    "nvim-full"
-  ];
+  unchecked = [ "iso" ];
 
   nixFiles = lib.fileset.toSource {
     inherit root;
@@ -30,11 +27,6 @@ in
           lib.removeAttrs config.packages unchecked
         )
         // {
-          # nothing builds nvim-full, so at least make sure it still evaluates
-          eval-nvim-full = pkgs.writeText "nvim-full.drv-path" (
-            builtins.unsafeDiscardOutputDependency config.packages.nvim-full.drvPath
-          );
-
           deadnix = pkgs.runCommandLocal "check-deadnix" { } ''
             ${lib.getExe pkgs.deadnix} --fail ${nixFiles} && touch $out
           '';
