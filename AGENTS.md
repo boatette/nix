@@ -85,7 +85,7 @@ How to read them:
 
 Rules:
 
-- `glass` is the only place to change roundness or translucency. The bar, umbriel's windows and borders, foot, selector and noctalia's widgets all read it. 12 and 0.8 aren't arbitrary: they are what noctalia hardcodes for the parts it doesn't expose.
+- `glass` is the only place to change roundness or translucency. The bar, umbriel's windows and borders, foot, luciole, selector and noctalia's widgets all read it. 12 and 0.8 aren't arbitrary: they are what noctalia hardcodes for the parts it doesn't expose.
 - `palette` is a fallback for programs with no Rosé Pine port. Write a colour as `"#${palette.rose}"` and add alpha as a hex suffix (`"#${palette.rose}25"`). See `modules/programs/umbriel/colors.nix` and `modules/programs/selector/theme.nix`.
 - A new value that several modules need, and that isn't already an option they can read, belongs in constants.
 
@@ -297,7 +297,7 @@ Things that pass the checks but go wrong on the running system.
 ### umbriel
 
 - The home-manager config targets the umbriel NixOS runs: `programs.umbriel.package = osConfig.programs.umbriel.package`. That way the config and `umbriel msg` match the running compositor, not the newer one the flake input carries.
-- Window rules apply in order. A program that draws its own translucency (foot, konsole) needs `opacity = 1.0`, or it is faded twice.
+- Window rules apply in order. A program that draws its own translucency (foot, konsole, luciole) needs `opacity = 1.0`, or it is faded twice.
 - umbriel's `config validate` rejects `duration_ms` on an animation that uses a spring curve.
 
 ### System
