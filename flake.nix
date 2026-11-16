@@ -74,10 +74,6 @@
       url = "github:rose-pine/fzf";
       flake = false;
     };
-    rose-pine-kde = {
-      url = "github:ashbork/kde";
-      flake = false;
-    };
     rose-pine-lazygit = {
       url = "github:rose-pine/lazygit";
       flake = false;

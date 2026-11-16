@@ -46,33 +46,6 @@
       else
         pkg;
 
-    fromINI =
-      text:
-      let
-        lines = lib.filter (line: line != "" && !lib.hasPrefix "#" line) (
-          map lib.trim (lib.splitString "\n" text)
-        );
-
-        step =
-          acc: line:
-          let
-            section = builtins.match "\\[(.*)]" line;
-            pair = builtins.match "([^=]+)=(.*)" line;
-          in
-          if section != null then
-            acc // { current = lib.head section; }
-          else if pair != null then
-            lib.recursiveUpdate acc {
-              sections.${acc.current}.${lib.trim (lib.elemAt pair 0)} = lib.trim (lib.elemAt pair 1);
-            }
-          else
-            acc;
-      in
-      (lib.foldl' step {
-        current = "";
-        sections = { };
-      } lines).sections;
-
     mkNixos = system: name: {
       ${name} = inputs.nixpkgs.lib.nixosSystem {
         modules = [

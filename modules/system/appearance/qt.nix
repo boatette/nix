@@ -1,24 +1,12 @@
 { inputs, ... }:
 {
-  flake-file.inputs.rose-pine-kde = {
-    url = "github:ashbork/kde";
-    flake = false;
-  };
-
   flake.modules.homeManager.appearance =
-    {
-      config,
-      lib,
-      pkgs,
-      ...
-    }:
+    { config, pkgs, ... }:
     let
       inherit (config.constants.fonts) mono sans;
-      inherit (inputs.self.lib) fromINI qtFont;
+      inherit (inputs.self.lib) qtFont;
 
       theme = "rose-pine-rose";
-
-      kdeColours = "${inputs.rose-pine-kde}/Rose Pine/colorschemes/rose-pine.colors";
 
       # nixpkgs installs these under share/Kvantum/themes/, but kvantum only looks in share/Kvantum/<theme>/
       kvantumThemes = pkgs.runCommandLocal "${theme}-kvantum" { } ''
@@ -54,12 +42,5 @@
       };
 
       home.packages = [ pkgs.qt6Packages.qtstyleplugin-kvantum ];
-
-      xdg.dataFile."color-schemes/rose-pine.colors".source = kdeColours;
-
-      kde.settings.kdeglobals = lib.mkMerge [
-        (fromINI (builtins.readFile kdeColours))
-        { General.ColorScheme = "rose-pine"; }
-      ];
     };
 }

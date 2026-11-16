@@ -54,7 +54,7 @@ modules/
 │   ├── types/           base.nix and desktop.nix: which features each kind of machine gets
 │   ├── settings/        what every machine gets: boot, locale, users, nix settings, install plan, ...
 │   ├── session/         the graphical session: greeter, fonts, audio, graphics, ...
-│   ├── appearance/      GTK, Qt/Kvantum, the kde.settings option
+│   ├── appearance/      GTK and Qt/Kvantum
 │   └── mime/            the mimeHandlers helper
 ├── services/            systemd services and host features
 ├── programs/            one file per program, plus a directory for its facets
@@ -121,13 +121,10 @@ Used by `modules/programs/umbriel/output.nix`, `modules/programs/noctalia/{locks
 | `rebuild flakeDir`                              | `modules/nix/rebuild.nix`          | the rebuild, update and clean commands that aliases, noctalia and nvim run |
 | `mimeHandlers { "<app>.desktop" = [ types ]; }` | `modules/system/mime/handlers.nix` | default and added mime associations, for `homeManager.mime`                |
 | `qtFont font`                                   | `modules/nix/flake-parts/lib.nix`  | a Qt font string from a `constants.fonts` entry                            |
-| `fromINI text`                                  | `modules/nix/flake-parts/lib.nix`  | parses INI into an attrset (used for the KDE colour scheme)                |
 | `nvidiaOffloadEnv`                              | `modules/nix/flake-parts/lib.nix`  | the PRIME offload environment variables                                    |
 | `nvidiaOffloadWrap pkgs osConfig pkg bin`       | `modules/nix/flake-parts/lib.nix`  | wraps `bin` to run on the dGPU, when the host uses offload                 |
 | `mkNixos system name`                           | `modules/nix/flake-parts/lib.nix`  | builds `nixosConfigurations.<name>` from `modules.nixos.<name>`            |
 | `nvim.{cmd,lua,mod}`                            | `modules/programs/nvim/lib.nix`    | nvf keymap constructors                                                    |
-
-`modules/system/appearance/kde.nix` also adds a `kde.settings.<file>.<group>.<key>` home-manager option, which writes KDE config files with kwriteconfig6 on activation.
 
 ## Conventions
 

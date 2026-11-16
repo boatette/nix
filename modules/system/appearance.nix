@@ -1,4 +1,3 @@
-{ inputs, ... }:
 {
   flake.modules.homeManager.appearance =
     { config, pkgs, ... }:
@@ -30,11 +29,6 @@
       };
 
       dconf.settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
-
-      kde.settings.kdeglobals = {
-        General.font = inputs.self.lib.qtFont sans;
-        Icons.Theme = config.gtk.iconTheme.name;
-      };
 
       home = {
         pointerCursor = {

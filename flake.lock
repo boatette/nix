@@ -491,7 +491,6 @@
         "rose-pine-eza": "rose-pine-eza",
         "rose-pine-foot": "rose-pine-foot",
         "rose-pine-fzf": "rose-pine-fzf",
-        "rose-pine-kde": "rose-pine-kde",
         "rose-pine-lazygit": "rose-pine-lazygit",
         "rose-pine-qutebrowser": "rose-pine-qutebrowser",
         "rose-pine-rmpc": "rose-pine-rmpc",
@@ -583,22 +582,6 @@
       "original": {
         "owner": "rose-pine",
         "repo": "fzf",
-        "type": "github"
-      }
-    },
-    "rose-pine-kde": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1774784069,
-        "narHash": "sha256-SF2QD8PiBc4fb1ChV/2m+sKOMuFHdNOs3rh/IZyUXVI=",
-        "owner": "ashbork",
-        "repo": "kde",
-        "rev": "ee9ae80c009f0559c561f61c524e24b80e3af008",
-        "type": "github"
-      },
-      "original": {
-        "owner": "ashbork",
-        "repo": "kde",
         "type": "github"
       }
     },
