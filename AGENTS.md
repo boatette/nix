@@ -18,7 +18,7 @@ The repo follows the dendritic pattern: every file is a flake-parts module, and 
 - **Every `.nix` file under `modules/` is imported automatically** by `import-tree`. There are no import lists to update. A path containing `/_` is skipped. Nix only sees files git tracks, so a new file needs `git add` (or `git add -N`) before it exists to the flake.
 - **`flake.nix` is generated** by flake-file. Never edit it. An input is declared next to the module that uses it, with `flake-file.inputs.<name> = { ... };`, and `nix run .#write-flake` regenerates `flake.nix` from them all.
 - **Features are `flake.modules.<class>.<name>`**, with four classes:
-  - `nixos` and `homeManager`: system and user config. A program that needs both defines both under the same name (`dolphin`, `rmpc`, `zsh`, `btop`).
+  - `nixos` and `homeManager`: system and user config. A program that needs both defines both under the same name (`luciole`, `rmpc`, `zsh`, `btop`).
   - `generic`: only `constants`, which is imported into both of the above.
   - `nvf`: neovim configurations (see [Neovim](#neovim)).
 

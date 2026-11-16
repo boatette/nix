@@ -13,7 +13,6 @@
     audio
     appimage
 
-    dolphin
     localsend
     luciole
     rmpc
@@ -36,7 +35,6 @@
 
     foot
     konsole
-    dolphin
     luciole
     qutebrowser
     vesktop
