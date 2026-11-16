@@ -27,7 +27,7 @@
           "steam"
           "org.prismlauncher.PrismLauncher"
           "com.stremio.Stremio"
-          "org.kde.dolphin"
+          "dev.noctalia.luciole"
         ];
       };
     };

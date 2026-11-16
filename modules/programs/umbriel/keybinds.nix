@@ -23,7 +23,7 @@
       programs.umbriel.settings.keybinds = {
         "Mod+T" = "spawn foot";
         "Mod+W" = "spawn qutebrowser";
-        "Mod+E" = "spawn dolphin";
+        "Mod+E" = "spawn luciole";
 
         "Mod+Alt+E" = ''spawn foot zsh -ic "y; exec zsh"'';
 

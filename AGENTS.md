@@ -149,6 +149,7 @@ Used by `modules/programs/umbriel/output.nix`, `modules/programs/noctalia/{locks
 - Native ports come first: the official `rose-pine/*` repos, nixpkgs packages, or ports listed on rosepinetheme.com. A port is a non-flake input named `rose-pine-<app>`, declared in that app's `theme.nix` (or its main file) and read from there.
 - Only colour things by hand from `constants.palette` when no port exists.
 - noctalia uses its builtin `Rosé Pine` scheme, and its community templates are off.
+- luciole has no port. noctalia renders its palette into luciole's `colors.toml` through a user template (`modules/programs/luciole/theme.nix`), so leave it uncoloured by hand.
 
 ### Flake inputs
 

@@ -15,6 +15,7 @@
 
     dolphin
     localsend
+    luciole
     rmpc
     umbriel
   ];
@@ -36,6 +37,7 @@
     foot
     konsole
     dolphin
+    luciole
     qutebrowser
     vesktop
     umbriel

@@ -27,6 +27,10 @@
       url = "github:nix-community/lanzaboote/v1.1.0";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    luciole = {
+      url = "github:noctalia-dev/luciole";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     monitor-autorotate = {
       url = "git+file:///home/boatette/Projects/monitor-autorotate";
       inputs.nixpkgs.follows = "nixpkgs";
