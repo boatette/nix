@@ -21,7 +21,7 @@
     }
 
     {
-      match.app_id = "^(foot|org\\.kde\\.konsole)$";
+      match.app_id = "^foot$";
       opacity = 1.0;
     }
 

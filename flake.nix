@@ -78,10 +78,6 @@
       url = "github:ashbork/kde";
       flake = false;
     };
-    rose-pine-konsole = {
-      url = "github:rose-pine/konsole";
-      flake = false;
-    };
     rose-pine-lazygit = {
       url = "github:rose-pine/lazygit";
       flake = false;

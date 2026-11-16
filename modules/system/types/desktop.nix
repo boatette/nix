@@ -34,7 +34,6 @@
     bedrock
 
     foot
-    konsole
     luciole
     qutebrowser
     vesktop

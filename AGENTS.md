@@ -297,7 +297,7 @@ Things that pass the checks but go wrong on the running system.
 ### umbriel
 
 - The home-manager config targets the umbriel NixOS runs: `programs.umbriel.package = osConfig.programs.umbriel.package`. That way the config and `umbriel msg` match the running compositor, not the newer one the flake input carries.
-- Window rules apply in order. A program that draws its own translucency (foot, konsole, luciole) needs `opacity = 1.0`, or it is faded twice.
+- Window rules apply in order. A program that draws its own translucency (foot, luciole) needs `opacity = 1.0`, or it is faded twice.
 - umbriel's `config validate` rejects `duration_ms` on an animation that uses a spring curve.
 
 ### System
