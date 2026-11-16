@@ -1,6 +1,6 @@
 { inputs, ... }:
 {
-  # local chat and coding models behind one llama-server, with the weights on the ssd
+  # local chat and coding models behind one llama-server, with the weights on the internal nvme (~/ai-models/llm/models, linked from root/models)
   flake.modules.nixos.llm.home-manager.sharedModules = [ inputs.self.modules.homeManager.llm ];
 
   flake.modules.homeManager.llm =
@@ -57,7 +57,7 @@
       # the 27b with its vision projector is killed at the cap while loading, even at 8k context
       models = [
         {
-          # 13.5 GB, 17.3 t/s, 11.6 GB ram, 3.4 GB vram, 25 s to load
+          # 13.5 GB, 17.3 t/s, 11.6 GB ram, 3.4 GB vram, 13 s to load from the nvme (25 s from usb)
           id = "qwen3.6-35b-a3b";
           name = "Qwen3.6-35B-A3B uncensored (fast)";
           url = "https://huggingface.co/TokenTinkerer/Qwen3.6-35B-A3B-Uncensored-HauhauCS-Aggressive-TTQ-GGUF/resolve/868d7affcb391a810387c5cfdc6116ee47f9eaea/Qwen3.6-35B-A3B-Uncensored-HauhauCS-Aggressive-TTQ-3.33bpw-IQ3_XXS.gguf";
@@ -72,7 +72,7 @@
           };
         }
         {
-          # 11.9 GB, 1.5 t/s, 11.5 GB ram, 3.5 GB vram, 60 s to load. its mtp draft head gave
+          # 11.9 GB, 1.5 t/s, 11.5 GB ram, 3.5 GB vram, 15 s to load from the nvme (60 s from usb). its mtp draft head gave
           # 1.77 t/s for 2.3 GB more memory
           id = "qwen3.8-27b";
           name = "Qwen3.8-27B uncensored (smartest)";
