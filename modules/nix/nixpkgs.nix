@@ -11,12 +11,7 @@
           allowUnfree = true;
           # FIX: revert on qtwebengine fix
           # qtwebengine still trusts the revoked eMudhra intermediates (2026-11)
-          allowInsecurePredicate =
-            pkg:
-            builtins.elem (lib.getName pkg) [
-              "qutebrowser"
-              "ventoy"
-            ];
+          allowInsecurePredicate = pkg: lib.getName pkg == "qutebrowser";
         };
         overlays = [ inputs.self.overlays.default ];
       };

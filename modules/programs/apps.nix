@@ -9,7 +9,6 @@
         qbittorrent
         proton-pass
         proton-vpn
-        ventoy
         local.bambu-studio
         local.spotbye
         local.spotbye-bump

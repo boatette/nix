@@ -43,8 +43,6 @@ NixOS configuration for a desktop on [umbriel](https://github.com/noctalia-dev/u
    sudo cp result/iso/*.iso /dev/sdX && sync
    ```
 
-   For a Ventoy drive, copy the `.iso` onto its data partition instead, then `sync`. Check it is mounted as `exfat`, not `fuseblk` (`mount | grep -i ventoy`), as the fuse driver is far slower.
-
 3. Put the firmware into **Setup Mode** (clear the Secure Boot keys). The installer and the fresh install are both unsigned, so old keys would refuse to boot them. From a running system, `boot.loader.timeout` is 0: **hold Space** during boot to reach "Reboot Into Firmware Interface". `install-host` checks this for hosts with Secure Boot, and offers to reboot into the firmware if it was missed.
 
 4. Boot the stick and run:
