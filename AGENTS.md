@@ -29,7 +29,7 @@ The repo follows the dendritic pattern: every file is a flake-parts module, and 
   ```
   nixos.aspire  (modules/hosts/aspire/configuration.nix)
   ├── nixos.desktop → nixos.base        (modules/system/types/)
-  ├── host features: backup, gaming, impermanence, monitor-autorotate, petal, printing, secure-boot, tailscale
+  ├── host features: backup, gaming, impermanence, llm, monitor-autorotate, petal, printing, secure-boot, tailscale
   └── nixos.boatette → homeManager.boatette → homeManager.desktop → homeManager.base
   ```
 

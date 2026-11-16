@@ -9,6 +9,7 @@
         backup
         gaming
         impermanence
+        llm
         monitor-autorotate
         petal
         printing
