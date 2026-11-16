@@ -13,7 +13,7 @@
         local.spotbye
         local.spotbye-bump
 
-        libreoffice-qt
+        libreoffice
         hunspellDicts.en_AU
       ];
     };
