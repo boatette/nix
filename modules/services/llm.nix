@@ -63,7 +63,6 @@
           url = "https://huggingface.co/TokenTinkerer/Qwen3.6-35B-A3B-Uncensored-HauhauCS-Aggressive-TTQ-GGUF/resolve/868d7affcb391a810387c5cfdc6116ee47f9eaea/Qwen3.6-35B-A3B-Uncensored-HauhauCS-Aggressive-TTQ-3.33bpw-IQ3_XXS.gguf";
           sha256 = "c1e4dc98016f7f11be7ec595cc1273f576570fcdc86876706e21f6ec44c8137a";
           file = "Qwen3.6-35B-A3B-Uncensored-HauhauCS-Aggressive-TTQ-3.33bpw-IQ3_XXS.gguf";
-          code = true;
           preset = thinking // {
             # opencode's title request once spent a whole 4096 (4.5 minutes) before the task began
             reasoning-budget = 2048;
@@ -79,7 +78,6 @@
           url = "https://huggingface.co/mradermacher/Qwen3.8-27B-heretic-ara-i1-GGUF/resolve/84623b1bd7236f7a10e1d80d25bcbe36b5efbdd4/Qwen3.8-27B-heretic-ara.i1-IQ3_M.gguf";
           sha256 = "c7fb6283c47e5c7da3221e21c8cee228999d7102cc5d720ca646741fc240473c";
           file = "Qwen3.8-27B-heretic-ara.i1-IQ3_M.gguf";
-          code = true;
           # at 1.5 t/s, 1024 tokens of thinking is already 11 minutes
           preset = thinking // {
             reasoning-budget = 1024;
@@ -160,7 +158,7 @@
                     output = defaults.predict;
                   };
                 }
-              ) (lib.filter (m: m.code or false) models)
+              ) models
             );
           };
           model = "local/qwen3.6-35b-a3b";
