@@ -31,6 +31,12 @@
         ctx-size = 32768;
         parallel = 1;
         jinja = true;
+        # at 64k on the 35b an f16 cache was killed at the cap; q8_0 holds it at 11.7 GB
+        flash-attn = "on";
+        cache-type-k = "q8_0";
+        cache-type-v = "q8_0";
+        # prompt reading on the 35b: 208 t/s at the default 512, 306 at 1024; 2048 was killed at the cap
+        ubatch-size = 1024;
       };
 
       # thinking-mode sampling from the qwen model cards
@@ -57,6 +63,22 @@
       # the 27b with its vision projector is killed at the cap while loading, even at 8k context
       models = [
         {
+          # the coding model: decensoring costs tool calling, so this is the official weights. 13.2 GB,
+          # 16.4 t/s, 306 t/s reading a 21.8k prompt, 11.7 GB ram at 64k context (2026-11-17)
+          id = "qwen3.6-35b-a3b-coder";
+          name = "Qwen3.6-35B-A3B (coding)";
+          url = "https://huggingface.co/unsloth/Qwen3.6-35B-A3B-GGUF/resolve/a483e9e6cbd595906af30beda3187c2663a1118c/Qwen3.6-35B-A3B-UD-IQ3_XXS.gguf";
+          sha256 = "9c964e657212fea1f24905dd7b0a89b82fd807d19fab0b41da14251b07b88fbe";
+          file = "Qwen3.6-35B-A3B-UD-IQ3_XXS.gguf";
+          preset = thinking // {
+            reasoning-budget = 2048;
+            temp = 0.6;
+            # opencode's prompt alone is ~4k tokens, more with a project's AGENTS.md, and 32k
+            # compacted every few file reads
+            ctx-size = 65536;
+          };
+        }
+        {
           # 13.5 GB, 17.3 t/s, 11.6 GB ram, 3.4 GB vram, 13 s to load from the nvme (25 s from usb)
           id = "qwen3.6-35b-a3b";
           name = "Qwen3.6-35B-A3B uncensored (fast)";
@@ -82,6 +104,8 @@
           preset = thinking // {
             reasoning-budget = 1024;
           };
+          # chat only: in opencode it ran at 0.8 t/s, 25-30 minutes a turn (2026-11-17)
+          opencode = false;
         }
         {
           # 2.5 GB, 31.7 t/s, 3.3 GB vram
@@ -158,10 +182,28 @@
                     output = defaults.predict;
                   };
                 }
-              ) models
+              ) (lib.filter (m: m.opencode or true) models)
             );
           };
-          model = "local/qwen3.6-35b-a3b";
+          model = "local/qwen3.6-35b-a3b-coder";
+          # titles on another model would make the router swap models mid task (--models-max 1)
+          small_model = "local/qwen3.6-35b-a3b-coder";
+
+          # each of these is prompt weight on every request: denied, opencode sent 14 KB instead of
+          # 36 KB. the skills are claude code's, picked up from ~/.claude/skills, and denying execute
+          # turns its catalogue into the opencode_* tools
+          permission = {
+            webfetch = "deny";
+            websearch = "deny";
+            experimental_image_generate = "deny";
+            skill = "deny";
+            execute = "deny";
+            "opencode_*" = "deny";
+          };
+
+          # the default 50 KB is ~13k tokens from one read; longer output is saved to a file the
+          # model can page through
+          tool_output.max_bytes = 20000;
         };
       };
     };
