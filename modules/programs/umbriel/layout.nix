@@ -3,8 +3,8 @@
     gap = 8;
 
     struts = {
-      left = 20;
-      right = 20;
+      left = 40;
+      right = 40;
     };
 
     scrolling.default_extent_fraction = 0.5;
