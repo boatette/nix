@@ -46,11 +46,11 @@
         top-k = 20;
       };
 
-      # the small ones sit wholly on the card at 16k context; at 32k the 4b pushed layers off it
-      # (20.4 t/s) and so did its q6_k file (12.4 t/s)
+      # the small ones sit wholly on the card at the default 32k context (llama.cpp 1.0.0, 2026-11-18).
+      # the 4b leaves 363 MiB free, just over fit-target, so anything else on the card pushes its
+      # layers off; its q6_k file, 0.7 GB bigger, spilled (12.4 t/s)
       quick = {
         no-mmproj = true;
-        ctx-size = 16384;
         reasoning = "off";
         temp = 0.7;
         top-p = 0.8;
@@ -108,7 +108,7 @@
           opencode = false;
         }
         {
-          # 2.5 GB, 31.7 t/s, 3.3 GB vram
+          # 2.5 GB, 31.7 t/s, 3.5 GB vram
           id = "qwen3.5-4b";
           name = "Qwen3.5-4B uncensored (quick)";
           url = "https://huggingface.co/HauhauCS/Qwen3.5-4B-Uncensored-HauhauCS-Aggressive/resolve/c09cdbcdb1fefad6d335809d445621b5f5ba0c6e/Qwen3.5-4B-Uncensored-HauhauCS-Aggressive-Q4_K_M.gguf";
@@ -117,7 +117,7 @@
           preset = quick;
         }
         {
-          # 1.9 GB, 45.1 t/s, 2.2 GB vram
+          # 1.9 GB, 45.1 t/s, 2.4 GB vram
           id = "qwen3.5-2b";
           name = "Qwen3.5-2B uncensored (quickest)";
           url = "https://huggingface.co/HauhauCS/Qwen3.5-2B-Uncensored-HauhauCS-Aggressive/resolve/2bcf35c1ebf62c837c12c1aa90b578ff4717e831/Qwen3.5-2B-Uncensored-HauhauCS-Aggressive-Q8_0.gguf";
