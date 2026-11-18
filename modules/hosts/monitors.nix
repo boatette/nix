@@ -188,6 +188,23 @@ in
         in
         profiles.${lib.head (lib.attrNames profiles)};
 
+      # a profile's layout as an umbriel config file. umbriel runs a portrait output's scrolling
+      # strip top to bottom when its workspaces sit side by side, so a column fills the width
+      umbrielLayout =
+        pkgs: name: layout:
+        (pkgs.formats.toml { }).generate "umbriel-${name}.toml" {
+          output = lib.mapAttrs (_: m: {
+            transform = transformName m;
+
+            position = [
+              m.position.x
+              m.position.y
+            ];
+
+            workspace_axis = if isPortrait m then "horizontal" else "vertical";
+          }) layout;
+        };
+
       # the name of a host's primary output
       primaryMonitor =
         host:
@@ -232,6 +249,7 @@ in
         transformName
         logicalSize
         startLayout
+        umbrielLayout
         primaryMonitor
         noctaliaWidget
         ;

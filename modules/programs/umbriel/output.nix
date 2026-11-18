@@ -1,28 +1,25 @@
 { inputs, lib, ... }:
 {
   flake.modules.homeManager.umbriel =
-    { osConfig, ... }:
+    { osConfig, pkgs, ... }:
     let
-      inherit (inputs.self.lib) isPortrait startLayout transformName;
+      inherit (inputs.self.lib) startLayout umbrielLayout;
+
+      layout = startLayout osConfig.networking.hostName;
     in
     {
+      # included rather than set here, so monitor-autorotate's include, read after it, can turn the outputs
+      programs.umbriel.settings.include.files = [ "${umbrielLayout pkgs "start" layout}" ];
+
       programs.umbriel.settings.output = lib.mapAttrs (
         _: m:
         {
           scale = m.scale * 1.0;
-          transform = transformName m;
-
-          position = [
-            m.position.x
-            m.position.y
-          ];
 
           workspaces = "dynamic";
           min_workspaces = 5;
-
-          workspace_axis = if isPortrait m then "horizontal" else "vertical";
         }
         // lib.optionalAttrs (m.mode != null) { inherit (m) mode; }
-      ) (startLayout osConfig.networking.hostName);
+      ) layout;
     };
 }

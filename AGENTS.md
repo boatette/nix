@@ -99,16 +99,17 @@ Monitors are data, defined once per host and read by everything that cares about
   - `profiles`: named variations that monitor-autorotate switches all monitors between (aspire's HDMI monitor is on a rotating arm). The first profile by name is the layout the compositor starts in. Positions are shifted until none is negative, because XWayland misplaces clients at negative coordinates.
 - In home-manager the host is `osConfig.networking.hostName`; in NixOS it is `config.networking.hostName`. The helpers take the host name, or a monitor.
 
-| Helper (`inputs.self.lib.*`)        | Returns                                                                                               |
-| ----------------------------------- | ----------------------------------------------------------------------------------------------------- |
-| `primaryMonitor host`               | the primary connector's name; throws if none is marked                                                |
-| `startLayout host`                  | every monitor as laid out in the first profile                                                        |
-| `monitorProfiles monitors`          | each profile's layout (or a single `default` one)                                                     |
-| `logicalSize monitor`               | `{ width; height; }` after rotation and scale                                                         |
-| `isPortrait monitor`                | whether the transform turns it sideways                                                               |
-| `transformName monitor`             | the transform as umbriel and wlr-randr spell it (`"normal"`, `"90"`, ...)                             |
-| `parseMode mode`                    | `{ width; height; refresh; }` as strings                                                              |
-| `noctaliaWidget host output widget` | a noctalia lockscreen or desktop widget whose `box` is laid out for 1920x1080, scaled onto the output |
+| Helper (`inputs.self.lib.*`)        | Returns                                                                                                     |
+| ----------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| `primaryMonitor host`               | the primary connector's name; throws if none is marked                                                      |
+| `startLayout host`                  | every monitor as laid out in the first profile                                                              |
+| `monitorProfiles monitors`          | each profile's layout (or a single `default` one)                                                           |
+| `logicalSize monitor`               | `{ width; height; }` after rotation and scale                                                               |
+| `isPortrait monitor`                | whether the transform turns it sideways                                                                     |
+| `transformName monitor`             | the transform as umbriel and wlr-randr spell it (`"normal"`, `"90"`, ...)                                   |
+| `parseMode mode`                    | `{ width; height; refresh; }` as strings                                                                    |
+| `noctaliaWidget host output widget` | a noctalia lockscreen or desktop widget whose `box` is laid out for 1920x1080, scaled onto the output       |
+| `umbrielLayout pkgs name layout`    | a layout as an umbriel config file: transform, position, and a vertical scrolling strip on portrait outputs |
 
 Used by `modules/programs/umbriel/output.nix`, `modules/programs/noctalia/{lockscreen,desktop}-widgets.nix`, `modules/system/session/greeter.nix`, `modules/programs/gaming/steam.nix` (gamescope's resolution and refresh) and `modules/services/monitor-autorotate.nix`. The one known exception is `modules/programs/noctalia/bar.nix`, which names `HDMI-A-1` to shorten the bar when that monitor is portrait.
 

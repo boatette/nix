@@ -1,4 +1,9 @@
 { inputs, lib, ... }:
+let
+  # the current profile, written by umbriel-monitor-profile. in the runtime dir, so an umbriel restart
+  # keeps the arm's profile and a new login starts in the first one
+  profileFile = "umbriel-monitor-profile.toml";
+in
 {
   flake-file.inputs.monitor-autorotate = {
     url = "git+file:///home/boatette/Projects/monitor-autorotate";
@@ -9,21 +14,9 @@
   flake.modules.nixos.monitor-autorotate =
     { config, pkgs, ... }:
     let
-      inherit (inputs.self.lib) monitorProfiles transformName;
+      inherit (inputs.self.lib) monitorProfiles transformName umbrielLayout;
 
       profiles = monitorProfiles (inputs.self.monitors.${config.networking.hostName} or { });
-
-      # one wlr-randr call, so the outputs turn together or not at all. they stay turned until
-      # umbriel restarts, which starts them in the first profile again
-      apply =
-        monitors:
-        lib.concatStringsSep " " (
-          [ "wlr-randr" ]
-          ++ lib.mapAttrsToList (
-            name: m:
-            "--output ${name} --transform ${transformName m} --pos ${toString m.position.x},${toString m.position.y}"
-          ) monitors
-        );
 
       # each profile as wlr-randr --json reports it, to tell which one the outputs are in
       layouts = builtins.toJSON (
@@ -41,6 +34,7 @@
       rotate = pkgs.writeShellApplication {
         name = "umbriel-monitor-profile";
         runtimeInputs = with pkgs; [
+          coreutils
           jq
           wlr-randr
         ];
@@ -69,7 +63,7 @@
           ${lib.concatStrings (
             lib.mapAttrsToList (profile: monitors: ''
               ${profile})
-              ${apply monitors};;
+              layout=${umbrielLayout pkgs profile monitors};;
             '') profiles
           )}
           *)
@@ -77,6 +71,11 @@
             exit 1
             ;;
           esac
+
+          # renamed into place, so umbriel never reloads a half-written file. one file, so the outputs
+          # turn together or not at all
+          install -m 644 "$layout" "$XDG_RUNTIME_DIR/.${profileFile}"
+          mv -f "$XDG_RUNTIME_DIR/.${profileFile}" "$XDG_RUNTIME_DIR/${profileFile}"
         '';
       };
     in
@@ -93,7 +92,11 @@
       home-manager.sharedModules = [ inputs.self.modules.homeManager.monitor-autorotate ];
     };
 
-  # TODO: drop once the Pico on the arm is reporting
-  flake.modules.homeManager.monitor-autorotate.programs.umbriel.settings.keybinds."Mod+Shift+P" =
-    "spawn umbriel-monitor-profile next";
+  flake.modules.homeManager.monitor-autorotate.programs.umbriel.settings = {
+    # read after the start layout's include, so it wins. umbriel watches it and reloads when it changes
+    include.optional.files = [ "$XDG_RUNTIME_DIR/${profileFile}" ];
+
+    # TODO: drop once the Pico on the arm is reporting
+    keybinds."Mod+Shift+P" = "spawn umbriel-monitor-profile next";
+  };
 }
