@@ -117,6 +117,16 @@
           preset = quick;
         }
         {
+          # on trial against the qwen3.5-4b, which it is a fine-tune of. 2.7 GB, 31.2 t/s, 3.5 GB vram;
+          # tied it on knowledge, arithmetic, code and false premises (2026-11-18)
+          id = "neohorse-1-4b";
+          name = "NeoHorse-1-4B uncensored (quick)";
+          url = "https://huggingface.co/mradermacher/Huihui-NeoHorse-1-4B-abliterated-i1-GGUF/resolve/b446203c38e0ad25b7929a146c1f1273d76c4123/Huihui-NeoHorse-1-4B-abliterated.i1-Q4_K_M.gguf";
+          sha256 = "2e732bcdb9dc88001c508693356f1772306be185dbe3291562dedbcc87537130";
+          file = "Huihui-NeoHorse-1-4B-abliterated.i1-Q4_K_M.gguf";
+          preset = quick;
+        }
+        {
           # 1.9 GB, 45.1 t/s, 2.4 GB vram
           id = "qwen3.5-2b";
           name = "Qwen3.5-2B uncensored (quickest)";
@@ -124,6 +134,23 @@
           sha256 = "3d6ba5655ffb7be0108607b8764ba33920ad23335f08d683806bfa979d838793";
           file = "Qwen3.5-2B-Uncensored-HauhauCS-Aggressive-Q8_0.gguf";
           preset = quick;
+        }
+        {
+          # on trial against the qwen3.5-2b. 2.7 GB, 39.7 t/s (35.5 at 10k context), 3.2 GB vram: every
+          # layer is full attention, so its cache is three times the qwen's. not a qwen, so the sampling
+          # is from its own model card
+          id = "minicpm5-2b";
+          name = "MiniCPM5-2B uncensored (quick)";
+          url = "https://huggingface.co/Abiray/MiniCPM5-2B-heretic-abliterated-GGUF/resolve/c153cc60bed0471d7d26feb02f999a887851a81b/MiniCPM5-2B-heretic-abliterated-Q8_0.gguf";
+          sha256 = "2bd4589f27e7f1f7efe0220d5348c39775744973efcbd909989e31f82d7f8efd";
+          file = "MiniCPM5-2B-heretic-abliterated-Q8_0.gguf";
+          preset = {
+            inherit (quick) reasoning;
+            temp = 1.0;
+            top-p = 0.95;
+            # the card's fix for repetition under llama.cpp's default 0.05
+            min-p = 0.0;
+          };
         }
       ];
 
