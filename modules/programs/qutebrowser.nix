@@ -13,7 +13,8 @@
 
       editUrl = "spawn --userscript ${lib.getExe pkgs.local.qute-edit-url}";
 
-      searxng = "http://${server.bind_address}:${toString server.port}/search?q={}";
+      searxngOrigin = "http://${server.bind_address}:${toString server.port}";
+      searxng = "${searxngOrigin}/search?q={}";
     in
     {
       programs.qutebrowser = {
@@ -72,6 +73,9 @@
             ];
           };
         };
+
+        # searxng is already rose pine, and darkmode would recolour it
+        perDomainSettings."${searxngOrigin}/*".colors.webpage.darkmode.enabled = false;
 
         searchEngines = {
           DEFAULT = searxng;
