@@ -3,16 +3,17 @@
     {
       config,
       lib,
+      osConfig,
       pkgs,
       ...
     }:
     let
       inherit (config.constants.fonts) mono;
+      inherit (osConfig.services.searx.settings) server;
 
       editUrl = "spawn --userscript ${lib.getExe pkgs.local.qute-edit-url}";
 
-      # startpage with saved settings in prfe
-      startpage = "https://www.startpage.com/sp/search?query={}&prfe=f553b88948f2386e97944a17f918362dbaedfb6381ed1bcb684b1f32e856a0fbc55532682719dcb7ce08628290db7ab6f5fc795492b620e0fc5634f33adfb8e816eaf81977d31c2b9322224f1f2432f1";
+      searxng = "http://${server.bind_address}:${toString server.port}/search?q={}";
     in
     {
       programs.qutebrowser = {
@@ -58,21 +59,23 @@
 
           new_instance_open_target = "tab";
 
-          content.blocking.method = "both";
-          content.blocking.adblock.lists = [
-            "https://easylist.to/easylist/easylist.txt"
-            "https://easylist.to/easylist/easyprivacy.txt"
-            "https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/filters.txt"
-            "https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/privacy.txt"
-            "https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/badware.txt"
-            "https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/unbreak.txt"
-            "https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/quick-fixes.txt"
-          ];
+          content.blocking = {
+            method = "both";
+            adblock.lists = [
+              "https://easylist.to/easylist/easylist.txt"
+              "https://easylist.to/easylist/easyprivacy.txt"
+              "https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/filters.txt"
+              "https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/privacy.txt"
+              "https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/badware.txt"
+              "https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/unbreak.txt"
+              "https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/quick-fixes.txt"
+            ];
+          };
         };
 
         searchEngines = {
-          DEFAULT = startpage;
-          search = startpage;
+          DEFAULT = searxng;
+          search = searxng;
           google = "https://www.google.com/search?q={}";
           nixpkg = "https://search.nixos.org/packages?channel=unstable&query={}";
           nixopt = "https://search.nixos.org/options?channel=unstable&query={}";

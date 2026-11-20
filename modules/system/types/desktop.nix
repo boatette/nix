@@ -16,6 +16,7 @@
     localsend
     luciole
     rmpc
+    searxng
     umbriel
   ];
 
