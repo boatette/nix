@@ -20,8 +20,24 @@
             favicon_resolver = "duckduckgo";
           };
 
-          # qutebrowser's tab titles otherwise all read "SearXNG"
-          ui.query_in_title = true;
+          ui = {
+            # qutebrowser's tab titles otherwise all read "SearXNG"
+            query_in_title = true;
+            results_on_new_tab = true;
+            hotkeys = "vim";
+          };
+
+          # the preferences page saves every value into a cookie that outranks these; locked ones ignore it
+          preferences.lock = [
+            "favicon_resolver"
+            "query_in_title"
+            "results_on_new_tab"
+          ];
+
+          plugins = {
+            "searx.plugins.infinite_scroll.SXNGPlugin".active = true;
+            "searx.plugins.oa_doi_rewrite.SXNGPlugin".active = true;
+          };
 
           # off upstream, and most of what gets searched here
           engines = [
@@ -41,5 +57,11 @@
         SEARX_SECRET_KEY=$(head -c 32 /dev/urandom | base64)
         export SEARX_SECRET_KEY
       '';
+
+      # it downloads the tracker url remover's rules once at start, which fails before dns is up
+      systemd.services.searx = {
+        wants = [ "network-online.target" ];
+        after = [ "network-online.target" ];
+      };
     };
 }

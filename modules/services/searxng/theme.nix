@@ -151,9 +151,17 @@
           '';
     in
     {
-      services.searx.settings.ui = {
-        static_path = "${static}";
-        theme_args.simple_style = "dark";
+      services.searx.settings = {
+        ui = {
+          static_path = "${static}";
+          theme_args.simple_style = "dark";
+        };
+
+        # the palette only covers the dark style
+        preferences.lock = [
+          "theme"
+          "simple_style"
+        ];
       };
     };
 }
