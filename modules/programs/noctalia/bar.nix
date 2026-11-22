@@ -34,6 +34,8 @@
 
         end = [
           "nix_monitor"
+          "tailnet"
+          "noctaproton_vpn"
           "network"
           "bluetooth"
           "battery"

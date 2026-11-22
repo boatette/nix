@@ -21,6 +21,16 @@
           clean_command = rebuild.clean;
           hide_optimize_button = true;
         };
+
+        "riversyx/noctaproton-vpn" = {
+          panel_placement = "floating";
+          panel_position = "top_center";
+        };
+
+        "rylos/tailnet" = {
+          panel_placement = "floating";
+          panel_position = "top_center";
+        };
       };
     };
 }
