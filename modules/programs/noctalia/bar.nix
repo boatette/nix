@@ -19,6 +19,8 @@
         # 1080 wide when monitor-autorotate turns it portrait, too narrow for the 600 above
         monitor."HDMI-A-1".margin_ends = 180;
 
+        layer = "auto";
+
         start = [
           "workspaces"
           "umbriel_companion"
