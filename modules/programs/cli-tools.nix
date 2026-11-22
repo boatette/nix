@@ -36,6 +36,7 @@
           ripgrep
           microfetch
           tldr
+          proton-vpn-cli
         ])
         ++ [
           inputs.claude-code.packages.${system}.default
