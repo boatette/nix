@@ -58,6 +58,7 @@
           directory = "~/Pictures/Screenshots";
           filename_pattern = "Screenshot from %Y-%m-%d %H-%M-%S";
           confirm_region = true;
+          copy_on_close = true;
         };
 
         session = {
