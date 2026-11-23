@@ -4,7 +4,7 @@ How this flake works and how changes to it are expected to look. The README cove
 
 ## What this is
 
-A NixOS + home-manager flake for one user (`boatette`) on one machine, `aspire`: a laptop with Intel + NVIDIA under PRIME offload, LUKS + TPM, lanzaboote Secure Boot, and a root that is wiped on every boot. It is installed from the official NixOS ISO with `nix run github:boatette/nix#install-host`.
+A NixOS + home-manager flake for one user (`boatette`) on one machine, `aspire`: a laptop with Intel + NVIDIA under PRIME offload, LUKS + TPM, lanzaboote Secure Boot, and a root that is wiped on every boot. It is installed from the official NixOS ISO with `nix run github:boatette/nix#install`.
 
 The desktop is [umbriel](https://github.com/noctalia-dev/umbriel), a scrolling Wayland compositor, with [noctalia](https://github.com/noctalia-dev/noctalia-shell) as its shell, bar, lockscreen, launcher and greeter. Everything is themed **Rosé Pine main**.
 
@@ -33,7 +33,6 @@ modules/
 ├── nix/                 how the flake is assembled: inputs, pkgs, packages, home-manager, rebuild commands
 │   └── flake-parts/     flake.lib core helpers, checks, formatter, devshell, systems
 ├── hosts/
-│   ├── monitors.nix     the flake.monitors schema and the monitor helpers
 │   └── aspire/          the machine: configuration, hardware, graphics, disko, monitors, storage
 ├── system/
 │   ├── constants.nix    shared values (see below)
@@ -63,6 +62,7 @@ assets/                  the wallpaper
 | `fonts.{mono,sans}.{name,size}`      | JetBrainsMono Nerd Font and Inter                                                                                |
 | `cursor.{name,size}`                 | the Rosé Pine cursor                                                                                             |
 | `glass.{radius,opacity}`             | the corner radius and translucency of everything (12 and 0.8)                                                    |
+| `monitors`                           | the two outputs, their modes and the arm's layouts (see [Monitors](#monitors))                                   |
 | `palette.<name>`                     | Rosé Pine main as `rrggbb` without `#`, the twelve colours plus `highlightLow`, `highlightMed`, `highlightHigh`  |
 | `roles.<role>`                       | the palette name each role uses: `primary` rose, `secondary` foam, `tertiary` pine, `warning` gold, `error` love |
 
@@ -75,44 +75,32 @@ Rules:
 
 ## Monitors
 
-Monitors are data, read by everything that cares about outputs.
+There are only ever two outputs: `eDP-1`, always there, and `HDMI-A-1`, on a swivel arm and plugged in about half the time. They are plain data in `constants.monitors` (`modules/hosts/aspire/monitors.nix`):
 
-- The schema is `options.flake.monitors` in `modules/hosts/monitors.nix`, and the data is `flake.monitors."<connector>"` in `modules/hosts/aspire/monitors.nix`, with:
-  - `mode` (`"1920x1080@144"`, or `null` for the preferred mode), `scale`, `transform` (`0`, `90`, ..., `"flipped-90"`) and `position.{x,y}`
-  - `primary`: exactly one monitor. Games, the greeter, the lockscreen login box and desktop widgets go on it.
-  - `profiles`: named variations that monitor-autorotate switches all monitors between (HDMI-A-1 is on a rotating arm). The first profile by name is the layout the compositor starts in. Positions are shifted until none is negative, because XWayland misplaces clients at negative coordinates.
+- `primary` (`eDP-1`) gets games, the greeter, the lockscreen login box and clock; `arm` is `HDMI-A-1`.
+- `modes.<connector>` is each output's mode string.
+- `layouts.{landscape,portrait}` are the arm's two positions as wlr-randr reports them, with nothing at negative coordinates, where XWayland misplaces clients. umbriel starts in `landscape` (`modules/programs/umbriel/output.nix`), and monitor-autorotate switches between them, writing each through `inputs.self.lib.umbrielLayout pkgs name layout`.
 
-| Helper (`inputs.self.lib.*`)     | Is                                                                                                          |
-| -------------------------------- | ----------------------------------------------------------------------------------------------------------- |
-| `primaryMonitor`                 | the primary connector's name; throws if none is marked                                                      |
-| `startLayout`                    | every monitor as laid out in the first profile                                                              |
-| `monitorProfiles`                | each profile's layout (or a single `default` one)                                                           |
-| `logicalSize monitor`            | `{ width; height; }` after rotation and scale                                                               |
-| `isPortrait monitor`             | whether the transform turns it sideways                                                                     |
-| `transformName monitor`          | the transform as umbriel and wlr-randr spell it (`"normal"`, `"90"`, ...)                                   |
-| `parseMode mode`                 | `{ width; height; refresh; }` as strings                                                                    |
-| `noctaliaWidget output widget`   | a noctalia lockscreen or desktop widget whose `box` is laid out for 1920x1080, scaled onto the output       |
-| `umbrielLayout pkgs name layout` | a layout as an umbriel config file: transform, position, and a vertical scrolling strip on portrait outputs |
-
-Used by `modules/programs/umbriel/output.nix`, `modules/programs/noctalia/{bar,lockscreen-widgets,desktop-widgets}.nix`, `modules/system/session/greeter.nix`, `modules/programs/gaming/steam.nix` (gamescope's resolution and refresh) and `modules/services/monitor-autorotate.nix`.
+Read by `modules/programs/umbriel/output.nix`, `modules/programs/noctalia/{bar,lockscreen-widgets}.nix`, `modules/system/session/greeter.nix`, `modules/programs/gaming/steam.nix` (gamescope's resolution and refresh) and `modules/services/monitor-autorotate.nix`.
 
 ## Other helpers
 
 `flake.lib` holds shared functions, used as `inputs.self.lib.<name>`. Put a new helper in the file for its domain rather than repeating code across modules.
 
-| Helper                                                       | Defined in                              | Does                                                                       |
-| ------------------------------------------------------------ | --------------------------------------- | -------------------------------------------------------------------------- |
-| `colours.hex name`                                           | `modules/system/appearance/colours.nix` | `"#rrggbb"` of a palette or role name                                      |
-| `colours.alpha name opacity`                                 | same                                    | `"#rrggbbaa"`                                                              |
-| `colours.mix a b t`                                          | same                                    | `a` laid over `b` at opacity `t`, as noctalia blends its containers        |
-| `colours.rgb name`, `colours.alphaHex opacity`               | same                                    | `"r, g, b"`, and an opacity as two hex digits                              |
-| `rebuild.{os,osDev,dryBuild,update,upgrade,clean,cleanArgs}` | `modules/nix/rebuild.nix`               | the rebuild, update and clean commands that aliases, noctalia and nvim run |
-| `mimeHandlers { "<app>.desktop" = [ types ]; }`              | `modules/system/mime/handlers.nix`      | default and added mime associations                                        |
-| `qtFont font`                                                | `modules/nix/flake-parts/lib.nix`       | a Qt font string from a `constants.fonts` entry                            |
-| `nvidiaOffloadEnv`                                           | same                                    | the PRIME offload environment variables                                    |
-| `nvidiaOffloadWrap pkgs pkg bin`                             | same                                    | wraps `bin` to run on the dGPU                                             |
-| `glibcAssertion pkgs input`                                  | same                                    | an assertion that an input's own nixpkgs has at least the system's glibc   |
-| `nvim.{cmd,lua,mod}`                                         | `modules/programs/nvim/lib.nix`         | nvf keymap constructors                                                    |
+| Helper                                                       | Defined in                              | Does                                                                           |
+| ------------------------------------------------------------ | --------------------------------------- | ------------------------------------------------------------------------------ |
+| `colours.hex name`                                           | `modules/system/appearance/colours.nix` | `"#rrggbb"` of a palette or role name                                          |
+| `colours.alpha name opacity`                                 | same                                    | `"#rrggbbaa"`                                                                  |
+| `colours.mix a b t`                                          | same                                    | `a` laid over `b` at opacity `t`, as noctalia blends its containers            |
+| `colours.rgb name`, `colours.alphaHex opacity`               | same                                    | `"r, g, b"`, and an opacity as two hex digits                                  |
+| `umbrielLayout pkgs name layout`                             | `modules/programs/umbriel/output.nix`   | a layout as an umbriel config file, with a vertical strip on a portrait output |
+| `rebuild.{os,osDev,dryBuild,update,upgrade,clean,cleanArgs}` | `modules/nix/rebuild.nix`               | the rebuild, update and clean commands that aliases, noctalia and nvim run     |
+| `mimeHandlers { "<app>.desktop" = [ types ]; }`              | `modules/system/mime/handlers.nix`      | default and added mime associations                                            |
+| `qtFont font`                                                | `modules/nix/flake-parts/lib.nix`       | a Qt font string from a `constants.fonts` entry                                |
+| `nvidiaOffloadEnv`                                           | same                                    | the PRIME offload environment variables                                        |
+| `nvidiaOffloadWrap pkgs pkg bin`                             | same                                    | wraps `bin` to run on the dGPU                                                 |
+| `glibcAssertion pkgs input`                                  | same                                    | an assertion that an input's own nixpkgs has at least the system's glibc       |
+| `nvim.{cmd,lua,mod}`                                         | `modules/programs/nvim/lib.nix`         | nvf keymap constructors                                                        |
 
 ## Conventions
 
@@ -144,7 +132,7 @@ Used by `modules/programs/umbriel/output.nix`, `modules/programs/noctalia/{bar,l
 - The one exception is luciole, which tracks its `cachix` branch without `follows` so noctalia.cachix.org has it prebuilt. Its module asserts `glibcAssertion`, so a cachix branch on an older glibc fails evaluation rather than the boot.
 - Dev-only inputs of inputs are emptied with `follows = ""`, and duplicates follow ours (flake-parts).
 - A repo that isn't a flake (themes) gets `flake = false`.
-- The user's own projects are `github:boatette/<name>` (monitor-autorotate, selector, toothless). petal has no remote yet and is `git+file:///home/boatette/Projects/petal`. `nrsd`/`nrbd` build all of them from their working trees in `~/Projects`.
+- The user's own projects are `github:boatette/<name>` (monitor-autorotate, selector, toothless). `nrsd`/`nrbd` build them from their working trees in `~/Projects`.
 - After adding, removing or changing an input, run `nix run .#write-flake`. The `check-flake-file` check fails while `flake.nix` differs from what it would generate.
 
 ### Nix style
@@ -241,12 +229,12 @@ The git settings below come from `modules/programs/git.nix` and `modules/program
 | `nix build .#checks.x86_64-linux.<name>`                                     | one check: `statix`, `deadnix`, `formatting`, `check-flake-file`, `package-<name>`, `host-aspire` |
 | `nix eval .#nixosConfigurations.aspire.config.system.build.toplevel.drvPath` | evaluates aspire without building it                                                              |
 | `nix build .#nixosConfigurations.aspire.config.system.build.toplevel`        | builds aspire without activating it                                                               |
-| `nix run .#install-host -- --dry-run`                                        | the install plan and disko's script, changing nothing                                             |
+| `nix run .#install -- --dry-run`                                             | the install plan and disko's script, changing nothing                                             |
 
 - `nix flake check` builds the full system, so it is slow after an input update. Evaluate first.
 - `nix fmt -- --ci` is not read-only: it rewrites unformatted files, then fails.
 - The devshell (direnv `use flake`) provides treefmt, deadnix and statix.
-- **To prove a cleanup changes nothing**, compare the `drvPath` of the system and every package before and after, and run `nix-diff` on any pair that differs. `install-host` always changes, because it embeds the flake source. A change that only reorders a list changes the derivation too; compare the sorted package and file sets instead.
+- **To prove a cleanup changes nothing**, compare the `drvPath` of the system and every package before and after, and run `nix-diff` on any pair that differs. `install` always changes, because it embeds the flake source. A change that only reorders a list changes the derivation too; compare the sorted package and file sets instead.
 - To check a derivation evaluates without building it, use `builtins.unsafeDiscardOutputDependency drv.drvPath`. Writing a plain `drvPath` to a file builds the derivation.
 
 ### Rebuilding
@@ -278,7 +266,7 @@ Things that pass the checks but go wrong on the running system.
 
   Editing the file while noctalia runs does nothing: it writes the file back from memory.
 
-- **Lockscreen and desktop widgets** must be complete per output. Build them with `noctaliaWidget`, and give every output a login box (disabled on all but the primary). Otherwise noctalia copies the whole section into its state file. When HDMI-A-1 rotates, noctalia saves `lockscreen_widgets` into state anyway, and that is unavoidable.
+- **Lockscreen widgets** must be complete per output: placed for a 1920x1080 output, with a login box on every output (disabled on all but the primary). Otherwise noctalia copies the whole section into its state file. When HDMI-A-1 turns portrait, noctalia saves `lockscreen_widgets` into state anyway, and that is unavoidable. Desktop widgets are off.
 - `noctalia config export full` prints the effective config with defaults, which is the fastest way to find a real key name. `noctalia config validate <file>` only warns about unknown keys and still exits 0, so read its output.
 - An idle behaviour named in `idle.nix` replaces the default one rather than merging with it. Give it its full action and timeout.
 - Blur on noctalia's surfaces comes only from umbriel's layer rules (`modules/programs/noctalia/umbriel/layer-rule.nix`), which need `blur_optimized = false`. noctalia's shadows stay off (`shadow.alpha = 0`), or the blur turns them into a halo.
@@ -295,7 +283,7 @@ Things that pass the checks but go wrong on the running system.
 - Changes to `home.sessionVariables` don't reach a session that is already running.
 - home-manager moves a conflicting file it doesn't manage to `<file>.bak`. If that `.bak` already exists, activation fails.
 - Programs that need the NVIDIA GPU (prismlauncher, the Bedrock launcher, games) get `nvidiaOffloadWrap` or `nvidiaOffloadEnv`. Everything else stays on the Intel GPU.
-- `/mnt/storage` is an external SSD, automounted with `nofail`. Backups (`ssd`), ComfyUI and the LLM cache live there.
+- `/mnt/storage` is an external SSD, automounted with `nofail`. Backups (`ssd`) and ComfyUI live there.
 - The generated NixOS and home-manager option manuals are off for faster rebuilds; look options up with nixd or the `nixopt` and `hm` search engines.
 
 ### Shell

@@ -15,17 +15,10 @@ NixOS for one laptop, `aspire`, on [umbriel](https://github.com/noctalia-dev/umb
 3. Boot the official NixOS minimal ISO in UEFI mode and run:
 
    ```bash
-   nix --extra-experimental-features 'nix-command flakes' run github:boatette/nix#install-host
+   nix --extra-experimental-features 'nix-command flakes' run github:boatette/nix#install
    ```
 
    It opens `nmtui` when offline, checks this machine has the disk `modules/hosts/aspire/disko.nix` names, shows what it will erase and waits for you to type `aspire`. Then it partitions (asking for the LUKS passphrase, which has no recovery until step 4), installs, and asks for the user's password. `--dry-run` shows the plan and disko's script without touching anything.
-
-   Until petal has a remote, its input comes from the SSD's backup:
-
-   ```bash
-   sudo mount /dev/disk/by-id/usb-Samsung_PSSD_T7_Shield_*-part1 /media
-   nix --extra-experimental-features 'nix-command flakes' run github:boatette/nix#install-host -- -- --override-input petal path:/media/bak/Projects/petal
-   ```
 
 4. Reboot and log in. With the SSD plugged in, `ssd-restore` copies the backup back at the first login without overwriting anything; wait until `systemctl --user status ssd-restore` shows it finished, so `~/.ssh` is back. Then run:
 
