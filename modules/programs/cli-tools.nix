@@ -37,6 +37,7 @@
           microfetch
           tldr
           proton-vpn-cli
+          python3
         ])
         ++ [
           inputs.claude-code.packages.${system}.default
