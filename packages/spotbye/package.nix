@@ -6,9 +6,7 @@ let
   pname = "spotbye";
   version = "3.0.6";
 
-  # releases are a proton drive link for patreon supporters, which nix can't fetch. to bump:
-  # spotbye-bump SpotBye-<version>.AppImage, then rebuild. after a reinstall, ssd restores
-  # the current one to ~/.local/share/spotbye: run spotbye-bump on it to add it back
+  # a patreon-only download nix can't fetch; spotbye-bump adds it, or the copy ssd restores, to the store
   src = requireFile {
     name = "SpotBye-${version}.AppImage";
     url = "https://www.patreon.com/cw/spotbye";
