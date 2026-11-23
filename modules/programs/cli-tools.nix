@@ -25,18 +25,17 @@
     {
       home.packages =
         (with pkgs; [
-          cachix
           dust
           eza
           fd
           gh
           jq
           lm_sensors
-          nix-tree
-          ripgrep
           microfetch
-          tldr
+          nix-tree
           proton-vpn-cli
+          ripgrep
+          tldr
         ])
         ++ [
           inputs.claude-code.packages.${system}.default
