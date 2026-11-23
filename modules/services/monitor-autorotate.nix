@@ -12,11 +12,11 @@ in
 
   # turns the monitors between the profiles in flake.monitors as the Pico on the arm reports
   flake.modules.nixos.aspire =
-    { config, pkgs, ... }:
+    { pkgs, ... }:
     let
       inherit (inputs.self.lib) monitorProfiles transformName umbrielLayout;
 
-      profiles = monitorProfiles (inputs.self.monitors.${config.networking.hostName} or { });
+      profiles = monitorProfiles;
 
       # each profile as wlr-randr --json reports it, to tell which one the outputs are in
       layouts = builtins.toJSON (

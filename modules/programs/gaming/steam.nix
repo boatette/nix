@@ -9,24 +9,12 @@
   };
 
   flake.modules.homeManager.boatette =
-    {
-      lib,
-      osConfig,
-      pkgs,
-      ...
-    }:
+    { lib, pkgs, ... }:
     let
-      host = osConfig.networking.hostName;
-      offload = osConfig.hardware.nvidia.prime.offload.enable or false;
-
-      primary = inputs.self.monitors.${host}.${inputs.self.lib.primaryMonitor host};
+      inherit (inputs.self.lib) nvidiaOffloadEnv parseMode primaryMonitor;
 
       # gamescope runs games at the primary monitor's mode
-      mode =
-        if primary.mode != null && lib.hasInfix "@" primary.mode then
-          inputs.self.lib.parseMode primary.mode
-        else
-          throw "gaming/steam.nix: the primary monitor on ${host} needs a mode with a refresh rate, like 1920x1080@144";
+      mode = parseMode inputs.self.monitors.${primaryMonitor}.mode;
 
       wrappers = [
         (lib.getExe pkgs.gamemode)
@@ -38,11 +26,9 @@
         "-r"
         (toString (builtins.floor (builtins.fromJSON mode.refresh)))
         "--"
+        (lib.getExe' pkgs.coreutils "env")
       ]
-      ++ lib.optionals offload (
-        [ (lib.getExe' pkgs.coreutils "env") ]
-        ++ lib.mapAttrsToList (name: value: "${name}=${value}") inputs.self.lib.nvidiaOffloadEnv
-      );
+      ++ lib.mapAttrsToList (name: value: "${name}=${value}") nvidiaOffloadEnv;
     in
     {
       imports = [ inputs.steam-config-nix.homeModules.default ];

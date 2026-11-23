@@ -1,6 +1,7 @@
 { config, lib, ... }:
 let
   inherit (lib) mkOption types;
+  inherit (config.flake) monitors;
 
   transform = types.enum [
     0
@@ -27,19 +28,18 @@ let
     };
   };
 
-  # what a profile changes about a monitor; null keeps the monitor's own setting
   profile = types.submodule {
     options = {
       transform = mkOption {
         type = types.nullOr transform;
         default = null;
-        description = "Rotation in this profile";
+        description = "Rotation in this profile, or null for the monitor's own";
       };
 
       position = mkOption {
         type = types.nullOr (types.submodule { options = position; });
         default = null;
-        description = "Position in this profile";
+        description = "Position in this profile, or null for the monitor's own";
       };
     };
   };
@@ -70,16 +70,6 @@ let
       profiles = mkOption {
         type = types.attrsOf profile;
         default = { };
-        example = {
-          landscape = { };
-          portrait = {
-            transform = 90;
-            position = {
-              x = -1080;
-              y = -420;
-            };
-          };
-        };
         description = "Variations monitor-autorotate switches every monitor between, starting in the first by name";
       };
 
@@ -90,168 +80,136 @@ let
       };
     };
   };
+
+  parseMode =
+    mode:
+    let
+      parts = builtins.match "([0-9]+)x([0-9]+)(@([0-9.]+))?" mode;
+    in
+    {
+      width = lib.elemAt parts 0;
+      height = lib.elemAt parts 1;
+      refresh = lib.elemAt parts 3;
+    };
+
+  isPortrait =
+    m:
+    lib.elem m.transform [
+      90
+      270
+      "flipped-90"
+      "flipped-270"
+    ];
+
+  # xwayland misplaces clients at negative coordinates, so every layout is shifted to start at 0,0
+  shifted =
+    ms:
+    let
+      min = axis: lib.foldl' lib.min 0 (lib.mapAttrsToList (_: m: m.position.${axis}) ms);
+    in
+    lib.mapAttrs (
+      _: m:
+      m
+      // {
+        position = {
+          x = m.position.x - min "x";
+          y = m.position.y - min "y";
+        };
+      }
+    ) ms;
+
+  profileNames = lib.sort lib.lessThan (
+    lib.unique (lib.concatMap (m: lib.attrNames m.profiles) (lib.attrValues monitors))
+  );
+
+  monitorProfiles =
+    if profileNames == [ ] then
+      { default = shifted monitors; }
+    else
+      lib.genAttrs profileNames (
+        p:
+        shifted (
+          lib.mapAttrs (_: m: m // lib.filterAttrs (_: v: v != null) (m.profiles.${p} or { })) monitors
+        )
+      );
+
+  logicalSize =
+    m:
+    let
+      mode = parseMode m.mode;
+      width = lib.toInt mode.width * 1.0 / m.scale;
+      height = lib.toInt mode.height * 1.0 / m.scale;
+    in
+    if isPortrait m then
+      {
+        width = height;
+        height = width;
+      }
+    else
+      { inherit width height; };
+
+  transformName = m: if m.transform == 0 then "normal" else toString m.transform;
+
+  startLayout = monitorProfiles.${lib.head (lib.attrNames monitorProfiles)};
 in
 {
   options.flake.monitors = mkOption {
-    type = types.attrsOf (types.attrsOf monitor);
+    type = types.attrsOf monitor;
     default = { };
-    description = "Connected outputs per host, keyed by hostname then connector name";
-    example = {
-      aspire."eDP-1" = {
-        mode = "1920x1080@144";
-        primary = true;
-      };
-    };
+    description = "Connected outputs, keyed by connector name";
   };
 
-  config.flake.lib =
-    let
-      # "1920x1080@75.000" -> { width = "1920"; height = "1080"; refresh = "75.000"; }, with a null refresh when it has none
-      parseMode =
-        mode:
-        let
-          parts = builtins.match "([0-9]+)x([0-9]+)(@([0-9.]+))?" mode;
-        in
-        {
-          width = lib.elemAt parts 0;
-          height = lib.elemAt parts 1;
-          refresh = lib.elemAt parts 3;
-        };
+  config.flake.lib = {
+    inherit
+      isPortrait
+      logicalSize
+      monitorProfiles
+      parseMode
+      startLayout
+      transformName
+      ;
 
-      # each profile's layout, from the first by name, or one `default` layout when no monitor has any;
-      # positions are shifted until none is negative, as xwayland misplaces clients there
-      monitorProfiles =
-        monitors:
-        let
-          profiles = lib.sort lib.lessThan (
-            lib.unique (lib.concatMap (m: lib.attrNames m.profiles) (lib.attrValues monitors))
-          );
+    primaryMonitor = lib.findFirst (
+      name: monitors.${name}.primary
+    ) (throw "no monitor in flake.monitors is `primary`") (lib.attrNames monitors);
 
-          # a monitor with a profile's changes applied
-          inProfile = profile: m: m // lib.filterAttrs (_: v: v != null) (m.profiles.${profile} or { });
+    # umbriel runs a portrait output's strip top to bottom when its workspaces sit side by side
+    umbrielLayout =
+      pkgs: name: layout:
+      (pkgs.formats.toml { }).generate "umbriel-${name}.toml" {
+        output = lib.mapAttrs (_: m: {
+          transform = transformName m;
+          position = [
+            m.position.x
+            m.position.y
+          ];
+          workspace_axis = if isPortrait m then "horizontal" else "vertical";
+        }) layout;
+      };
 
-          shifted =
-            ms:
-            let
-              minX = lib.foldl' lib.min 0 (lib.mapAttrsToList (_: m: m.position.x) ms);
-              minY = lib.foldl' lib.min 0 (lib.mapAttrsToList (_: m: m.position.y) ms);
-            in
-            lib.mapAttrs (
-              _: m:
-              m
-              // {
-                position = {
-                  x = m.position.x - minX;
-                  y = m.position.y - minY;
-                };
-              }
-            ) ms;
-        in
-        if profiles == [ ] then
-          { default = shifted monitors; }
-        else
-          lib.genAttrs profiles (p: shifted (lib.mapAttrs (_: inProfile p) monitors));
+    # a widget box laid out for 1920x1080 and scaled onto the output; placement_* must be the output's
+    # logical size, or noctalia copies the whole section into its state file
+    noctaliaWidget =
+      output:
+      { box, ... }@widget:
+      let
+        size = logicalSize startLayout.${output};
+        x = n: n * size.width / 1920.0;
+        y = n: n * size.height / 1080.0;
+      in
+      removeAttrs widget [ "box" ]
+      // {
+        inherit output;
 
-      isPortrait =
-        m:
-        lib.elem m.transform [
-          90
-          270
-          "flipped-90"
-          "flipped-270"
-        ];
+        placement_width = size.width;
+        placement_height = size.height;
 
-      # the transform as wlr-randr and umbriel name it
-      transformName = m: if m.transform == 0 then "normal" else toString m.transform;
-
-      # the size an output takes up in the layout, after rotation and scale
-      logicalSize =
-        m:
-        let
-          mode = parseMode m.mode;
-          width = lib.toInt mode.width * 1.0 / m.scale;
-          height = lib.toInt mode.height * 1.0 / m.scale;
-        in
-        if isPortrait m then
-          {
-            width = height;
-            height = width;
-          }
-        else
-          { inherit width height; };
-
-      # the layout a host's compositor starts in, its first profile; monitor-autorotate turns away from there
-      startLayout =
-        host:
-        let
-          profiles = monitorProfiles (config.flake.monitors.${host} or { });
-        in
-        profiles.${lib.head (lib.attrNames profiles)};
-
-      # a profile's layout as an umbriel config file. umbriel runs a portrait output's scrolling
-      # strip top to bottom when its workspaces sit side by side, so a column fills the width
-      umbrielLayout =
-        pkgs: name: layout:
-        (pkgs.formats.toml { }).generate "umbriel-${name}.toml" {
-          output = lib.mapAttrs (_: m: {
-            transform = transformName m;
-
-            position = [
-              m.position.x
-              m.position.y
-            ];
-
-            workspace_axis = if isPortrait m then "horizontal" else "vertical";
-          }) layout;
-        };
-
-      # the name of a host's primary output
-      primaryMonitor =
-        host:
-        let
-          monitors = config.flake.monitors.${host} or { };
-        in
-        lib.findFirst (name: monitors.${name}.primary)
-          (throw "no monitor in flake.monitors.${host} is marked `primary = true`")
-          (lib.attrNames monitors);
-
-      # a noctalia lockscreen or desktop widget on one of a host's outputs, its box laid out for a
-      # 1920x1080 screen and scaled onto the output. noctalia copies the whole section into its state
-      # file, shadowing this, when placement_* is not the output's logical size
-      noctaliaWidget =
-        host: output:
-        { box, ... }@widget:
-        let
-          size = logicalSize (startLayout host).${output};
-          x = n: n * size.width / 1920.0;
-          y = n: n * size.height / 1080.0;
-        in
-        removeAttrs widget [ "box" ]
-        // {
-          inherit output;
-
-          placement_width = size.width;
-          placement_height = size.height;
-
-          cx = x box.cx;
-          cy = y box.cy;
-        }
-        // lib.optionalAttrs (box ? width) {
-          box_width = x box.width;
-          box_height = y box.height;
-        };
-    in
-    {
-      inherit
-        parseMode
-        monitorProfiles
-        isPortrait
-        transformName
-        logicalSize
-        startLayout
-        umbrielLayout
-        primaryMonitor
-        noctaliaWidget
-        ;
-    };
+        cx = x box.cx;
+        cy = y box.cy;
+      }
+      // lib.optionalAttrs (box ? width) {
+        box_width = x box.width;
+        box_height = y box.height;
+      };
+  };
 }

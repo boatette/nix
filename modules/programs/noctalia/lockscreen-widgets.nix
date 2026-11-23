@@ -1,17 +1,15 @@
 { inputs, lib, ... }:
 {
   flake.modules.homeManager.boatette =
-    { osConfig, ... }:
     let
-      inherit (inputs.self.lib) noctaliaWidget primaryMonitor startLayout;
+      inherit (inputs.self.lib) noctaliaWidget startLayout;
 
-      host = osConfig.networking.hostName;
-      primary = primaryMonitor host;
-      widget = noctaliaWidget host;
+      primary = inputs.self.lib.primaryMonitor;
+      widget = noctaliaWidget;
 
       # every output gets a login box, or noctalia makes its own and copies this whole section into
       # its state file. enabled = false still counts, which is how all but the primary stay empty
-      outputs = lib.attrNames (lib.filterAttrs (_: m: m.mode != null) (startLayout host));
+      outputs = lib.attrNames (lib.filterAttrs (_: m: m.mode != null) startLayout);
 
       # noctalia's compact login box: 400 wide, and 38 plus 16 of padding on each side tall
       loginBox =

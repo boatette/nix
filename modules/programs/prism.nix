@@ -1,7 +1,7 @@
 { inputs, ... }:
 {
   flake.modules.homeManager.boatette =
-    { osConfig, pkgs, ... }:
+    { pkgs, ... }:
     let
       # default bundles jdk8/17/21/25; 21 covers 1.20.5+, 25 covers 26.x
       prism = pkgs.prismlauncher.override {
@@ -12,6 +12,6 @@
       };
     in
     {
-      home.packages = [ (inputs.self.lib.nvidiaOffloadWrap pkgs osConfig prism "prismlauncher") ];
+      home.packages = [ (inputs.self.lib.nvidiaOffloadWrap pkgs prism "prismlauncher") ];
     };
 }

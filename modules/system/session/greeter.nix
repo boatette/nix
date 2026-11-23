@@ -1,7 +1,7 @@
 { inputs, ... }:
 {
   flake.modules.nixos.aspire =
-    { config, pkgs, ... }:
+    { pkgs, ... }:
     {
       services.displayManager.noctalia-greeter = {
         enable = true;
@@ -19,7 +19,7 @@
           };
           inherit (inputs.self.constants) keyboard;
 
-          output.name = inputs.self.lib.primaryMonitor config.networking.hostName;
+          output.name = inputs.self.lib.primaryMonitor;
         };
 
         passwordlessSyncUsers = [ inputs.self.constants.username ];

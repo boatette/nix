@@ -1,5 +1,5 @@
 {
-  flake.monitors.aspire = {
+  flake.monitors = {
     "eDP-1" = {
       mode = "1920x1080@144";
       primary = true;
@@ -9,7 +9,7 @@
       mode = "1920x1080@75.000";
       position.x = -1920;
 
-      # on a rotating arm; monitor-autorotate switches between these as it turns
+      # on a rotating arm, turned by monitor-autorotate
       profiles = {
         landscape = { };
 

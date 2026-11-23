@@ -1,11 +1,8 @@
 { inputs, ... }:
 {
   flake.modules.homeManager.boatette =
-    { osConfig, ... }:
     let
       inherit (inputs.self.lib) noctaliaWidget primaryMonitor;
-
-      host = osConfig.networking.hostName;
 
       # a counter id, the form noctalia assigns itself
       mediaPlayer = "desktop-widget-0000000000000005";
@@ -14,7 +11,7 @@
       programs.noctalia.settings.desktop_widgets = {
         widget_order = [ mediaPlayer ];
 
-        widget.${mediaPlayer} = noctaliaWidget host (primaryMonitor host) {
+        widget.${mediaPlayer} = noctaliaWidget primaryMonitor {
           type = "media_player";
 
           box = {
