@@ -1,7 +1,7 @@
 { inputs, ... }:
 {
   flake-file.inputs.toothless = {
-    url = "git+file:///home/boatette/Projects/toothless";
+    url = "github:boatette/toothless";
     inputs.nixpkgs.follows = "nixpkgs";
   };
 

@@ -35,7 +35,7 @@
     };
     luciole.url = "github:noctalia-dev/luciole/cachix";
     monitor-autorotate = {
-      url = "git+file:///home/boatette/Projects/monitor-autorotate";
+      url = "github:boatette/monitor-autorotate";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nix-index-database = {
@@ -100,7 +100,7 @@
       flake = false;
     };
     selector = {
-      url = "git+file:///home/boatette/Projects/selector";
+      url = "github:boatette/selector";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     steam-config-nix = {
@@ -115,7 +115,7 @@
       flake = false;
     };
     toothless = {
-      url = "git+file:///home/boatette/Projects/toothless";
+      url = "github:boatette/toothless";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };

@@ -1,7 +1,7 @@
 { inputs, ... }:
 {
   flake-file.inputs.selector = {
-    url = "git+file:///home/boatette/Projects/selector";
+    url = "github:boatette/selector";
     inputs.nixpkgs.follows = "nixpkgs";
   };
 

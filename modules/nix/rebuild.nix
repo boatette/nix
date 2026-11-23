@@ -7,12 +7,21 @@
 
       os = mode: "nh os ${mode} ${flakeDir}";
 
-      # builds the uncommitted changes of every git+file input without a lock update; new files need git add
+      owner = lib.head (lib.splitString "/" config.flake.constants.repo);
+
+      # my own projects' working trees in ~/Projects, built without a lock update; new files need git add
+      workingTree =
+        url:
+        if lib.hasPrefix "git+file://" url then
+          url
+        else if lib.hasPrefix "github:${owner}/" url then
+          "git+file://${dirOf flakeDir}/Projects/${lib.removePrefix "github:${owner}/" url}"
+        else
+          null;
+
       devOverrides = lib.concatStrings (
-        lib.mapAttrsToList (name: input: " --override-input ${name} ${input.url}") (
-          lib.filterAttrs (
-            _: input: lib.hasPrefix "git+file://" (toString (input.url or ""))
-          ) config.flake-file.inputs
+        lib.mapAttrsToList (name: input: " --override-input ${name} ${workingTree input.url}") (
+          lib.filterAttrs (_: input: workingTree (input.url or "") != null) config.flake-file.inputs
         )
       );
 

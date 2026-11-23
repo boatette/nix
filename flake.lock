@@ -215,15 +215,15 @@
       "locked": {
         "lastModified": 1793943306,
         "narHash": "sha256-y12lOueO6BUndYMqRnELdJNfEJtlJEwziNZIcarXuNs=",
-        "ref": "refs/heads/master",
+        "owner": "boatette",
+        "repo": "monitor-autorotate",
         "rev": "a47d1bc2811e8ce217a3e1842b2fdabd919e0e05",
-        "revCount": 10,
-        "type": "git",
-        "url": "file:///home/boatette/Projects/monitor-autorotate"
+        "type": "github"
       },
       "original": {
-        "type": "git",
-        "url": "file:///home/boatette/Projects/monitor-autorotate"
+        "owner": "boatette",
+        "repo": "monitor-autorotate",
+        "type": "github"
       }
     },
     "nix-index-database": {
@@ -572,15 +572,15 @@
       "locked": {
         "lastModified": 1793943233,
         "narHash": "sha256-ujg/s6czGWLmRHJ0VNMI1NArDm8augJQRwNATsRJMeg=",
-        "ref": "refs/heads/master",
+        "owner": "boatette",
+        "repo": "selector",
         "rev": "b022490c07279bb75f6cefaa6ae1ac0a602fb6f1",
-        "revCount": 38,
-        "type": "git",
-        "url": "file:///home/boatette/Projects/selector"
+        "type": "github"
       },
       "original": {
-        "type": "git",
-        "url": "file:///home/boatette/Projects/selector"
+        "owner": "boatette",
+        "repo": "selector",
+        "type": "github"
       }
     },
     "steam-config-nix": {
@@ -662,15 +662,15 @@
       "locked": {
         "lastModified": 1794569289,
         "narHash": "sha256-0GzF4Yka7P/ELA2I/znlhwF9LWFTU9mNyF3IUN3mJY0=",
-        "ref": "refs/heads/master",
+        "owner": "boatette",
+        "repo": "toothless",
         "rev": "45afb12168915d810335859dce25446b3cefec11",
-        "revCount": 4,
-        "type": "git",
-        "url": "file:///home/boatette/Projects/toothless"
+        "type": "github"
       },
       "original": {
-        "type": "git",
-        "url": "file:///home/boatette/Projects/toothless"
+        "owner": "boatette",
+        "repo": "toothless",
+        "type": "github"
       }
     }
   },

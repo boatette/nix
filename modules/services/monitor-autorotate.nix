@@ -6,7 +6,7 @@ let
 in
 {
   flake-file.inputs.monitor-autorotate = {
-    url = "git+file:///home/boatette/Projects/monitor-autorotate";
+    url = "github:boatette/monitor-autorotate";
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
