@@ -1,7 +1,7 @@
-{ inputs, ... }:
+{ config, inputs, ... }:
 {
   flake-file.inputs.home-manager = {
-    url = "github:nix-community/home-manager/master";
+    url = "github:nix-community/home-manager/${config.flake.constants.homeManagerBranch}";
     inputs.nixpkgs.follows = "nixpkgs";
   };
 

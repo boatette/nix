@@ -9,14 +9,19 @@
   config.flake.constants =
     let
       username = "boatette";
+      release = "unstable";
     in
     {
-      inherit username;
+      inherit release username;
       description = "Jonathan Clark";
       email = "boatette@gmail.com";
 
       flakeDir = "/home/${username}/nix";
       repo = "boatette/nix";
+
+      # the branches nixpkgs and home-manager track for release
+      nixpkgsBranch = "nixos-${release}";
+      homeManagerBranch = if release == "unstable" then "master" else "release-${release}";
 
       locale = "en_AU.UTF-8";
       timeZone = "Australia/Hobart";
