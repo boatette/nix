@@ -67,10 +67,6 @@
       url = "github:rose-pine/eza";
       flake = false;
     };
-    rose-pine-fzf = {
-      url = "github:rose-pine/fzf";
-      flake = false;
-    };
     rose-pine-lazygit = {
       url = "github:rose-pine/lazygit";
       flake = false;
@@ -81,10 +77,6 @@
     };
     rose-pine-rmpc = {
       url = "github:rose-pine/rmpc";
-      flake = false;
-    };
-    rose-pine-starship = {
-      url = "github:rose-pine/starship";
       flake = false;
     };
     rose-pine-tm-theme = {
