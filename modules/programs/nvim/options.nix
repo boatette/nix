@@ -72,7 +72,7 @@
           grepprg = mkLuaInline ''vim.fn.executable("rg") == 1 and "rg --vimgrep --smart-case --hidden" or vim.o.grepprg'';
         };
 
-        luaConfigRC.core-options = entryAfter [ "optionsScript" ] ''
+        luaConfigRC.clipboard = entryAfter [ "optionsScript" ] ''
           vim.schedule(function()
               vim.opt.clipboard = "unnamedplus"
           end)
