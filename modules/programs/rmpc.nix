@@ -3,9 +3,9 @@ let
   fifo = "/tmp/mpd.fifo";
 in
 {
-  flake.modules.nixos.rmpc.networking.firewall.allowedTCPPorts = [ port ];
+  flake.modules.nixos.aspire.networking.firewall.allowedTCPPorts = [ port ];
 
-  flake.modules.homeManager.rmpc =
+  flake.modules.homeManager.boatette =
     {
       config,
       lib,

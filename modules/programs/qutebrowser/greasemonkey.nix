@@ -1,5 +1,5 @@
 {
-  flake.modules.homeManager.qutebrowser =
+  flake.modules.homeManager.boatette =
     { pkgs, ... }:
     {
       programs.qutebrowser.greasemonkey = [

@@ -5,7 +5,7 @@
     flake = false;
   };
 
-  flake.modules.homeManager.fzf =
+  flake.modules.homeManager.boatette =
     { lib, ... }:
     let
       files = "fd --type f --hidden --follow --exclude .git";

@@ -5,7 +5,7 @@
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  flake.modules.nixos.home-manager = {
+  flake.modules.nixos.aspire = {
     imports = [ inputs.home-manager.nixosModules.home-manager ];
 
     home-manager = {

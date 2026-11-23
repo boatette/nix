@@ -1,6 +1,6 @@
 { inputs, lib, ... }:
 {
-  flake.modules.homeManager.umbriel =
+  flake.modules.homeManager.boatette =
     { osConfig, pkgs, ... }:
     let
       inherit (inputs.self.lib) startLayout umbrielLayout;

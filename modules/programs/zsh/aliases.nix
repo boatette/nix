@@ -1,6 +1,6 @@
 { inputs, ... }:
 {
-  flake.modules.homeManager.zsh =
+  flake.modules.homeManager.boatette =
     { config, ... }:
     let
       inherit (config.constants) flakeDir;

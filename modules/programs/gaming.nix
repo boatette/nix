@@ -1,5 +1,5 @@
 {
-  flake.modules.nixos.gaming =
+  flake.modules.nixos.aspire =
     { pkgs, ... }:
     {
       programs = {

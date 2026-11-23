@@ -5,7 +5,7 @@
     flake = false;
   };
 
-  flake.modules.homeManager.yazi =
+  flake.modules.homeManager.boatette =
     { pkgs, ... }:
     {
       programs.yazi = {

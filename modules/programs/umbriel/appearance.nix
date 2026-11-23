@@ -1,6 +1,6 @@
 { inputs, ... }:
 {
-  flake.modules.homeManager.umbriel.programs.umbriel.settings.appearance = {
+  flake.modules.homeManager.boatette.programs.umbriel.settings.appearance = {
     border_width = 1;
     outer_border_width = 0;
     corner_radius = inputs.self.constants.glass.radius;

@@ -1,5 +1,5 @@
 {
-  flake.modules.homeManager.noctalia.programs.noctalia.settings.idle = {
+  flake.modules.homeManager.boatette.programs.noctalia.settings.idle = {
     behavior_order = [
       "lock"
       "screen-off"

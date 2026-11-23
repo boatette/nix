@@ -1,5 +1,5 @@
 {
-  flake.modules.homeManager.vm =
+  flake.modules.homeManager.boatette =
     { pkgs, ... }:
     {
       home.packages = [ pkgs.quickemu ];

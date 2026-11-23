@@ -40,7 +40,7 @@
       };
     };
 
-    homeManager.nvim =
+    homeManager.boatette =
       { pkgs, ... }:
       {
         home = {

@@ -5,7 +5,7 @@
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  flake.modules.homeManager.selector =
+  flake.modules.homeManager.boatette =
     { config, ... }:
     {
       imports = [ inputs.selector.homeModules.selector ];

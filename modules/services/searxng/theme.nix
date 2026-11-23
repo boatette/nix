@@ -1,6 +1,6 @@
 {
   # no rose pine port exists, so the simple theme's dark colours are overridden from the palette
-  flake.modules.nixos.searxng =
+  flake.modules.nixos.aspire =
     {
       config,
       lib,

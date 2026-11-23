@@ -5,7 +5,7 @@
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  flake.modules.homeManager.toothless = {
+  flake.modules.homeManager.boatette = {
     imports = [ inputs.toothless.homeModules.default ];
 
     programs.toothless = {

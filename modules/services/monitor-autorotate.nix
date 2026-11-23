@@ -11,7 +11,7 @@ in
   };
 
   # turns the monitors between the profiles in flake.monitors as the Pico on the arm reports
-  flake.modules.nixos.monitor-autorotate =
+  flake.modules.nixos.aspire =
     { config, pkgs, ... }:
     let
       inherit (inputs.self.lib) monitorProfiles transformName umbrielLayout;
@@ -88,11 +88,9 @@ in
       };
 
       environment.systemPackages = [ rotate ];
-
-      home-manager.sharedModules = [ inputs.self.modules.homeManager.monitor-autorotate ];
     };
 
-  flake.modules.homeManager.monitor-autorotate.programs.umbriel.settings = {
+  flake.modules.homeManager.boatette.programs.umbriel.settings = {
     # read after the start layout's include, so it wins. umbriel watches it and reloads when it changes
     include.optional.files = [ "$XDG_RUNTIME_DIR/${profileFile}" ];
 

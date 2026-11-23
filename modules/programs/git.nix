@@ -1,5 +1,5 @@
 {
-  flake.modules.homeManager.git =
+  flake.modules.homeManager.boatette =
     { config, ... }:
     {
       programs.git = {

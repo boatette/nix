@@ -1,5 +1,5 @@
 {
-  flake.modules.homeManager.noctalia =
+  flake.modules.homeManager.boatette =
     { config, ... }:
     {
       programs.noctalia.settings.osd = {

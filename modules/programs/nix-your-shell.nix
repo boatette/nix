@@ -1,3 +1,3 @@
 {
-  flake.modules.homeManager.nix-your-shell.programs.nix-your-shell.enable = true;
+  flake.modules.homeManager.boatette.programs.nix-your-shell.enable = true;
 }

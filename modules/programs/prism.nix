@@ -1,6 +1,6 @@
 { inputs, ... }:
 {
-  flake.modules.homeManager.prism =
+  flake.modules.homeManager.boatette =
     { osConfig, pkgs, ... }:
     let
       # default bundles jdk8/17/21/25; 21 covers 1.20.5+, 25 covers 26.x

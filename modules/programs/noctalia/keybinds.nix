@@ -1,5 +1,5 @@
 {
-  flake.modules.homeManager.noctalia.programs.noctalia.settings.keybinds = {
+  flake.modules.homeManager.boatette.programs.noctalia.settings.keybinds = {
     up = [
       "Up"
       "Ctrl+k"

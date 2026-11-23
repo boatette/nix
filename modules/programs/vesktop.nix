@@ -5,7 +5,7 @@
     flake = false;
   };
 
-  flake.modules.homeManager.vesktop = {
+  flake.modules.homeManager.boatette = {
     programs.vesktop = {
       enable = true;
 

@@ -1,5 +1,5 @@
 {
-  flake.modules.homeManager.direnv.programs.direnv = {
+  flake.modules.homeManager.boatette.programs.direnv = {
     enable = true;
 
     nix-direnv.enable = true;

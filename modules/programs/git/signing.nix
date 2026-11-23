@@ -1,5 +1,5 @@
 {
-  flake.modules.homeManager.git =
+  flake.modules.homeManager.boatette =
     { config, ... }:
     let
       publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIINQKEWxBhhxYa3EW9/1o9RG3m/i9dvdVaExj9fY2GFV";

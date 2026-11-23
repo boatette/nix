@@ -1,5 +1,5 @@
 {
-  flake.modules.nixos.fonts =
+  flake.modules.nixos.aspire =
     { config, pkgs, ... }:
     let
       inherit (config.constants.fonts) mono sans;

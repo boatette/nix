@@ -1,6 +1,6 @@
 { inputs, ... }:
 {
-  flake.modules.homeManager.mime = inputs.self.lib.mimeHandlers {
+  flake.modules.homeManager.boatette = inputs.self.lib.mimeHandlers {
     "org.prismlauncher.PrismLauncher.desktop" = [
       "application/x-modrinth-modpack+zip"
       "x-scheme-handler/curseforge"

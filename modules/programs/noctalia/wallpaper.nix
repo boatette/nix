@@ -1,5 +1,5 @@
 {
-  flake.modules.homeManager.noctalia.programs.noctalia.settings.wallpaper.default.path = "${
+  flake.modules.homeManager.boatette.programs.noctalia.settings.wallpaper.default.path = "${
     ../../../assets/wallpaper.png
   }";
 }

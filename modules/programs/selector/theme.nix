@@ -1,5 +1,5 @@
 {
-  flake.modules.homeManager.selector =
+  flake.modules.homeManager.boatette =
     { config, ... }:
     let
       inherit (config.constants) palette;

@@ -5,7 +5,7 @@
     flake = false;
   };
 
-  flake.modules.homeManager.qutebrowser =
+  flake.modules.homeManager.boatette =
     { pkgs, ... }:
     let
       modules = pkgs.linkFarm "qutebrowser-rosepine" [

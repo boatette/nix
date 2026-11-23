@@ -1,6 +1,6 @@
 {
   # qutebrowser's search engine, on localhost only
-  flake.modules.nixos.searxng =
+  flake.modules.nixos.aspire =
     { config, lib, ... }:
     {
       services.searx = {

@@ -1,5 +1,5 @@
 {
-  flake.modules.homeManager.umbriel.programs.umbriel.settings.layout = {
+  flake.modules.homeManager.boatette.programs.umbriel.settings.layout = {
     gap = 8;
 
     struts = {

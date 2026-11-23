@@ -1,3 +1,3 @@
 {
-  flake.modules.nixos.zram.zramSwap.enable = true;
+  flake.modules.nixos.aspire.zramSwap.enable = true;
 }

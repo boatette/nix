@@ -1,6 +1,6 @@
 { inputs, ... }:
 {
-  flake.modules.nixos.nh =
+  flake.modules.nixos.aspire =
     { config, ... }:
     let
       inherit (config.constants) flakeDir;

@@ -8,7 +8,7 @@
     };
   };
 
-  flake.modules.nixos.secure-boot =
+  flake.modules.nixos.aspire =
     { lib, pkgs, ... }:
     {
       imports = [ inputs.lanzaboote.nixosModules.lanzaboote ];

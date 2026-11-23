@@ -1,5 +1,5 @@
 {
-  flake.modules.homeManager.umbriel.programs.umbriel.settings.layer_rule = [
+  flake.modules.homeManager.boatette.programs.umbriel.settings.layer_rule = [
     {
       match.namespace = "^noctalia-(bar-[^\"]+|notification|dock|panel|attached-panel|osd|desktop-widget-[^\"]*)$";
       blur = true;

@@ -10,7 +10,7 @@ in
   };
 
   # intel gpu stats need CAP_PERFMON; the wrapper wins as /run/wrappers/bin is first in PATH
-  flake.modules.nixos.btop =
+  flake.modules.nixos.aspire =
     { pkgs, ... }:
     {
       security.wrappers.btop = {
@@ -21,7 +21,7 @@ in
       };
     };
 
-  flake.modules.homeManager.btop =
+  flake.modules.homeManager.boatette =
     { pkgs, ... }:
     {
       programs.btop = {

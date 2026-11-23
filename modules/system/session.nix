@@ -1,5 +1,5 @@
 {
-  flake.modules.nixos.session =
+  flake.modules.nixos.aspire =
     { config, ... }:
     {
       environment = {

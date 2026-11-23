@@ -1,5 +1,5 @@
 {
-  flake.modules.nixos.install =
+  flake.modules.nixos.aspire =
     {
       config,
       lib,

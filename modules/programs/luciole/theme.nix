@@ -1,5 +1,5 @@
 {
-  flake.modules.homeManager.luciole =
+  flake.modules.homeManager.boatette =
     {
       config,
       lib,

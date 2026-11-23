@@ -6,9 +6,9 @@
   };
 
   flake.modules = {
-    nixos.nix-index.programs.command-not-found.enable = false;
+    nixos.aspire.programs.command-not-found.enable = false;
 
-    homeManager.nix-index = {
+    homeManager.boatette = {
       imports = [ inputs.nix-index-database.homeModules.nix-index ];
 
       programs = {

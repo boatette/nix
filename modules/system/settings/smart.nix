@@ -1,3 +1,3 @@
 {
-  flake.modules.nixos.smart.services.smartd.enable = true;
+  flake.modules.nixos.aspire.services.smartd.enable = true;
 }

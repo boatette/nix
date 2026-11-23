@@ -17,7 +17,7 @@
     };
   };
 
-  flake.modules.homeManager.cli-tools =
+  flake.modules.homeManager.boatette =
     { pkgs, ... }:
     let
       inherit (pkgs.stdenv.hostPlatform) system;

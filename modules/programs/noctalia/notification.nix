@@ -1,5 +1,5 @@
 {
-  flake.modules.homeManager.noctalia =
+  flake.modules.homeManager.boatette =
     { config, ... }:
     let
       inherit (config.programs.umbriel.settings) layout;

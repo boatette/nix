@@ -2,7 +2,7 @@
 {
   flake-file.inputs.preservation.url = "github:nix-community/preservation";
 
-  flake.modules.nixos.impermanence =
+  flake.modules.nixos.aspire =
     {
       config,
       lib,

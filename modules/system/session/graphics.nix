@@ -1,3 +1,3 @@
 {
-  flake.modules.nixos.graphics.hardware.graphics.enable = true;
+  flake.modules.nixos.aspire.hardware.graphics.enable = true;
 }

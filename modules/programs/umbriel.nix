@@ -1,7 +1,7 @@
 {
-  flake.modules.nixos.umbriel.programs.umbriel.enable = true;
+  flake.modules.nixos.aspire.programs.umbriel.enable = true;
 
-  flake.modules.homeManager.umbriel =
+  flake.modules.homeManager.boatette =
     {
       config,
       lib,

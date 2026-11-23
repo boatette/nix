@@ -5,7 +5,7 @@
     flake = false;
   };
 
-  flake.modules.homeManager.starship =
+  flake.modules.homeManager.boatette =
     let
       inherit (fromTOML (builtins.readFile "${inputs.rose-pine-starship}/rose-pine.toml")) palettes;
       rp = palettes.rose-pine;

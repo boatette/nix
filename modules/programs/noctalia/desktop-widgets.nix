@@ -1,6 +1,6 @@
 { inputs, ... }:
 {
-  flake.modules.homeManager.noctalia =
+  flake.modules.homeManager.boatette =
     { osConfig, ... }:
     let
       inherit (inputs.self.lib) noctaliaWidget primaryMonitor;

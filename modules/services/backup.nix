@@ -1,10 +1,5 @@
-{ inputs, ... }:
 {
-  flake.modules.nixos.backup.home-manager.sharedModules = [
-    inputs.self.modules.homeManager.backup
-  ];
-
-  flake.modules.homeManager.backup =
+  flake.modules.homeManager.boatette =
     {
       config,
       lib,

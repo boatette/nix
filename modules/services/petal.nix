@@ -9,13 +9,11 @@ in
   };
 
   # the phone app's server, over the tailnet only; it starts comfyui when asked and stops it when idle
-  flake.modules.nixos.petal = {
-    home-manager.sharedModules = [ inputs.self.modules.homeManager.petal ];
-
+  flake.modules.nixos.aspire = {
     networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ port ];
   };
 
-  flake.modules.homeManager.petal = {
+  flake.modules.homeManager.boatette = {
     imports = [ inputs.petal.homeModules.default ];
 
     services.petal = {

@@ -8,7 +8,7 @@
     };
   };
 
-  flake.modules.homeManager.steam =
+  flake.modules.homeManager.boatette =
     {
       lib,
       osConfig,
@@ -75,8 +75,4 @@
         };
       };
     };
-
-  flake.modules.nixos.gaming.home-manager.sharedModules = [
-    inputs.self.modules.homeManager.steam
-  ];
 }

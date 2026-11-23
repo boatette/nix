@@ -1,9 +1,6 @@
-{ inputs, ... }:
 {
   # local chat and coding models behind one llama-server, with the weights on the internal nvme (~/ai-models/llm/models, linked from root/models)
-  flake.modules.nixos.llm.home-manager.sharedModules = [ inputs.self.modules.homeManager.llm ];
-
-  flake.modules.homeManager.llm =
+  flake.modules.homeManager.boatette =
     { lib, pkgs, ... }:
     let
       root = "/mnt/storage/ai/llm";

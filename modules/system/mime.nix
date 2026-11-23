@@ -1,3 +1,3 @@
 {
-  flake.modules.homeManager.mime.xdg.mimeApps.enable = true;
+  flake.modules.homeManager.boatette.xdg.mimeApps.enable = true;
 }

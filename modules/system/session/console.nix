@@ -1,5 +1,5 @@
 {
-  flake.modules.nixos.console =
+  flake.modules.nixos.aspire =
     { config, pkgs, ... }:
     {
       console = {

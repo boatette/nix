@@ -1,6 +1,6 @@
 { inputs, ... }:
 {
-  flake.modules.homeManager.mime = inputs.self.lib.mimeHandlers {
+  flake.modules.homeManager.boatette = inputs.self.lib.mimeHandlers {
     "org.qutebrowser.qutebrowser.desktop" = [
       "application/xhtml+xml"
       "application/x-extension-htm"

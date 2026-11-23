@@ -1,5 +1,5 @@
 {
-  flake.modules.homeManager.apps =
+  flake.modules.homeManager.boatette =
     { pkgs, ... }:
     {
       home.packages = with pkgs; [

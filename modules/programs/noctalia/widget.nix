@@ -1,5 +1,5 @@
 {
-  flake.modules.homeManager.noctalia.programs.noctalia.settings.widget = {
+  flake.modules.homeManager.boatette.programs.noctalia.settings.widget = {
     audio_visualizer.actions.left = "panel-toggle control-center media";
 
     battery = {

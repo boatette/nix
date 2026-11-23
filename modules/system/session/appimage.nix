@@ -1,5 +1,5 @@
 {
-  flake.modules.nixos.appimage =
+  flake.modules.nixos.aspire =
     { pkgs, ... }:
     {
       programs.appimage = {

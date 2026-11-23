@@ -2,7 +2,7 @@
 {
   flake-file.inputs.luciole.url = "github:noctalia-dev/luciole/cachix";
 
-  flake.modules.nixos.luciole =
+  flake.modules.nixos.aspire =
     { pkgs, ... }:
     {
       imports = [ inputs.luciole.nixosModules.default ];

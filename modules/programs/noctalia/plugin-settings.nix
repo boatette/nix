@@ -1,6 +1,6 @@
 { inputs, ... }:
 {
-  flake.modules.homeManager.noctalia =
+  flake.modules.homeManager.boatette =
     { config, ... }:
     let
       rebuild = inputs.self.lib.rebuild config.constants.flakeDir;

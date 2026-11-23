@@ -1,6 +1,6 @@
 { inputs, ... }:
 {
-  flake.modules.nixos.greeter =
+  flake.modules.nixos.aspire =
     { config, pkgs, ... }:
     {
       services.displayManager.noctalia-greeter = {

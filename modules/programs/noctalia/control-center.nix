@@ -1,5 +1,5 @@
 {
-  flake.modules.homeManager.noctalia.programs.noctalia.settings.control_center = {
+  flake.modules.homeManager.boatette.programs.noctalia.settings.control_center = {
     sidebar_section = "none";
     show_shortcut_labels = false;
 

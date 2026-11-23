@@ -1,5 +1,5 @@
 {
-  flake.modules.nixos.locale =
+  flake.modules.nixos.aspire =
     { config, ... }:
     let
       inherit (config.constants) locale;

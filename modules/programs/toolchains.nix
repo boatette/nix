@@ -1,6 +1,6 @@
 {
   # compilers come from per-project devshells; this only sets where their installs land
-  flake.modules.homeManager.toolchains =
+  flake.modules.homeManager.boatette =
     { config, ... }:
     {
       home = {
@@ -9,6 +9,7 @@
         sessionPath = [
           "${config.home.sessionVariables.GOPATH}/bin"
           "$HOME/.cargo/bin"
+          "$HOME/.local/bin"
         ];
       };
     };

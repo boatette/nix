@@ -1,5 +1,5 @@
 {
-  flake.modules.homeManager.noctalia.programs.noctalia.settings.plugins.enabled = [
+  flake.modules.homeManager.boatette.programs.noctalia.settings.plugins.enabled = [
     "noctalia/umbriel-companion"
     "avivbintangaringga/nix-monitor"
     "riversyx/noctaproton-vpn"

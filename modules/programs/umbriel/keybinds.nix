@@ -1,5 +1,5 @@
 {
-  flake.modules.homeManager.umbriel =
+  flake.modules.homeManager.boatette =
     { lib, pkgs, ... }:
     let
       jq = lib.getExe pkgs.jq;

@@ -1,5 +1,5 @@
 {
-  flake.modules.homeManager.appearance =
+  flake.modules.homeManager.boatette =
     { config, pkgs, ... }:
     let
       inherit (config.constants.fonts) sans;
