@@ -48,7 +48,6 @@
       url = "git+file:///home/boatette/Projects/petal";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    pkgs-by-name-for-flake-parts.url = "github:drupol/pkgs-by-name-for-flake-parts";
     preservation.url = "github:nix-community/preservation";
     rose-pine-btop = {
       url = "github:rose-pine/btop";
