@@ -1,22 +1,14 @@
 { inputs, ... }:
 {
   flake.modules.nixos.aspire = {
-    environment = {
-      profileRelativeSessionVariables = {
-        QT_PLUGIN_PATH = [ "/lib/qt-6/plugins" ];
-        QML2_IMPORT_PATH = [ "/lib/qt-6/qml" ];
-      };
+    environment.sessionVariables = {
+      ELECTRON_OZONE_PLATFORM_HINT = "auto";
 
-      sessionVariables = {
-        ELECTRON_OZONE_PLATFORM_HINT = "auto";
+      QT_QPA_PLATFORM = "wayland;xcb";
+      QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
 
-        QT_QPA_PLATFORM = "wayland;xcb";
-        QT_QPA_PLATFORMTHEME = "qt6ct";
-        QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
-
-        GDK_BACKEND = "wayland,x11";
-        GSK_RENDERER = "ngl";
-      };
+      GDK_BACKEND = "wayland,x11";
+      GSK_RENDERER = "ngl";
     };
 
     xdg.terminal-exec = {

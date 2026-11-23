@@ -40,10 +40,7 @@
           gtk.enable = true;
         };
 
-        packages = with pkgs; [
-          gtk3
-          qt6Packages.qt6ct
-        ];
+        packages = [ pkgs.gtk3 ];
       };
     };
 }
