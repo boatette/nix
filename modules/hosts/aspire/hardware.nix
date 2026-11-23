@@ -5,35 +5,19 @@
       imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
       boot.initrd.availableKernelModules = [
-        "xhci_pci"
-        "thunderbolt"
         "nvme"
-        "usb_storage"
         "sd_mod"
+        "thunderbolt"
+        "usb_storage"
+        "xhci_pci"
       ];
 
-      hardware.nvidia = {
-        open = true;
-
-        powerManagement = {
-          enable = true;
-          finegrained = true;
-        };
-
-        prime = {
-          offload = {
-            enable = true;
-            enableOffloadCmd = true;
-          };
-
-          intelBusId = "PCI:0:2:0";
-          nvidiaBusId = "PCI:1:0:0";
-        };
-      };
+      hardware.cpu.intel.updateMicrocode = true;
 
       services = {
+        fstrim.enable = true;
         power-profiles-daemon.enable = true;
-        xserver.videoDrivers = [ "nvidia" ];
+        thermald.enable = true;
 
         smartd = {
           autodetect = false;
