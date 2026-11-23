@@ -2,7 +2,10 @@
 {
   flake-file.inputs.lanzaboote = {
     url = "github:nix-community/lanzaboote/v1.1.0";
-    inputs.nixpkgs.follows = "nixpkgs";
+    inputs = {
+      nixpkgs.follows = "nixpkgs";
+      pre-commit.follows = "";
+    };
   };
 
   flake.modules.nixos.secure-boot =

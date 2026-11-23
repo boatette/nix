@@ -2,7 +2,10 @@
 {
   flake-file = {
     inputs = {
-      flake-parts.url = "github:hercules-ci/flake-parts";
+      flake-parts = {
+        url = "github:hercules-ci/flake-parts";
+        inputs.nixpkgs-lib.follows = "nixpkgs";
+      };
       flake-file.url = "github:denful/flake-file";
       import-tree.url = "github:denful/import-tree";
     };

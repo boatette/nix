@@ -13,7 +13,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     flake-file.url = "github:denful/flake-file";
-    flake-parts.url = "github:hercules-ci/flake-parts";
+    flake-parts = {
+      url = "github:hercules-ci/flake-parts";
+      inputs.nixpkgs-lib.follows = "nixpkgs";
+    };
     grok-build-nix = {
       url = "github:AodhanHayter/grok-build-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -25,7 +28,10 @@
     import-tree.url = "github:denful/import-tree";
     lanzaboote = {
       url = "github:nix-community/lanzaboote/v1.1.0";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        pre-commit.follows = "";
+      };
     };
     luciole.url = "github:noctalia-dev/luciole/cachix";
     monitor-autorotate = {
@@ -39,7 +45,10 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nvf = {
       url = "github:notashelf/nvf";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs = {
+        flake-compat.follows = "";
+        nixpkgs.follows = "nixpkgs";
+      };
     };
     petal = {
       url = "git+file:///home/boatette/Projects/petal";
@@ -96,7 +105,10 @@
     };
     steam-config-nix = {
       url = "github:different-name/steam-config-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs = {
+        flake-parts.follows = "flake-parts";
+        nixpkgs.follows = "nixpkgs";
+      };
     };
     system24 = {
       url = "github:refact0r/system24";
