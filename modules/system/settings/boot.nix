@@ -28,8 +28,6 @@
           efi.canTouchEfiVariables = true;
           timeout = 0;
         };
-
-        tmp.cleanOnBoot = true;
       };
 
       environment.systemPackages = [ pkgs.sbctl ];
