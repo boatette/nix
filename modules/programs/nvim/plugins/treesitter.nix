@@ -28,7 +28,6 @@
             jsdoc
             json
             kdl
-            kotlin
             luadoc
             make
             markdown
