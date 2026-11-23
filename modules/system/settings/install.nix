@@ -15,13 +15,13 @@
         notes = lib.mkOption {
           type = lib.types.listOf lib.types.str;
           default = [ ];
-          description = "Reminders install-host and finish-install print";
+          description = "Reminders install and finish-install print";
         };
 
         plan = lib.mkOption {
           type = lib.types.attrsOf lib.types.unspecified;
           readOnly = true;
-          description = "What install-host and finish-install do, read from the config";
+          description = "What install and finish-install do, read from the config";
         };
       };
 

@@ -11,7 +11,7 @@
   writeShellApplication,
 }:
 writeShellApplication {
-  name = "install-host";
+  name = "install";
   meta.description = "erase aspire's disk and install it, from a live ISO";
 
   runtimeInputs = [
@@ -29,5 +29,5 @@ writeShellApplication {
     HOST = lib.head (lib.attrNames inputs.self.nixosConfigurations);
   };
 
-  text = builtins.readFile ./install-host.sh;
+  text = builtins.readFile ./install.sh;
 }

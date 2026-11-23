@@ -12,7 +12,7 @@ die() {
 
 usage() {
   cat <<EOF
-usage: install-host [--flake REF] [--dry-run] [-- nixos-install options]
+usage: install [--flake REF] [--dry-run] [-- nixos-install options]
 
 Erase the disks $HOST's disko config names, install $HOST and set its
 user passwords.

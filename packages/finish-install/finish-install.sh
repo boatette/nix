@@ -16,7 +16,7 @@ usage() {
   cat <<EOF
 usage: finish-install [--check | --reenroll-tpm]
 
-Finish what install-host started: wait for the Secure Boot keys to be
+Finish what install started: wait for the Secure Boot keys to be
 enrolled, then bind the disk to the TPM and create a recovery key, log
 gh in to GitHub, and clone the flake over SSH with a new key that gh
 adds to GitHub. Run it again whenever it asks; steps already done are

@@ -10,7 +10,7 @@
 }:
 writeShellApplication {
   name = "finish-install";
-  meta.description = "enroll Secure Boot and the TPM, log gh in to GitHub and clone the flake, after install-host";
+  meta.description = "enroll Secure Boot and the TPM, log gh in to GitHub and clone the flake, after install";
 
   runtimeInputs = [
     coreutils
