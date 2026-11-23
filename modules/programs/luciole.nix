@@ -1,13 +1,14 @@
 { inputs, ... }:
 {
-  flake-file.inputs.luciole = {
-    url = "github:noctalia-dev/luciole";
-    inputs.nixpkgs.follows = "nixpkgs";
-  };
+  flake-file.inputs.luciole.url = "github:noctalia-dev/luciole/cachix";
 
-  flake.modules.nixos.luciole = {
-    imports = [ inputs.luciole.nixosModules.default ];
+  flake.modules.nixos.luciole =
+    { pkgs, ... }:
+    {
+      imports = [ inputs.luciole.nixosModules.default ];
 
-    programs.luciole.enable = true;
-  };
+      assertions = [ (inputs.self.lib.glibcAssertion pkgs "luciole") ];
+
+      programs.luciole.enable = true;
+    };
 }

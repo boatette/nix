@@ -12,6 +12,15 @@
   };
 
   config.flake.lib = rec {
+    # an input on an older glibc than the system's can't load the system's mesa
+    glibcAssertion = pkgs: name: {
+      assertion =
+        lib.versionAtLeast
+          inputs.${name}.inputs.nixpkgs.legacyPackages.${pkgs.stdenv.hostPlatform.system}.glibc.version
+          pkgs.glibc.version;
+      message = "${name}'s nixpkgs has an older glibc than the system's; wait for its cachix branch to catch up";
+    };
+
     qtFont = font: "${font.name},${toString font.size},-1,5,50,0,0,0,0,0";
 
     # runs a program on the nvidia gpu under prime offload, like nvidia-offload
