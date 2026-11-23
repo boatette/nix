@@ -47,10 +47,6 @@
           };
         };
 
-        # browser preview: mermaid, KaTeX, PlantUML, charts
-        utility.preview.markdownPreview.enable = true;
-        globals.mkdp_theme = "dark";
-
         # :Checkbox, :Heading and :Editor commands register on require
         luaConfigRC.markview-extras = entryAfter [ "pluginConfigs" ] ''
           require("markview.extras.checkboxes").setup()
@@ -59,7 +55,6 @@
         '';
 
         keymaps = [
-          (cmd "n" "<leader>mp" "<cmd>MarkdownPreviewToggle<cr>" "Browser preview")
           (cmd "n" "<leader>mt" "<cmd>Markview toggle<cr>" "Toggle rendering")
           (cmd "n" "<leader>ms" "<cmd>Markview splitToggle<cr>" "Split preview")
           (cmd "n" "<leader>mh" "<cmd>Markview hybridToggle<cr>" "Toggle hybrid mode")
