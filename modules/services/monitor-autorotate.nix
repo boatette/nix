@@ -9,26 +9,14 @@ in
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  # turns the monitors between the profiles in flake.monitors as the Pico on the arm reports
+  # turns the monitors between constants.monitors.layouts as the Pico on the arm reports
   flake.modules.nixos.aspire =
     { pkgs, ... }:
     let
-      inherit (inputs.self.lib) transformName umbrielLayout;
+      inherit (inputs.self.lib) umbrielLayout;
 
-      profiles = inputs.self.lib.monitorProfiles;
-
-      # each profile as wlr-randr --json reports it, to tell which one the outputs are in
-      layouts = builtins.toJSON (
-        lib.mapAttrs (
-          _:
-          lib.mapAttrs (
-            _: m: {
-              transform = transformName m;
-              inherit (m) position;
-            }
-          )
-        ) profiles
-      );
+      profiles = inputs.self.constants.monitors.layouts;
+      layouts = builtins.toJSON profiles;
 
       rotate = pkgs.writeShellApplication {
         name = "umbriel-monitor-profile";

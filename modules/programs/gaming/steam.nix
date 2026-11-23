@@ -11,24 +11,24 @@
   flake.modules.homeManager.boatette =
     { lib, pkgs, ... }:
     let
-      inherit (inputs.self.lib) nvidiaOffloadEnv parseMode primaryMonitor;
+      inherit (inputs.self.constants) monitors;
 
       # gamescope runs games at the primary monitor's mode
-      mode = parseMode inputs.self.monitors.${primaryMonitor}.mode;
+      mode = builtins.match "([0-9]+)x([0-9]+)@([0-9]+)" monitors.modes.${monitors.primary};
 
       wrappers = [
         (lib.getExe pkgs.gamemode)
         (lib.getExe pkgs.gamescope)
         "-W"
-        mode.width
+        (lib.elemAt mode 0)
         "-H"
-        mode.height
+        (lib.elemAt mode 1)
         "-r"
-        (toString (builtins.floor (builtins.fromJSON mode.refresh)))
+        (lib.elemAt mode 2)
         "--"
         (lib.getExe' pkgs.coreutils "env")
       ]
-      ++ lib.mapAttrsToList (name: value: "${name}=${value}") nvidiaOffloadEnv;
+      ++ lib.mapAttrsToList (name: value: "${name}=${value}") inputs.self.lib.nvidiaOffloadEnv;
     in
     {
       imports = [ inputs.steam-config-nix.homeModules.default ];

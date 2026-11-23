@@ -2,13 +2,17 @@
 {
   flake.modules.homeManager.boatette =
     let
-      inherit (inputs.self.lib) startLayout;
+      inherit (inputs.self.constants.monitors) primary modes;
 
-      primary = inputs.self.lib.primaryMonitor;
-      widget = inputs.self.lib.noctaliaWidget;
-
-      # without a login box on every output noctalia adds its own to its state; disabled ones still count
-      outputs = lib.attrNames (lib.filterAttrs (_: m: m.mode != null) startLayout);
+      # placed on a 1920x1080 output; any other placement size lands the whole section in noctalia's state
+      widget =
+        output: attrs:
+        attrs
+        // {
+          inherit output;
+          placement_width = 1920.0;
+          placement_height = 1080.0;
+        };
 
       # noctalia's compact login box: 400 wide, and 38 plus 16 of padding on each side tall
       loginBox =
@@ -20,11 +24,8 @@
 
             box_width = 400.0;
             box_height = 70.0;
-
-            box = {
-              cx = 960.0;
-              cy = 940.0;
-            };
+            cx = 960.0;
+            cy = 940.0;
 
             settings = {
               layout = "compact";
@@ -39,45 +40,51 @@
       dateId = "lockscreen-widget-0000000000000002";
 
       # a clock's text fills its box, so the date's is shorter, and wide enough for "Wednesday, September 30"
-      clock = id: box: settings: {
-        ${id} = widget primary {
-          type = "clock";
-          inherit box;
+      clock =
+        box: settings:
+        widget primary (
+          box
+          // {
+            type = "clock";
 
-          settings = {
-            background = false;
-            center_text = true;
-            shadow = false;
+            settings = {
+              background = false;
+              center_text = true;
+              shadow = false;
+            }
+            // settings;
           }
-          // settings;
-        };
-      };
+        );
     in
     {
       programs.noctalia.settings.lockscreen_widgets = {
         enabled = true;
-        # primary first, then the rest by name, then the clock and the date
+
+        # without a login box on every output noctalia adds its own to its state; disabled ones still count
         widget_order =
-          map (output: "lockscreen-login-box@${output}") ([ primary ] ++ lib.remove primary outputs)
+          map (output: "lockscreen-login-box@${output}") (
+            [ primary ] ++ lib.remove primary (lib.attrNames modes)
+          )
           ++ [
             clockId
             dateId
           ];
 
-        widget =
-          lib.listToAttrs (map loginBox outputs)
-          // clock clockId {
-            width = 368.0;
-            height = 208.0;
+        widget = lib.listToAttrs (map loginBox (lib.attrNames modes)) // {
+          ${clockId} = clock {
+            box_width = 368.0;
+            box_height = 208.0;
             cx = 960.0;
             cy = 292.0;
-          } { }
-          // clock dateId {
-            width = 560.0;
-            height = 50.0;
+          } { };
+
+          ${dateId} = clock {
+            box_width = 560.0;
+            box_height = 50.0;
             cx = 960.0;
             cy = 161.0;
           } { format = "{:%A, %B %d}"; };
+        };
       };
     };
 }

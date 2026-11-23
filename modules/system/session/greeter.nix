@@ -19,7 +19,7 @@
           };
 
           inherit (inputs.self.constants) keyboard;
-          output.name = inputs.self.lib.primaryMonitor;
+          output.name = inputs.self.constants.monitors.primary;
         };
 
         passwordlessSyncUsers = [ inputs.self.constants.username ];
