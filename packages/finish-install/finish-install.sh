@@ -56,13 +56,12 @@ fi
 field() { jq -r "$1" "$plan"; }
 
 host=$(field .host)
-secure_boot=$(field .secureBoot)
-pki_bundle=$(field '.pkiBundle // ""')
+pki_bundle=$(field .pkiBundle)
 esp=$(field .esp)
-username=$(field '.username // ""')
-home=$(field '.home // ""')
-flake_dir=$(field '.flakeDir // ""')
-repo=$(field '.repo // ""')
+username=$(field .username)
+home=$(field .home)
+flake_dir=$(field .flakeDir)
+repo=$(field .repo)
 
 mapfile -t tpm < <(field '.tpm[]')
 mapfile -t notes < <(field '.notes[]')
@@ -278,7 +277,7 @@ repo_step() {
 printf '\e[1m%s\e[0m\n' "Finishing the install of $host"
 pending=0
 
-if [[ "$secure_boot" == true ]] && ! secure_boot_step; then
+if ! secure_boot_step; then
   pending=1
 fi
 
@@ -292,12 +291,9 @@ elif [[ "$mode" == reenroll ]]; then
   die "$host has no disk that unlocks with the TPM"
 fi
 
-if [[ "$mode" != reenroll && -n "$username" ]] && ! gh_step; then
-  pending=1
-fi
-
-if [[ "$mode" != reenroll && -n "$username" && -n "$flake_dir" && -n "$repo" ]] && ! repo_step; then
-  pending=1
+if [[ "$mode" != reenroll ]]; then
+  gh_step || pending=1
+  repo_step || pending=1
 fi
 
 if ((${#notes[@]})); then
