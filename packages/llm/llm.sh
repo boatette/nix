@@ -1,5 +1,4 @@
-# the server is the llm user service (modules/services/llm.nix); this starts it, runs opencode on
-# it and downloads the models it serves
+# starts the llm user service from modules/services/llm.nix, runs opencode on it and downloads its models
 
 url=http://127.0.0.1:$PORT
 
@@ -54,16 +53,13 @@ code() {
   exec opencode --standalone "$@"
 }
 
-# the status and size of a download, after redirects; a one-byte GET rather than HEAD, which
-# storage links can refuse
+# a download's status and size: a one-byte GET, as storage links can refuse HEAD
 probe() {
   curl -sL -m 60 -r 0-0 -D - -o /dev/null "$1" | tr -d '\r' |
     awk 'tolower($1) ~ /^http\// { code = $2 } tolower($1) == "content-range:" { split($3, a, "/"); n = a[2] } END { print code, n + 0 }'
 }
 
-# hugging face drops long connections, so resumable curl, then the hash. a connection that dies
-# without closing (a vpn switching servers) stalls instead, so under 10 KB/s for a minute aborts it
-# and the retry picks up where it stopped
+# resumable, as hugging face drops long connections; a stall under 10 KB/s for a minute restarts it
 fetch() {
   local url=$1 sha256=$2 dest=$3
   for _ in 1 2 3 4 5 6 7 8 9 10; do
