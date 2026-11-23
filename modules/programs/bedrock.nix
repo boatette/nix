@@ -1,7 +1,6 @@
 { inputs, ... }:
 {
-  # unofficial launcher: runs the Android build of Bedrock, so it needs a Google
-  # account that owns Minecraft on the Play Store to download the game
+  # runs the android build, so it needs a google account that owns minecraft
   flake.modules.homeManager.boatette =
     { pkgs, ... }:
     {

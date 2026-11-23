@@ -187,8 +187,7 @@ in
         }) layout;
       };
 
-    # a widget box laid out for 1920x1080 and scaled onto the output; placement_* must be the output's
-    # logical size, or noctalia copies the whole section into its state file
+    # a widget laid out for 1920x1080, scaled onto the output; other placement_* sizes land in noctalia's state
     noctaliaWidget =
       output:
       { box, ... }@widget:

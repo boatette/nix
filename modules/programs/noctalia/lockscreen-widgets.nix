@@ -2,13 +2,12 @@
 {
   flake.modules.homeManager.boatette =
     let
-      inherit (inputs.self.lib) noctaliaWidget startLayout;
+      inherit (inputs.self.lib) startLayout;
 
       primary = inputs.self.lib.primaryMonitor;
-      widget = noctaliaWidget;
+      widget = inputs.self.lib.noctaliaWidget;
 
-      # every output gets a login box, or noctalia makes its own and copies this whole section into
-      # its state file. enabled = false still counts, which is how all but the primary stay empty
+      # without a login box on every output noctalia adds its own to its state; disabled ones still count
       outputs = lib.attrNames (lib.filterAttrs (_: m: m.mode != null) startLayout);
 
       # noctalia's compact login box: 400 wide, and 38 plus 16 of padding on each side tall
@@ -39,8 +38,7 @@
       clockId = "lockscreen-widget-0000000000000001";
       dateId = "lockscreen-widget-0000000000000002";
 
-      # a clock's text fills its box, so the date's shorter box above the time keeps it smaller;
-      # 560 wide lets the height set that size even for "Wednesday, September 30"
+      # a clock's text fills its box, so the date's is shorter, and wide enough for "Wednesday, September 30"
       clock = id: box: settings: {
         ${id} = widget primary {
           type = "clock";
