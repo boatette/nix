@@ -1,26 +1,31 @@
-{ inputs, ... }:
 {
-  flake-file.inputs.umbriel = {
-    url = "github:noctalia-dev/umbriel";
-    inputs.nixpkgs.follows = "nixpkgs";
-  };
-
   flake.modules.nixos.umbriel.programs.umbriel.enable = true;
 
   flake.modules.homeManager.umbriel =
-    { osConfig, pkgs, ... }:
     {
-      imports = [ inputs.umbriel.homeModules.default ];
-
-      programs.umbriel = {
-        enable = true;
-        # the umbriel the session runs, not the flake's newer one, so the config and `umbriel msg` match it
-        package = osConfig.programs.umbriel.package;
+      config,
+      lib,
+      pkgs,
+      ...
+    }:
+    let
+      toml = pkgs.formats.toml { };
+    in
+    {
+      options.programs.umbriel.settings = lib.mkOption {
+        inherit (toml) type;
+        default = { };
+        description = "umbriel's config.toml";
       };
 
-      home.packages = with pkgs; [
-        wl-clipboard
-        libnotify
-      ];
+      config = {
+        xdg.configFile."umbriel/config.toml".source =
+          toml.generate "umbriel-config.toml" config.programs.umbriel.settings;
+
+        home.packages = with pkgs; [
+          libnotify
+          wl-clipboard
+        ];
+      };
     };
 }

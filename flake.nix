@@ -113,9 +113,5 @@
       url = "git+file:///home/boatette/Projects/toothless";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    umbriel = {
-      url = "github:noctalia-dev/umbriel";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 }
