@@ -5,7 +5,7 @@
     flake = false;
   };
 
-  flake.modules.homeManager.rmpc =
+  flake.modules.homeManager.boatette =
     { pkgs, ... }:
     let
       port = "${inputs.rose-pine-rmpc}/rosepine-main/rmpc_default_no_border/themes/rosepine-main.ron";

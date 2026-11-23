@@ -5,7 +5,7 @@
     flake = false;
   };
 
-  flake.modules.homeManager.git = {
+  flake.modules.homeManager.boatette = {
     programs.git.includes = [ { path = "${inputs.rose-pine-delta}/dist/rose-pine.gitconfig"; } ];
 
     programs.delta = {

@@ -1,8 +1,8 @@
+{ inputs, ... }:
 {
-  flake.modules.homeManager.noctalia =
-    { config, ... }:
+  flake.modules.homeManager.boatette =
     let
-      inherit (config.constants.glass) radius opacity;
+      inherit (inputs.self.constants.glass) radius opacity;
     in
     {
       programs.noctalia.settings.dock = {

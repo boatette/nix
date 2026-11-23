@@ -1,5 +1,5 @@
 {
-  flake.modules.nixos.plymouth =
+  flake.modules.nixos.aspire =
     { config, ... }:
     {
       boot = {

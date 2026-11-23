@@ -4,7 +4,7 @@
     let
       inherit (inputs.self.lib.nvim) mod;
 
-      rebuild = inputs.self.lib.rebuild inputs.self.constants.flakeDir;
+      inherit (inputs.self.lib) rebuild;
 
       nixosRebuild =
         key: cmd: desc:

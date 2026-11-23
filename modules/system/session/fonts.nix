@@ -1,15 +1,16 @@
+{ inputs, ... }:
 {
-  flake.modules.nixos.fonts =
-    { config, pkgs, ... }:
+  flake.modules.nixos.aspire =
+    { pkgs, ... }:
     let
-      inherit (config.constants.fonts) mono sans;
+      inherit (inputs.self.constants.fonts) mono sans;
     in
     {
       fonts = {
         packages = with pkgs; [
+          inter
           nerd-fonts.jetbrains-mono
           nerd-fonts.symbols-only
-          inter
         ];
 
         fontconfig.defaultFonts = {

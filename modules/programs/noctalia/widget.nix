@@ -1,5 +1,5 @@
 {
-  flake.modules.homeManager.noctalia.programs.noctalia.settings.widget = {
+  flake.modules.homeManager.boatette.programs.noctalia.settings.widget = {
     audio_visualizer.actions.left = "panel-toggle control-center media";
 
     battery = {
@@ -36,12 +36,8 @@
       type = "avivbintangaringga/nix-monitor:nix-monitor";
     };
 
-    noctaproton_vpn = {
-      type = "riversyx/noctaproton-vpn:bar";
-    };
+    noctaproton_vpn.type = "riversyx/noctaproton-vpn:bar";
 
-    tailnet = {
-      type = "rylos/tailnet:bar";
-    };
+    tailnet.type = "rylos/tailnet:bar";
   };
 }

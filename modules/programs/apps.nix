@@ -1,19 +1,19 @@
 {
-  flake.modules.homeManager.apps =
+  flake.modules.homeManager.boatette =
     { pkgs, ... }:
     {
       home.packages = with pkgs; [
-        pinta
         blender
-        stremio-linux-shell
-        qbittorrent
-        proton-pass
         local.bambu-studio
         local.spotbye
         local.spotbye-bump
+        pinta
+        proton-pass
+        qbittorrent
+        stremio-linux-shell
 
-        libreoffice
         hunspellDicts.en_AU
+        libreoffice
       ];
     };
 }

@@ -5,7 +5,7 @@
     flake = false;
   };
 
-  flake.modules.homeManager.bat = {
+  flake.modules.homeManager.boatette = {
     programs.bat = {
       enable = true;
 

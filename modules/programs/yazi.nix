@@ -5,8 +5,8 @@
     flake = false;
   };
 
-  flake.modules.homeManager.yazi =
-    { pkgs, ... }:
+  flake.modules.homeManager.boatette =
+    { lib, pkgs, ... }:
     {
       programs.yazi = {
         enable = true;
@@ -18,22 +18,24 @@
           resvg
         ];
 
-        plugins = {
-          git = {
-            package = pkgs.yaziPlugins.git;
-            setup = true;
-            settings.order = 1500;
+        plugins =
+          lib.genAttrs [
+            "chmod"
+            "jump-to-char"
+            "mount"
+            "smart-enter"
+            "smart-filter"
+            "smart-paste"
+            "toggle-pane"
+            "vcs-files"
+          ] (name: pkgs.yaziPlugins.${name})
+          // {
+            git = {
+              package = pkgs.yaziPlugins.git;
+              setup = true;
+              settings.order = 1500;
+            };
           };
-
-          chmod = pkgs.yaziPlugins.chmod;
-          jump-to-char = pkgs.yaziPlugins.jump-to-char;
-          mount = pkgs.yaziPlugins.mount;
-          smart-enter = pkgs.yaziPlugins.smart-enter;
-          smart-filter = pkgs.yaziPlugins.smart-filter;
-          smart-paste = pkgs.yaziPlugins.smart-paste;
-          toggle-pane = pkgs.yaziPlugins.toggle-pane;
-          vcs-files = pkgs.yaziPlugins.vcs-files;
-        };
 
         settings = {
           mgr.show_hidden = true;

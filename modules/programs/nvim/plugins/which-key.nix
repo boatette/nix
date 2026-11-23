@@ -20,7 +20,7 @@
           "<leader>t" = "+Test";
           "<leader>u" = "+UI";
           "<leader>w" = "+Window";
-          "<leader>x" = "+Trouble";
+          "<leader>x" = "+Diagnostics";
         };
 
         setupOpts.preset = "helix";

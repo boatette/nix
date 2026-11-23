@@ -1,13 +1,13 @@
 { inputs, ... }:
 {
-  flake.modules.nixos.greeter =
-    { config, pkgs, ... }:
+  flake.modules.nixos.aspire =
+    { pkgs, ... }:
     {
       services.displayManager.noctalia-greeter = {
         enable = true;
 
         cursorTheme = {
-          inherit (config.constants.cursor) name;
+          inherit (inputs.self.constants.cursor) name;
           package = pkgs.rose-pine-cursor;
         };
 
@@ -17,12 +17,12 @@
             password_style = "random";
             scheme_selector_position = "hidden";
           };
-          inherit (config.constants) keyboard;
 
-          output.name = inputs.self.lib.primaryMonitor config.networking.hostName;
+          inherit (inputs.self.constants) keyboard;
+          output.name = inputs.self.constants.monitors.primary;
         };
 
-        passwordlessSyncUsers = [ config.constants.username ];
+        passwordlessSyncUsers = [ inputs.self.constants.username ];
       };
     };
 }

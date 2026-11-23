@@ -1,14 +1,8 @@
 { inputs, ... }:
 {
-  flake-file.inputs.rose-pine-starship = {
-    url = "github:rose-pine/starship";
-    flake = false;
-  };
-
-  flake.modules.homeManager.starship =
+  flake.modules.homeManager.boatette =
     let
-      inherit (fromTOML (builtins.readFile "${inputs.rose-pine-starship}/rose-pine.toml")) palettes;
-      rp = palettes.rose-pine;
+      inherit (inputs.self.lib.colours) hex;
     in
     {
       programs.starship = {
@@ -25,12 +19,12 @@
 
           palette = "rose-pine";
           palettes.rose-pine = {
-            red = rp.love;
-            green = rp.pine;
-            yellow = rp.gold;
-            blue = rp.foam;
-            purple = rp.iris;
-            cyan = rp.rose;
+            red = hex "love";
+            green = hex "pine";
+            yellow = hex "gold";
+            blue = hex "foam";
+            purple = hex "iris";
+            cyan = hex "rose";
           };
         };
       };

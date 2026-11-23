@@ -1,9 +1,9 @@
 { inputs, ... }:
 {
-  flake.modules.homeManager.appearance =
+  flake.modules.homeManager.boatette =
     { config, pkgs, ... }:
     let
-      inherit (config.constants.fonts) mono sans;
+      inherit (inputs.self.constants.fonts) mono sans;
       inherit (inputs.self.lib) qtFont;
 
       theme = "rose-pine-rose";
@@ -18,6 +18,11 @@
     {
       qt = {
         enable = true;
+
+        platformTheme = {
+          name = "qt6ct";
+          package = pkgs.qt6Packages.qt6ct;
+        };
 
         qt6ctSettings = {
           Appearance = {

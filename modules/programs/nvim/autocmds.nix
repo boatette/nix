@@ -1,5 +1,5 @@
 {
-  flake.modules.nvf.core =
+  flake.modules.nvf.nvim =
     { lib, ... }:
     let
       inherit (lib.generators) mkLuaInline;
@@ -52,46 +52,28 @@
 
         {
           event = [
-            "WinEnter"
             "BufEnter"
-          ];
-          desc = "Cursor line in active window";
-          callback = mkLuaInline ''
-            function()
-                vim.opt_local.cursorline = true
-            end
-          '';
-        }
-        {
-          event = [
-            "WinLeave"
             "BufLeave"
+            "WinEnter"
+            "WinLeave"
           ];
-          desc = "No cursor line in inactive window";
+          desc = "Cursor line only in the active window";
           callback = mkLuaInline ''
-            function()
-                vim.opt_local.cursorline = false
+            function(ev)
+                vim.opt_local.cursorline = vim.endswith(ev.event, "Enter")
             end
           '';
         }
 
         {
-          event = [ "InsertEnter" ];
-          desc = "Disable relative numbers in insert mode";
+          event = [
+            "InsertEnter"
+            "InsertLeave"
+          ];
+          desc = "Relative numbers outside insert mode";
           callback = mkLuaInline ''
-            function()
-                vim.opt_local.relativenumber = false
-            end
-          '';
-        }
-        {
-          event = [ "InsertLeave" ];
-          desc = "Enable relative numbers in normal mode";
-          callback = mkLuaInline ''
-            function()
-                if vim.wo.number then
-                    vim.opt_local.relativenumber = true
-                end
+            function(ev)
+                vim.opt_local.relativenumber = ev.event == "InsertLeave" and vim.wo.number
             end
           '';
         }

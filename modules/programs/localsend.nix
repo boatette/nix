@@ -1,3 +1,3 @@
 {
-  flake.modules.nixos.localsend.programs.localsend.enable = true;
+  flake.modules.nixos.aspire.programs.localsend.enable = true;
 }

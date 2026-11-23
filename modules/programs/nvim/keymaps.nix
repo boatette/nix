@@ -1,6 +1,6 @@
 { inputs, ... }:
 {
-  flake.modules.nvf.core =
+  flake.modules.nvf.nvim =
     let
       inherit (inputs.self.lib.nvim) cmd lua mod;
 

@@ -1,19 +1,27 @@
 { config, lib, ... }:
 {
   flake.lib.rebuild =
-    flakeDir:
     let
+      inherit (config.flake.constants) flakeDir repo;
+
       writeFlake = "(cd ${flakeDir} && nix run .#write-flake)";
 
       os = mode: "nh os ${mode} ${flakeDir}";
 
-      # builds the uncommitted changes of every git+file input without a lock update; new files need git add
+      owner = lib.head (lib.splitString "/" repo);
+
+      # my own projects' working trees in ~/Projects, built without a lock update; new files need git add
       devOverrides = lib.concatStrings (
-        lib.mapAttrsToList (name: input: " --override-input ${name} ${input.url}") (
-          lib.filterAttrs (
-            _: input: lib.hasPrefix "git+file://" (toString (input.url or ""))
-          ) config.flake-file.inputs
-        )
+        lib.mapAttrsToList
+          (
+            name: input:
+            " --override-input ${name} git+file://${dirOf flakeDir}/Projects/${lib.removePrefix "github:${owner}/" input.url}"
+          )
+          (
+            lib.filterAttrs (
+              _: input: lib.hasPrefix "github:${owner}/" (input.url or "")
+            ) config.flake-file.inputs
+          )
       );
 
       osDev = mode: "${os mode}${devOverrides}";

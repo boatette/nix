@@ -1,6 +1,6 @@
 { inputs, ... }:
 {
-  flake.modules.homeManager.mime = inputs.self.lib.mimeHandlers {
+  flake.modules.homeManager.boatette = inputs.self.lib.mimeHandlers {
     "com.github.PintaProject.Pinta.desktop" = [ "image/openraster" ];
 
     "writer.desktop" = [

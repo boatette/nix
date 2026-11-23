@@ -1,11 +1,9 @@
 { inputs, ... }:
 {
-  flake.modules.nixos.nh =
-    { config, ... }:
+  flake.modules.nixos.aspire =
     let
-      inherit (config.constants) flakeDir;
-
-      rebuild = inputs.self.lib.rebuild flakeDir;
+      inherit (inputs.self.constants) flakeDir;
+      inherit (inputs.self.lib) rebuild;
     in
     {
       programs.nh = {

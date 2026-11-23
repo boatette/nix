@@ -1,5 +1,5 @@
 {
-  flake.modules.nixos.firmware.services.fwupd = {
+  flake.modules.nixos.aspire.services.fwupd = {
     enable = true;
 
     daemonSettings.IdleTimeout = 60;

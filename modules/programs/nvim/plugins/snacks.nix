@@ -106,6 +106,18 @@
           (snack "n" "<leader>fs" "picker.lsp_symbols()" "LSP document symbols")
           (snack "n" "<leader>fS" "picker.lsp_workspace_symbols()" "LSP workspace symbols")
 
+          (snack "n" "gd" "picker.lsp_definitions()" "Go to definition")
+          (snack "n" "gI" "picker.lsp_implementations()" "Go to implementations")
+          (snack "n" "gy" "picker.lsp_type_definitions()" "Go to type definition")
+          (snack "n" "grr" "picker.lsp_references()" "References")
+
+          (snack "n" "<leader>xx" "picker.diagnostics()" "Workspace diagnostics")
+          (snack "n" "<leader>xX" "picker.diagnostics_buffer()" "Buffer diagnostics")
+          (snack "n" "<leader>xq" "picker.qflist()" "Quickfix list")
+          (snack "n" "<leader>xl" "picker.loclist()" "Location list")
+          (snack "n" "<leader>xi" "picker.lsp_incoming_calls()" "Incoming calls")
+          (snack "n" "<leader>xo" "picker.lsp_outgoing_calls()" "Outgoing calls")
+
           (snack "n" "<leader>gc" "picker.git_log()" "Git log")
           (snack "n" "<leader>gF" "picker.git_status()" "Git status")
           (snack "n" "<leader>go" "gitbrowse()" "Git browse (open in browser)")
@@ -114,6 +126,7 @@
 
           (snack [ "n" "t" ] "<C-`>" "terminal()" "Toggle terminal")
           (snack "n" "<leader>ot" "terminal()" "Toggle terminal")
+          (snack "n" "<leader>ou" "picker.undo()" "Undo history")
 
           (snack "n" "<leader>un" "notifier.hide()" "Dismiss notifications")
           (snack "n" "<leader>uN" "picker.notifications()" "Browse notifications")

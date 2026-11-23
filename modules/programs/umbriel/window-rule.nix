@@ -1,6 +1,6 @@
 { inputs, lib, ... }:
 {
-  flake.modules.homeManager.umbriel.programs.umbriel.settings.window_rule = lib.mkBefore [
+  flake.modules.homeManager.boatette.programs.umbriel.settings.window_rule = lib.mkBefore [
     {
       blur = true;
     }

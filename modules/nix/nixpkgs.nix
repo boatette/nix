@@ -1,6 +1,6 @@
-{ inputs, ... }:
+{ config, inputs, ... }:
 {
-  flake-file.inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+  flake-file.inputs.nixpkgs.url = "github:NixOS/nixpkgs/${config.flake.constants.nixpkgsBranch}";
 
   perSystem =
     { system, ... }:

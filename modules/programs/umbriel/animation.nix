@@ -1,5 +1,5 @@
 {
-  flake.modules.homeManager.umbriel.programs.umbriel.settings.animation = {
+  flake.modules.homeManager.boatette.programs.umbriel.settings.animation = {
     windows_in = {
       scale = 0.93;
       curve = "spring:0.92,900";

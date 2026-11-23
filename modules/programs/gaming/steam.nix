@@ -2,44 +2,33 @@
 {
   flake-file.inputs.steam-config-nix = {
     url = "github:different-name/steam-config-nix";
-    inputs.nixpkgs.follows = "nixpkgs";
+    inputs = {
+      flake-parts.follows = "flake-parts";
+      nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  flake.modules.homeManager.steam =
-    {
-      lib,
-      osConfig,
-      pkgs,
-      ...
-    }:
+  flake.modules.homeManager.boatette =
+    { lib, pkgs, ... }:
     let
-      host = osConfig.networking.hostName;
-      offload = osConfig.hardware.nvidia.prime.offload.enable or false;
-
-      primary = inputs.self.monitors.${host}.${inputs.self.lib.primaryMonitor host};
+      inherit (inputs.self.constants) monitors;
 
       # gamescope runs games at the primary monitor's mode
-      mode =
-        if primary.mode != null && lib.hasInfix "@" primary.mode then
-          inputs.self.lib.parseMode primary.mode
-        else
-          throw "gaming/steam.nix: the primary monitor on ${host} needs a mode with a refresh rate, like 1920x1080@144";
+      mode = builtins.match "([0-9]+)x([0-9]+)@([0-9]+)" monitors.modes.${monitors.primary};
 
       wrappers = [
         (lib.getExe pkgs.gamemode)
         (lib.getExe pkgs.gamescope)
         "-W"
-        mode.width
+        (lib.elemAt mode 0)
         "-H"
-        mode.height
+        (lib.elemAt mode 1)
         "-r"
-        (toString (builtins.floor (builtins.fromJSON mode.refresh)))
+        (lib.elemAt mode 2)
         "--"
+        (lib.getExe' pkgs.coreutils "env")
       ]
-      ++ lib.optionals offload (
-        [ (lib.getExe' pkgs.coreutils "env") ]
-        ++ lib.mapAttrsToList (name: value: "${name}=${value}") inputs.self.lib.nvidiaOffloadEnv
-      );
+      ++ lib.mapAttrsToList (name: value: "${name}=${value}") inputs.self.lib.nvidiaOffloadEnv;
     in
     {
       imports = [ inputs.steam-config-nix.homeModules.default ];
@@ -72,8 +61,4 @@
         };
       };
     };
-
-  flake.modules.nixos.gaming.home-manager.sharedModules = [
-    inputs.self.modules.homeManager.steam
-  ];
 }

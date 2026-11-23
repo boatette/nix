@@ -1,25 +1,17 @@
-{ inputs, ... }:
+{ inputs, withSystem, ... }:
 {
-  flake.modules.nixos.aspire =
-    { config, ... }:
-    {
-      imports = with inputs.self.modules.nixos; [
-        desktop
+  flake.nixosConfigurations.aspire = inputs.nixpkgs.lib.nixosSystem {
+    modules = [ inputs.self.modules.nixos.aspire ];
+  };
 
-        backup
-        gaming
-        impermanence
-        llm
-        monitor-autorotate
-        petal
-        printing
-        secure-boot
-        tailscale
+  flake.modules.nixos.aspire = {
+    networking.hostName = "aspire";
 
-        boatette
-      ];
-
-      networking.hostName = "aspire";
-      system.stateVersion = config.constants.stateVersion;
+    nixpkgs = {
+      hostPlatform = "x86_64-linux";
+      pkgs = withSystem "x86_64-linux" ({ pkgs, ... }: pkgs);
     };
+
+    system.stateVersion = inputs.self.constants.stateVersion;
+  };
 }

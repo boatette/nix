@@ -17,7 +17,7 @@
     };
   };
 
-  flake.modules.homeManager.cli-tools =
+  flake.modules.homeManager.boatette =
     { pkgs, ... }:
     let
       inherit (pkgs.stdenv.hostPlatform) system;
@@ -25,19 +25,19 @@
     {
       home.packages =
         (with pkgs; [
-          cachix
           dust
           eza
           fd
           gh
           jq
           lm_sensors
-          nix-tree
-          ripgrep
           microfetch
-          tldr
+          nix-tree
           proton-vpn-cli
+          # claude code edits files with python
           python3
+          ripgrep
+          tldr
         ])
         ++ [
           inputs.claude-code.packages.${system}.default

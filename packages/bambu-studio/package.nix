@@ -6,8 +6,7 @@ let
   pname = "bambu-studio";
   version = "02.09.01.70";
 
-  # the official appimage, as nixpkgs licenses its bambu-studio unfree: hydra never builds it,
-  # so every nixpkgs bump meant a ~30 minute local build. bumped by hand
+  # hydra never builds nixpkgs' unfree bambu-studio, so every bump was a 30 minute local build
   src = fetchurl {
     url = "https://github.com/bambulab/BambuStudio/releases/download/v${version}/BambuStudio_ubu24-v${version}-20261103183404.AppImage";
     hash = "sha256-Zo2rsb5Tx1gYnta8iZNShd6l4K9GIWVGsbr9aILpr/A=";

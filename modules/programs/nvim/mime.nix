@@ -1,6 +1,6 @@
 { inputs, ... }:
 {
-  flake.modules.homeManager.mime =
+  flake.modules.homeManager.boatette =
     { config, lib, ... }:
     let
       types = [

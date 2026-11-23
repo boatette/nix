@@ -1,6 +1,6 @@
 { inputs, ... }:
 {
-  flake.modules.nvf.core =
+  flake.modules.nvf.nvim =
     { pkgs, ... }:
     let
       spider =

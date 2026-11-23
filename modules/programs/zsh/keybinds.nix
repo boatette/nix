@@ -1,5 +1,5 @@
 {
-  flake.modules.homeManager.zsh =
+  flake.modules.homeManager.boatette =
     { lib, ... }:
     {
       programs.zsh.initContent = lib.mkMerge [

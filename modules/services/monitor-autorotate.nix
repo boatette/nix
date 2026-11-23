@@ -1,35 +1,22 @@
 { inputs, lib, ... }:
 let
-  # the current profile, written by umbriel-monitor-profile. in the runtime dir, so an umbriel restart
-  # keeps the arm's profile and a new login starts in the first one
+  # in the runtime dir, so an umbriel restart keeps the arm's profile and a new login starts in the first
   profileFile = "umbriel-monitor-profile.toml";
 in
 {
   flake-file.inputs.monitor-autorotate = {
-    url = "git+file:///home/boatette/Projects/monitor-autorotate";
+    url = "github:boatette/monitor-autorotate";
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  # turns the monitors between the profiles in flake.monitors as the Pico on the arm reports
-  flake.modules.nixos.monitor-autorotate =
-    { config, pkgs, ... }:
+  # turns the monitors between constants.monitors.layouts as the Pico on the arm reports
+  flake.modules.nixos.aspire =
+    { pkgs, ... }:
     let
-      inherit (inputs.self.lib) monitorProfiles transformName umbrielLayout;
+      inherit (inputs.self.lib) umbrielLayout;
 
-      profiles = monitorProfiles (inputs.self.monitors.${config.networking.hostName} or { });
-
-      # each profile as wlr-randr --json reports it, to tell which one the outputs are in
-      layouts = builtins.toJSON (
-        lib.mapAttrs (
-          _:
-          lib.mapAttrs (
-            _: m: {
-              transform = transformName m;
-              inherit (m) position;
-            }
-          )
-        ) profiles
-      );
+      profiles = inputs.self.constants.monitors.layouts;
+      layouts = builtins.toJSON profiles;
 
       rotate = pkgs.writeShellApplication {
         name = "umbriel-monitor-profile";
@@ -72,8 +59,7 @@ in
             ;;
           esac
 
-          # renamed into place, so umbriel never reloads a half-written file. one file, so the outputs
-          # turn together or not at all
+          # renamed into place, so umbriel never reloads a half-written file
           install -m 644 "$layout" "$XDG_RUNTIME_DIR/.${profileFile}"
           mv -f "$XDG_RUNTIME_DIR/.${profileFile}" "$XDG_RUNTIME_DIR/${profileFile}"
         '';
@@ -88,12 +74,10 @@ in
       };
 
       environment.systemPackages = [ rotate ];
-
-      home-manager.sharedModules = [ inputs.self.modules.homeManager.monitor-autorotate ];
     };
 
-  flake.modules.homeManager.monitor-autorotate.programs.umbriel.settings = {
-    # read after the start layout's include, so it wins. umbriel watches it and reloads when it changes
+  flake.modules.homeManager.boatette.programs.umbriel.settings = {
+    # read after the start layout's include, so it wins; umbriel reloads when it changes
     include.optional.files = [ "$XDG_RUNTIME_DIR/${profileFile}" ];
 
     # TODO: drop once the Pico on the arm is reporting

@@ -5,7 +5,7 @@
     flake = false;
   };
 
-  flake.modules.homeManager.zellij =
+  flake.modules.homeManager.boatette =
     { pkgs, ... }:
     {
       xdg.configFile."zellij/themes/rose-pine.kdl".source =

@@ -1,6 +1,7 @@
+{ inputs, ... }:
 {
-  flake.modules.nixos.console =
-    { config, pkgs, ... }:
+  flake.modules.nixos.aspire =
+    { pkgs, ... }:
     {
       console = {
         earlySetup = true;
@@ -9,7 +10,7 @@
         font = "ter-v24b";
 
         # the 16 ansi colours, the bright ones the same apart from black
-        colors = with config.constants.palette; [
+        colors = with inputs.self.constants.palette; [
           base
           love
           pine

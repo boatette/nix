@@ -1,14 +1,11 @@
+{ inputs, ... }:
 {
-  flake.modules.homeManager.selector =
-    { config, ... }:
+  flake.modules.homeManager.boatette.programs.selector.settings =
     let
-      inherit (config.constants) palette;
+      inherit (inputs.self.lib.colours) alpha hex;
     in
     {
-      # the fill at ~15% alpha
-      programs.selector.settings = {
-        fill = "#${palette.rose}25";
-        border = "#${palette.rose}";
-      };
+      fill = alpha "primary" 0.15;
+      border = hex "primary";
     };
 }

@@ -1,25 +1,16 @@
+{ inputs, ... }:
 {
-  flake.modules.homeManager.luciole =
-    {
-      config,
-      lib,
-      osConfig,
-      pkgs,
-      ...
-    }:
+  flake.modules.homeManager.boatette =
+    { osConfig, pkgs, ... }:
     let
-      alpha = lib.toLower (
-        lib.fixedWidthString 2 "0" (
-          lib.toHexString (builtins.floor (config.constants.glass.opacity * 255 + 0.5))
-        )
-      );
+      alpha = inputs.self.lib.colours.alphaHex inputs.self.constants.glass.opacity;
 
       base = "{{ colors.surface_container_low.default.hex }}";
     in
     {
-      # no rosé pine port exists; luciole takes noctalia's palette, so noctalia renders its builtin scheme into it
+      # luciole has no rosé pine port, so noctalia renders its builtin scheme into luciole's template
       programs.noctalia.settings.theme.templates.user.luciole = {
-        # only the window base is glass: surface also fills luciole's own dialogs and tooltips, which have nothing blurred behind them
+        # only the window base is glass, as surface also fills dialogs and tooltips with no blur behind them
         input_path = pkgs.substitute {
           src = "${osConfig.programs.luciole.package}/share/luciole/templates/colors.toml";
           substitutions = [

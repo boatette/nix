@@ -1,3 +1,3 @@
 {
-  flake.modules.homeManager.noctalia.programs.noctalia.settings.lockscreen.blur_intensity = 0.7;
+  flake.modules.homeManager.boatette.programs.noctalia.settings.lockscreen.blur_intensity = 0.7;
 }

@@ -1,5 +1,5 @@
 {
-  flake.modules.homeManager.umbriel.programs.umbriel.settings.window_rule = [
+  flake.modules.homeManager.boatette.programs.umbriel.settings.window_rule = [
     {
       match.app_id = "^rmpc$";
       default_floating = true;

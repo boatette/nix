@@ -1,5 +1,5 @@
 {
-  flake.modules.nvf.core =
+  flake.modules.nvf.nvim =
     { lib, ... }:
     let
       inherit (lib.generators) mkLuaInline;

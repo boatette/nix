@@ -10,7 +10,6 @@
           deadnix
           eslint_d
           golangci-lint
-          ktlint
           markdownlint-cli2
           statix
         ];
@@ -20,7 +19,6 @@
 
           linters_by_ft = {
             go = [ "golangcilint" ];
-            kotlin = [ "ktlint" ];
             markdown = [ "markdownlint-cli2" ];
 
             nix = [

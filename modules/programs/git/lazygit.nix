@@ -5,7 +5,7 @@
     flake = false;
   };
 
-  flake.modules.homeManager.git =
+  flake.modules.homeManager.boatette =
     { config, pkgs, ... }:
     let
       configDir = "${config.xdg.configHome}/lazygit";

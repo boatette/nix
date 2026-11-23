@@ -1,5 +1,5 @@
 {
-  flake.modules.homeManager.umbriel.programs.umbriel.settings.scratchpad = [
+  flake.modules.homeManager.boatette.programs.umbriel.settings.scratchpad = [
     { name = "main"; }
     {
       name = "rmpc";

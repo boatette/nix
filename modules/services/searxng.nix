@@ -1,7 +1,8 @@
+{ inputs, ... }:
 {
   # qutebrowser's search engine, on localhost only
-  flake.modules.nixos.searxng =
-    { config, lib, ... }:
+  flake.modules.nixos.aspire =
+    { lib, ... }:
     {
       services.searx = {
         enable = true;
@@ -15,7 +16,7 @@
 
           search = {
             default_lang = lib.replaceStrings [ "_" ] [ "-" ] (
-              lib.head (lib.splitString "." config.constants.locale)
+              lib.head (lib.splitString "." inputs.self.constants.locale)
             );
             favicon_resolver = "duckduckgo";
           };

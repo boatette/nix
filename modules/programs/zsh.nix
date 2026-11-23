@@ -1,5 +1,5 @@
 {
-  flake.modules.nixos.zsh.programs.zsh = {
+  flake.modules.nixos.aspire.programs.zsh = {
     enable = true;
 
     # home-manager's zshrc runs compinit and starship sets the prompt
@@ -7,7 +7,7 @@
     promptInit = "";
   };
 
-  flake.modules.homeManager.zsh.programs = {
+  flake.modules.homeManager.boatette.programs = {
     zsh = {
       enable = true;
 
@@ -49,12 +49,8 @@
       ];
 
       history = {
-        size = 100000;
-        save = 100000;
         extended = true;
-        ignoreDups = true;
-        ignoreSpace = true;
-        share = true;
+        size = 100000;
       };
     };
 

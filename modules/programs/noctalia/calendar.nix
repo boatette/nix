@@ -1,5 +1,5 @@
 {
-  flake.modules.homeManager.noctalia.programs.noctalia.settings.calendar = {
+  flake.modules.homeManager.boatette.programs.noctalia.settings.calendar = {
     enabled = true;
 
     account.personal_google = {

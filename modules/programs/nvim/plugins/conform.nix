@@ -10,7 +10,6 @@
           gofumpt
           # only goimports; the full gotools set is ~250M
           (gotools.overrideAttrs { subPackages = [ "cmd/goimports" ]; })
-          ktlint
           nixfmt
           prettierd
           ruff
@@ -37,7 +36,6 @@
                 "gofumpt"
               ];
 
-              kotlin = [ "ktlint" ];
               lua = [ "stylua" ];
               nix = [ "nixfmt" ];
               rust = [ "rustfmt" ];

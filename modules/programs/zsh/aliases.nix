@@ -1,19 +1,19 @@
 { inputs, ... }:
 {
-  flake.modules.homeManager.zsh =
-    { config, ... }:
+  flake.modules.homeManager.boatette =
     let
-      inherit (config.constants) flakeDir;
+      inherit (inputs.self.constants) flakeDir;
+      inherit (inputs.self.lib) rebuild;
 
-      rebuild = inputs.self.lib.rebuild flakeDir;
+      eza = "eza --color=always --group-directories-first --icons auto";
     in
     {
       home = {
         shellAliases = {
-          ls = "eza -al --color=always --group-directories-first --icons auto";
-          la = "eza -a --color=always --group-directories-first --icons auto";
-          ll = "eza -l --color=always --group-directories-first --icons auto";
-          lt = "eza -aT --color=always --group-directories-first --icons auto";
+          ls = "${eza} -al";
+          la = "${eza} -a";
+          ll = "${eza} -l";
+          lt = "${eza} -aT";
           "l." = ''eza -a | grep -e "^\."'';
 
           tarnow = "tar -acf";
@@ -57,7 +57,6 @@
           nfc = "nix flake check";
           nfs = "nix flake show";
           nfm = "nix flake metadata";
-          nbi = "nix build ${flakeDir}#iso";
 
           npl = "nix profile list";
           npa = "nix profile add";
@@ -75,7 +74,6 @@
           h = "history";
           c = "clear";
           cls = "clear";
-          vim = "nvim";
           v = "nvim";
           cat = "bat";
           lg = "lazygit";

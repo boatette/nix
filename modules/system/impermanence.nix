@@ -2,7 +2,7 @@
 {
   flake-file.inputs.preservation.url = "github:nix-community/preservation";
 
-  flake.modules.nixos.impermanence =
+  flake.modules.nixos.aspire =
     {
       config,
       lib,
@@ -12,9 +12,10 @@
     }:
     let
       cfg = config.impermanence;
-      inherit (config.constants) username;
+      inherit (inputs.self.constants) username;
 
       persist = "/persist";
+      greeter = config.services.greetd.settings.default_session.user;
       root = config.fileSystems."/".device;
       rootUnit = "${utils.escapeSystemdPath root}.device";
     in
@@ -28,11 +29,12 @@
       };
 
       config = {
-        fileSystems.${persist}.neededForBoot = true;
-        fileSystems."/var/log".neededForBoot = true;
+        fileSystems = {
+          ${persist}.neededForBoot = true;
+          "/var/log".neededForBoot = true;
+        };
 
-        # the old root is moved aside rather than deleted, so anything that should
-        # have been persisted can still be copied out for a month
+        # moved aside rather than deleted, so anything that should have been persisted can be copied out
         boot.initrd.systemd.services.rollback-root = lib.mkIf cfg.wipe {
           description = "Archive the previous root subvolume and create a fresh one";
           wantedBy = [ "initrd.target" ];
@@ -80,8 +82,7 @@
 
           preserveAt.${persist} = {
             files = [
-              # systemd refuses to create the id through a dangling symlink, so the
-              # target exists from the start and the first boot fills it in
+              # systemd won't create the id through a dangling symlink, so the target exists from the start
               {
                 file = "/etc/machine-id";
                 inInitrd = true;
@@ -135,21 +136,21 @@
               }
               "/var/lib/upower"
               "/var/lib/power-profiles-daemon"
-            ]
-            ++ lib.optional config.services.fwupd.enable {
-              directory = "/var/lib/fwupd";
-              user = "fwupd-refresh";
-              group = "fwupd-refresh";
-            }
-            # what noctalia's greeter sync copies over: wallpaper, colours and monitor layout
-            ++ lib.optional config.services.displayManager.noctalia-greeter.enable {
-              directory = "/var/lib/noctalia-greeter";
-              user = config.services.greetd.settings.default_session.user;
-              group = config.services.greetd.settings.default_session.user;
-              mode = "0750";
-            }
-            # the tailnet login, so it survives a reboot
-            ++ lib.optional config.services.tailscale.enable "/var/lib/tailscale";
+              "/var/lib/tailscale"
+
+              {
+                directory = "/var/lib/fwupd";
+                user = "fwupd-refresh";
+                group = "fwupd-refresh";
+              }
+              # what noctalia's greeter sync copies over: wallpaper, colours and monitor layout
+              {
+                directory = "/var/lib/noctalia-greeter";
+                user = greeter;
+                group = greeter;
+                mode = "0750";
+              }
+            ];
           };
         };
 

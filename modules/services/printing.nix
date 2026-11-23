@@ -1,8 +1,6 @@
 {
-  # the gx7160 announces itself as a gx7100 and speaks ipp everywhere. the ppd was taken from the
-  # printer, so the queue can be installed while it is asleep, and the airprint name keeps working
-  # when dhcp hands out a new address
-  flake.modules.nixos.printing =
+  # the gx7160 calls itself a gx7100; its own ppd lets the queue install while it sleeps
+  flake.modules.nixos.aspire =
     { pkgs, ... }:
     {
       services = {

@@ -1,9 +1,8 @@
 { inputs, ... }:
 {
-  flake.modules.homeManager.noctalia =
-    { config, ... }:
+  flake.modules.homeManager.boatette =
     let
-      rebuild = inputs.self.lib.rebuild config.constants.flakeDir;
+      inherit (inputs.self.lib) rebuild;
     in
     {
       programs.noctalia.settings.plugin_settings = {
@@ -13,7 +12,7 @@
         };
 
         "avivbintangaringga/nix-monitor" = {
-          branch = "nixos-unstable";
+          branch = inputs.self.constants.nixpkgsBranch;
           panel_open_near_click = false;
           panel_placement = "floating";
           show_update_available_notification = false;

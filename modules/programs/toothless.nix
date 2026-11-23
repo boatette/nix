@@ -1,11 +1,11 @@
 { inputs, ... }:
 {
   flake-file.inputs.toothless = {
-    url = "git+file:///home/boatette/Projects/toothless";
+    url = "github:boatette/toothless";
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  flake.modules.homeManager.toothless = {
+  flake.modules.homeManager.boatette = {
     imports = [ inputs.toothless.homeModules.default ];
 
     programs.toothless = {

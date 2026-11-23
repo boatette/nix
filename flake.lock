@@ -57,38 +57,6 @@
         "type": "github"
       }
     },
-    "flake-compat": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1767039857,
-        "narHash": "sha256-vNpUSpF5Nuw8xvDLj2KCwwksIbjua2LZCqhV1LNRDns=",
-        "owner": "NixOS",
-        "repo": "flake-compat",
-        "rev": "5edf11c44bc78a0d334f6334cdaf7d60d732daab",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "repo": "flake-compat",
-        "type": "github"
-      }
-    },
-    "flake-compat_2": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1777699697,
-        "narHash": "sha256-Eg9b/rq/ECYwNwEXs5i9wHyhxNI0JrYx2srdI2uZMaQ=",
-        "ref": "refs/heads/main",
-        "rev": "382052b74656a369c5408822af3f2501e9b1af81",
-        "revCount": 94,
-        "type": "git",
-        "url": "https://git.lix.systems/lix-project/flake-compat.git"
-      },
-      "original": {
-        "type": "git",
-        "url": "https://git.lix.systems/lix-project/flake-compat.git"
-      }
-    },
     "flake-file": {
       "locked": {
         "lastModified": 1792905615,
@@ -106,7 +74,9 @@
     },
     "flake-parts": {
       "inputs": {
-        "nixpkgs-lib": "nixpkgs-lib"
+        "nixpkgs-lib": [
+          "nixpkgs"
+        ]
       },
       "locked": {
         "lastModified": 1793576659,
@@ -119,49 +89,6 @@
       "original": {
         "owner": "hercules-ci",
         "repo": "flake-parts",
-        "type": "github"
-      }
-    },
-    "flake-parts_2": {
-      "inputs": {
-        "nixpkgs-lib": [
-          "steam-config-nix",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1790898470,
-        "narHash": "sha256-zTwuwezD0w3hpga6a6P8emidzAZFyWqlNeRBlpWOOl8=",
-        "owner": "hercules-ci",
-        "repo": "flake-parts",
-        "rev": "024633cd702b10285db5cb19b40ad48d2399ba60",
-        "type": "github"
-      },
-      "original": {
-        "owner": "hercules-ci",
-        "repo": "flake-parts",
-        "type": "github"
-      }
-    },
-    "gitignore": {
-      "inputs": {
-        "nixpkgs": [
-          "lanzaboote",
-          "pre-commit",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1709087332,
-        "narHash": "sha256-HG2cCnktfHsKV0s4XW83gU3F57gaTljL9KNSuG6bnQs=",
-        "owner": "hercules-ci",
-        "repo": "gitignore.nix",
-        "rev": "637db329424fd7e46cf4185293b9cc8c88c95394",
-        "type": "github"
-      },
-      "original": {
-        "owner": "hercules-ci",
-        "repo": "gitignore.nix",
         "type": "github"
       }
     },
@@ -227,7 +154,7 @@
         "nixpkgs": [
           "nixpkgs"
         ],
-        "pre-commit": "pre-commit",
+        "pre-commit": [],
         "rust-overlay": "rust-overlay"
       },
       "locked": {
@@ -247,20 +174,19 @@
     },
     "luciole": {
       "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
+        "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1795296786,
-        "narHash": "sha256-P3zCypD3nfhJfVBMWJM6Omd4Ne21joBuYWZifzEDsH4=",
+        "lastModified": 1795438980,
+        "narHash": "sha256-uOZY9gbPt4+wHDaUrnLrmy49JF7ctw+7dgcC6RxWlJU=",
         "owner": "noctalia-dev",
         "repo": "luciole",
-        "rev": "bae75c541ce1d863438d013f1f157b0db85e87df",
+        "rev": "ef4583c314b1da589c42c31fe3494cc3ca94acc1",
         "type": "github"
       },
       "original": {
         "owner": "noctalia-dev",
+        "ref": "cachix",
         "repo": "luciole",
         "type": "github"
       }
@@ -289,15 +215,15 @@
       "locked": {
         "lastModified": 1793943306,
         "narHash": "sha256-y12lOueO6BUndYMqRnELdJNfEJtlJEwziNZIcarXuNs=",
-        "ref": "refs/heads/master",
+        "owner": "boatette",
+        "repo": "monitor-autorotate",
         "rev": "a47d1bc2811e8ce217a3e1842b2fdabd919e0e05",
-        "revCount": 10,
-        "type": "git",
-        "url": "file:///home/boatette/Projects/monitor-autorotate"
+        "type": "github"
       },
       "original": {
-        "type": "git",
-        "url": "file:///home/boatette/Projects/monitor-autorotate"
+        "owner": "boatette",
+        "repo": "monitor-autorotate",
+        "type": "github"
       }
     },
     "nix-index-database": {
@@ -320,28 +246,20 @@
         "type": "github"
       }
     },
-    "nixos-hardware": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
+    "nixpkgs": {
       "locked": {
-        "lastModified": 1795018746,
-        "narHash": "sha256-glQAHvZGgBVjzGIWgIZYSf3X10gvtO2LPR4rtyP/Soc=",
-        "owner": "NixOS",
-        "repo": "nixos-hardware",
-        "rev": "33475966110df258f52d05ec4d4cd6394637cbb9",
-        "type": "github"
+        "lastModified": 1795234589,
+        "narHash": "sha256-pAEASBc6wof0S58XcSEdZoQ2iFQDkCnZwH+wFLrkd1Q=",
+        "rev": "2786a2a72088ecf32aea5b3ec52099e6a7cff78f",
+        "type": "tarball",
+        "url": "https://releases.nixos.org/nixos/unstable/nixos-26.11pre1125864.2786a2a72088/nixexprs.tar.zst"
       },
       "original": {
-        "owner": "NixOS",
-        "ref": "master",
-        "repo": "nixos-hardware",
-        "type": "github"
+        "type": "tarball",
+        "url": "https://channels.nixos.org/nixos-unstable/nixexprs.tar.zst"
       }
     },
-    "nixpkgs": {
+    "nixpkgs_2": {
       "locked": {
         "lastModified": 1795234589,
         "narHash": "sha256-f/VVvxf5RsQgWVhUtefoca5ktVg0DA2bnkMOcmSnozo=",
@@ -357,24 +275,9 @@
         "type": "github"
       }
     },
-    "nixpkgs-lib": {
-      "locked": {
-        "lastModified": 1793504054,
-        "narHash": "sha256-ThkfL3D/FhCiZFc9+3BtxwuMmpuK+/bGtXCSo1+yVew=",
-        "owner": "nix-community",
-        "repo": "nixpkgs.lib",
-        "rev": "7851ba61fd862b277cb6a9cef37394bc18bb94e4",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-community",
-        "repo": "nixpkgs.lib",
-        "type": "github"
-      }
-    },
     "nvf": {
       "inputs": {
-        "flake-compat": "flake-compat_2",
+        "flake-compat": [],
         "mnw": "mnw",
         "nixpkgs": [
           "nixpkgs"
@@ -391,64 +294,6 @@
       "original": {
         "owner": "notashelf",
         "repo": "nvf",
-        "type": "github"
-      }
-    },
-    "petal": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1795164545,
-        "narHash": "sha256-Xlo2Qg/344KWu9+1bQwecojiTzV2EcyfnbV4JB/8ZCE=",
-        "ref": "refs/heads/master",
-        "rev": "6058110da6776cd5c3351e7bbef21bfc63f58e4e",
-        "revCount": 48,
-        "type": "git",
-        "url": "file:///home/boatette/Projects/petal"
-      },
-      "original": {
-        "type": "git",
-        "url": "file:///home/boatette/Projects/petal"
-      }
-    },
-    "pkgs-by-name-for-flake-parts": {
-      "locked": {
-        "lastModified": 1789628227,
-        "narHash": "sha256-PC+g00FlwHgA/MyejBAEtQLRnrZLiA/Eo7i0rEkZ7bE=",
-        "owner": "drupol",
-        "repo": "pkgs-by-name-for-flake-parts",
-        "rev": "da796090e8b34326a4aaf0c173df514f135b3907",
-        "type": "github"
-      },
-      "original": {
-        "owner": "drupol",
-        "repo": "pkgs-by-name-for-flake-parts",
-        "type": "github"
-      }
-    },
-    "pre-commit": {
-      "inputs": {
-        "flake-compat": "flake-compat",
-        "gitignore": "gitignore",
-        "nixpkgs": [
-          "lanzaboote",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1781733627,
-        "narHash": "sha256-U3yTuGBnmXvXoQI3qkpfEDsn9RovQPAjN7ndRco+3u0=",
-        "owner": "cachix",
-        "repo": "pre-commit-hooks.nix",
-        "rev": "3bbec39bc90eadfa031e6f3b77272f3f60803e39",
-        "type": "github"
-      },
-      "original": {
-        "owner": "cachix",
-        "repo": "pre-commit-hooks.nix",
         "type": "github"
       }
     },
@@ -480,29 +325,22 @@
         "luciole": "luciole",
         "monitor-autorotate": "monitor-autorotate",
         "nix-index-database": "nix-index-database",
-        "nixos-hardware": "nixos-hardware",
-        "nixpkgs": "nixpkgs",
+        "nixpkgs": "nixpkgs_2",
         "nvf": "nvf",
-        "petal": "petal",
-        "pkgs-by-name-for-flake-parts": "pkgs-by-name-for-flake-parts",
         "preservation": "preservation",
         "rose-pine-btop": "rose-pine-btop",
         "rose-pine-delta": "rose-pine-delta",
         "rose-pine-eza": "rose-pine-eza",
-        "rose-pine-foot": "rose-pine-foot",
-        "rose-pine-fzf": "rose-pine-fzf",
         "rose-pine-lazygit": "rose-pine-lazygit",
         "rose-pine-qutebrowser": "rose-pine-qutebrowser",
         "rose-pine-rmpc": "rose-pine-rmpc",
-        "rose-pine-starship": "rose-pine-starship",
         "rose-pine-tm-theme": "rose-pine-tm-theme",
         "rose-pine-yazi": "rose-pine-yazi",
         "rose-pine-zellij": "rose-pine-zellij",
         "selector": "selector",
         "steam-config-nix": "steam-config-nix",
         "system24": "system24",
-        "toothless": "toothless",
-        "umbriel": "umbriel"
+        "toothless": "toothless"
       }
     },
     "rose-pine-btop": {
@@ -553,38 +391,6 @@
         "type": "github"
       }
     },
-    "rose-pine-foot": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1773083277,
-        "narHash": "sha256-rZm3d7dN4M2cHMx1SrrSWfCKn3JHUVQ+EsH5FvOww4I=",
-        "owner": "rose-pine",
-        "repo": "foot",
-        "rev": "4c897ddad2fef9ebc6ec2e7ebc80ea71337edd07",
-        "type": "github"
-      },
-      "original": {
-        "owner": "rose-pine",
-        "repo": "foot",
-        "type": "github"
-      }
-    },
-    "rose-pine-fzf": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1762352812,
-        "narHash": "sha256-WKREw1qzjuURqrCS6LI5ySc924W8d2n0rlA6AV1K5OE=",
-        "owner": "rose-pine",
-        "repo": "fzf",
-        "rev": "9af300f871df52331c362ca58c73535f69b6fb03",
-        "type": "github"
-      },
-      "original": {
-        "owner": "rose-pine",
-        "repo": "fzf",
-        "type": "github"
-      }
-    },
     "rose-pine-lazygit": {
       "flake": false,
       "locked": {
@@ -630,22 +436,6 @@
       "original": {
         "owner": "rose-pine",
         "repo": "rmpc",
-        "type": "github"
-      }
-    },
-    "rose-pine-starship": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1762352816,
-        "narHash": "sha256-r7q7nyGPXCMwVzVqrOXcskAnPFT07jDY91sB3C8b1Ow=",
-        "owner": "rose-pine",
-        "repo": "starship",
-        "rev": "0edc3c781f219565453bbb8e8e7af56ebc2a0d8a",
-        "type": "github"
-      },
-      "original": {
-        "owner": "rose-pine",
-        "repo": "starship",
         "type": "github"
       }
     },
@@ -727,20 +517,22 @@
       "locked": {
         "lastModified": 1793943233,
         "narHash": "sha256-ujg/s6czGWLmRHJ0VNMI1NArDm8augJQRwNATsRJMeg=",
-        "ref": "refs/heads/master",
+        "owner": "boatette",
+        "repo": "selector",
         "rev": "b022490c07279bb75f6cefaa6ae1ac0a602fb6f1",
-        "revCount": 38,
-        "type": "git",
-        "url": "file:///home/boatette/Projects/selector"
+        "type": "github"
       },
       "original": {
-        "type": "git",
-        "url": "file:///home/boatette/Projects/selector"
+        "owner": "boatette",
+        "repo": "selector",
+        "type": "github"
       }
     },
     "steam-config-nix": {
       "inputs": {
-        "flake-parts": "flake-parts_2",
+        "flake-parts": [
+          "flake-parts"
+        ],
         "nixpkgs": [
           "nixpkgs"
         ],
@@ -815,56 +607,14 @@
       "locked": {
         "lastModified": 1794569289,
         "narHash": "sha256-0GzF4Yka7P/ELA2I/znlhwF9LWFTU9mNyF3IUN3mJY0=",
-        "ref": "refs/heads/master",
+        "owner": "boatette",
+        "repo": "toothless",
         "rev": "45afb12168915d810335859dce25446b3cefec11",
-        "revCount": 4,
-        "type": "git",
-        "url": "file:///home/boatette/Projects/toothless"
-      },
-      "original": {
-        "type": "git",
-        "url": "file:///home/boatette/Projects/toothless"
-      }
-    },
-    "umbriel": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ],
-        "xdg-desktop-portal-umbriel": "xdg-desktop-portal-umbriel"
-      },
-      "locked": {
-        "lastModified": 1795312802,
-        "narHash": "sha256-5fUIRqdsv0wgjxkFPWV1LEAhm5LbhrysoO1Lfznb4ZQ=",
-        "owner": "noctalia-dev",
-        "repo": "umbriel",
-        "rev": "00c9b1af50c492ddb41bc8ec9403efa76ab9f6e2",
         "type": "github"
       },
       "original": {
-        "owner": "noctalia-dev",
-        "repo": "umbriel",
-        "type": "github"
-      }
-    },
-    "xdg-desktop-portal-umbriel": {
-      "inputs": {
-        "nixpkgs": [
-          "umbriel",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1795312390,
-        "narHash": "sha256-nqPHXb141dnTnOXxiOzQ7Ad+x+/KijkY+QXPTyH49eA=",
-        "owner": "noctalia-dev",
-        "repo": "xdg-desktop-portal-umbriel",
-        "rev": "019d533b580f8419d5e465d3a46fbdb72c8b2f77",
-        "type": "github"
-      },
-      "original": {
-        "owner": "noctalia-dev",
-        "repo": "xdg-desktop-portal-umbriel",
+        "owner": "boatette",
+        "repo": "toothless",
         "type": "github"
       }
     }

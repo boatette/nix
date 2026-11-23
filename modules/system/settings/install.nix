@@ -1,5 +1,6 @@
+{ inputs, ... }:
 {
-  flake.modules.nixos.install =
+  flake.modules.nixos.aspire =
     {
       config,
       lib,
@@ -7,71 +8,52 @@
       ...
     }:
     let
-      inherit (config.install) plan;
-
-      luks = lib.attrValues config.boot.initrd.luks.devices;
-
-      hasPassword =
-        user:
-        lib.any (attr: user.${attr} != null) [
-          "hashedPassword"
-          "hashedPasswordFile"
-          "password"
-          "initialPassword"
-          "initialHashedPassword"
-        ];
+      inherit (inputs.self.constants) flakeDir repo username;
     in
     {
       options.install = {
         notes = lib.mkOption {
           type = lib.types.listOf lib.types.str;
           default = [ ];
-          description = "Host-specific reminders printed by install-host and finish-install";
+          description = "Reminders install and finish-install print";
         };
 
         plan = lib.mkOption {
           type = lib.types.attrsOf lib.types.unspecified;
           readOnly = true;
-          description = "What install-host and finish-install do for this host, derived from its config";
+          description = "What install and finish-install do, read from the config";
         };
       };
 
       config = {
         install.plan = {
           host = config.networking.hostName;
+          disks = lib.mapAttrsToList (_: disk: disk.device) config.disko.devices.disk;
 
-          uefi = config.boot.loader.systemd-boot.enable || (config.boot.lanzaboote.enable or false);
-          disks = lib.mapAttrsToList (_: disk: disk.device) (config.disko.devices.disk or { });
-
-          luks = map (device: device.device) luks;
           tpm = map (device: device.device) (
-            lib.filter (device: lib.any (lib.hasPrefix "tpm2-device=") device.crypttabExtraOpts) luks
+            lib.filter (device: lib.any (lib.hasPrefix "tpm2-device=") device.crypttabExtraOpts) (
+              lib.attrValues config.boot.initrd.luks.devices
+            )
           );
 
-          secureBoot = config.boot.lanzaboote.enable or false;
-          pkiBundle = config.boot.lanzaboote.pkiBundle or null;
+          inherit (config.boot.lanzaboote) pkiBundle;
           esp = config.boot.loader.efi.efiSysMountPoint;
 
-          users = lib.attrNames (
-            lib.filterAttrs (_: user: user.isNormalUser && !hasPassword user) config.users.users
-          );
-          # hashes install-host writes into the new system, for users whose password lives in a file
           passwordFiles = lib.mapAttrs (_: user: user.hashedPasswordFile) (
-            lib.filterAttrs (_: user: user.isNormalUser && user.hashedPasswordFile != null) config.users.users
+            lib.filterAttrs (_: user: user.hashedPasswordFile != null) config.users.users
           );
-          rootPassword = !hasPassword config.users.users.root;
 
-          inherit (config.constants) username flakeDir repo;
-          home = config.users.users.${config.constants.username}.home;
+          inherit flakeDir repo username;
+          inherit (config.users.users.${username}) home;
 
-          substituters = config.nix.settings.extra-substituters or [ ];
-          trustedPublicKeys = config.nix.settings.extra-trusted-public-keys or [ ];
+          substituters = config.nix.settings.extra-substituters;
+          trustedPublicKeys = config.nix.settings.extra-trusted-public-keys;
 
           inherit (config.install) notes;
         };
 
         environment = {
-          etc."install-plan.json".text = builtins.toJSON plan;
+          etc."install-plan.json".text = builtins.toJSON config.install.plan;
 
           systemPackages = [ pkgs.local.finish-install ];
         };

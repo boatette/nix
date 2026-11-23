@@ -1,11 +1,10 @@
 {
-  flake.modules.nixos.packages =
+  flake.modules.nixos.aspire =
     { pkgs, ... }:
     {
       environment.systemPackages = with pkgs; [
         curl
         git
-        vim
         wget
       ];
     };

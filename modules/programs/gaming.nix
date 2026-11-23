@@ -1,5 +1,5 @@
 {
-  flake.modules.nixos.gaming =
+  flake.modules.nixos.aspire =
     { pkgs, ... }:
     {
       programs = {
@@ -9,7 +9,6 @@
           package = pkgs.steam.override { extraArgs = "-cef-disable-gpu"; };
 
           remotePlay.openFirewall = true;
-          dedicatedServer.openFirewall = true;
         };
 
         gamemode.enable = true;

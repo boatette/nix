@@ -1,8 +1,8 @@
+{ inputs, ... }:
 {
-  flake.modules.homeManager.foot =
-    { config, ... }:
+  flake.modules.homeManager.boatette =
     let
-      inherit (config.constants.fonts) mono;
+      inherit (inputs.self.constants.fonts) mono;
     in
     {
       programs.foot = {
@@ -16,7 +16,7 @@
           };
 
           # the rose-pine include sets [colors-dark], so the alpha goes there too
-          colors-dark.alpha = config.constants.glass.opacity;
+          colors-dark.alpha = inputs.self.constants.glass.opacity;
 
           csd.preferred = "none";
         };
