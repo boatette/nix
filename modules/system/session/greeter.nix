@@ -17,8 +17,8 @@
             password_style = "random";
             scheme_selector_position = "hidden";
           };
-          inherit (inputs.self.constants) keyboard;
 
+          inherit (inputs.self.constants) keyboard;
           output.name = inputs.self.lib.primaryMonitor;
         };
 

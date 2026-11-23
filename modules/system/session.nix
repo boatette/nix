@@ -17,9 +17,11 @@
     };
 
     services = {
-      gnome.gnome-keyring.enable = true;
-      # home-manager's ssh-agent is the one SSH_AUTH_SOCK points at
-      gnome.gcr-ssh-agent.enable = false;
+      gnome = {
+        gnome-keyring.enable = true;
+        # home-manager's ssh-agent is the one SSH_AUTH_SOCK points at
+        gcr-ssh-agent.enable = false;
+      };
 
       gvfs.enable = true;
       upower.enable = true;
