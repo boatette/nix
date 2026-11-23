@@ -12,7 +12,7 @@
   writeText,
   xdg-utils,
 
-  # set by homeManager.llm (modules/services/llm.nix), which owns the model list
+  # set by modules/services/llm.nix, which owns the model list
   models ? [ ],
   port ? 8191,
   root ? "/mnt/storage/ai/llm",
