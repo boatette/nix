@@ -1,129 +1,72 @@
 # NixOS Config
 
-NixOS configuration for a desktop on [umbriel](https://github.com/noctalia-dev/umbriel), a scrolling Wayland compositor, with [noctalia](https://github.com/noctalia-dev/noctalia-shell) as its shell.
-
-## Layout
-
-```
-~/nix/
-├── flake.nix               generated
-├── packages/
-└── modules/
-    ├── nix/                how the flake itself is assembled
-    ├── hosts/
-    │   ├── aspire/         the laptop
-    │   └── iso/            builder for custom iso
-    ├── system/             aspects that are not a program
-    │   ├── settings/       everything every machine gets
-    │   ├── session/        the graphical session
-    │   ├── constants.nix   values every class can read
-    │   └── types/
-    │       ├── base.nix
-    │       └── desktop.nix
-    ├── services/           systemd stuff
-    ├── programs/
-    └── users/
-```
+NixOS for one laptop, `aspire`, on [umbriel](https://github.com/noctalia-dev/umbriel) with [noctalia](https://github.com/noctalia-dev/noctalia-shell) as its shell. [AGENTS.md](AGENTS.md) explains how the flake is put together.
 
 ## Installing
 
-`iso` is a minimal installer that carries the flake at `/etc/nixos-config`, this config's substituters and `install-host`, so the install pulls from the caches rather than building. Build it from the revision you intend to install.
-
-1. When reinstalling, back up first. The `backup` module mirrors home's data, `~/.ssh`, `~/.claude` and the browser profiles to `/mnt/storage/bak` daily, but run it once more with the browsers closed. Anything not listed in `packages/ssd/ssd.sh` is lost with the disk:
+1. When reinstalling, back up first. The `backup` module mirrors home's data, `~/.ssh`, `~/.claude` and the browser profiles to `/mnt/storage/bak` daily; run it once more with the browsers closed. Anything not listed in `packages/ssd/ssd.sh` is lost with the disk:
 
    ```bash
-   baknow       # or, before the running system has the current script:
-   nix run ~/nix#ssd -- backup
+   baknow
    ```
 
-2. Build the image and write it to a stick:
+2. Put the firmware into **Secure Boot Setup Mode** (clear its keys); the fresh install is unsigned. `boot.loader.timeout` is 0, so **hold Space** during boot to reach "Reboot Into Firmware Interface".
+
+3. Boot the official NixOS minimal ISO in UEFI mode and run:
 
    ```bash
-   nix build .#iso
-   sudo cp result/iso/*.iso /dev/sdX && sync
+   nix --extra-experimental-features 'nix-command flakes' run github:boatette/nix#install-host
    ```
 
-3. Put the firmware into **Setup Mode** (clear the Secure Boot keys). The installer and the fresh install are both unsigned, so old keys would refuse to boot them. From a running system, `boot.loader.timeout` is 0: **hold Space** during boot to reach "Reboot Into Firmware Interface". `install-host` checks this for hosts with Secure Boot, and offers to reboot into the firmware if it was missed.
+   It opens `nmtui` when offline, checks this machine has the disk `modules/hosts/aspire/disko.nix` names, shows what it will erase and waits for you to type `aspire`. Then it partitions (asking for the LUKS passphrase, which has no recovery until step 4), installs, and asks for the user's password. `--dry-run` shows the plan and disko's script without touching anything.
 
-4. Boot the stick and run:
+   Until petal has a remote, its input comes from the SSD's backup:
 
    ```bash
-   sudo install-host          # pick a host from a menu
-   sudo install-host [host]   # or name it
+   sudo mount /dev/disk/by-id/usb-Samsung_PSSD_T7_Shield_*-part1 /media
+   nix --extra-experimental-features 'nix-command flakes' run github:boatette/nix#install-host -- -- --override-input petal path:/media/bak/Projects/petal
    ```
 
-   It opens `nmtui` if there is no network, checks this machine has the disk `modules/hosts/[host]/disko.nix` names, shows what it will erase, and waits for you to type the host name. Then it partitions (prompting for the LUKS passphrase, which has no recovery until step 5), installs, and asks for each user's password. On a host with impermanence, root is locked, so `nixos-install` doesn't ask for a root password, and each user's password is hashed into `/persist/passwords/[user]` instead of `/etc/shadow`. `--dry-run` shows all of that, plus disko's script, without touching anything.
-
-5. Reboot and log in. Reconnect to Wi-Fi with `nmtui`, because the installer's connection isn't carried over. With the SSD plugged in, `ssd-restore` copies the backup back at the first login without overwriting anything. Wait until `systemctl --user status ssd-restore` shows it has finished, so the old `~/.ssh` key is back before the next command. Its notification can fire before the session's notification daemon is running. Then run:
+4. Reboot and log in. With the SSD plugged in, `ssd-restore` copies the backup back at the first login without overwriting anything; wait until `systemctl --user status ssd-restore` shows it finished, so `~/.ssh` is back. Then run:
 
    ```bash
    finish-install
    ```
 
-   It waits for the Secure Boot keys to be enrolled, which takes one more reboot, then binds the disk to the TPM and creates a recovery key. It logs `gh` in to GitHub with a one-time code you enter in a browser on any device. The repo is private, so it clones it to `~/nix` over SSH. It uses the restored `~/.ssh/id_ed25519` if there is one. Otherwise it creates a key and `gh` adds it to GitHub; if that fails, it prints the key and waits for you to add it. Rerun it whenever it asks; `finish-install --check` shows what is left.
+   It waits for the Secure Boot keys to be enrolled (one more reboot), binds the disk to the TPM, creates a recovery key, logs `gh` in to GitHub and clones the flake to `~/nix` over SSH. Rerun it whenever it asks; `finish-install --check` shows what is left.
 
    **Write the recovery key down somewhere that is not this laptop.**
 
-What each host needs is read from its own config (`modules/system/settings/install.nix`): its disko disks, whether it uses Secure Boot, which LUKS devices unlock with the TPM, which users have no password, where password files go, and whether root is locked. A reminder that can't be derived goes in the host, and both commands print it:
-
-```nix
-# modules/hosts/[host]/install.nix
-{
-  flake.modules.nixos.[host].install.notes = [ "..." ];
-}
-```
-
-### Install a new machine
-
-Boot the stick and run `sudo install-host [host]`. When the disk isn't found, it lists this machine's disks by their `/dev/disk/by-id` names. Copy the stick's flake somewhere writable, put the right disk in its `modules/hosts/[host]/disko.nix`, and install from the copy:
-
-```bash
-cp -r --no-preserve=mode /etc/nixos-config /tmp/nix
-sudo install-host --flake /tmp/nix [host]
-```
-
-Make the same change in the clone once the machine is up, and commit it.
-
 ## Secure Boot
 
-[lanzaboote](https://github.com/nix-community/lanzaboote) (`modules/system/secure-boot.nix`) replaces systemd-boot and signs every generation on rebuild. Keys live in `/var/lib/sbctl` (kept in `/persist`), and a copy of their enrollment files stays on the ESP, so a firmware key reset is re-enrolled on the next boot. Nothing here needs redoing short of a reinstall.
-
-The TPM is bound to PCR 7 alone. It refuses to release the key if Secure Boot is disabled or the keys are swapped, but survives kernel and generation changes.
+[lanzaboote](https://github.com/nix-community/lanzaboote) signs every generation. Its keys live in `/var/lib/sbctl` (kept in `/persist`), and their enrollment files stay on the ESP, so a firmware key reset is re-enrolled on the next boot. The TPM is bound to PCR 7 alone: it refuses the key if Secure Boot is off or the keys change, but survives kernel and generation changes.
 
 > [!TIP]
 >
-> If a firmware update invalidates the enrollment, the passphrase prompt simply comes back, it is not a lockout. Re-enroll with:
->
-> ```bash
-> finish-install --reenroll-tpm
-> ```
->
-> If the machine refuses to boot at all, disable Secure Boot in the firmware, boot, and `sbctl reset`.
+> If a firmware update invalidates the enrollment, the passphrase prompt comes back; it is not a lockout. Re-enroll with `finish-install --reenroll-tpm`. If the machine refuses to boot at all, disable Secure Boot in the firmware, boot, and `sbctl reset`.
 
 ## Impermanence
 
-`modules/system/impermanence.nix` gives aspire a fresh, empty `/` on every boot. Before the root is mounted, an initrd service moves the old `root` subvolume to `old_roots/[timestamp]` and creates a new one. Archived roots are deleted after 30 days. `/nix`, `/home`, `/var/log` and `/persist` are their own subvolumes and are left alone. [preservation](https://github.com/nix-community/preservation) bind-mounts or symlinks the system state that has to survive from `/persist`. That includes the machine-id, `/var/lib/nixos`, the Secure Boot keys, NetworkManager, Bluetooth and systemd timers.
+`/` is a fresh btrfs subvolume on every boot. `/nix`, `/home`, `/var/log` and `/persist` are kept, and system state that must survive is listed in `modules/system/impermanence.nix`. `impermanence.wipe = false;` stops the wiping.
 
-Users are immutable (`users.mutableUsers = false`), so `passwd` doesn't work. Change a password with:
+Users are immutable, so `passwd` does nothing. Change a password with:
 
 ```bash
-mkpasswd | sudo tee /persist/passwords/[user]
+mkpasswd | sudo tee /persist/passwords/boatette
 ```
 
-If a setting resets after a reboot, it lives somewhere that isn't persisted. Copy it back from the previous root, then add its path to the preserve lists:
+If a setting resets after a reboot, it lives somewhere that isn't persisted. Previous roots are kept for 30 days; copy it back from one, then add its path to the preserve lists:
 
 ```bash
 sudo mount -o subvol=/ /dev/mapper/cryptroot /mnt
 ls /mnt/old_roots
 ```
 
-`impermanence.wipe = false;` stops the wiping and leaves everything else in place.
-
 ## Known Issues
 
 ### Steam
 
-Steam's embedded CEF browser can fail to start, leaving a blank client window. `-cef-disable-gpu` is applied declaratively in `modules/programs/gaming.nix`; if the client still fails, clear its local state:
+Steam's embedded browser can fail to start, leaving a blank client window. `-cef-disable-gpu` is set in `modules/programs/gaming.nix`; if the client still fails, clear its local state:
 
 ```bash
 rm -rf ~/.steam ~/.local/share/Steam
