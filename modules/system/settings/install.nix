@@ -1,3 +1,4 @@
+{ inputs, ... }:
 {
   flake.modules.nixos.aspire =
     {
@@ -61,8 +62,8 @@
           );
           rootPassword = !hasPassword config.users.users.root;
 
-          inherit (config.constants) username flakeDir repo;
-          home = config.users.users.${config.constants.username}.home;
+          inherit (inputs.self.constants) username flakeDir repo;
+          home = config.users.users.${inputs.self.constants.username}.home;
 
           substituters = config.nix.settings.extra-substituters or [ ];
           trustedPublicKeys = config.nix.settings.extra-trusted-public-keys or [ ];

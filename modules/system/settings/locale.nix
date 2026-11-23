@@ -1,11 +1,11 @@
+{ inputs, ... }:
 {
   flake.modules.nixos.aspire =
-    { config, ... }:
     let
-      inherit (config.constants) locale;
+      inherit (inputs.self.constants) locale;
     in
     {
-      time.timeZone = config.constants.timeZone;
+      time.timeZone = inputs.self.constants.timeZone;
 
       i18n = {
         defaultLocale = locale;

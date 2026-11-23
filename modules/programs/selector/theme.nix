@@ -1,8 +1,8 @@
+{ inputs, ... }:
 {
   flake.modules.homeManager.boatette =
-    { config, ... }:
     let
-      inherit (config.constants) palette;
+      inherit (inputs.self.constants) palette;
     in
     {
       # the fill at ~15% alpha

@@ -1,9 +1,9 @@
 { inputs, ... }:
 {
   flake.modules.nixos.aspire =
-    { config, pkgs, ... }:
+    { pkgs, ... }:
     let
-      inherit (config.constants) description username;
+      inherit (inputs.self.constants) description username;
     in
     {
       users.users.${username} = {
@@ -26,11 +26,7 @@
       };
     };
 
-  flake.modules.homeManager.boatette =
-    { config, ... }:
-    {
-      imports = [ inputs.self.modules.generic.constants ];
-
-      home.stateVersion = config.constants.stateVersion;
-    };
+  flake.modules.homeManager.boatette = {
+    home.stateVersion = inputs.self.constants.stateVersion;
+  };
 }

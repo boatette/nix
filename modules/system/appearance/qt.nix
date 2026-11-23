@@ -3,7 +3,7 @@
   flake.modules.homeManager.boatette =
     { config, pkgs, ... }:
     let
-      inherit (config.constants.fonts) mono sans;
+      inherit (inputs.self.constants.fonts) mono sans;
       inherit (inputs.self.lib) qtFont;
 
       theme = "rose-pine-rose";

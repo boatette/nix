@@ -1,9 +1,8 @@
 { inputs, ... }:
 {
   flake.modules.homeManager.boatette =
-    { config, ... }:
     let
-      inherit (config.constants) flakeDir fonts;
+      inherit (inputs.self.constants) flakeDir fonts;
 
       rebuild = inputs.self.lib.rebuild flakeDir;
     in

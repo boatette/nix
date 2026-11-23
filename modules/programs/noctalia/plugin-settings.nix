@@ -1,9 +1,8 @@
 { inputs, ... }:
 {
   flake.modules.homeManager.boatette =
-    { config, ... }:
     let
-      rebuild = inputs.self.lib.rebuild config.constants.flakeDir;
+      rebuild = inputs.self.lib.rebuild inputs.self.constants.flakeDir;
     in
     {
       programs.noctalia.settings.plugin_settings = {

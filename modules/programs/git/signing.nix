@@ -1,3 +1,4 @@
+{ inputs, ... }:
 {
   flake.modules.homeManager.boatette =
     { config, ... }:
@@ -10,7 +11,7 @@
         key = "${config.home.homeDirectory}/.ssh/id_ed25519.pub";
         signByDefault = true;
 
-        allowedSigners = "${config.constants.email} ${publicKey}";
+        allowedSigners = "${inputs.self.constants.email} ${publicKey}";
       };
     };
 }

@@ -1,7 +1,7 @@
+{ inputs, ... }:
 {
   flake.modules.homeManager.boatette =
     {
-      config,
       lib,
       osConfig,
       pkgs,
@@ -10,7 +10,7 @@
     let
       alpha = lib.toLower (
         lib.fixedWidthString 2 "0" (
-          lib.toHexString (builtins.floor (config.constants.glass.opacity * 255 + 0.5))
+          lib.toHexString (builtins.floor (inputs.self.constants.glass.opacity * 255 + 0.5))
         )
       );
 

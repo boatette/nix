@@ -1,7 +1,7 @@
 { inputs, lib, ... }:
 {
   flake.modules.homeManager.boatette =
-    { config, osConfig, ... }:
+    { osConfig, ... }:
     let
       inherit (inputs.self.lib) noctaliaWidget primaryMonitor startLayout;
 
@@ -31,7 +31,7 @@
 
             settings = {
               layout = "compact";
-              background_radius = config.constants.glass.radius * 1.0;
+              background_radius = inputs.self.constants.glass.radius * 1.0;
               show_unlock_hint = false;
             };
           }

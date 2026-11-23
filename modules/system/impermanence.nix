@@ -12,7 +12,7 @@
     }:
     let
       cfg = config.impermanence;
-      inherit (config.constants) username;
+      inherit (inputs.self.constants) username;
 
       persist = "/persist";
       root = config.fileSystems."/".device;

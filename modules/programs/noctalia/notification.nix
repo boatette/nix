@@ -1,3 +1,4 @@
+{ inputs, ... }:
 {
   flake.modules.homeManager.boatette =
     { config, ... }:
@@ -6,7 +7,7 @@
     in
     {
       programs.noctalia.settings.notification = {
-        background_opacity = config.constants.glass.opacity;
+        background_opacity = inputs.self.constants.glass.opacity;
 
         # in line with the edge of the windows
         offset_x = layout.struts.right + layout.gap;

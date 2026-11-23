@@ -1,9 +1,10 @@
+{ inputs, ... }:
 {
   flake.modules.homeManager.boatette =
     { config, ... }:
     {
       programs.umbriel.settings.input = {
-        keyboard = config.constants.keyboard // {
+        keyboard = inputs.self.constants.keyboard // {
           repeat_delay = 200;
           repeat_rate = 35;
         };

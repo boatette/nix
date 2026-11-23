@@ -1,14 +1,14 @@
+{ inputs, ... }:
 {
   flake.modules.homeManager.boatette =
     {
-      config,
       lib,
       osConfig,
       pkgs,
       ...
     }:
     let
-      inherit (config.constants.fonts) mono;
+      inherit (inputs.self.constants.fonts) mono;
       inherit (osConfig.services.searx.settings) server;
 
       editUrl = "spawn --userscript ${lib.getExe pkgs.local.qute-edit-url}";

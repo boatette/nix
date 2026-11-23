@@ -1,3 +1,4 @@
+{ inputs, ... }:
 {
   # no rose pine port exists, so the simple theme's dark colours are overridden from the palette
   flake.modules.nixos.aspire =
@@ -8,7 +9,7 @@
       ...
     }:
     let
-      inherit (config.constants) palette;
+      inherit (inputs.self.constants) palette;
       inherit (config.services.searx) package;
 
       c = name: "#${palette.${name}}";

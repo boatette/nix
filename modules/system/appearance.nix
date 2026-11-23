@@ -1,8 +1,9 @@
+{ inputs, ... }:
 {
   flake.modules.homeManager.boatette =
     { config, pkgs, ... }:
     let
-      inherit (config.constants.fonts) sans;
+      inherit (inputs.self.constants.fonts) sans;
     in
     {
       gtk = {
@@ -33,7 +34,7 @@
       home = {
         pointerCursor = {
           enable = true;
-          inherit (config.constants.cursor) name size;
+          inherit (inputs.self.constants.cursor) name size;
           package = pkgs.rose-pine-cursor;
           x11.enable = true;
           gtk.enable = true;
