@@ -5,14 +5,16 @@
       inherit (inputs.self.constants) flakeDir;
 
       rebuild = inputs.self.lib.rebuild flakeDir;
+
+      eza = "eza --color=always --group-directories-first --icons auto";
     in
     {
       home = {
         shellAliases = {
-          ls = "eza -al --color=always --group-directories-first --icons auto";
-          la = "eza -a --color=always --group-directories-first --icons auto";
-          ll = "eza -l --color=always --group-directories-first --icons auto";
-          lt = "eza -aT --color=always --group-directories-first --icons auto";
+          ls = "${eza} -al";
+          la = "${eza} -a";
+          ll = "${eza} -l";
+          lt = "${eza} -aT";
           "l." = ''eza -a | grep -e "^\."'';
 
           tarnow = "tar -acf";
