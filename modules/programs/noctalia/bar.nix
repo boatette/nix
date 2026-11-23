@@ -1,8 +1,11 @@
-{ inputs, ... }:
+{ inputs, lib, ... }:
 {
   flake.modules.homeManager.boatette =
     let
       inherit (inputs.self.constants.glass) radius opacity;
+      inherit (inputs.self.lib) isPortrait monitorProfiles;
+
+      turnsPortrait = name: lib.any (layout: isPortrait layout.${name}) (lib.attrValues monitorProfiles);
     in
     {
       programs.noctalia.settings.bar.default = {
@@ -16,8 +19,10 @@
         margin_ends = 600;
         widget_spacing = 10;
 
-        # 1080 wide when monitor-autorotate turns it portrait, too narrow for the 600 above
-        monitor."HDMI-A-1".margin_ends = 180;
+        # a portrait 1080 is too narrow for the 600 above
+        monitor = lib.mapAttrs (_: _: { margin_ends = 180; }) (
+          lib.filterAttrs (name: _: turnsPortrait name) inputs.self.monitors
+        );
 
         layer = "auto";
 
