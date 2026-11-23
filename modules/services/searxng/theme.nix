@@ -1,6 +1,6 @@
 { inputs, ... }:
 {
-  # no rose pine port exists, so the simple theme's dark colours are overridden from the palette
+  # searxng has no rosé pine port, so the simple theme's dark colours come from the palette
   flake.modules.nixos.aspire =
     {
       config,
@@ -9,122 +9,112 @@
       ...
     }:
     let
-      inherit (inputs.self.constants) palette;
       inherit (config.services.searx) package;
+      inherit (inputs.self.lib.colours) alpha hex rgb;
 
-      c = name: "#${palette.${name}}";
-      rgb =
-        name:
-        lib.concatMapStringsSep ", "
-          (i: toString (lib.fromHexString (builtins.substring i 2 palette.${name})))
-          [
-            0
-            2
-            4
-          ];
-      shadow = "0 2px 8px ${c "base"}40";
+      shadow = "0 2px 8px ${alpha "base" 0.25}";
 
       colours = {
-        base-font = c "text";
+        base-font = hex "text";
         base-font-rgb = rgb "text";
-        base-background = c "base";
-        base-background-mobile = c "base";
-        url-font = c "foam";
-        url-visited-font = c "iris";
-        header-background = c "surface";
-        header-border = c "overlay";
-        footer-background = c "surface";
-        footer-border = c "overlay";
-        sidebar-border = c "muted";
-        sidebar-font = c "text";
-        sidebar-background = c "surface";
-        backtotop-font = c "text";
-        backtotop-border = c "overlay";
-        backtotop-background = c "overlay";
-        btn-background = c "rose";
-        btn-font = c "base";
-        show-btn-background = c "overlay";
-        show-btn-font = c "text";
-        search-border = c "overlay";
+        base-background = hex "base";
+        base-background-mobile = hex "base";
+        url-font = hex "foam";
+        url-visited-font = hex "iris";
+        header-background = hex "surface";
+        header-border = hex "overlay";
+        footer-background = hex "surface";
+        footer-border = hex "overlay";
+        sidebar-border = hex "muted";
+        sidebar-font = hex "text";
+        sidebar-background = hex "surface";
+        backtotop-font = hex "text";
+        backtotop-border = hex "overlay";
+        backtotop-background = hex "overlay";
+        btn-background = hex "primary";
+        btn-font = hex "base";
+        show-btn-background = hex "overlay";
+        show-btn-font = hex "text";
+        search-border = hex "overlay";
         search-shadow = shadow;
-        search-background = c "surface";
-        search-font = c "text";
-        search-background-hover = c "rose";
-        error = c "love";
-        error-background = "${c "love"}25";
-        warning = c "gold";
-        warning-background = "${c "gold"}25";
-        success = c "foam";
-        success-background = "${c "foam"}25";
-        categories-item-selected-font = c "rose";
-        categories-item-border-selected = c "rose";
-        autocomplete-font = c "text";
-        autocomplete-border = c "overlay";
+        search-background = hex "surface";
+        search-font = hex "text";
+        search-background-hover = hex "primary";
+        error = hex "error";
+        error-background = alpha "error" 0.15;
+        warning = hex "warning";
+        warning-background = alpha "warning" 0.15;
+        success = hex "secondary";
+        success-background = alpha "secondary" 0.15;
+        categories-item-selected-font = hex "primary";
+        categories-item-border-selected = hex "primary";
+        autocomplete-font = hex "text";
+        autocomplete-border = hex "overlay";
         autocomplete-shadow = shadow;
-        autocomplete-background = c "surface";
-        autocomplete-background-hover = c "overlay";
-        answer-font = c "text";
-        answer-background = c "surface";
-        result-keyvalue-col-table = c "surface";
-        result-keyvalue-odd = c "surface";
-        result-keyvalue-even = c "overlay";
-        result-background = c "surface";
-        result-border = c "overlay";
-        result-url-font = c "subtle";
-        result-vim-selected = "${c "overlay"}cc";
-        result-vim-arrow = c "rose";
-        result-description-highlight-font = c "rose";
-        result-link-font = c "foam";
-        result-link-font-highlight = c "foam";
-        result-link-visited-font = c "iris";
-        result-publishdate-font = c "muted";
-        result-engines-font = c "muted";
-        result-search-url-border = c "overlay";
-        result-search-url-font = c "text";
-        result-detail-font = c "text";
-        result-detail-label-font = c "subtle";
-        result-detail-background = c "base";
-        result-detail-hr = c "overlay";
-        result-detail-link = c "foam";
-        result-detail-loader-border = "${c "text"}33";
-        result-image-span-font = c "text";
-        result-image-span-font-selected = c "base";
-        result-image-background = c "surface";
-        settings-tr-hover = c "overlay";
-        settings-engine-description-font = c "subtle";
-        settings-table-group-background = c "surface";
-        toolkit-badge-font = c "text";
-        toolkit-badge-background = c "overlay";
-        toolkit-kbd-font = c "base";
-        toolkit-kbd-background = c "text";
-        toolkit-dialog-border = c "overlay";
-        toolkit-dialog-background = c "surface";
-        toolkit-tabs-label-border = c "base";
-        toolkit-tabs-section-border = c "overlay";
-        toolkit-select-background = c "overlay";
-        toolkit-select-border = c "muted";
-        toolkit-select-background-hover = c "muted";
-        toolkit-input-text-font = c "text";
-        toolkit-checkbox-onoff-off-background = c "overlay";
-        toolkit-checkbox-onoff-on-background = c "overlay";
-        toolkit-checkbox-onoff-on-mark-background = c "rose";
-        toolkit-checkbox-onoff-on-mark-color = c "base";
-        toolkit-checkbox-onoff-off-mark-background = c "muted";
-        toolkit-checkbox-onoff-off-mark-color = c "base";
-        toolkit-checkbox-label-background = c "base";
-        toolkit-checkbox-label-border = c "overlay";
-        toolkit-checkbox-input-border = c "rose";
-        toolkit-engine-tooltip-border = c "overlay";
-        toolkit-engine-tooltip-background = c "surface";
-        toolkit-loader-border = "${c "text"}33";
-        doc-code = c "text";
-        doc-code-background = c "overlay";
+        autocomplete-background = hex "surface";
+        autocomplete-background-hover = hex "overlay";
+        answer-font = hex "text";
+        answer-background = hex "surface";
+        result-keyvalue-col-table = hex "surface";
+        result-keyvalue-odd = hex "surface";
+        result-keyvalue-even = hex "overlay";
+        result-background = hex "surface";
+        result-border = hex "overlay";
+        result-url-font = hex "subtle";
+        result-vim-selected = alpha "overlay" 0.8;
+        result-vim-arrow = hex "primary";
+        result-description-highlight-font = hex "primary";
+        result-link-font = hex "foam";
+        result-link-font-highlight = hex "foam";
+        result-link-visited-font = hex "iris";
+        result-publishdate-font = hex "muted";
+        result-engines-font = hex "muted";
+        result-search-url-border = hex "overlay";
+        result-search-url-font = hex "text";
+        result-detail-font = hex "text";
+        result-detail-label-font = hex "subtle";
+        result-detail-background = hex "base";
+        result-detail-hr = hex "overlay";
+        result-detail-link = hex "foam";
+        result-detail-loader-border = alpha "text" 0.2;
+        result-image-span-font = hex "text";
+        result-image-span-font-selected = hex "base";
+        result-image-background = hex "surface";
+        settings-tr-hover = hex "overlay";
+        settings-engine-description-font = hex "subtle";
+        settings-table-group-background = hex "surface";
+        toolkit-badge-font = hex "text";
+        toolkit-badge-background = hex "overlay";
+        toolkit-kbd-font = hex "base";
+        toolkit-kbd-background = hex "text";
+        toolkit-dialog-border = hex "overlay";
+        toolkit-dialog-background = hex "surface";
+        toolkit-tabs-label-border = hex "base";
+        toolkit-tabs-section-border = hex "overlay";
+        toolkit-select-background = hex "overlay";
+        toolkit-select-border = hex "muted";
+        toolkit-select-background-hover = hex "muted";
+        toolkit-input-text-font = hex "text";
+        toolkit-checkbox-onoff-off-background = hex "overlay";
+        toolkit-checkbox-onoff-on-background = hex "overlay";
+        toolkit-checkbox-onoff-on-mark-background = hex "primary";
+        toolkit-checkbox-onoff-on-mark-color = hex "base";
+        toolkit-checkbox-onoff-off-mark-background = hex "muted";
+        toolkit-checkbox-onoff-off-mark-color = hex "base";
+        toolkit-checkbox-label-background = hex "base";
+        toolkit-checkbox-label-border = hex "overlay";
+        toolkit-checkbox-input-border = hex "primary";
+        toolkit-engine-tooltip-border = hex "overlay";
+        toolkit-engine-tooltip-background = hex "surface";
+        toolkit-loader-border = alpha "text" 0.2;
+        doc-code = hex "text";
+        doc-code-background = hex "overlay";
       };
 
       # the search page's wordmark is inlined from the templates, and css outranks its colour attributes
       css = ":root.theme-dark{${
         lib.concatStrings (lib.mapAttrsToList (name: value: "--color-${name}:${value};") colours)
-      }}[fill=\"#3050ff\"]{fill:${c "rose"}}[stroke=\"#3050ff\"]{stroke:${c "rose"}}";
+      }}[fill=\"#3050ff\"]{fill:${hex "primary"}}[stroke=\"#3050ff\"]{stroke:${hex "primary"}}";
 
       # appended to the shipped stylesheets so the later, equally specific rule wins
       static =
@@ -142,8 +132,8 @@
 
             # the logos and icons have their blue written into the svg, and the pngs are rendered from them
             img=$out/themes/simple/img
-            sed -i -e 's/#487cff/${c "rose"}/g' -e 's/#3050ff/${c "rose"}/g' $img/searxng.svg $img/favicon.svg
-            sed -i 's/#58f/${c "muted"}/g' $img/empty_favicon.svg
+            sed -i -e 's/#487cff/${hex "primary"}/g' -e 's/#3050ff/${hex "primary"}/g' $img/searxng.svg $img/favicon.svg
+            sed -i 's/#58f/${hex "muted"}/g' $img/empty_favicon.svg
             rsvg-convert -w 640 $img/searxng.svg -o $img/searxng.png
             rsvg-convert -w 261 $img/favicon.svg -o $img/favicon.png
             for size in 192 512; do
