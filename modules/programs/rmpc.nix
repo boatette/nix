@@ -3,7 +3,7 @@ let
   fifo = "/tmp/mpd.fifo";
 in
 {
-  flake.modules.nixos.aspire.networking.firewall.allowedTCPPorts = [ port ];
+  flake.modules.nixos.aspire.networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ port ];
 
   flake.modules.homeManager.boatette =
     {
@@ -12,6 +12,20 @@ in
       pkgs,
       ...
     }:
+    let
+      browseTab = name: pane: borders: ''
+        (
+            name: "${name}",
+            borders: "ALL",
+            border_symbols: Rounded,
+            pane: Split(
+                size: "100%",
+                direction: Vertical,
+                panes: [(pane: Pane(${pane}), size: "100%", borders: "${borders}", border_symbols: Rounded)],
+            ),
+        ),
+      '';
+    in
     {
       services.mpd = {
         enable = true;
@@ -20,12 +34,11 @@ in
         playlistDirectory = "${config.home.homeDirectory}/Music/Playlists";
         network = {
           startWhenNeeded = true;
-          # for an MPD app on the phone; the firewall port is opened by the nixos module above
+          # for an mpd app on the phone, over the tailnet
           listenAddress = "any";
         };
 
-        # host_permissions can't name ::ffff:127.0.0.1, so local clients must arrive over plain IPv4.
-        # the password stays out of the repo, in a file like: password "secret@read,add,control"
+        # remote.conf keeps the phone's password out of the repo: password "secret@read,add,control"
         extraConfig = ''
           audio_output {
             type "pipewire"
@@ -51,7 +64,7 @@ in
         '';
       };
 
-      # split the dual-stack listener so IPv4 clients aren't seen as ::ffff:127.0.0.1
+      # host_permissions can't name ::ffff:127.0.0.1, so ipv4 clients get their own listener
       systemd.user.sockets.mpd.Socket = {
         BindIPv6Only = "ipv6-only";
         ListenStream = [ "0.0.0.0:${toString port}" ];
@@ -129,66 +142,12 @@ in
                           ],
                       ),
                   ),
-                  (
-                      name: "Directories",
-                      borders: "ALL",
-                      border_symbols: Rounded,
-                      pane: Split(
-                          size: "100%",
-                          direction: Vertical,
-                          panes: [(pane: Pane(Directories), size: "100%", borders: "NONE", border_symbols: Rounded)],
-                      ),
-                  ),
-                  (
-                      name: "Artists",
-                      borders: "ALL",
-                      border_symbols: Rounded,
-                      pane: Split(
-                          size: "100%",
-                          direction: Vertical,
-                          panes: [(pane: Pane(Artists), size: "100%", borders: "NONE", border_symbols: Rounded)],
-                      ),
-                  ),
-                  (
-                      name: "Album Artists",
-                      borders: "ALL",
-                      border_symbols: Rounded,
-                      pane: Split(
-                          size: "100%",
-                          direction: Vertical,
-                          panes: [(pane: Pane(AlbumArtists), size: "100%", borders: "NONE", border_symbols: Rounded)],
-                      ),
-                  ),
-                  (
-                      name: "Albums",
-                      borders: "ALL",
-                      border_symbols: Rounded,
-                      pane: Split(
-                          size: "100%",
-                          direction: Vertical,
-                          panes: [(pane: Pane(Albums), size: "100%", borders: "NONE", border_symbols: Rounded)],
-                      ),
-                  ),
-                  (
-                      name: "Playlists",
-                      borders: "ALL",
-                      border_symbols: Rounded,
-                      pane: Split(
-                          size: "100%",
-                          direction: Vertical,
-                          panes: [(pane: Pane(Playlists), size: "100%", borders: "NONE", border_symbols: Rounded)],
-                      ),
-                  ),
-                  (
-                      name: "Search",
-                      borders: "ALL",
-                      border_symbols: Rounded,
-                      pane: Split(
-                          size: "100%",
-                          direction: Vertical,
-                          panes: [(pane: Pane(Search), size: "100%", borders: "ALL", border_symbols: Rounded)],
-                      ),
-                  ),
+                  ${browseTab "Directories" "Directories" "NONE"}
+                  ${browseTab "Artists" "Artists" "NONE"}
+                  ${browseTab "Album Artists" "AlbumArtists" "NONE"}
+                  ${browseTab "Albums" "Albums" "NONE"}
+                  ${browseTab "Playlists" "Playlists" "NONE"}
+                  ${browseTab "Search" "Search" "ALL"}
               ],
           )
         '';
