@@ -50,10 +50,6 @@
         nixpkgs.follows = "nixpkgs";
       };
     };
-    petal = {
-      url = "git+file:///home/boatette/Projects/petal";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     preservation.url = "github:nix-community/preservation";
     rose-pine-btop = {
       url = "github:rose-pine/btop";

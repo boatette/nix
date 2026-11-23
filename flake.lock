@@ -297,26 +297,6 @@
         "type": "github"
       }
     },
-    "petal": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1795164545,
-        "narHash": "sha256-Xlo2Qg/344KWu9+1bQwecojiTzV2EcyfnbV4JB/8ZCE=",
-        "ref": "refs/heads/master",
-        "rev": "6058110da6776cd5c3351e7bbef21bfc63f58e4e",
-        "revCount": 48,
-        "type": "git",
-        "url": "file:///home/boatette/Projects/petal"
-      },
-      "original": {
-        "type": "git",
-        "url": "file:///home/boatette/Projects/petal"
-      }
-    },
     "preservation": {
       "locked": {
         "lastModified": 1792953443,
@@ -347,7 +327,6 @@
         "nix-index-database": "nix-index-database",
         "nixpkgs": "nixpkgs_2",
         "nvf": "nvf",
-        "petal": "petal",
         "preservation": "preservation",
         "rose-pine-btop": "rose-pine-btop",
         "rose-pine-delta": "rose-pine-delta",

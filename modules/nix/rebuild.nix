@@ -11,19 +11,17 @@
       owner = lib.head (lib.splitString "/" repo);
 
       # my own projects' working trees in ~/Projects, built without a lock update; new files need git add
-      workingTree =
-        url:
-        if lib.hasPrefix "git+file://" url then
-          url
-        else if lib.hasPrefix "github:${owner}/" url then
-          "git+file://${dirOf flakeDir}/Projects/${lib.removePrefix "github:${owner}/" url}"
-        else
-          null;
-
       devOverrides = lib.concatStrings (
-        lib.mapAttrsToList (name: input: " --override-input ${name} ${workingTree input.url}") (
-          lib.filterAttrs (_: input: workingTree (input.url or "") != null) config.flake-file.inputs
-        )
+        lib.mapAttrsToList
+          (
+            name: input:
+            " --override-input ${name} git+file://${dirOf flakeDir}/Projects/${lib.removePrefix "github:${owner}/" input.url}"
+          )
+          (
+            lib.filterAttrs (
+              _: input: lib.hasPrefix "github:${owner}/" (input.url or "")
+            ) config.flake-file.inputs
+          )
       );
 
       osDev = mode: "${os mode}${devOverrides}";

@@ -1,26 +1,4 @@
-{ inputs, ... }:
-let
-  port = 8190;
-in
 {
-  flake-file.inputs.petal = {
-    url = "git+file:///home/boatette/Projects/petal";
-    inputs.nixpkgs.follows = "nixpkgs";
-  };
-
-  # the phone app's server, over the tailnet only; it starts comfyui when asked and stops it when idle
-  flake.modules.nixos.aspire.networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ port ];
-
-  flake.modules.homeManager.boatette = {
-    imports = [ inputs.petal.homeModules.default ];
-
-    services.petal = {
-      enable = true;
-
-      settings = {
-        comfy = "/mnt/storage/ai/comfy";
-        listen = "[::]:${toString port}";
-      };
-    };
-  };
+  # petal, the phone app's server, runs on its own; this only lets the tailnet reach it
+  flake.modules.nixos.aspire.networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ 8190 ];
 }
