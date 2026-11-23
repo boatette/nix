@@ -14,8 +14,6 @@
       imports = [ inputs.lanzaboote.nixosModules.lanzaboote ];
 
       boot = {
-        kernelPackages = pkgs.linuxPackages_latest;
-
         lanzaboote = {
           enable = true;
           autoEnrollKeys.enable = true;
