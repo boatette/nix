@@ -44,14 +44,13 @@
         size = 24;
       };
 
-      # the look of everything translucent; noctalia hardcodes these same values for what it
-      # doesn't expose, a 12 radius on its panels and toasts and 0.8 on its settings window
+      # noctalia hardcodes these for what it doesn't expose, so everything else matches them
       glass = {
         radius = 12;
         opacity = 0.8;
       };
 
-      # rosé pine main, as rrggbb, for whatever has no rosé pine port
+      # rosé pine main as rrggbb, for whatever has no rosé pine port
       palette = {
         base = "191724";
         surface = "1f1d2e";
@@ -65,6 +64,18 @@
         pine = "31748f";
         foam = "9ccfd8";
         iris = "c4a7e7";
+        highlightLow = "21202e";
+        highlightMed = "403d52";
+        highlightHigh = "524f67";
+      };
+
+      # what each colour means, as noctalia's builtin rosé pine scheme assigns them
+      roles = {
+        primary = "rose";
+        secondary = "foam";
+        tertiary = "pine";
+        warning = "gold";
+        error = "love";
       };
     };
 
