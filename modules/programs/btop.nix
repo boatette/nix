@@ -38,7 +38,6 @@ in
           shown_boxes = "cpu mem net proc gpu0 gpu1";
 
           vim_keys = true;
-          rounded_corners = true;
 
           update_ms = 500;
           background_update = false;
