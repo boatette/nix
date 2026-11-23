@@ -58,10 +58,6 @@
       url = "github:rose-pine/eza";
       flake = false;
     };
-    rose-pine-foot = {
-      url = "github:rose-pine/foot";
-      flake = false;
-    };
     rose-pine-fzf = {
       url = "github:rose-pine/fzf";
       flake = false;

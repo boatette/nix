@@ -463,7 +463,6 @@
         "rose-pine-btop": "rose-pine-btop",
         "rose-pine-delta": "rose-pine-delta",
         "rose-pine-eza": "rose-pine-eza",
-        "rose-pine-foot": "rose-pine-foot",
         "rose-pine-fzf": "rose-pine-fzf",
         "rose-pine-lazygit": "rose-pine-lazygit",
         "rose-pine-qutebrowser": "rose-pine-qutebrowser",
@@ -523,22 +522,6 @@
       "original": {
         "owner": "rose-pine",
         "repo": "eza",
-        "type": "github"
-      }
-    },
-    "rose-pine-foot": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1773083277,
-        "narHash": "sha256-rZm3d7dN4M2cHMx1SrrSWfCKn3JHUVQ+EsH5FvOww4I=",
-        "owner": "rose-pine",
-        "repo": "foot",
-        "rev": "4c897ddad2fef9ebc6ec2e7ebc80ea71337edd07",
-        "type": "github"
-      },
-      "original": {
-        "owner": "rose-pine",
-        "repo": "foot",
         "type": "github"
       }
     },
