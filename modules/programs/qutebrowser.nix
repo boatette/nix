@@ -8,19 +8,22 @@
       ...
     }:
     let
+      inherit (inputs.self.constants) homeManagerBranch release;
       inherit (inputs.self.constants.fonts) mono;
       inherit (osConfig.services.searx.settings) server;
 
-      editUrl = "spawn --userscript ${lib.getExe pkgs.local.qute-edit-url}";
-
       searxngOrigin = "http://${server.bind_address}:${toString server.port}";
+
+      editUrl = "spawn --userscript ${
+        lib.getExe (pkgs.local.qute-edit-url.override { searxng = searxngOrigin; })
+      }";
       searxng = "${searxngOrigin}/search?q={}";
     in
     {
       programs.qutebrowser = {
         enable = true;
 
-        # a wrapper rather than an override, so qutebrowser itself still comes from the cache
+        # wrapped rather than overridden, so qutebrowser itself still comes from the cache
         package = pkgs.symlinkJoin {
           inherit (pkgs.qutebrowser)
             name
@@ -50,13 +53,17 @@
             };
           };
           colors.webpage.darkmode.enabled = true;
-          tabs.show = "multiple";
-
-          tabs.last_close = "default-page";
           auto_save.session = true;
 
-          url.start_pages = [ "qute://start" ];
-          url.default_page = "qute://start";
+          tabs = {
+            show = "multiple";
+            last_close = "default-page";
+          };
+
+          url = {
+            start_pages = [ "qute://start" ];
+            default_page = "qute://start";
+          };
 
           new_instance_open_target = "tab";
 
@@ -81,9 +88,9 @@
           DEFAULT = searxng;
           search = searxng;
           google = "https://www.google.com/search?q={}";
-          nixpkg = "https://search.nixos.org/packages?channel=unstable&query={}";
-          nixopt = "https://search.nixos.org/options?channel=unstable&query={}";
-          hm = "https://home-manager-options.extranix.com/?query={}&release=master";
+          nixpkg = "https://search.nixos.org/packages?channel=${release}&query={}";
+          nixopt = "https://search.nixos.org/options?channel=${release}&query={}";
+          hm = "https://home-manager-options.extranix.com/?query={}&release=${homeManagerBranch}";
           noogle = "https://noogle.dev/q?term={}";
           nixwiki = "https://wiki.nixos.org/w/index.php?search={}";
           nixdisc = "https://discourse.nixos.org/search?q={}";
@@ -102,31 +109,27 @@
           archive = "https://web.archive.org/web/{}";
         };
 
-        keyBindings.normal = {
-          "<Alt-1>" = "tab-focus 1 --no-last";
-          "<Alt-2>" = "tab-focus 2 --no-last";
-          "<Alt-3>" = "tab-focus 3 --no-last";
-          "<Alt-4>" = "tab-focus 4 --no-last";
-          "<Alt-5>" = "tab-focus 5 --no-last";
-          "<Alt-6>" = "tab-focus 6 --no-last";
-          "<Alt-7>" = "tab-focus 7 --no-last";
-          "<Alt-8>" = "tab-focus 8 --no-last";
-          "<Alt-9>" = "tab-focus -1 --no-last";
+        keyBindings.normal =
+          lib.genAttrs' (lib.range 1 8) (
+            n: lib.nameValuePair "<Alt-${toString n}>" "tab-focus ${toString n} --no-last"
+          )
+          // {
+            "<Alt-9>" = "tab-focus -1 --no-last";
 
-          "H" = "tab-prev";
-          "L" = "tab-next";
-          "J" = "forward";
-          "K" = "back";
+            "H" = "tab-prev";
+            "L" = "tab-next";
+            "J" = "forward";
+            "K" = "back";
 
-          ",v" = "fake-key <Ctrl-a>";
+            ",v" = "fake-key <Ctrl-a>";
 
-          "go" = editUrl;
-          "gO" = "${editUrl} -t -r";
+            "go" = editUrl;
+            "gO" = "${editUrl} -t -r";
 
-          ",M" = "spawn umpv {url}";
-          ",m" = "hint links spawn umpv {hint-url}";
-          ";M" = "hint --rapid links spawn umpv {hint-url}";
-        };
+            ",M" = "spawn umpv {url}";
+            ",m" = "hint links spawn umpv {hint-url}";
+            ";M" = "hint --rapid links spawn umpv {hint-url}";
+          };
       };
     };
 }
