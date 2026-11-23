@@ -36,12 +36,8 @@
       type = "avivbintangaringga/nix-monitor:nix-monitor";
     };
 
-    noctaproton_vpn = {
-      type = "riversyx/noctaproton-vpn:bar";
-    };
+    noctaproton_vpn.type = "riversyx/noctaproton-vpn:bar";
 
-    tailnet = {
-      type = "rylos/tailnet:bar";
-    };
+    tailnet.type = "rylos/tailnet:bar";
   };
 }
