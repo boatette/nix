@@ -9,9 +9,7 @@ in
   };
 
   # the phone app's server, over the tailnet only; it starts comfyui when asked and stops it when idle
-  flake.modules.nixos.aspire = {
-    networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ port ];
-  };
+  flake.modules.nixos.aspire.networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ port ];
 
   flake.modules.homeManager.boatette = {
     imports = [ inputs.petal.homeModules.default ];
@@ -20,8 +18,8 @@ in
       enable = true;
 
       settings = {
-        listen = "[::]:${toString port}";
         comfy = "/mnt/storage/ai/comfy";
+        listen = "[::]:${toString port}";
       };
     };
   };

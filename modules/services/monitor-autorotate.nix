@@ -1,7 +1,6 @@
 { inputs, lib, ... }:
 let
-  # the current profile, written by umbriel-monitor-profile. in the runtime dir, so an umbriel restart
-  # keeps the arm's profile and a new login starts in the first one
+  # in the runtime dir, so an umbriel restart keeps the arm's profile and a new login starts in the first
   profileFile = "umbriel-monitor-profile.toml";
 in
 {
@@ -14,9 +13,9 @@ in
   flake.modules.nixos.aspire =
     { pkgs, ... }:
     let
-      inherit (inputs.self.lib) monitorProfiles transformName umbrielLayout;
+      inherit (inputs.self.lib) transformName umbrielLayout;
 
-      profiles = monitorProfiles;
+      profiles = inputs.self.lib.monitorProfiles;
 
       # each profile as wlr-randr --json reports it, to tell which one the outputs are in
       layouts = builtins.toJSON (
@@ -72,8 +71,7 @@ in
             ;;
           esac
 
-          # renamed into place, so umbriel never reloads a half-written file. one file, so the outputs
-          # turn together or not at all
+          # renamed into place, so umbriel never reloads a half-written file
           install -m 644 "$layout" "$XDG_RUNTIME_DIR/.${profileFile}"
           mv -f "$XDG_RUNTIME_DIR/.${profileFile}" "$XDG_RUNTIME_DIR/${profileFile}"
         '';
@@ -91,7 +89,7 @@ in
     };
 
   flake.modules.homeManager.boatette.programs.umbriel.settings = {
-    # read after the start layout's include, so it wins. umbriel watches it and reloads when it changes
+    # read after the start layout's include, so it wins; umbriel reloads when it changes
     include.optional.files = [ "$XDG_RUNTIME_DIR/${profileFile}" ];
 
     # TODO: drop once the Pico on the arm is reporting
