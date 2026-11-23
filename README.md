@@ -12,7 +12,14 @@ NixOS for one laptop, `aspire`, on [umbriel](https://github.com/noctalia-dev/umb
 
 2. Put the firmware into **Secure Boot Setup Mode** (clear its keys); the fresh install is unsigned. `boot.loader.timeout` is 0, so **hold Space** during boot to reach "Reboot Into Firmware Interface".
 
-3. Boot the official NixOS minimal ISO in UEFI mode and run:
+3. Write the official NixOS minimal ISO to a stick (any recent one works; the install builds from the flake's own nixpkgs, and a release such as `nixos-26.11` can replace `nixos-unstable`):
+
+   ```bash
+   curl -LO https://channels.nixos.org/nixos-unstable/latest-nixos-minimal-x86_64-linux.iso
+   sudo dd if=latest-nixos-minimal-x86_64-linux.iso of=/dev/sdX bs=4M status=progress conv=fsync
+   ```
+
+   Boot it in UEFI mode and run:
 
    ```bash
    nix --extra-experimental-features 'nix-command flakes' run github:boatette/nix#install
