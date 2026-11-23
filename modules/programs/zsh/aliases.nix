@@ -3,8 +3,7 @@
   flake.modules.homeManager.boatette =
     let
       inherit (inputs.self.constants) flakeDir;
-
-      rebuild = inputs.self.lib.rebuild flakeDir;
+      inherit (inputs.self.lib) rebuild;
 
       eza = "eza --color=always --group-directories-first --icons auto";
     in

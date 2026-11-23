@@ -2,9 +2,8 @@
 {
   flake.modules.homeManager.boatette =
     let
-      inherit (inputs.self.constants) flakeDir fonts;
-
-      rebuild = inputs.self.lib.rebuild flakeDir;
+      inherit (inputs.self.constants) fonts;
+      inherit (inputs.self.lib) rebuild;
     in
     {
       programs.noctalia.settings.shell = {

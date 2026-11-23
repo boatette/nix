@@ -2,7 +2,7 @@
 {
   flake.modules.homeManager.boatette =
     let
-      rebuild = inputs.self.lib.rebuild inputs.self.constants.flakeDir;
+      inherit (inputs.self.lib) rebuild;
     in
     {
       programs.noctalia.settings.plugin_settings = {

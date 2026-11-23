@@ -3,8 +3,7 @@
   flake.modules.nixos.aspire =
     let
       inherit (inputs.self.constants) flakeDir;
-
-      rebuild = inputs.self.lib.rebuild flakeDir;
+      inherit (inputs.self.lib) rebuild;
     in
     {
       programs.nh = {

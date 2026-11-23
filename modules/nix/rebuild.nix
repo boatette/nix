@@ -1,13 +1,14 @@
 { config, lib, ... }:
 {
   flake.lib.rebuild =
-    flakeDir:
     let
+      inherit (config.flake.constants) flakeDir repo;
+
       writeFlake = "(cd ${flakeDir} && nix run .#write-flake)";
 
       os = mode: "nh os ${mode} ${flakeDir}";
 
-      owner = lib.head (lib.splitString "/" config.flake.constants.repo);
+      owner = lib.head (lib.splitString "/" repo);
 
       # my own projects' working trees in ~/Projects, built without a lock update; new files need git add
       workingTree =
