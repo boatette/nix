@@ -57,7 +57,6 @@
           nfc = "nix flake check";
           nfs = "nix flake show";
           nfm = "nix flake metadata";
-          nbi = "nix build ${flakeDir}#iso";
 
           npl = "nix profile list";
           npa = "nix profile add";
