@@ -6,8 +6,8 @@
         ffmpeg
         libwebp
 
-        qimgv
         mpv
+        qimgv
       ];
     };
 }

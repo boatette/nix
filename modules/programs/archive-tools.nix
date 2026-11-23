@@ -4,8 +4,8 @@
     {
       home.packages = with pkgs; [
         ouch
-        unzip
         p7zip
+        unzip
       ];
     };
 }
