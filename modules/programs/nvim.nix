@@ -1,83 +1,45 @@
 { inputs, ... }:
 {
-  flake-file.inputs = {
-    nvf = {
-      url = "github:notashelf/nvf";
-      inputs = {
-        flake-compat.follows = "";
-        nixpkgs.follows = "nixpkgs";
-      };
+  flake-file.inputs.nvf = {
+    url = "github:notashelf/nvf";
+    inputs = {
+      flake-compat.follows = "";
+      nixpkgs.follows = "nixpkgs";
     };
   };
 
-  flake.modules = {
-    nvf = {
-      core =
-        { lib, ... }:
-        {
-          vim = {
-            appname = "nvim";
+  flake.modules.nvf.nvim =
+    { lib, ... }:
+    {
+      vim = {
+        appname = "nvim";
+        enableLuaLoader = true;
+        vendoredKeymaps.enable = false;
 
-            viAlias = false;
-            vendoredKeymaps.enable = false;
-
-            enableLuaLoader = true;
-
-            luaConfigRC.core-pre = lib.nvim.dag.entryBefore [ "basic" ] ''
-              pcall(function()
-                  require("vim._core.ui2").enable()
-              end)
-            '';
-          };
-        };
-
-      nvim.imports = [ inputs.self.modules.nvf.core ];
-
-      minimal = {
-        imports = [ inputs.self.modules.nvf.core ];
-
-        vim.vimAlias = false;
+        luaConfigRC.ui2 = lib.nvim.dag.entryBefore [ "basic" ] ''
+          pcall(function()
+              require("vim._core.ui2").enable()
+          end)
+        '';
       };
     };
 
-    homeManager.boatette =
-      { pkgs, ... }:
-      {
-        home = {
-          packages = [
-            pkgs.local.nvim
-            pkgs.local.vi
-          ];
-
-          sessionVariables = {
-            EDITOR = "nvim";
-            SUDO_EDITOR = "nvim";
-          };
-        };
+  flake.modules.nixos.aspire =
+    { pkgs, ... }:
+    {
+      environment = {
+        systemPackages = [ pkgs.local.nvim ];
+        variables.EDITOR = "nvim";
       };
-  };
+    };
 
   perSystem =
     { pkgs, ... }:
-    let
-      mkNvf =
-        module:
+    {
+      packages.nvim =
         (inputs.nvf.lib.neovimConfiguration {
           inherit pkgs;
-          modules = [ module ];
+          modules = [ inputs.self.modules.nvf.nvim ];
         }).neovim;
-
-      minimal = mkNvf inputs.self.modules.nvf.minimal;
-    in
-    {
-      packages = {
-        nvim = mkNvf inputs.self.modules.nvf.nvim;
-        nvim-minimal = minimal;
-
-        vi = pkgs.runCommandLocal "vi" { } ''
-          mkdir -p $out/bin
-          ln -s ${minimal}/bin/nvim $out/bin/vi
-        '';
-      };
     };
 }

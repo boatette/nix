@@ -4,7 +4,7 @@
     "description": "flake-parts module (attribute set)",
     "body": [
       "{",
-      "  flake.modules.${1|nixos,homeManager,nvf,generic|}.${2:name} = {",
+      "  flake.modules.${1|nixos.aspire,homeManager.boatette,nvf.nvim|} = {",
       "    $0",
       "  };",
       "}"
@@ -15,8 +15,8 @@
     "description": "flake-parts module taking module arguments",
     "body": [
       "{",
-      "  flake.modules.${1|nixos,homeManager,nvf,generic|}.${2:name} =",
-      "    { ${3:lib}, ... }:",
+      "  flake.modules.${1|nixos.aspire,homeManager.boatette,nvf.nvim|} =",
+      "    { ${2:lib}, ... }:",
       "    {",
       "      $0",
       "    };",
@@ -29,7 +29,7 @@
     "body": [
       "{ inputs, ... }:",
       "{",
-      "  flake.modules.${1|nixos,homeManager,nvf,generic|}.${2:name} = {",
+      "  flake.modules.${1|nixos.aspire,homeManager.boatette,nvf.nvim|} = {",
       "    $0",
       "  };",
       "}"
@@ -45,13 +45,8 @@
     "description": "inherit (attrs) names",
     "body": "inherit (${1:config}) ${2:name};"
   },
-  "inherit constants": {
-    "prefix": "inhc",
-    "description": "inherit from config.constants",
-    "body": "inherit (config.constants) ${1:username};"
-  },
   "inherit flake constants": {
-    "prefix": "inhs",
+    "prefix": "inhc",
     "description": "inherit from inputs.self.constants",
     "body": "inherit (inputs.self.constants) ${1:flakeDir};"
   },

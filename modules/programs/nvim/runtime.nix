@@ -1,3 +1,3 @@
 {
-  flake.modules.nvf.core.vim.additionalRuntimePaths = [ ./runtime ];
+  flake.modules.nvf.nvim.vim.additionalRuntimePaths = [ ./runtime ];
 }

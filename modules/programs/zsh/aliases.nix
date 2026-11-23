@@ -73,7 +73,6 @@
           h = "history";
           c = "clear";
           cls = "clear";
-          vim = "nvim";
           v = "nvim";
           cat = "bat";
           lg = "lazygit";
