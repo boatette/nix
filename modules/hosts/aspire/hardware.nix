@@ -20,6 +20,7 @@
         thermald.enable = true;
 
         smartd = {
+          enable = true;
           autodetect = false;
           devices = [ { device = "/dev/nvme0"; } ];
         };
