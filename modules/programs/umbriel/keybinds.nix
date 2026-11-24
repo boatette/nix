@@ -137,6 +137,7 @@
 
           "Mod+A" = "column-toggle-tabbed";
           "Mod+O" = "workspace-set-layout toggle";
+          "Mod+Shift+O" = "workspace-set-layout toggle scrolling stacking master dwindle";
 
           "Mod+U" = "scratchpad-toggle main";
           "Mod+Shift+U" = "window-move-to-scratchpad main";
