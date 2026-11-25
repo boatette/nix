@@ -1,7 +1,7 @@
 { inputs, ... }:
 {
   flake.modules.homeManager.boatette = inputs.self.lib.mimeHandlers {
-    "qimgv.desktop" = [
+    "swayimg.desktop" = [
       "image/avif"
       "image/bmp"
       "image/gif"
