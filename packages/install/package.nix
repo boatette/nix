@@ -1,11 +1,13 @@
 {
   coreutils,
   curl,
+  diskoScript ? null,
   inputs,
   jq,
   lib,
   mkpasswd,
   nixos-install-tools,
+  prebuilt ? null,
   stdenv,
   util-linux,
   writeShellApplication,
@@ -26,7 +28,11 @@ writeShellApplication {
 
   runtimeEnv = {
     FLAKE = "${inputs.self}";
-    HOST = lib.head (lib.attrNames inputs.self.nixosConfigurations);
+    HOST = lib.head (lib.attrNames (removeAttrs inputs.self.nixosConfigurations [ "iso" ]));
+  }
+  // lib.optionalAttrs (prebuilt != null) {
+    SYSTEM = "${prebuilt}";
+    DISKO_SCRIPT = lib.getExe' diskoScript "disko-destroy-format-mount";
   };
 
   text = builtins.readFile ./install.sh;
