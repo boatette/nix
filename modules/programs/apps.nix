@@ -3,7 +3,6 @@
     { pkgs, ... }:
     {
       home.packages = with pkgs; [
-        local.bambu-studio
         local.spotbye
         local.spotbye-bump
         pinta

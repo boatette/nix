@@ -24,11 +24,7 @@
       nixpkgsBranch = "nixos-${release}";
       homeManagerBranch = if release == "unstable" then "master" else "release-${release}";
 
-      # bambu-studio has no en_AU translation, falls back to en_GB, and exits if that locale is missing
-      locales = [
-        "${locale}/UTF-8"
-        "en_GB.UTF-8/UTF-8"
-      ];
+      locales = [ "${locale}/UTF-8" ];
       timeZone = "Australia/Hobart";
       stateVersion = "26.11";
 
