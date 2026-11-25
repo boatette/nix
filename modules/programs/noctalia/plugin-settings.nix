@@ -1,6 +1,7 @@
 { inputs, ... }:
 {
   flake.modules.homeManager.boatette =
+    { osConfig, ... }:
     let
       inherit (inputs.self.lib) rebuild;
     in
@@ -32,6 +33,7 @@
         };
 
         "0rgl/localsend-plus" = {
+          alias = osConfig.networking.hostName;
           luciole_menu = true;
           panel_placement = "floating";
           panel_position = "top_center";
