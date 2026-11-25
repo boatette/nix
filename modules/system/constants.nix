@@ -10,9 +10,10 @@
     let
       username = "boatette";
       release = "unstable";
+      locale = "en_AU.UTF-8";
     in
     {
-      inherit release username;
+      inherit locale release username;
       description = "Jonathan Clark";
       email = "boatette@gmail.com";
 
@@ -23,7 +24,11 @@
       nixpkgsBranch = "nixos-${release}";
       homeManagerBranch = if release == "unstable" then "master" else "release-${release}";
 
-      locale = "en_AU.UTF-8";
+      # bambu-studio has no en_AU translation, falls back to en_GB, and exits if that locale is missing
+      locales = [
+        "${locale}/UTF-8"
+        "en_GB.UTF-8/UTF-8"
+      ];
       timeZone = "Australia/Hobart";
       stateVersion = "26.11";
 
