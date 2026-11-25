@@ -23,7 +23,6 @@
                 "json"
                 "lua"
                 "nix"
-                "odin"
                 "python"
                 "tsx"
                 "typescript"

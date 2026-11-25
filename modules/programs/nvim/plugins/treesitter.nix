@@ -34,7 +34,6 @@
             markdown
             markdown_inline
             nix
-            odin
             printf
             python
             regex

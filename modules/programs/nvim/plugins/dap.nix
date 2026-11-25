@@ -59,8 +59,8 @@
     in
     {
       vim = {
-        # lldb-dap for c, c++, odin and zig, debugpy for python, each by store path
-        languages = lib.genAttrs [ "clang" "odin" "python" "zig" ] (_: {
+        # lldb-dap for c, c++ and zig, debugpy for python, each by store path
+        languages = lib.genAttrs [ "clang" "python" "zig" ] (_: {
           dap.enable = true;
         });
 
