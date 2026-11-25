@@ -4,7 +4,7 @@ How this flake works and how changes to it are expected to look. The README cove
 
 ## What this is
 
-A NixOS + home-manager flake for one user (`boatette`) on one machine, `aspire`: a laptop with Intel + NVIDIA under PRIME offload, LUKS + TPM, lanzaboote Secure Boot, and a root that is wiped on every boot. It is installed from the official NixOS ISO with `nix run github:boatette/nix#install`.
+A NixOS + home-manager flake for one user (`boatette`) on one machine, `aspire`: a laptop with Intel + NVIDIA under PRIME offload, LUKS + TPM, lanzaboote Secure Boot, and a root that is wiped on every boot. It is installed offline from its own ISO (`nix build .#iso`), which carries the system prebuilt, or from the official NixOS ISO with `nix run github:boatette/nix#install`.
 
 The desktop is [umbriel](https://github.com/noctalia-dev/umbriel), a scrolling Wayland compositor, with [noctalia](https://github.com/noctalia-dev/noctalia-shell) as its shell, bar, lockscreen, launcher and greeter. Everything is themed **Rosé Pine main**.
 
@@ -33,7 +33,8 @@ modules/
 ├── nix/                 how the flake is assembled: inputs, pkgs, packages, home-manager, rebuild commands
 │   └── flake-parts/     flake.lib core helpers, checks, formatter, devshell, systems
 ├── hosts/
-│   └── aspire/          the machine: configuration, hardware, graphics, disko, monitors, storage
+│   ├── aspire/          the machine: configuration, hardware, graphics, disko, monitors, storage
+│   └── iso/             the offline installer, with aspire's toplevel and disko script baked in
 ├── system/
 │   ├── constants.nix    shared values (see below)
 │   ├── settings/        boot, locale, nix settings, install plan, packages, ...
@@ -232,7 +233,7 @@ The git settings below come from `modules/programs/git.nix` and `modules/program
 | `nix build .#nixosConfigurations.aspire.config.system.build.toplevel`        | builds aspire without activating it                                                               |
 | `nix run .#install -- --dry-run`                                             | the install plan and disko's script, changing nothing                                             |
 
-- `nix flake check` builds the full system, so it is slow after an input update. Evaluate first.
+- `nix flake check` builds the full system, so it is slow after an input update. Evaluate first. It leaves out `packages.iso`, which compresses that whole system again; build it with `nix build .#iso` when asked.
 - `nix fmt -- --ci` is not read-only: it rewrites unformatted files, then fails.
 - The devshell (direnv `use flake`) provides treefmt, deadnix and statix.
 - **To prove a cleanup changes nothing**, compare the `drvPath` of the system and every package before and after, and run `nix-diff` on any pair that differs. `install` always changes, because it embeds the flake source. A change that only reorders a list changes the derivation too; compare the sorted package and file sets instead.
