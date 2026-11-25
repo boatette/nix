@@ -51,20 +51,20 @@ assets/                  the wallpaper
 
 `modules/system/constants.nix` defines `flake.constants`, the values more than one module needs. Never hardcode any of these. Every module reads them as **`inputs.self.constants.<key>`**, usually through `inherit (inputs.self.constants) <key>;`.
 
-| Key                                  | Holds                                                                                                            |
-| ------------------------------------ | ---------------------------------------------------------------------------------------------------------------- |
-| `username`, `description`, `email`   | the user account and git identity                                                                                |
-| `flakeDir`, `repo`                   | where the flake is checked out (`~/nix`), and its GitHub repo                                                    |
-| `release`                            | the NixOS release tracked: `"unstable"`, or `"26.11"` once that is out                                           |
-| `nixpkgsBranch`, `homeManagerBranch` | the branches `release` means, used by the inputs, qutebrowser's nix searches and noctalia's nix-monitor          |
-| `locale`, `timeZone`, `stateVersion` | system basics                                                                                                    |
-| `keyboard.{layout,options}`          | XKB, shared by the session and the greeter                                                                       |
-| `fonts.{mono,sans}.{name,size}`      | JetBrainsMono Nerd Font and Inter                                                                                |
-| `cursor.{name,size}`                 | the Rosé Pine cursor                                                                                             |
-| `glass.{radius,opacity}`             | the corner radius and translucency of everything (12 and 0.8)                                                    |
-| `monitors`                           | the two outputs, their modes and the arm's layouts (see [Monitors](#monitors))                                   |
-| `palette.<name>`                     | Rosé Pine main as `rrggbb` without `#`, the twelve colours plus `highlightLow`, `highlightMed`, `highlightHigh`  |
-| `roles.<role>`                       | the palette name each role uses: `primary` rose, `secondary` foam, `tertiary` pine, `warning` gold, `error` love |
+| Key                                             | Holds                                                                                                            |
+| ----------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| `username`, `description`, `email`              | the user account and git identity                                                                                |
+| `flakeDir`, `repo`                              | where the flake is checked out (`~/nix`), and its GitHub repo                                                    |
+| `release`                                       | the NixOS release tracked: `"unstable"`, or `"26.11"` once that is out                                           |
+| `nixpkgsBranch`, `homeManagerBranch`            | the branches `release` means, used by the inputs, qutebrowser's nix searches and noctalia's nix-monitor          |
+| `locale`, `locales`, `timeZone`, `stateVersion` | system basics; `locales` are the ones glibc builds, for the system and every FHS env                             |
+| `keyboard.{layout,options}`                     | XKB, shared by the session and the greeter                                                                       |
+| `fonts.{mono,sans}.{name,size}`                 | JetBrainsMono Nerd Font and Inter                                                                                |
+| `cursor.{name,size}`                            | the Rosé Pine cursor                                                                                             |
+| `glass.{radius,opacity}`                        | the corner radius and translucency of everything (12 and 0.8)                                                    |
+| `monitors`                                      | the two outputs, their modes and the arm's layouts (see [Monitors](#monitors))                                   |
+| `palette.<name>`                                | Rosé Pine main as `rrggbb` without `#`, the twelve colours plus `highlightLow`, `highlightMed`, `highlightHigh`  |
+| `roles.<role>`                                  | the palette name each role uses: `primary` rose, `secondary` foam, `tertiary` pine, `warning` gold, `error` love |
 
 Rules:
 
@@ -171,6 +171,7 @@ neovim is one nvf build, `packages.nvim`, from `flake.modules.nvf.nvim` in `modu
 - `modules/programs/nvim/runtime/` (Lua under `lua/config/`, snippets under `snippets/`) is on the runtime path.
 - Each keymap lives in the file of the plugin it needs and is built with `inputs.self.lib.nvim.{cmd,lua,mod}`.
 - Pickers, LSP navigation, diagnostics lists and undo history are all snacks.
+- Only the tools for editing this config are bundled: nixd, lua-language-server, bash and JSON servers, nixfmt, stylua, shfmt, prettierd, taplo, statix, deadnix and markdownlint. Toolchain servers, formatters, linters and debug adapters (clangd, gopls, pyright, ruff, rust-analyzer, zls, lldb-dap, debugpy, ...) come from each project's devshell through direnv: nvim starts them by name and skips any that isn't on `PATH`. A new project's flake puts them in its `devShells.default`.
 - `jk` and `kj` leave insert mode, through better-escape.nvim.
 
 ## Git
@@ -279,6 +280,7 @@ Things that pass the checks but go wrong on the running system.
 
 ### System
 
+- **Firmware** is only what aspire's drivers load (`modules/hosts/aspire/firmware.nix`): i915/xe, the MediaTek MT7961 wifi and bluetooth, Realtek ethernet and SOF audio. New hardware that needs firmware (a USB wifi adapter, a dock) gets its files added there.
 - **Impermanence:** `/` is a fresh subvolume on every boot. System state that must survive goes in the preserve lists in `modules/system/impermanence.nix`, and previous roots stay in `old_roots` for 30 days. `/home`, `/nix`, `/var/log` and `/persist` are kept. Users are immutable (`passwd` does nothing); passwords are files in `/persist/passwords/<user>`.
 - Changes to `home.sessionVariables` don't reach a session that is already running.
 - home-manager moves a conflicting file it doesn't manage to `<file>.bak`. If that `.bak` already exists, activation fails.
