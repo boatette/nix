@@ -33,7 +33,6 @@
           lm_sensors
           microfetch
           nix-tree
-          proton-vpn-cli
           # claude code edits files with python
           python3
           ripgrep
