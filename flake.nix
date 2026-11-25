@@ -43,6 +43,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    noctalia-community-plugins = {
+      url = "github:noctalia-dev/community-plugins";
+      flake = false;
+    };
     nvf = {
       url = "github:notashelf/nvf";
       inputs = {

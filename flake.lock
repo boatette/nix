@@ -275,6 +275,22 @@
         "type": "github"
       }
     },
+    "noctalia-community-plugins": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1795569747,
+        "narHash": "sha256-UdOcHwpfgeF80+pPHH4KIhihR37fLXuf7m3QlKeLkXY=",
+        "owner": "noctalia-dev",
+        "repo": "community-plugins",
+        "rev": "49006a8bef2c43f08b93ba108618d8bf3cddca79",
+        "type": "github"
+      },
+      "original": {
+        "owner": "noctalia-dev",
+        "repo": "community-plugins",
+        "type": "github"
+      }
+    },
     "nvf": {
       "inputs": {
         "flake-compat": [],
@@ -326,6 +342,7 @@
         "monitor-autorotate": "monitor-autorotate",
         "nix-index-database": "nix-index-database",
         "nixpkgs": "nixpkgs_2",
+        "noctalia-community-plugins": "noctalia-community-plugins",
         "nvf": "nvf",
         "preservation": "preservation",
         "rose-pine-btop": "rose-pine-btop",

@@ -39,5 +39,7 @@
     noctaproton_vpn.type = "riversyx/noctaproton-vpn:bar";
 
     tailnet.type = "rylos/tailnet:bar";
+
+    localsend_plus.type = "0rgl/localsend-plus:widget";
   };
 }

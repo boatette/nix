@@ -36,6 +36,7 @@
           "nix_monitor"
           "tailnet"
           "noctaproton_vpn"
+          "localsend_plus"
           "network"
           "bluetooth"
           "battery"

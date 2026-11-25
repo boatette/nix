@@ -30,6 +30,12 @@
           panel_placement = "floating";
           panel_position = "top_center";
         };
+
+        "0rgl/localsend-plus" = {
+          luciole_menu = true;
+          panel_placement = "floating";
+          panel_position = "top_center";
+        };
       };
     };
 }

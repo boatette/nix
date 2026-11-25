@@ -4,5 +4,6 @@
     "avivbintangaringga/nix-monitor"
     "riversyx/noctaproton-vpn"
     "rylos/tailnet"
+    "0rgl/localsend-plus"
   ];
 }
