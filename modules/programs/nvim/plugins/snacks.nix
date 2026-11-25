@@ -103,7 +103,6 @@
             ''picker.files({ cwd = vim.fn.expand("${flakeDir}/modules/programs/nvim") })''
             "Config files"
           )
-          (snack "n" "<leader>uc" "picker.colorschemes()" "Colorschemes")
           (snack "n" "<leader>sm" "picker.marks()" "Marks")
           (snack "n" "<leader>sj" "picker.jumps()" "Jump list")
           (snack "n" "<leader>s'" "picker.registers()" "Registers")
