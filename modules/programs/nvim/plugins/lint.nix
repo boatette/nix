@@ -8,8 +8,6 @@
       vim = {
         extraPackages = with pkgs; [
           deadnix
-          eslint_d
-          golangci-lint
           markdownlint-cli2
           statix
         ];
@@ -49,7 +47,14 @@
                   if args.event == "BufReadPost" and vim.bo[args.buf].filetype == "go" then
                       return
                   end
-                  nvf_lint(args.buf)
+
+                  -- golangci-lint and eslint_d come from project devshells, so skip linters not on PATH
+                  require("lint").try_lint(nil, {
+                      filter = function(linter)
+                          local cmd = type(linter.cmd) == "function" and linter.cmd() or linter.cmd
+                          return vim.fn.executable(cmd) == 1
+                      end,
+                  })
               end
             '';
           }

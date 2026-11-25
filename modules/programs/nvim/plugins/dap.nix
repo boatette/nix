@@ -59,7 +59,7 @@
     in
     {
       vim = {
-        # lldb-dap for c, c++ and zig, debugpy for python, each by store path
+        # lldb-dap for c, c++ and zig, debugpy for python
         languages = lib.genAttrs [ "clang" "python" "zig" ] (_: {
           dap.enable = true;
         });
@@ -67,13 +67,43 @@
         debugger.nvim-dap = {
           enable = true;
 
-          adapters."pwa-node" = {
-            type = "server";
-            host = "localhost";
-            port = "\${port}";
-            executable = {
-              command = lib.getExe' pkgs.vscode-js-debug "js-debug";
-              args = [ "\${port}" ];
+          # every adapter comes from the project's devshell, as the toolchain it debugs does
+          adapters = {
+            lldb = lib.mkForce {
+              type = "executable";
+              command = "lldb-dap";
+            };
+
+            # nvf's, starting debugpy from the devshell's python
+            debugpy = lib.mkForce (mkLuaInline /* lua */ ''
+              function(cb, config)
+                  if config.request == "attach" then
+                      local connect = config.connect or config
+                      cb({
+                          type = "server",
+                          port = assert(connect.port, "`connect.port` is required for a python `attach` configuration"),
+                          host = connect.host or "127.0.0.1",
+                          options = { source_filetype = "python" },
+                      })
+                  else
+                      cb({
+                          type = "executable",
+                          command = "python3",
+                          args = { "-m", "debugpy.adapter" },
+                          options = { source_filetype = "python" },
+                      })
+                  end
+              end
+            '');
+
+            "pwa-node" = {
+              type = "server";
+              host = "localhost";
+              port = "\${port}";
+              executable = {
+                command = "js-debug";
+                args = [ "\${port}" ];
+              };
             };
           };
 
