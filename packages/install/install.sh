@@ -15,9 +15,11 @@ usage() {
 usage: install [--flake REF] [--dry-run] [-- nixos-install options]
 
 Erase the disks $HOST's disko config names, install $HOST and set its
-user passwords.
+user passwords. On the offline ISO, $HOST comes prebuilt and no network
+is needed.
 
-  --flake REF  flake to install from (default: the one this came from)
+  --flake REF  flake to install from, online (default: the prebuilt
+               system on the offline ISO, else the flake this came from)
   --dry-run    show the plan and disko's script, change nothing
   -h, --help   show this help
 EOF
@@ -52,6 +54,8 @@ online() {
 
 args=("$@")
 flake=$FLAKE
+prebuilt=0
+[[ -n "${SYSTEM-}" ]] && prebuilt=1
 dry_run=0
 extra=()
 
@@ -60,6 +64,7 @@ while (($#)); do
     --flake)
       (($# >= 2)) || die "--flake needs a flake reference"
       flake=$2
+      prebuilt=0
       shift 2
       ;;
     --dry-run)
@@ -89,7 +94,7 @@ fi
 export NIX_CONFIG="extra-experimental-features = nix-command flakes
 ${NIX_CONFIG:-}"
 
-if ! online; then
+if ((! prebuilt)) && ! online; then
   if command -v nmtui >/dev/null; then
     warn "no network, opening nmtui"
     nmtui || true
@@ -99,9 +104,15 @@ fi
 
 [[ -d /sys/firmware/efi ]] || die "this machine was started in legacy BIOS mode; boot the stick in UEFI mode"
 
-log "reading $HOST's install plan from $flake"
-plan=$(nix eval --json "$flake#nixosConfigurations.$HOST.config.install.plan") ||
-  die "could not evaluate $HOST's install plan"
+if ((prebuilt)); then
+  source="the prebuilt system on this stick"
+  plan=$(<"$SYSTEM/etc/install-plan.json")
+else
+  source=$flake
+  log "reading $HOST's install plan from $flake"
+  plan=$(nix eval --json "$flake#nixosConfigurations.$HOST.config.install.plan") ||
+    die "could not evaluate $HOST's install plan"
+fi
 
 field() { jq -r "$1" <<<"$plan"; }
 
@@ -166,7 +177,7 @@ if ((${#tpm[@]})) && [[ ! -e /sys/class/tpm/tpm0 ]]; then
   warn "$HOST unlocks its disk with the TPM, but this machine has none; the passphrase will be asked at every boot"
 fi
 
-bold "Install $HOST from $flake"
+bold "Install $HOST from $source"
 echo "These disks will be ERASED:"
 for disk in "${disks[@]}"; do
   printf '  %s\n    %s\n' "$disk" "$(lsblk -dno MODEL,SIZE "$(readlink -f "$disk")" | tr -s ' ')"
@@ -182,7 +193,11 @@ print_notes
 
 if ((dry_run)); then
   bold "disko script"
-  disko --mode destroy,format,mount --flake "$flake#$HOST" --dry-run
+  if ((prebuilt)); then
+    echo "$DISKO_SCRIPT"
+  else
+    disko --mode destroy,format,mount --flake "$flake#$HOST" --dry-run
+  fi
   echo
   log "dry run, nothing was changed"
   exit 0
@@ -193,16 +208,25 @@ echo
   die "aborted, nothing was changed"
 
 bold "Partitioning"
-disko --mode destroy,format,mount --flake "$flake#$HOST" --yes-wipe-all-disks
+if ((prebuilt)); then
+  "$DISKO_SCRIPT" --yes-wipe-all-disks
+else
+  disko --mode destroy,format,mount --flake "$flake#$HOST" --yes-wipe-all-disks
+fi
 
 bold "Installing"
-install_args=(
-  --root "$MNT"
-  --flake "$flake#$HOST"
-  --no-root-passwd
-  --option extra-substituters "$substituters"
-  --option extra-trusted-public-keys "$trusted_keys"
-)
+install_args=(--root "$MNT" --no-root-passwd)
+
+# the system's whole closure is already in the stick's store
+if ((prebuilt)); then
+  install_args+=(--system "$SYSTEM" --no-channel-copy --option substituters "")
+else
+  install_args+=(
+    --flake "$flake#$HOST"
+    --option extra-substituters "$substituters"
+    --option extra-trusted-public-keys "$trusted_keys"
+  )
+fi
 
 # the live system's store is in ram
 if [[ "$(findmnt -no FSTYPE /)" == tmpfs ]]; then

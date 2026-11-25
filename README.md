@@ -12,20 +12,28 @@ NixOS for one laptop, `aspire`, on [umbriel](https://github.com/noctalia-dev/umb
 
 2. Put the firmware into **Secure Boot Setup Mode** (clear its keys); the fresh install is unsigned. `boot.loader.timeout` is 0, so **hold Space** during boot to reach "Reboot Into Firmware Interface".
 
-3. Write the official NixOS minimal ISO to a stick (any recent one works; the install builds from the flake's own nixpkgs, and a release such as `nixos-26.11` can replace `nixos-unstable`):
+3. Build the offline installer, which carries aspire already built (about 5 GB, so an 8 GB stick or larger), and write it to a stick:
 
    ```bash
-   curl -LO https://channels.nixos.org/nixos-unstable/latest-nixos-minimal-x86_64-linux.iso
-   sudo dd if=latest-nixos-minimal-x86_64-linux.iso of=/dev/sdX bs=4M status=progress conv=fsync
+   nix build .#iso
+   sudo dd if=result/iso/nixos-minimal-*.iso of=/dev/sdX bs=4M status=progress conv=fsync
    ```
 
    Boot it in UEFI mode and run:
 
    ```bash
-   nix --extra-experimental-features 'nix-command flakes' run github:boatette/nix#install
+   install
    ```
 
-   It opens `nmtui` when offline, checks this machine has the disk `modules/hosts/aspire/disko.nix` names, shows what it will erase and waits for you to type `aspire`. Then it partitions (asking for the LUKS passphrase, which has no recovery until step 4), installs, and asks for the user's password. `--dry-run` shows the plan and disko's script without touching anything.
+   It checks this machine has the disk `modules/hosts/aspire/disko.nix` names, shows what it will erase and waits for you to type `aspire`. Then it partitions (asking for the LUKS passphrase, which has no recovery until step 4), copies the system from the stick with no network, and asks for the user's password. `--dry-run` shows the plan and disko's script without touching anything. The stick installs aspire as it was when it was built; `nrs` after step 4 catches it up.
+
+   With no machine to build the stick on, use the official NixOS minimal ISO instead (any recent one works, since the install builds from the flake's own nixpkgs). It needs network, and opens `nmtui` when offline:
+
+   ```bash
+   curl -LO https://channels.nixos.org/nixos-unstable/latest-nixos-minimal-x86_64-linux.iso
+   sudo dd if=latest-nixos-minimal-x86_64-linux.iso of=/dev/sdX bs=4M status=progress conv=fsync
+   nix --extra-experimental-features 'nix-command flakes' run github:boatette/nix#install
+   ```
 
 4. Reboot and log in. With the SSD plugged in, `ssd-restore` copies the backup back at the first login without overwriting anything; wait until `systemctl --user status ssd-restore` shows it finished, so `~/.ssh` is back. Then run:
 
