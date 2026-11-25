@@ -10,6 +10,10 @@
       snack =
         mode: key: expr:
         mod mode key "snacks" expr;
+
+      toggle =
+        key: expr: desc:
+        snack "n" key "toggle.${expr}:toggle()" desc;
     in
     {
       vim = {
@@ -130,6 +134,35 @@
 
           (snack "n" "<leader>un" "notifier.hide()" "Dismiss notifications")
           (snack "n" "<leader>uN" "picker.notifications()" "Browse notifications")
+
+          (toggle "<leader>uz" "zen()" "Toggle zen mode")
+          (toggle "<leader>uZ" "zoom()" "Toggle zoom")
+          (toggle "<leader>uD" "dim()" "Toggle dimming")
+
+          (toggle "<leader>ud" "diagnostics()" "Toggle diagnostics")
+          (toggle "<leader>ug" "indent()" "Toggle indent guides")
+          (toggle "<leader>ul" "line_number()" "Toggle line numbers")
+          (toggle "<leader>uL" ''option("relativenumber", { name = "Relative numbers" })''
+            "Toggle relative numbers"
+          )
+          (toggle "<leader>us" ''option("spell", { name = "Spelling" })'' "Toggle spelling")
+          (toggle "<leader>uT" "treesitter()" "Toggle treesitter highlight")
+          (toggle "<leader>uw" ''option("wrap", { name = "Wrap" })'' "Toggle wrap")
+          (toggle "<leader>uW" ''option("list", { name = "Whitespace" })'' "Toggle whitespace")
+          (toggle "<leader>u|" ''option("colorcolumn", { off = "", on = "120", name = "Colour column" })''
+            "Toggle colour column"
+          )
+
+          (toggle "<leader>uA" ''option("showtabline", { off = 0, on = 2, name = "Tabline" })''
+            "Toggle tabline"
+          )
+          (toggle "<leader>uC"
+            ''option("conceallevel", { off = 0, on = math.max(vim.o.conceallevel, 2), name = "Conceal" })''
+            "Toggle conceal"
+          )
+          (toggle "<leader>uS" ''option("laststatus", { off = 0, on = 3, name = "Statusline" })''
+            "Toggle statusline"
+          )
 
           (snack "n" "<leader>bd" "bufdelete()" "Delete buffer")
           (snack "n" "<leader>bD" "bufdelete({ force = true })" "Delete buffer (force)")

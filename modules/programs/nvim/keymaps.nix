@@ -55,6 +55,9 @@
 
         (cmd "n" "<leader>fn" "<cmd>enew<cr>" "New file")
 
+        (lua "n" "<leader>ui" "vim.show_pos" "Inspect highlights under cursor")
+        (cmd "n" "<leader>uI" "<cmd>InspectTree<cr>" "Inspect syntax tree")
+
         (cmd "t" "<Esc><Esc>" "<C-\\><C-n>" "Exit terminal mode")
       ];
     };

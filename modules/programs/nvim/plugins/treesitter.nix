@@ -1,3 +1,4 @@
+{ inputs, ... }:
 {
   flake.modules.nvf.nvim =
     { pkgs, ... }:
@@ -89,6 +90,10 @@
             }
           ];
         };
+
+        keymaps = [
+          (inputs.self.lib.nvim.cmd "n" "<leader>ut" "<cmd>TSContext toggle<cr>" "Toggle code context")
+        ];
       };
     };
 
