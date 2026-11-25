@@ -110,6 +110,7 @@
           "Mod+X" = "spawn noctalia msg panel-toggle session";
           "Mod+N" = "spawn noctalia msg panel-toggle control-center";
           "Mod+Alt+C" = "spawn noctalia msg panel-toggle clipboard";
+          "Mod+Alt+V" = "spawn noctalia msg panel-open 0rgl/localsend-plus:panel";
           "Mod+Comma" = "spawn noctalia msg settings-toggle";
           "Mod+I" = "spawn noctalia msg caffeine-toggle";
           "Alt+Tab" = "spawn noctalia msg window-switcher";
