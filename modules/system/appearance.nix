@@ -16,7 +16,10 @@
 
         iconTheme = {
           name = "rose-pine";
-          package = pkgs.rose-pine-icon-theme;
+          # main only; dawn and moon are two thirds of its 320M
+          package = pkgs.rose-pine-icon-theme.overrideAttrs {
+            postInstall = "rm -r $out/share/icons/rose-pine-{dawn,moon}";
+          };
         };
 
         font = {

@@ -1,7 +1,7 @@
 {
   flake.modules.homeManager.boatette.programs.umbriel.settings.window_rule = [
     {
-      match.app_id = "^(com\\.github\\.PintaProject\\.Pinta|libreoffice.*)$";
+      match.app_id = "^com\\.github\\.PintaProject\\.Pinta$";
       default_maximize = true;
     }
 

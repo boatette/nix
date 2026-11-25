@@ -1,14 +1,11 @@
 {
   flake.modules.nvf.nvim =
-    { lib, pkgs, ... }:
+    { lib, ... }:
     let
       inherit (lib.generators) mkLuaInline;
     in
     {
       vim = {
-        # on PATH rather than as server.cmd, which nvim appends to, so a project's own toolchain comes first
-        extraPackages = [ pkgs.rust-analyzer ];
-
         languages.rust = {
           enable = true;
           lsp.enable = false;
@@ -23,6 +20,8 @@
               enable = true;
 
               setupOpts = {
+                dap.adapter = mkLuaInline ''{ type = "executable", command = "lldb-dap", name = "rustacean_lldb" }'';
+
                 tools.hover_actions.replace_builtin_hover = true;
 
                 server = {

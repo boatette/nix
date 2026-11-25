@@ -4,15 +4,10 @@
     { lib, pkgs, ... }:
     {
       vim = {
+        # toolchain formatters (clang-format, gofumpt, ruff, rustfmt, ...) come from a project's devshell
         extraPackages = with pkgs; [
-          clang-tools
-          gersemi
-          gofumpt
-          # only goimports; the full gotools set is ~250M
-          (gotools.overrideAttrs { subPackages = [ "cmd/goimports" ]; })
           nixfmt
           prettierd
-          ruff
           shfmt
           stylua
           taplo

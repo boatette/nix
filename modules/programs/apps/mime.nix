@@ -2,25 +2,5 @@
 {
   flake.modules.homeManager.boatette = inputs.self.lib.mimeHandlers {
     "com.github.PintaProject.Pinta.desktop" = [ "image/openraster" ];
-
-    "writer.desktop" = [
-      "application/msword"
-      "application/rtf"
-      "application/vnd.oasis.opendocument.text"
-      "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-    ];
-
-    "calc.desktop" = [
-      "application/vnd.ms-excel"
-      "application/vnd.oasis.opendocument.spreadsheet"
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-      "text/csv"
-    ];
-
-    "impress.desktop" = [
-      "application/vnd.ms-powerpoint"
-      "application/vnd.oasis.opendocument.presentation"
-      "application/vnd.openxmlformats-officedocument.presentationml.presentation"
-    ];
   };
 }

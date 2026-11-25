@@ -46,7 +46,7 @@
 
     {
       match = {
-        app_id = "^(com\\.github\\.PintaProject\\.Pinta|libreoffice|soffice)";
+        app_id = "^com\\.github\\.PintaProject\\.Pinta";
         title = "^(Open|Save|Select|Import|Export|Rename|Properties|Preferences|Settings)\\b";
       };
       default_floating = true;

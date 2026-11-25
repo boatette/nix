@@ -7,7 +7,6 @@
         libwebp
 
         mpv
-        qimgv
       ];
     };
 }
