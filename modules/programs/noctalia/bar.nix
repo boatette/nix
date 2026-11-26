@@ -13,10 +13,11 @@
         inherit radius;
         capsule_thickness = 0.75;
 
-        margin_ends = 600;
+        # half of the 1920 wide screen: a quarter off each end
+        margin_ends = 480;
         widget_spacing = 10;
 
-        # the arm turned portrait is 1080 wide, too narrow for the 600 above
+        # the arm turned portrait is 1080 wide, too narrow for the 480 above
         monitor.${inputs.self.constants.monitors.arm}.margin_ends = 180;
 
         layer = "auto";
