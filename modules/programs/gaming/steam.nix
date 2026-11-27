@@ -54,8 +54,7 @@
 
           "322170" = {
             name = "Geometry Dash";
-            # FIX: reenable on geode update
-            # dllOverrides."xinput1_4" = "n,b";
+            dllOverrides."xinput1_4" = "n,b";
             inherit wrappers;
           };
         };
