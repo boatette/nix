@@ -41,5 +41,11 @@
       match.app_id = "^(gamescope|steam_app_\\d+)$";
       default_fullscreen = true;
     }
+
+    # java's app_id carries the version and bedrock's is the launcher's, but both titles start the same
+    {
+      match.title = "^Minecraft";
+      default_fullscreen = true;
+    }
   ];
 }
