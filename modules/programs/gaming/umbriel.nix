@@ -36,5 +36,10 @@
       default_focused = false;
       default_pinned = true;
     }
+
+    {
+      match.app_id = "^(gamescope|steam_app_\\d+)$";
+      default_fullscreen = true;
+    }
   ];
 }
