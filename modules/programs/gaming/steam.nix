@@ -16,8 +16,13 @@
       # gamescope runs games at the primary monitor's mode
       mode = builtins.match "([0-9]+)x([0-9]+)@([0-9]+)" monitors.modes.${monitors.primary};
 
-      wrappers = [
+      offload = [
         (lib.getExe pkgs.gamemode)
+        (lib.getExe' pkgs.coreutils "env")
+      ]
+      ++ lib.mapAttrsToList (name: value: "${name}=${value}") inputs.self.lib.nvidiaOffloadEnv;
+
+      wrappers = [
         (lib.getExe pkgs.gamescope)
         "-W"
         (lib.elemAt mode 0)
@@ -26,9 +31,8 @@
         "-r"
         (lib.elemAt mode 2)
         "--"
-        (lib.getExe' pkgs.coreutils "env")
       ]
-      ++ lib.mapAttrsToList (name: value: "${name}=${value}") inputs.self.lib.nvidiaOffloadEnv;
+      ++ offload;
     in
     {
       imports = [ inputs.steam-config-nix.homeModules.default ];
@@ -55,7 +59,8 @@
           "322170" = {
             name = "Geometry Dash";
             dllOverrides."xinput1_4" = "n,b";
-            inherit wrappers;
+            # nested gamescope's frames reach umbriel without damage, so all but the cursor's patch freezes
+            wrappers = offload;
           };
         };
       };
