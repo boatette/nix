@@ -88,20 +88,20 @@ Read by `modules/programs/umbriel/output.nix`, `modules/programs/noctalia/{bar,l
 
 `flake.lib` holds shared functions, used as `inputs.self.lib.<name>`. Put a new helper in the file for its domain rather than repeating code across modules.
 
-| Helper                                                       | Defined in                              | Does                                                                           |
-| ------------------------------------------------------------ | --------------------------------------- | ------------------------------------------------------------------------------ |
-| `colours.hex name`                                           | `modules/system/appearance/colours.nix` | `"#rrggbb"` of a palette or role name                                          |
-| `colours.alpha name opacity`                                 | same                                    | `"#rrggbbaa"`                                                                  |
-| `colours.mix a b t`                                          | same                                    | `a` laid over `b` at opacity `t`, as noctalia blends its containers            |
-| `colours.rgb name`, `colours.alphaHex opacity`               | same                                    | `"r, g, b"`, and an opacity as two hex digits                                  |
-| `umbrielLayout pkgs name layout`                             | `modules/programs/umbriel/output.nix`   | a layout as an umbriel config file, with a vertical strip on a portrait output |
-| `rebuild.{os,osDev,dryBuild,update,upgrade,clean,cleanArgs}` | `modules/nix/rebuild.nix`               | the rebuild, update and clean commands that aliases, noctalia and nvim run     |
-| `mimeHandlers { "<app>.desktop" = [ types ]; }`              | `modules/system/mime/handlers.nix`      | default and added mime associations                                            |
-| `qtFont font`                                                | `modules/nix/flake-parts/lib.nix`       | a Qt font string from a `constants.fonts` entry                                |
-| `nvidiaOffloadEnv`                                           | same                                    | the PRIME offload environment variables                                        |
-| `nvidiaOffloadWrap pkgs pkg bin`                             | same                                    | wraps `bin` to run on the dGPU                                                 |
-| `glibcAssertion pkgs input`                                  | same                                    | an assertion that an input's own nixpkgs has at least the system's glibc       |
-| `nvim.{cmd,lua,mod}`                                         | `modules/programs/nvim/lib.nix`         | nvf keymap constructors                                                        |
+| Helper                                                                  | Defined in                              | Does                                                                           |
+| ----------------------------------------------------------------------- | --------------------------------------- | ------------------------------------------------------------------------------ |
+| `colours.hex name`                                                      | `modules/system/appearance/colours.nix` | `"#rrggbb"` of a palette or role name                                          |
+| `colours.alpha name opacity`                                            | same                                    | `"#rrggbbaa"`                                                                  |
+| `colours.mix a b t`                                                     | same                                    | `a` laid over `b` at opacity `t`, as noctalia blends its containers            |
+| `colours.rgb name`, `colours.alphaHex opacity`                          | same                                    | `"r, g, b"`, and an opacity as two hex digits                                  |
+| `umbrielLayout pkgs name layout`                                        | `modules/programs/umbriel/output.nix`   | a layout as an umbriel config file, with a vertical strip on a portrait output |
+| `rebuild.{os,osDev,dryBuild,update,upgrade,clean,cleanArgs,writeFlake}` | `modules/nix/rebuild.nix`               | the rebuild, update and clean commands that aliases, noctalia and nvim run     |
+| `mimeHandlers { "<app>.desktop" = [ types ]; }`                         | `modules/system/mime/handlers.nix`      | default and added mime associations                                            |
+| `qtFont font`                                                           | `modules/nix/flake-parts/lib.nix`       | a Qt font string from a `constants.fonts` entry                                |
+| `nvidiaOffloadEnv`                                                      | same                                    | the PRIME offload environment variables                                        |
+| `nvidiaOffloadWrap pkgs pkg bin`                                        | same                                    | wraps `bin` to run on the dGPU                                                 |
+| `glibcAssertion pkgs input`                                             | same                                    | an assertion that an input's own nixpkgs has at least the system's glibc       |
+| `nvim.{cmd,lua,mod}`                                                    | `modules/programs/nvim/lib.nix`         | nvf keymap constructors                                                        |
 
 ## Conventions
 
@@ -222,6 +222,59 @@ The git settings below come from `modules/programs/git.nix` and `modules/program
 - Never amend, rebase or force-push commits that are already on `origin`.
 - Nix only sees files git tracks, so `git add` (or `git add -N`) a new file before building, even if it won't be committed yet.
 
+## Making a change, step by step
+
+For any edit, however small:
+
+1. **Find what already exists.** `grep -rn '<name or command>' modules packages` before writing anything. A value or command may already be defined in a `let` block, just not exported.
+2. **Put it where its kind lives.** Shared values go in `constants`, shared functions and command strings in `flake.lib` (see the helper table), and the module that uses them only references them. Never copy a string or function into a second file to get around an error.
+3. **Make the smallest edit**, matching the file's existing style.
+4. **`git add -N` any new file.**
+5. **Verify the exact thing you changed** by evaluating it (below), then run the fast checks. Only then, if asked, the full `nix flake check`.
+6. **If it fails, fix the cause in the right place.** Read the error, find which name is missing and why. Don't revert to a worse design that happens to evaluate.
+
+### How `flake.lib` and `flake.constants` work
+
+Each is an ordinary attrset that several files add to. A name is only reachable as `inputs.self.lib.<group>.<name>` if it is in the attrset the file returns: a name bound in that file's `let` block is private. To expose one, add it to the returned set (for `rebuild.nix`, the `inherit ( ... ) ;` list).
+
+### Worked example: an alias for a rebuild command
+
+Task: make `nwf` run `nix run .#write-flake`.
+
+1. `grep -rn write-flake modules` shows `writeFlake` already defined in `modules/nix/rebuild.nix`, but only in its `let` block.
+2. Add `writeFlake` to that file's `inherit` list, so it becomes `inputs.self.lib.rebuild.writeFlake`.
+3. In `modules/programs/zsh/aliases.nix`, which already has `inherit (inputs.self.lib) rebuild;`, add `nwf = rebuild.writeFlake;` beside `nfu`.
+4. Evaluate it: `nix eval --raw .#nixosConfigurations.aspire.config.home-manager.users.boatette.home.shellAliases.nwf` prints the command.
+5. Add it to the alias table below.
+
+Wrong: defining `writeFlake = "(cd ${flakeDir} && nix run .#write-flake)";` again in `aliases.nix`. It evaluates, but now the command lives in two places and `nfu` and `nwf` can drift apart.
+
+### Reading errors
+
+| Error says                                             | Usually means                                                                                          |
+| ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------ |
+| `attribute '<x>' missing`                              | `<x>` isn't exported (only in a `let`), is misspelt, or is reached by the wrong path                   |
+| `undefined variable '<x>'`                             | `<x>` isn't in scope: add it to the module's arguments or `inherit` it in the `let`                    |
+| `path '...' does not exist` / a new file seems ignored | the file isn't tracked by git: `git add -N <file>`                                                     |
+| `The option '<x>' does not exist`                      | a wrong option name, or it is set in the wrong module (`nixos` vs `homeManager`); look it up with nixd |
+| `check-formatting` fails                               | run `nix fmt` (trailing whitespace counts)                                                             |
+| `check-deadnix` fails                                  | a function argument or `let` binding is unused: remove it                                              |
+| `check-flake-file` fails                               | an input changed: `nix run .#write-flake`                                                              |
+
+`nix eval` and `nix build` print the file and line of the failing expression further up; `--show-trace` gives more.
+
+### Evaluating what you changed
+
+Evaluate the option you touched rather than building everything:
+
+| Changed                   | Evaluate                                                                                             |
+| ------------------------- | ---------------------------------------------------------------------------------------------------- |
+| a system option           | `nix eval .#nixosConfigurations.aspire.config.<option>`                                              |
+| a home-manager option     | `nix eval .#nixosConfigurations.aspire.config.home-manager.users.boatette.<option>`                  |
+| `flake.lib` or a constant | `nix eval .#lib.<name>` / `nix eval .#constants.<name>` (add `--raw` for a string)                   |
+| a local package           | `nix build .#<name>`                                                                                 |
+| anything, as a final pass | `nix build .#checks.x86_64-linux.{formatting,deadnix,statix} --no-link`, then the system's `drvPath` |
+
 ## Checking a change
 
 | Command                                                                      | What it does                                                                                      |
@@ -248,6 +301,7 @@ The shell aliases come from `inputs.self.lib.rebuild` (`modules/nix/rebuild.nix`
 | `nrs` / `nrb` / `nrt` | `nh os switch` / `boot` / `test` on the flake                                                                                                                                   |
 | `nrsd` / `nrbd`       | the same, with `--override-input` pointing each of the user's own inputs at its working tree in `~/Projects`, so uncommitted changes there are built (new files need `git add`) |
 | `nrd`                 | `nixos-rebuild dry-build`                                                                                                                                                       |
+| `nwf`                 | `nix run .#write-flake`, regenerating `flake.nix`                                                                                                                               |
 | `nfu`                 | `write-flake`, then `nix flake update --commit-lock-file`                                                                                                                       |
 | `nup`                 | `nfu`, then switch                                                                                                                                                              |
 | `ncl`                 | `nh clean all --keep 5 --keep-since 7d`                                                                                                                                         |
