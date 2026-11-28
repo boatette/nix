@@ -143,6 +143,13 @@
                 user = "fwupd-refresh";
                 group = "fwupd-refresh";
               }
+              # llama.cpp's downloaded models
+              {
+                directory = "/var/cache/llama-cpp";
+                user = "llama-cpp";
+                group = "llama-cpp";
+                mode = "0750";
+              }
               # what noctalia's greeter sync copies over: wallpaper, colours and monitor layout
               {
                 directory = "/var/lib/noctalia-greeter";
