@@ -21,11 +21,15 @@
       models = {
         "qwen3.5-4b" = {
           hf-repo = "mradermacher/Qwen3.5-4B-heretic-i1-GGUF:Q4_K_M";
+          # the i1 repos carry no projector; the static one's sees pictures, for petal's chat
+          mmproj-url = "https://huggingface.co/mradermacher/Qwen3.5-4B-heretic-GGUF/resolve/main/Qwen3.5-4B-heretic.mmproj-Q8_0.gguf";
           c = 32768;
         };
         # 26b moe with 4b active, experts stream from ram
         "gemma4-26b" = {
           hf-repo = "mradermacher/gemma-4-26B-A4B-it-heretic-i1-GGUF:IQ3_M";
+          # heretic only changes the language weights, so the base model's projector fits
+          mmproj-url = "https://huggingface.co/ggml-org/gemma-4-26B-A4B-it-GGUF/resolve/main/mmproj-gemma-4-26B-A4B-it-Q8_0.gguf";
           c = 16384;
         };
       };
@@ -38,6 +42,8 @@
             cache-type-k = "q8_0";
             cache-type-v = "q8_0";
             fit-target = 256;
+            # the projector runs on the cpu, leaving the 4 GB card to the language layers
+            no-mmproj-offload = true;
             parallel = 1;
             ubatch-size = 256;
           };
@@ -67,6 +73,9 @@
         DynamicUser = lib.mkForce false;
         Environment = lib.mkForce [ "LLAMA_CACHE=${cache}" ];
         Group = "users";
+        # past 12G the service is killed instead of freezing the laptop; no swap to hide in
+        MemoryMax = "12G";
+        MemorySwapMax = 0;
         ProtectHome = lib.mkForce "tmpfs";
         User = username;
       };
