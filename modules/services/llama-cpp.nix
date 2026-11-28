@@ -2,6 +2,9 @@
   flake.modules.nixos.aspire =
     { lib, pkgs, ... }:
     let
+      # pi's default llama.cpp url
+      port = 9931;
+
       package = pkgs.llama-cpp.override { cudaSupport = true; };
 
       # heretic builds; --fit places layers and moe experts to suit the 4 GB card
@@ -37,11 +40,12 @@
         inherit package;
 
         settings = {
+          # the firewall only opens it on tailscale0, for the web ui on the phone
+          host = "0.0.0.0";
           # one model at a time on 4 GB of vram
           models-max = 1;
           models-preset = pkgs.writeText "llama-cpp-models.ini" preset;
-          # pi's default llama.cpp url
-          port = 9931;
+          inherit port;
           # unloads the model so the dgpu can sleep again
           sleep-idle-seconds = 300;
         };
@@ -60,6 +64,8 @@
           isSystemUser = true;
         };
       };
+
+      networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ port ];
 
       environment.systemPackages = [ package ];
 
