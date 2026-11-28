@@ -4,13 +4,13 @@
 }:
 let
   pname = "spotbye";
-  version = "3.0.6";
+  version = "3.0.8";
 
   # a patreon-only download nix can't fetch; spotbye-bump adds it, or the copy ssd restores, to the store
   src = requireFile {
     name = "SpotBye-${version}.AppImage";
     url = "https://www.patreon.com/cw/spotbye";
-    hash = "sha256-lzzq9o9RcIrDAQf3Gqqu0HhyFuSN4t0LmS4E0mfsuUo=";
+    hash = "sha256-B0lps9mX3hqJ/x2jaqvJR6busXBQNhL9ZRUMW5iiiHs=";
   };
 
   contents = appimageTools.extract { inherit pname version src; };
