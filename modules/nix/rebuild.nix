@@ -36,6 +36,7 @@
         osDev
         cleanArgs
         update
+        writeFlake
         ;
 
       dryBuild = "nixos-rebuild dry-build --flake ${flakeDir}";

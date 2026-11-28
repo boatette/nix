@@ -40,6 +40,7 @@
           nrt = rebuild.os "test";
           nrd = rebuild.dryBuild;
           nfu = rebuild.update;
+          nwf = rebuild.writeFlake;
           nup = rebuild.upgrade;
           ncl = rebuild.clean;
           ngl = "nixos-rebuild list-generations";
