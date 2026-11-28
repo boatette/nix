@@ -1,6 +1,6 @@
 # NixOS Config
 
-NixOS for one laptop, `aspire`, on [umbriel](https://github.com/noctalia-dev/umbriel) with [noctalia](https://github.com/noctalia-dev/noctalia-shell) as its shell. [AGENTS.md](AGENTS.md) explains how the flake is put together.
+NixOS for one laptop, `aspire`, on [umbriel](https://github.com/noctalia-dev/umbriel) with [noctalia](https://github.com/noctalia-dev/noctalia-shell) as its shell. [CLAUDE.md](CLAUDE.md) explains how the flake is put together, and [AGENTS.md](AGENTS.md) is a short version for local models.
 
 ## Installing
 
