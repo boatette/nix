@@ -11,6 +11,7 @@ readonly DIRS=(
   "Pictures:Pictures"
   "Projects:Projects"
   "Videos:Videos"
+  "ai-models:ai-models"
   ".local/share/PrismLauncher:PrismLauncher"
   ".local/share/spotbye:spotbye"
   ".spotbye:spotbye-data"

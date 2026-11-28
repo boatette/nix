@@ -1,7 +1,17 @@
+{ inputs, ... }:
 {
   flake.modules.nixos.aspire =
-    { lib, pkgs, ... }:
+    {
+      config,
+      lib,
+      pkgs,
+      ...
+    }:
     let
+      inherit (inputs.self.constants) username;
+      inherit (config.users.users.${username}) home;
+      cache = "${home}/ai-models/llm";
+
       # pi's default llama.cpp url
       port = 9931;
 
@@ -51,19 +61,19 @@
         };
       };
 
-      # a fixed user, so the preserved model cache can be owned by it
+      # the models live in ~/ai-models with comfy's, so ssd backs them up and can restore them
       systemd.services.llama-cpp.serviceConfig = {
+        BindPaths = [ cache ];
         DynamicUser = lib.mkForce false;
-        Group = "llama-cpp";
-        User = "llama-cpp";
+        Environment = lib.mkForce [ "LLAMA_CACHE=${cache}" ];
+        Group = "users";
+        ProtectHome = lib.mkForce "tmpfs";
+        User = username;
       };
-      users = {
-        groups.llama-cpp = { };
-        users.llama-cpp = {
-          group = "llama-cpp";
-          isSystemUser = true;
-        };
-      };
+      systemd.tmpfiles.rules = [
+        "d ${home}/ai-models 0755 ${username} users -"
+        "d ${cache} 0755 ${username} users -"
+      ];
 
       networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ port ];
 
